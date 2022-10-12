@@ -1,0 +1,26 @@
+# the dist file could make some problems
+# dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
+
+.idea/
+
+
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+Servers/
+*.class
+*.classpath
+/target/
+/bin/
+.springBeans
+
+# Mac
+.DS_Store
+oracle/

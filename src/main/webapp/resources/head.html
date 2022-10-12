@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="generator" content="Hugo 0.101.0" />
+    <title>공통 컴포넌트</title>
+
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- font-awesome -->
+    <script
+      src="https://kit.fontawesome.com/31a953524e.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      a {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 헤더 시작 -->
+    <div class="d-flex flex-wrap">
+      <div class="col-2"></div>
+      <nav class="d-flex align-items-center flex-column mb-3 col-8">
+        <ul
+          class="col-12 nav nav-pills d-flex justify-content-end p-2"
+          style="font-size: 13px"
+        >
+          <li class="nav-item">
+            <a href="#" class="text-decoration-none px-3 border-end rounded-0"
+              >김동현님
+              <div id="state_ing" class="badge bg-warning rounded-pill">
+                GOLD
+              </div></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#" class="text-decoration-none px-3 border-end rounded-0"
+              >로그인</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#" class="text-decoration-none px-3 border-end rounded-0"
+              >주문내역</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#" class="text-decoration-none px-3">
+              <i class="fas fa-shopping-cart"></i>
+              장바구니
+              <span class="badge text-bg-dark rounded-pill align-text-bottom"
+                >5</span
+              >
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="text-decoration-none px-3 border-start rounded-0"
+              >문의하기</a
+            >
+          </li>
+        </ul>
+        <div class="col-12 d-flex">
+          <span class="col-2 fs-2 text-center"
+            ><i class="fas fa-book"></i> 엔비더</span
+          >
+          <div class="input-group input-group-lg">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="검색어를 입력해주세요."
+              aria-label="Recipient's username"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+            >
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+      <div class="col-2"></div>
+    </div>
+    <nav class="navbar bg-primary" aria-label="Light offcanvas navbar">
+      <div class="col-1"></div>
+      <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
+        <li
+          class="nav-item fs-5 px-4 border-end text-white"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbarLight"
+          aria-controls="offcanvasNavbarLight"
+          style="cursor: pointer"
+        >
+          <i class="fas fa-bars"></i>
+          카테고리
+        </li>
+        <li class="nav-item px-4 fs-5 border-end">
+          <a href="#" class="text-decoration-none text-white">공지사항</a>
+        </li>
+        <li class="nav-item px-4 fs-5 border-end">
+          <a href="#" class="text-decoration-none text-white">문의사항</a>
+        </li>
+        <li class="nav-item px-4 fs-5 border-end">
+          <a href="#" class="text-decoration-none text-white">프로그램 신청</a>
+        </li>
+        <li class="nav-item px-4 fs-5">
+          <a href="#" class="text-decoration-none text-white">커뮤니티</a>
+        </li>
+      </ul>
+      <div class="col-1"></div>
+    </nav>
+    <!-- 헤더 끝 -->
+
+    <!-- 마이 페이지 시작 -->
+    <!-- 사이드바 -->
+    <div
+      class="offcanvas offcanvas-start text-center"
+      tabindex="-1"
+      id="offcanvasNavbarLight"
+      aria-labelledby="offcanvasNavbarLightLabel"
+      style="width: 200px"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLightLabel">
+          국내 도서
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">자연과학</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">사회과학</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">기술과학</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              철학
+            </a>
+            <ul class="dropdown-menu text-center">
+              <li><a class="dropdown-item" href="#">심리학</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">윤리학</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              역사
+            </a>
+            <ul class="dropdown-menu text-center">
+              <li><a class="dropdown-item" href="#">지리</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">과학</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 사이드바 -->
+    <!-- 메인 -->
+    <div class="row" style="height: 1000px">
+      <nav
+        id="sidebarMenu"
+        class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+      >
+        <div class="position-sticky sidebar-sticky">
+          <h4 class="border-bottom p-3">마이페이지</h4>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 주문조회 </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 문의내역 </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 쿠폰등록 </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 등록한 리뷰 </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 좋아요 상품 </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                개인정보 수정
+              </a>
+              <ul class="dropdown-menu text-center">
+                <li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
+                <li><a class="dropdown-item" href="#">회원 탈퇴</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <ol class="list-group d-flex flex-row justify-content-center mt-2">
+          <li
+            class="d-flex justify-content-center align-items-start col-2 border py-2"
+          >
+            <div
+              class="d-flex justify-content-center align-items-center flex-column"
+            >
+              <div
+                class="fw-bold d-flex justify-content-center align-items-center mb-2"
+              >
+                <i class="fas fa-user fs-3"></i>
+              </div>
+              <div class="mb-2">김동현님</div>
+              <div id="state_ing" class="badge bg-warning rounded-pill">
+                GOLD
+              </div>
+            </div>
+          </li>
+          <li
+            class="d-flex justify-content-center align-items-start col-2 border py-2"
+          >
+            <div
+              class="d-flex justify-content-center align-items-center flex-column"
+            >
+              <div
+                class="fw-bold d-flex justify-content-center align-items-center mb-2"
+              >
+                <i class="fas fa-stamp fs-3"></i>
+              </div>
+              <div class="mb-2">쿠폰함</div>
+              <div id="state_ing" class="badge bg-primary rounded-pill">
+                1장
+              </div>
+            </div>
+          </li>
+          <li
+            class="d-flex justify-content-center align-items-start col-2 border py-2"
+          >
+            <div
+              class="d-flex justify-content-center align-items-center flex-column"
+            >
+              <div
+                class="fw-bold d-flex justify-content-center align-items-center mb-2"
+              >
+                <i class="fas fa-truck fs-3"></i>
+              </div>
+              <div class="mb-2">배송중</div>
+              <div id="state_ing" class="badge bg-primary rounded-pill">0</div>
+            </div>
+          </li>
+          <li
+            class="d-flex justify-content-center align-items-start col-2 border py-2"
+          >
+            <div
+              class="d-flex justify-content-center align-items-center flex-column"
+            >
+              <div
+                class="fw-bold d-flex justify-content-center align-items-center mb-2"
+              >
+                <i class="fas fa-box fs-3"></i>
+              </div>
+              <div class="mb-2">배송완료</div>
+              <div id="state_complete" class="badge bg-primary rounded-pill">
+                0
+              </div>
+            </div>
+          </li>
+          <li
+            class="d-flex justify-content-center align-items-start col-2 border py-2"
+          >
+            <div
+              class="d-flex justify-content-center align-items-center flex-column"
+            >
+              <div
+                class="fw-bold d-flex justify-content-center align-items-center mb-2"
+              >
+                <i class="fas fa-undo-alt fs-3"></i>
+              </div>
+              <div class="mb-2">취소/반품/교환</div>
+              <div id="state_trade" class="badge bg-primary rounded-pill">
+                0
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <!-- 페이지 컨텐츠 레이아웃 -->
+      </main>
+    </div>
+    <!-- 메인 -->
+    <!-- 마이 페이지 끝 -->
+
+    <!-- 풋터 시작 -->
+    <footer
+      class="d-flex flex-wrap justify-content-around align-items-center py-1 border-top"
+    >
+      <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 text-muted">&copy; 2022-09-23 ~ 10-28</span>
+      </div>
+
+      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class="ms-3 fs-1">
+          <a class="text-muted" href="#"><i class="fab fa-instagram"></i></a>
+        </li>
+        <li class="ms-3 fs-1">
+          <a class="text-muted" href="#"><i class="fab fa-twitter"></i></a>
+        </li>
+        <li class="ms-3 fs-1">
+          <a class="text-muted" href="#"
+            ><i class="fab fa-facebook-square"></i
+          ></a>
+        </li>
+      </ul>
+    </footer>
+    <!-- 풋터 끝 -->
+  </body>
+</html>
