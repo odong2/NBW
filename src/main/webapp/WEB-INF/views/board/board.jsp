@@ -17,7 +17,7 @@
     <h3>공지사항</h3>
 </div>
 <main class="container">
-    t
+
 </main>
 </body>
 </html>
