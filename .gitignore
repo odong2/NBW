@@ -21,6 +21,8 @@ Servers/
 /bin/
 .springBeans
 
+root-context.xml
+
 # Mac
 .DS_Store
 oracle/
