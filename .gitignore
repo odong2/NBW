@@ -21,6 +21,9 @@ Servers/
 /bin/
 .springBeans
 
+root-context.xml
+.gitignore
+
 # Mac
 .DS_Store
 oracle/
