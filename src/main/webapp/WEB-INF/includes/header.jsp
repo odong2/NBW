@@ -30,9 +30,6 @@
                 <a href="#" class="text-decoration-none px-3">
                     <i class="fas fa-shopping-cart"></i>
                     장바구니
-                    <span class="badge text-bg-dark rounded-pill align-text-bottom"
-                    >5</span
-                    >
                 </a>
             </li>
             <li class="nav-item">
@@ -42,10 +39,10 @@
             </li>
         </ul>
         <div class="col-12 d-flex">
-          <span class="col-2 fs-2 text-center"
+          <span class="col-2 fs-4 text-center"
           ><i class="fas fa-book"></i> 엔비더</span
           >
-            <div class="input-group input-group-lg">
+            <div class="input-group">
                 <input
                         type="text"
                         class="form-control"
@@ -66,28 +63,27 @@
     <div class="col-2"></div>
 </div>
 <nav class="navbar bg-primary" aria-label="Light offcanvas navbar">
-    <div class="col-1"></div>
+    <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
         <li
-                class="nav-item fs-5 px-4 border-end text-white"
+                class="nav-item px-4 border-end text-white"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbarLight"
                 aria-controls="offcanvasNavbarLight"
                 style="cursor: pointer"
         >
             <i class="fas fa-bars"></i>
-            카테고리
         </li>
-        <li class="nav-item px-4 fs-5 border-end">
+        <li class="nav-item px-4 border-end">
             <a href="#" class="text-decoration-none text-white">공지사항</a>
         </li>
-        <li class="nav-item px-4 fs-5 border-end">
+        <li class="nav-item px-4 border-end">
             <a href="#" class="text-decoration-none text-white">문의사항</a>
         </li>
-        <li class="nav-item px-4 fs-5 border-end">
+        <li class="nav-item px-4 border-end">
             <a href="#" class="text-decoration-none text-white">프로그램 신청</a>
         </li>
-        <li class="nav-item px-4 fs-5">
+        <li class="nav-item px-4">
             <a href="#" class="text-decoration-none text-white">커뮤니티</a>
         </li>
     </ul>
