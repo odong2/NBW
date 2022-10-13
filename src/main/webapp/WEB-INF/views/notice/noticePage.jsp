@@ -50,9 +50,6 @@
 <!-- 헤더 시작 -->
 <%@include file="/WEB-INF/includes/header.jsp" %>
 <!-- 헤더 끝 -->
-<div class="container">
-    <h3>공지사항</h3>
-</div>
 <!--  공지사항 메인-->
 <main>
     <section class="notice-header">
