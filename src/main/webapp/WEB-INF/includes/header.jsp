@@ -17,7 +17,7 @@
                 >
             </li>
             <li class="nav-item">
-                <a href="#" class="text-decoration-none px-3 border-end rounded-0"
+                <a href="/login" class="text-decoration-none px-3 border-end rounded-0"
                 >로그인</a
                 >
             </li>
@@ -38,11 +38,9 @@
                 >
             </li>
         </ul>
-        <div class="col-12 d-flex">
-          <span class="col-2 fs-4 text-center"
-          ><i class="fas fa-book"></i> 엔비더</span
-          >
-            <div class="input-group">
+        <div class="col-12 d-flex align-items-center justify-content-start">
+          <a href="/home"><img alt="" src="/NBW_headlogo.png" style="width: 150px;"></a>
+          <div class="input-group ms-3">
                 <input
                         type="text"
                         class="form-control"
@@ -57,16 +55,16 @@
                 >
                     <i class="fas fa-search"></i>
                 </button>
-            </div>
+          </div>
         </div>
     </nav>
     <div class="col-2"></div>
 </div>
-<nav class="navbar bg-primary" aria-label="Light offcanvas navbar">
+<nav class="navbar" aria-label="Light offcanvas navbar" style="background-image: url('/bg_navi.jpeg');">
     <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
         <li
-                class="nav-item px-4 border-end text-white"
+                class="nav-item px-4 border-end border-danger"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbarLight"
                 aria-controls="offcanvasNavbarLight"
@@ -74,17 +72,17 @@
         >
             <i class="fas fa-bars"></i>
         </li>
-        <li class="nav-item px-4 border-end">
-            <a href="#" class="text-decoration-none text-white">공지사항</a>
+        <li class="nav-item px-4 border-end border-danger">
+            <a href="#" class="text-decoration-none">공지사항</a>
         </li>
-        <li class="nav-item px-4 border-end">
-            <a href="#" class="text-decoration-none text-white">문의사항</a>
+        <li class="nav-item px-4 border-end border-danger">
+            <a href="#" class="text-decoration-none">문의사항</a>
         </li>
-        <li class="nav-item px-4 border-end">
-            <a href="#" class="text-decoration-none text-white">프로그램 신청</a>
+        <li class="nav-item px-4 border-end border-danger">
+            <a href="#" class="text-decoration-none">프로그램 신청</a>
         </li>
         <li class="nav-item px-4">
-            <a href="#" class="text-decoration-none text-white">커뮤니티</a>
+            <a href="#" class="text-decoration-none">커뮤니티</a>
         </li>
     </ul>
     <div class="col-1"></div>
