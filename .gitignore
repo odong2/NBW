@@ -7,8 +7,6 @@ nb-configuration.xml
 
 .idea/
 
-
-
 # Eclipse
 .classpath
 .project
@@ -20,6 +18,10 @@ Servers/
 /target/
 /bin/
 .springBeans
+
+# intellij
+.apt_generated
+.apt_generated_tests
 
 root-context.xml
 
