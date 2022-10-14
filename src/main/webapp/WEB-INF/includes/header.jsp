@@ -27,7 +27,7 @@
                 >
             </li>
             <li class="nav-item">
-                <a href="#" class="text-decoration-none px-3">
+                <a href="/cart/list" class="text-decoration-none px-3">
                     <i class="fas fa-shopping-cart"></i>
                     장바구니
                 </a>
