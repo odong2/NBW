@@ -5,7 +5,7 @@
         <typeAliases>
             <typeAlias alias="noticeDto" type="com.finalpj.nbw.notice.domain.Notice"/>
         </typeAliases>
-    <mappers>
-    	<mapper resource="com/finalpj/nbw/product/dao/product.xml"/>
-    </mappers>
+<!--    <mappers>-->
+<!--    	<mapper resource="com/finalpj/nbw/product/dao/product.xml"/>-->
+<!--    </mappers>-->
 </configuration>
