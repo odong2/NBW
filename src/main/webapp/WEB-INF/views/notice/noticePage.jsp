@@ -32,15 +32,18 @@
             width: 250px;
             border-radius: 20px;
         }
+
         li {
             list-style: none;
         }
+
         .notice-wrapper {
             border-top: 1px solid #8c8c8c;
             border-bottom: 1px solid #8c8c8c;
             padding: 1rem;
         }
-        .search-wrapper{
+
+        .search-wrapper {
             width: 100%;
             margin-bottom: 50px;
         }
@@ -69,7 +72,8 @@
                 />
             </div>
             <div class="dropdown col-3 d-flex justify-content-end ">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">
                     최신순
                 </a>
                 <ul class="dropdown-menu">
