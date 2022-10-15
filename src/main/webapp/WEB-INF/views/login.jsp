@@ -18,14 +18,13 @@
 <!-- 메인 시작 -->
 <main class="form-signin d-flex flex-column align-items-center m-5" style="height:1000px">
   <img alt="" src="/NBW_logo.png" style="width: 300px; height: auto;">
-  <form class="col-3">
-  	
+  <form class="col-3" action="/login" method="post">
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <input type="text" class="form-control" id="floatingInput" name="id">
       <label for="floatingInput">UserName</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input type="password" class="form-control" id="floatingPassword" name="password">
       <label for="floatingPassword">Password</label>
     </div>
 

@@ -12,15 +12,15 @@ import com.finalpj.nbw.product.repository.ProductDaoImpl;
 @Controller
 public class ProductController {
 	
-	@Autowired
-	private ProductDaoImpl productdao;
+//	@Autowired
+//	private ProductDaoImpl productdao;
 	
 	@GetMapping("/product/{id}")
 	public String detail(@PathVariable("id") String number, Model model) {
 		System.out.println("number: "+number);
-		Product product = productdao.getProduct(number);
-		System.out.println("product: "+product.toString());
-		model.addAttribute("product",product);
+//		Product product = productdao.getProduct(number);
+//		System.out.println("product: "+product.toString());
+//		model.addAttribute("product",product);
 		return "/detail";
 	}
 }
