@@ -24,6 +24,8 @@ Servers/
 .apt_generated_tests
 
 root-context.xml
+nbw.iml
+
 
 # Mac
 .DS_Store
