@@ -68,7 +68,7 @@ public class NoticeDaoImpl implements NoticeDao {
     public int selectNoticeCnt() throws Exception{
         return sqlSession.selectOne("selectNoticeCnt");
     }
-    /************************* 공지글 전체 페이지 조회 ***************************/
+    /*************************** 페이지 게시물 조회 *****************************/
     @Override
     public List<Notice> selectNoticePage(Map map) throws Exception{
         return sqlSession.selectList("selectNoticePage", map);

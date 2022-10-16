@@ -93,52 +93,54 @@
     <%-- ================================= 공지사항 context 시작 ====================================--%>
     <section class="container notice-main">
         <ul>
+        <c:forEach var="notice" items="${noticeList}">
             <li>
                 <div class="notice-wrapper d-flex flex-column">
                     <div class="ms-3 mb-3">
                         <i class="fas fa-user"></i>
                         <span class="notice-writer">관리자</span>
-                        <span class="notice-cdate">2022-09-01</span>
+                        <span class="notice-cdate"><fmt:formatDate value="${notice.nt_cdate}" pattern="yyyy-MM-dd"/></span>
+                        <span>게시글 번호 : <c:out value="${notice.nt_no}"/></span>
                     </div>
                     <h4>
-                        <a
-                                href="#"
-                                class="ms-3 board-content mb-3 text-decoration-none text-dark"
-                        >
-                            [중요]공지사항 테스트
+                        <a href="#" class="ms-3 board-content mb-3 text-decoration-none text-dark">
+                            <c:out value="${notice.nt_content}"/>
                         </a>
                     </h4>
                     <div class="d-flex align-items-center justify-content-end me-3">
-                        <i class="fas fa-eye"></i
-                        ><span class="notice-hit me-2">20</span>
-                        <i class="fas fa-comment-alt"></i
-                        ><span class="comment-count">10</span>
+                        <i class="fas fa-eye"></i><span class="notice-hit me-2"><c:out value="${notice.nt_hit}"/></span>
+                        <i class="fas fa-comment-alt"></i><span class="comment-count">10</span>
                     </div>
                 </div>
             </li>
+        </c:forEach>
         </ul>
     </section>
     <%-- ================================= 공지사항 context 끝 ====================================--%>
     <%-- ================================= 공지사항 페이지 nav 시작 ====================================--%>
     <nav aria-label="Page navigation ">
         <ul class="pagination d-flex justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
+            <c:if test="${ph.showPrev}">
+                <li class="page-item">
+                    <a class="page-link" href="<c:url value='/notice/noticePageTest?page=${ph.beginPage-1}&pageSize=${ph.pageSize}'/>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </c:if>
+            <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
+                <li class="page-item">
+                    <a class="page-link" href="<c:url value='/notice/noticePageTest?page=${i}&pageSize=${ph.pageSize}'/>">${i}</a>
+                </li>
+            </c:forEach>
+            <c:if test="${ph.showNext}">
+                <li class="page-item">
+                    <a class="page-link"href="<c:url value='/notice/noticePageTest?page=${ph.endPage+1}&pageSize=${ph.pageSize}'/>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </c:if>
         </ul>
     </nav>
     <%-- ================================= 공지사항 페이지 nav 끝 ====================================--%>

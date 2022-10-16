@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Log4j
 @Service
@@ -58,6 +59,14 @@ public class NoticeService {
     @Transactional(rollbackFor = Exception.class)
     public int increaseViewCnt(Integer nt_no) throws Exception{
         return noticeDao.updateViewCnt(nt_no);
+    }
+    public int getNoticeTotalCnt() throws Exception{
+        return noticeDao.selectNoticeCnt();
+    }
+
+    /************************ 페이지 게시물 조회 ****************************/
+    public List<Notice> getPageNotiseList(Map map) throws Exception{
+        return noticeDao.selectNoticePage(map);
     }
 
 }

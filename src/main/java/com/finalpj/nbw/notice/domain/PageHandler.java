@@ -7,15 +7,15 @@ import lombok.ToString;
 @Data
 @ToString
 public class PageHandler {
-    private int totalCnt; // 총 게시물 개수
-    private int pageSize; // 한페이지의 크기
-    private int naviSize = 10; // 페이지 내비게이션의 크기
-    private int totalPage; // 전체 페이지 개수
-    private int page; // 현재페이지
-    private int beginPage; // 내비게이션의 첫번째 페이지
-    private int endPage; // 내비게이션의 첫번째 페이지
-    private boolean showPrev; // 이전 페이지 이동 링크 여부
-    private boolean showNext; // 다음 페이지 이동 링크 여부
+    private int totalCnt;           // 총 게시물 개수
+    private int pageSize;           // 한페이지의 크기
+    private int naviSize = 3;      // 페이지 내비게이션의 크기
+    private int totalPage;          // 전체 페이지 개수
+    private int page;               // 현재페이지
+    private int beginPage;          // 내비게이션의 첫번째 페이지
+    private int endPage;            // 내비게이션의 첫번째 페이지
+    private boolean showPrev;       // 이전 페이지 이동 링크 여부
+    private boolean showNext;       // 다음 페이지 이동 링크 여부
 
     public PageHandler(int totalCnt, int page){
         this(totalCnt, page, 10);
@@ -26,11 +26,12 @@ public class PageHandler {
     this.pageSize = pageSize;
 
     totalPage = (int)Math.ceil(totalCnt / (float)pageSize); // 나머지 값 있을 경우 페이지 하나 추가
-    beginPage = page / naviSize * naviSize + 1;
+    beginPage = (page-1) / naviSize * naviSize + 1;
     endPage =  Math.min(beginPage + naviSize-1 , totalPage);
     showPrev = beginPage != 1;
     showNext = endPage != totalPage;
     }
+
 
     void print(){
         System.out.println("현재 페이지는 = " + page + "page");
