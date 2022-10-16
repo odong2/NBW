@@ -1,5 +1,6 @@
-package com.finalpj.nbw.service;
+package com.finalpj.nbw.dao;
 
+import com.finalpj.nbw.notice.dao.NoticeDao;
 import com.finalpj.nbw.notice.domain.Notice;
 import com.finalpj.nbw.notice.service.NoticeService;
 import lombok.extern.log4j.Log4j;
@@ -20,20 +21,20 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
-public class NoticeServiceTest {
+public class NoticeDaoTest {
 
     @Autowired
     DataSource ds;
 
     @Autowired
-    NoticeService noticeService;
+    NoticeDao noticeDao;
     @Test
     /* ========================= 공지글 등록 테스트 ============================*/
     public void noticeInsertTest() throws Exception{
         Notice noticeDto = new Notice();
         noticeDto.setNt_title("공지글 제목 테스트");
         noticeDto.setNt_content("공지글 내용 테스트");
-        assertTrue(noticeService.registNotice(noticeDto) == 1);
+        assertTrue(noticeDao.insertNotice(noticeDto) == 1);
     }
     
     @Test
@@ -43,37 +44,51 @@ public class NoticeServiceTest {
         noticeDto.setNt_title("공지글 제목 수정 테스트");
         noticeDto.setNt_content("공지글 내요 수정 테스트");
         noticeDto.setNt_no(47);
-        assertTrue(noticeService.modifyNotice(noticeDto) == 1);
+        assertTrue(noticeDao.updateNotice(noticeDto) == 1);
     }
 
     @Test
     /* ====================== 공지글 한건 삭제 테스트 =========================*/
     public void removeNoticeTest() throws Exception{
         int nt_no = 47;
-        assertTrue(noticeService.removeNotice(nt_no) == 1);
+        assertTrue(noticeDao.deleteNotice(nt_no) == 1);
     }
 
     @Test
     /* ====================== 공지글 전체 삭제 테스트 =========================*/
     public void removeAllNoticeTest() throws Exception{
-        assertTrue(noticeService.removeAllNotice() > 0);
+        assertTrue(noticeDao.deleteNoticeList() > 0);
     }
     @Test
     /* ====================== 공지글 한 건 조회 테스트 =========================*/
     public void getNoticeTest() throws Exception{
         Notice noticeDto = new Notice();
         int nt_no = 47;
-        noticeDto = noticeService.getNotice(nt_no);
+        noticeDto = noticeDao.selectNotice(nt_no);
         log.info("47번 공지글 조회 결과 : " + noticeDto);
         assertNotEquals(noticeDto, null);
     }
     @Test
     /* ====================== 공지글 전체 조회 테스트 =========================*/
-    public void getAllNotice() throws Exception{
+    public void getAllNoticeTest() throws Exception{
         List<Notice> noticeList = null;
-        noticeList= noticeService.getAllNotice();
+        noticeList= noticeDao.selectNoticeList();
         log.info("공지글 전체 조회 결과 : " + noticeList);
         assertNotEquals(noticeList, null);
+    }
+
+    @Test
+    /* ====================== 공지글 조회수 증가 =========================*/
+    public void updateViewCntTest() throws Exception{
+        int result = noticeDao.updateViewCnt(47);
+        assertNotEquals(result, 0);
+    }
+
+    @Test
+    /* ====================== 공지글 전체 개수 =========================*/
+    public void selectNoticeCntTest() throws Exception{
+        int totallCnt = noticeDao.selectNoticeCnt();
+        log.info("공지글의 총 게시글 개수는 : " + totallCnt + "개 입니다");
     }
 
 

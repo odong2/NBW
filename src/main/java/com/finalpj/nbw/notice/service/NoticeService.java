@@ -13,36 +13,51 @@ import java.util.List;
 @Service
 public class NoticeService {
 
-    @Autowired
-    private NoticeDao noticeDao;
-    /********************* 공지글 입력 *********************/
+
+    private final NoticeDao noticeDao;
+
+    public NoticeService(NoticeDao noticeDao){
+        this.noticeDao = noticeDao;
+    }
+
+    /***************************** 공지글 입력 ****************************/
     @Transactional(rollbackFor = Exception.class)
     public int registNotice(Notice noticeDto) throws Exception{
         return noticeDao.insertNotice(noticeDto);
     }
-    /********************* 공지글 수정 *********************/
+    /**************************** 공지글 수정 ****************************/
     @Transactional(rollbackFor = Exception.class)
     public int modifyNotice(Notice noticeDto) throws Exception{
         return noticeDao.updateNotice(noticeDto);
     }
-    /********************* 공지글 한 건 삭제 *********************/
+    /************************** 공지글 한 건 삭제 **************************/
     @Transactional(rollbackFor = Exception.class)
     public int removeNotice(Integer nt_no) throws Exception{
         return noticeDao.deleteNotice(nt_no);
     }
-    /********************* 공지글 전체 삭제 *********************/
+    /************************** 공지글 전체 삭제 ***************************/
     @Transactional(rollbackFor = Exception.class)
     public int removeAllNotice() throws Exception{
         return noticeDao.deleteNoticeList();
     }
-    /********************* 공지글 한 건 조회 *************************/
+    /******************** 공지글 한 건 조회  + 조회수 증가 *********************/
     @Transactional(readOnly = true)
     public Notice getNotice(Integer nt_no) throws Exception{
-        return noticeDao.selectNotice(nt_no);
+        Notice noticeDto = noticeDao.selectNotice(nt_no);
+        noticeDao.updateViewCnt(nt_no);
+
+        return noticeDto;
     }
-    /********************* 공지글 전체 조회 *************************/
+    /************************ 공지글 전체 조회 ****************************/
     @Transactional(readOnly = true)
     public List<Notice> getAllNotice() throws Exception{
         return noticeDao.selectNoticeList();
     }
+
+    /************************ 공지글 조회수 증가 ****************************/
+    @Transactional(rollbackFor = Exception.class)
+    public int increaseViewCnt(Integer nt_no) throws Exception{
+        return noticeDao.updateViewCnt(nt_no);
+    }
+
 }

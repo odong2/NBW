@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.finalpj.nbw.notice.dao.NoticeMapper">
     <!-- ================= 공지글 등록 ================= -->
     <insert id="insertNotice" parameterType="noticeDto">
@@ -29,10 +28,31 @@
         FROM tb_notice
         WHERE nt_no = #{nt_no}
     </select>
-    <!-- =================== 골지글 전체 조회 ================-->
+    <!-- =================== 공지글 전체 조회 ================-->
     <select id="selectNoticeList" resultType="noticeDto">
         SELECT nt_no, nt_content,
                nt_cdate, nt_file, nt_hit
          FROM tb_notice
+    </select>
+    <!-- =================== 공지글 조회수 증가 ================-->
+    <select id="updateViewCnt" resultType="int">
+        UPDATE tb_notice
+        SET   nt_hit = nt_hit + 1
+        WHERE nt_no = #{nt_no}
+    </select>
+    <!-- ===================  공지글 전체 개수  ================-->
+    <select id="selectNoticeCnt" resultType="int">
+        SELECT count(*) FROM tb_notice
+    </select>
+
+    <!-- ======================= 페이징 조회 ====================-->
+    <select id="selectNoticePage" parameterType="map" resultType="noticeDto">
+        SELECT rnum,nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit FROM(
+        SELECT ROWNUM as rnum, a.*  FROM (
+        SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
+        ORDER BY nt_no
+        ) a
+        )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{pageSize}]]>
     </select>
 </mapper>
