@@ -42,7 +42,6 @@
 
         .content {
             margin-top: 50px;
-            margin-bottom: solid 1px #8c8c8c;
             padding-bottom: 50px;
         }
 
@@ -169,6 +168,9 @@
         <div class="file">
             <i class="fas fa-file-alt"></i>
             <span>첨부파일</span>
+        </div>
+        <div class="d-flex justify-content-center mt-5">
+            <button id='listBtn' type="button" class="btn btn-secondary">목록으로</button>
         </div>
     </section>
     <!-- ================================ 공지사항 content 끝================================= -->
@@ -349,9 +351,15 @@
         });
     });
 
-    // window.onload(대댓글 답글보기를 위해 숨겨놓기)
+    // window.onload
     $(function () {
+        // 대댓글 답글보기를 위해 숨겨놓기
         $(".reply-container").css("display", "none");
+
+        // 목록으로 가기 이벤트
+        $('#listBtn').on('click',function(){
+            location.href = "<c:url value='/notice/noticePageTest/'/>?page=${page}";
+        })
     });
 
     let active = false;

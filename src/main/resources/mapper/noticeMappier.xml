@@ -5,7 +5,7 @@
     <!-- ================= 공지글 등록 ================= -->
     <insert id="insertNotice" parameterType="noticeDto">
         INSERT INTO TB_NOTICE (NT_NO, NT_TITLE, NT_CONTENT)
-        VALUES (seq_nt_no.NEXTVAL, #{nt_title}, #{nt_content})
+        VALUES (#{nt_no}, #{nt_title}, #{nt_content})
     </insert>
     <!-- ================= 공지글 수정 ================= -->
     <update id="updateNotice" parameterType="noticeDto">
@@ -45,14 +45,39 @@
         SELECT count(*) FROM tb_notice
     </select>
 
-    <!-- ======================= 페이징 조회 ====================-->
+    <!-- ======================= 페이징 처리 조회 ====================-->
     <select id="selectNoticePage" parameterType="map" resultType="noticeDto">
-        SELECT rnum,nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit FROM(
-        SELECT ROWNUM as rnum, a.*  FROM (
-        SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
-        ORDER BY nt_no
-        ) a
-        )
+        SELECT rnum,nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
+                        ORDER BY nt_no
+                    ) a
+                )
         WHERE <![CDATA[#{offset} < rnum  and rnum <= #{pageSize}]]>
+    </select>
+
+    <!-- ======================= 조건검색 페이징 처리하여 조회 ====================-->
+    <select id="selectSearchPage" parameterType="searchCondition" resultType="noticeDto">
+        SELECT rnum,nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
+                        WHERE nt_title LIKE '%' || '${keyword}' || '%'
+                        ORDER BY nt_cdate DESC, nt_no DESC
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{pageSize}]]>
+    </select>
+
+    <!-- ======================= 조건검색 결과 게시물 개수 ====================-->
+    <select id="selectSearchCnt" parameterType="searchCondition" resultType="int">
+        SELECT count(*)
+        FROM(
+                SELECT ROWNUM as rnum, a.*  FROM (
+                     SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
+                     WHERE nt_title LIKE '%' || '${keyword}' || '%'
+                 ) a
+            )
     </select>
 </mapper>

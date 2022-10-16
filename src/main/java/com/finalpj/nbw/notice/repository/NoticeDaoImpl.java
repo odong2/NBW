@@ -2,6 +2,7 @@ package com.finalpj.nbw.notice.repository;
 
 import com.finalpj.nbw.notice.dao.NoticeDao;
 import com.finalpj.nbw.notice.domain.Notice;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,17 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     public List<Notice> selectNoticePage(Map map) throws Exception{
         return sqlSession.selectList("selectNoticePage", map);
+    }
+
+    /************************ 조건검색 페이징 처리하여 조회 **************************/
+    @Override
+    public List<Notice> selectSearchPage(SearchCondition sc) throws Exception{
+        return sqlSession.selectList("selectSearchPage", sc);
+    }
+
+    /************************** 조건검색 결과 게시물 개수 ****************************/
+    @Override
+    public int selectSearchCnt(SearchCondition sc) throws Exception{
+        return sqlSession.selectOne("selectSearchCnt", sc);
     }
 }

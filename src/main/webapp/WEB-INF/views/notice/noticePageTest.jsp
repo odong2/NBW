@@ -24,13 +24,17 @@
             margin-top: 50px;
             padding: 15px;
         }
-
+        #search-mode {
+            margin-top: 1px;
+        }
         #search-input {
             display: flex;
             width: 100%;
             justify-content: center;
-            width: 250px;
-            border-radius: 20px;
+            height: 35px;
+        }
+        #searchBtn {
+            height: 35px;
         }
 
         li {
@@ -62,30 +66,18 @@
 <%-- ================================= 공지사항 검색 시작 ====================================--%>
         <div class="search-wrapper d-flex col-12 mt-3">
             <div class="col-4"></div>
-            <div class="col-4 d-flex justify-content-center search-input">
-                <input
-                        id="search-input"
-                        class="form-control me-2"
-                        type="search"
-                        placeholder="공지사항 검색"
-                        aria-label="Search"
-                />
+            <div class="col-1">
+                <select id="search-mode" class="form-select form-select-sm mb-3">
+                    <option value="A" selected>내용+제목</option>
+                    <option value="T" selected>제목</option>
+                    <option value="C">내용</option>
+                </select>
             </div>
-            <div class="dropdown col-3 d-flex justify-content-end">
-                <a
-                        class="btn btn-secondary dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                >
-                    최신순
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">댓글순</a></li>
-                    <li><a class="dropdown-item" href="#">조회순</a></li>
-                    <li><a class="dropdown-item" href="#"></a></li>
-                </ul>
+            <div class="col-3 ms-3">
+                <input id="search-input" class="form-control me-2" type="search" placeholder="검색어를 입력하세요"/>
+            </div>
+            <div class="col-1">
+                <button id="searchBtn" type="button" class="btn btn-dark">검색</button>
             </div>
         </div>
     </section>
@@ -99,16 +91,24 @@
                     <div class="ms-3 mb-3">
                         <i class="fas fa-user"></i>
                         <span class="notice-writer">관리자</span>
-                        <span class="notice-cdate"><fmt:formatDate value="${notice.nt_cdate}" pattern="yyyy-MM-dd"/></span>
+                        <%-- ================ 게시글 작성 날짜 ===============--%>
+                        <span class="notice-cdate">
+                            <fmt:formatDate value="${notice.nt_cdate}" pattern="yyyy-MM-dd"/>
+                        </span>
                         <span>게시글 번호 : <c:out value="${notice.nt_no}"/></span>
                     </div>
                     <h4>
-                        <a href="#" class="ms-3 board-content mb-3 text-decoration-none text-dark">
-                            <c:out value="${notice.nt_content}"/>
+                        <%-- ================ 게시글 제목 링크 ===============--%>
+                        <a href="<c:url value='/notice/read?nt_no=${notice.nt_no}&page=${param.page}'/>" class="ms-3 board-content mb-3 text-decoration-none text-dark">
+                            <c:out value="${notice.nt_title}"/>
                         </a>
                     </h4>
                     <div class="d-flex align-items-center justify-content-end me-3">
-                        <i class="fas fa-eye"></i><span class="notice-hit me-2"><c:out value="${notice.nt_hit}"/></span>
+                        <i class="fas fa-eye"></i>
+                        <%-- ================= 게시글 조회수 =================--%>
+                        <span class="notice-hit me-2">
+                            <c:out value="${notice.nt_hit}"/>
+                        </span>
                         <i class="fas fa-comment-alt"></i><span class="comment-count">10</span>
                     </div>
                 </div>
@@ -120,22 +120,25 @@
     <%-- ================================= 공지사항 페이지 nav 시작 ====================================--%>
     <nav aria-label="Page navigation ">
         <ul class="pagination d-flex justify-content-center">
+            <%-- =================== 이전 페이지 링크 보여줄 지 여부 ================--%>
             <c:if test="${ph.showPrev}">
                 <li class="page-item">
-                    <a class="page-link" href="<c:url value='/notice/noticePageTest?page=${ph.beginPage-1}&pageSize=${ph.pageSize}'/>" aria-label="Previous">
+                    <a class="page-link" href="<c:url value='/notice/noticePageTest?page=${ph.beginPage-1}'/>">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
             </c:if>
+            <%-- =================== 총 게시물 개수만큼 페이징 처리 ================--%>
             <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
                 <li class="page-item">
-                    <a class="page-link" href="<c:url value='/notice/noticePageTest?page=${i}&pageSize=${ph.pageSize}'/>">${i}</a>
+                    <a class="page-link" href="<c:url value='/notice/noticePageTest?page=${i}'/>">${i}</a>
                 </li>
             </c:forEach>
+            <%-- =================== 다음 페이지 링크 보여줄 지 여부 ================--%>
             <c:if test="${ph.showNext}">
                 <li class="page-item">
-                    <a class="page-link"href="<c:url value='/notice/noticePageTest?page=${ph.endPage+1}&pageSize=${ph.pageSize}'/>" aria-label="Next">
+                    <a class="page-link"href="<c:url value='/notice/noticePageTest?page=${ph.endPage+1}'/>">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>

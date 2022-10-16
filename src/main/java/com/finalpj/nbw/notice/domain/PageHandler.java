@@ -8,8 +8,8 @@ import lombok.ToString;
 @ToString
 public class PageHandler {
     private int totalCnt;           // 총 게시물 개수
-    private int pageSize;           // 한페이지의 크기
-    private int naviSize = 3;      // 페이지 내비게이션의 크기
+    private int pageSize = 10;           // 한페이지의 크기
+    private int naviSize = 5;      // 페이지 내비게이션의 크기
     private int totalPage;          // 전체 페이지 개수
     private int page;               // 현재페이지
     private int beginPage;          // 내비게이션의 첫번째 페이지
@@ -18,12 +18,8 @@ public class PageHandler {
     private boolean showNext;       // 다음 페이지 이동 링크 여부
 
     public PageHandler(int totalCnt, int page){
-        this(totalCnt, page, 10);
-    }
-    public PageHandler(int totalCnt, int page, int pageSize){
     this.totalCnt = totalCnt;
     this.page = page;
-    this.pageSize = pageSize;
 
     totalPage = (int)Math.ceil(totalCnt / (float)pageSize); // 나머지 값 있을 경우 페이지 하나 추가
     beginPage = (page-1) / naviSize * naviSize + 1;

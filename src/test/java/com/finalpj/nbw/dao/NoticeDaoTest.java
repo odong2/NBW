@@ -2,6 +2,7 @@ package com.finalpj.nbw.dao;
 
 import com.finalpj.nbw.notice.dao.NoticeDao;
 import com.finalpj.nbw.notice.domain.Notice;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.notice.service.NoticeService;
 import lombok.extern.log4j.Log4j;
 import org.junit.Test;
@@ -19,7 +20,6 @@ import static org.junit.Assert.*;
 
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
 @ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class NoticeDaoTest {
 
@@ -32,6 +32,7 @@ public class NoticeDaoTest {
     /* ========================= 공지글 등록 테스트 ============================*/
     public void noticeInsertTest() throws Exception{
         Notice noticeDto = new Notice();
+        noticeDto.setNt_no(1); // -- 테스트 중이므로 이후 시퀀스로 변경
         noticeDto.setNt_title("공지글 제목 테스트");
         noticeDto.setNt_content("공지글 내용 테스트");
         assertTrue(noticeDao.insertNotice(noticeDto) == 1);
@@ -89,6 +90,27 @@ public class NoticeDaoTest {
     public void selectNoticeCntTest() throws Exception{
         int totallCnt = noticeDao.selectNoticeCnt();
         log.info("공지글의 총 게시글 개수는 : " + totallCnt + "개 입니다");
+    }
+
+    /* ====================== 조건 검색 테스트 =========================*/
+    @Test
+    public void selectSearchPageTest() throws Exception{
+        noticeDao.deleteNoticeList();
+        for(int i =1; i<=20; i++){
+            Notice noticeDto = new Notice(i, "공지사항 제목"+i, "테스트");
+            noticeDao.insertNotice(noticeDto);
+        }
+        SearchCondition sc = new SearchCondition(1, 10, "공지사항 제목2", "T");
+        List<Notice> list = noticeDao.selectSearchPage(sc);
+        log.info("조회된 리스트 : " + list);
+        assertTrue(list.size() == 2);
+    }
+
+    @Test
+    public void selectSearchCnt() throws Exception{
+        SearchCondition sc = new SearchCondition(1, 10, "공지사항 제목2", "T");
+        int resultCnt = noticeDao.selectSearchCnt(sc);
+        assertTrue(resultCnt == 2); // ex) 공지사항 제목2, 공지사항 제목20
     }
 
 

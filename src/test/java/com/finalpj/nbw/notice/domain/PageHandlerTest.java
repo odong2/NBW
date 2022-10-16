@@ -12,11 +12,11 @@ public class PageHandlerTest {
         ph.print();
         System.out.println("ph = " + ph);
         assertTrue(ph.getBeginPage()==1);
-        assertTrue(ph.getEndPage()==10);
+        assertTrue(ph.getEndPage()==5);
     }
     @Test
     public void pageHandlerTest2(){
-        PageHandler ph = new PageHandler(101, 15);
+        PageHandler ph = new PageHandler(101, 11);
         ph.print();
         System.out.println("ph = " + ph);
         assertTrue(ph.getBeginPage()==11);
@@ -24,10 +24,10 @@ public class PageHandlerTest {
     }
     @Test
     public void pageHandlerTest3(){
-        PageHandler ph = new PageHandler(135, 10);
+        PageHandler ph = new PageHandler(135, 13);
         ph.print();
         System.out.println("ph = " + ph);
-        assertTrue(ph.getBeginPage()==1);
-        assertTrue(ph.getEndPage()==10);
+        assertTrue(ph.getBeginPage()==11);
+        assertTrue(ph.getEndPage()==14);
     }
 }
