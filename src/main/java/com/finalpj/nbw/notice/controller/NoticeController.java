@@ -4,6 +4,7 @@ import com.finalpj.nbw.notice.domain.Notice;
 import com.finalpj.nbw.notice.domain.PageHandler;
 import com.finalpj.nbw.notice.service.NoticeService;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,31 @@ public class NoticeController {
         this.noticeService = noticeService;
     }
 
-   @GetMapping("noticeList")
-    public String noticeList(){
+   @GetMapping("list")
+    public String noticeList(Integer page, Model m){
+       if (page == null)page = 1;
+
+       try {
+           // 전체 게시물 개수 조회
+           int totalCnt = noticeService.getNoticeTotalCnt();
+           PageHandler pageHandler = new PageHandler(totalCnt, page);
+           log.info("총 게시물 개수는 " + totalCnt + "개");
+           log.info("pageHandler는 " + pageHandler);
+
+           int pageSize = pageHandler.getPageSize();
+           int offset = (page-1) * pageSize;
+           int offsetTo = page == 1 ? 10 : page * pageSize;
+
+           Map map = new HashMap();
+           map.put("offset", offset);
+           map.put("pageSize", offsetTo);
+           m.addAttribute("ph", pageHandler);
+
+           List<Notice> noticeList= noticeService.getPageNotiseList(map);
+           m.addAttribute(noticeList);
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
         return "/notice/noticePage";
     }
 
