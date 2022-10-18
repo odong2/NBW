@@ -1,6 +1,5 @@
 package com.finalpj.nbw.member.domain;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,32 +14,39 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member implements UserDetails{
+public class Member implements UserDetails {
+    private String mem_id;
+    private String mem_pw;
+    private String mem_name;
+    private String mem_gender;
+    private String mem_birthday;
+    private String mem_phone;
+    private String mem_zipcode;
+    private String mem_address;
+    private String mem_address2;
+    private String g_grade;
+    private String mem_cdate;
+    private String mem_update;
+    private String mem_tprice;
+    private String mem_email;
 
-	private static final long serialVersionUID = 1L;
-	
-	private String mem_id;
-	private String mem_pw;
-	private String mem_name;
-	private String mem_email;
-	private String mem_gender;
-	private String mem_birthday;
-	private String mem_phone;
-	private String mem_zipcode;
-	private String mem_address;
-	private String mem_address2;
-	private String mem_tprice;
-	private String g_grade;
-	private Timestamp mem_cdate;
-	private Timestamp mem_update;
-
-	@Builder
-	public Member(String mem_id, String mem_pw, String g_grade) {
-		this.mem_id = mem_id;
-		this.mem_pw = mem_pw;
-		this.g_grade = g_grade;
-	}
-	
+    @Builder
+    public Member(String mem_id, String mem_pw, String mem_name, String mem_gender, String mem_birthday, String mem_phone
+            , String mem_zipcode, String mem_address, String mem_address2, String mem_cdate, String mem_email,String g_grade){
+        this.mem_id = mem_id;
+        this.mem_pw = mem_pw;
+        this.mem_name = mem_name;
+        this.mem_gender = mem_gender;
+        this.mem_birthday = mem_birthday;
+        this.mem_phone = mem_phone;
+        this.mem_zipcode = mem_zipcode;
+        this.mem_address = mem_address;
+        this.mem_address2 = mem_address2;
+        this.mem_cdate = mem_cdate;
+        this.mem_email = mem_email;
+        this.g_grade = g_grade;
+    }
+    
 	// 해당 User의 권한을 리턴하는곳
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,7 +60,6 @@ public class Member implements UserDetails{
 	// 해당 User의 Password를 리턴하는곳
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return mem_pw;
 	}
 

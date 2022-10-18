@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.finalpj.nbw.member.dao.MemberDao">
+
+<!--  ||||||||||||||||| *일반 회원 가입* |||||||||||||||||   -->
+    <insert id="insertMember">
+        INSERT INTO TB_MEMBER (
+                               MEM_ID
+                               , MEM_PW
+                               , MEM_NAME
+                               , MEM_PHONE
+                               , MEM_ZIPCODE
+                               , MEM_ADDRESS
+                               , MEM_ADDRESS2
+                               , MEM_GENDER
+                               , MEM_CDATE
+                               , MEM_BIRTHDAY
+                               , MEM_EMAIL
+                               )
+        VALUES (
+                #{mem_id}
+                ,#{mem_pw}
+                ,#{mem_name}
+                ,#{mem_phone}
+                ,#{mem_zipcode}
+                ,#{mem_address}
+                ,#{mem_address2}
+                ,#{mem_gender}
+                , sysdate
+                ,#{mem_birthday}
+                ,#{mem_email}
+                )
+    </insert>
+</mapper>
