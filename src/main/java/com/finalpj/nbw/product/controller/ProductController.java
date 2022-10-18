@@ -23,4 +23,10 @@ public class ProductController {
 //		model.addAttribute("product",product);
 		return "/detail";
 	}
+
+	@GetMapping("/category")
+	public String goCategory(){
+		return "/search/detailSearch";
+	}
 }
+

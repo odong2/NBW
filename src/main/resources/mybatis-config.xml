@@ -4,5 +4,6 @@
 <configuration>
         <typeAliases>
             <typeAlias alias="noticeDto" type="com.finalpj.nbw.notice.domain.Notice"/>
+            <typeAlias alias="searchCondition" type="com.finalpj.nbw.notice.domain.SearchCondition"/>
         </typeAliases>
 </configuration>

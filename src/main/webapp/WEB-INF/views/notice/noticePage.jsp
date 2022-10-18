@@ -32,15 +32,18 @@
             width: 250px;
             border-radius: 20px;
         }
+
         li {
             list-style: none;
         }
+
         .notice-wrapper {
             border-top: 1px solid #8c8c8c;
             border-bottom: 1px solid #8c8c8c;
             padding: 1rem;
         }
-        .search-wrapper{
+
+        .search-wrapper {
             width: 100%;
             margin-bottom: 50px;
         }
@@ -50,13 +53,13 @@
 <!-- 헤더 시작 -->
 <%@include file="/WEB-INF/includes/header.jsp" %>
 <!-- 헤더 끝 -->
-<!--  공지사항 메인-->
+<%-- ================================= 공지사항 Main 시작 ====================================--%>
 <main>
     <section class="notice-header">
         <div id="title" class="container text-center">
             <h3>공지사항</h3>
         </div>
-        <!-- 공지사항 검색-->
+<%-- ================================= 공지사항 검색 시작 ====================================--%>
         <div class="search-wrapper d-flex col-12 mt-3">
             <div class="col-4"></div>
             <div class="col-4 d-flex justify-content-center search-input">
@@ -68,8 +71,14 @@
                         aria-label="Search"
                 />
             </div>
-            <div class="dropdown col-3 d-flex justify-content-end ">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown col-3 d-flex justify-content-end">
+                <a
+                        class="btn btn-secondary dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                >
                     최신순
                 </a>
                 <ul class="dropdown-menu">
@@ -80,7 +89,8 @@
             </div>
         </div>
     </section>
-    <!-- 공지사항 Content 시작 -->
+    <%-- ================================= 공지사항 검색 끝 ====================================--%>
+    <%-- ================================= 공지사항 context 시작 ====================================--%>
     <section class="container notice-main">
         <ul>
             <li>
@@ -90,81 +100,26 @@
                         <span class="notice-writer">관리자</span>
                         <span class="notice-cdate">2022-09-01</span>
                     </div>
-                    <div class="ms-3 board-content mb-3">
-                        <h5 class="board-title">[중요]공지사항 테스트</h5>
-                    </div>
+                    <h4>
+                        <a
+                                href="#"
+                                class="ms-3 board-content mb-3 text-decoration-none text-dark"
+                        >
+                            [중요]공지사항 테스트
+                        </a>
+                    </h4>
                     <div class="d-flex align-items-center justify-content-end me-3">
-                        <i class="fas fa-eye"></i><span class="notice-hit me-2">20</span>
-                        <i class="fas fa-comment-alt"></i><span class="comment-count">10</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="notice-wrapper d-flex flex-column">
-                    <div class="ms-3 mb-3">
-                        <i class="fas fa-user"></i>
-                        <span class="notice-writer">관리자</span>
-                        <span class="notice-cdate">2022-09-01</span>
-                    </div>
-                    <div class="ms-3 board-content mb-3">
-                        <h5 class="board-title">[중요]공지사항 테스트</h5>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-end me-3">
-                        <i class="fas fa-eye"></i><span class="notice-hit me-2">20</span>
-                        <i class="fas fa-comment-alt"></i><span class="comment-count">10</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="notice-wrapper d-flex flex-column">
-                    <div class="ms-3 mb-3">
-                        <i class="fas fa-user"></i>
-                        <span class="notice-writer">관리자</span>
-                        <span class="notice-cdate">2022-09-01</span>
-                    </div>
-                    <div class="ms-3 board-content mb-3">
-                        <h5 class="board-title">[중요]공지사항 테스트</h5>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-end me-3">
-                        <i class="fas fa-eye"></i><span class="notice-hit me-2">20</span>
-                        <i class="fas fa-comment-alt"></i><span class="comment-count">10</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="notice-wrapper d-flex flex-column">
-                    <div class="ms-3 mb-3">
-                        <i class="fas fa-user"></i>
-                        <span class="notice-writer">관리자</span>
-                        <span class="notice-cdate">2022-09-01</span>
-                    </div>
-                    <div class="ms-3 board-content mb-3">
-                        <h5 class="board-title">[중요]공지사항 테스트</h5>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-end me-3">
-                        <i class="fas fa-eye"></i><span class="notice-hit me-2">20</span>
-                        <i class="fas fa-comment-alt"></i><span class="comment-count">10</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="notice-wrapper d-flex flex-column">
-                    <div class="ms-3 mb-3">
-                        <i class="fas fa-user"></i>
-                        <span class="notice-writer">관리자</span>
-                        <span class="notice-cdate">2022-09-01</span>
-                    </div>
-                    <div class="ms-3 board-content mb-3">
-                        <h5 class="board-title">[중요]공지사항 테스트</h5>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-end me-3">
-                        <i class="fas fa-eye"></i><span class="notice-hit me-2">20</span>
-                        <i class="fas fa-comment-alt"></i><span class="comment-count">10</span>
+                        <i class="fas fa-eye"></i
+                        ><span class="notice-hit me-2">20</span>
+                        <i class="fas fa-comment-alt"></i
+                        ><span class="comment-count">10</span>
                     </div>
                 </div>
             </li>
         </ul>
     </section>
+    <%-- ================================= 공지사항 context 끝 ====================================--%>
+    <%-- ================================= 공지사항 페이지 nav 시작 ====================================--%>
     <nav aria-label="Page navigation ">
         <ul class="pagination d-flex justify-content-center">
             <li class="page-item">
@@ -186,6 +141,7 @@
             </li>
         </ul>
     </nav>
+    <%-- ================================= 공지사항 페이지 nav 끝 ====================================--%>
 </main>
 </body>
 </html>

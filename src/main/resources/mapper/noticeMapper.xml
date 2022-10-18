@@ -1,10 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.mybatis.mapper.noticeMapper">
-    <insert id="insert" parameterType="noticeDto">
+<mapper namespace="com.finalpj.nbw.notice.dao.NoticeMapper">
+    <!-- ================= 공지글 등록 ================= -->
+    <insert id="insertNotice" parameterType="noticeDto">
         INSERT INTO TB_NOTICE (NT_NO, NT_TITLE, NT_CONTENT)
-        VALUES (seq_nt_no.NEXTVAL, #{nt_title}, #{nt_content});
+        VALUES (#{nt_no}, #{nt_title}, #{nt_content})
     </insert>
+    <!-- ================= 공지글 수정 ================= -->
+    <update id="updateNotice" parameterType="noticeDto">
+        UPDATE tb_notice
+        SET nt_title = #{nt_title}
+          ,  nt_content = #{nt_content}
+        WHERE nt_no = #{nt_no}
+    </update>
+    <!-- ================== 공지글 한 건 삭제 ================-->
+    <delete id="deleteNotice" parameterType="int">
+        DELETE from tb_notice WHERE nt_no= #{nt_no}
+    </delete>
+    <!-- ================== 공지글 전체 삭제 =================-->
+    <delete id="deleteNoticeList">
+        DELETE FROM tb_notice
+    </delete>
+    <!-- ================== 공지글 한 건 조회 ================-->
+    <select id="selectNotice" parameterType="noticeDto" resultType="noticeDto">
+        SELECT nt_no, nt_content, nt_cdate, nt_file, nt_hit
+        FROM tb_notice
+        WHERE nt_no = #{nt_no}
+    </select>
+    <!-- =================== 공지글 전체 조회 ================-->
+    <select id="selectNoticeList" resultType="noticeDto">
+        SELECT nt_no, nt_content,
+               nt_cdate, nt_file, nt_hit
+         FROM tb_notice
+    </select>
+    <!-- =================== 공지글 조회수 증가 ================-->
+    <select id="updateViewCnt" resultType="int">
+        UPDATE tb_notice
+        SET   nt_hit = nt_hit + 1
+        WHERE nt_no = #{nt_no}
+    </select>
+    <!-- ===================  공지글 전체 개수  ================-->
+    <select id="selectNoticeCnt" resultType="int">
+        SELECT count(*) FROM tb_notice
+    </select>
+
+    <!-- ======================= 페이징 처리 조회 ====================-->
+    <select id="selectNoticePage" parameterType="map" resultType="noticeDto">
+        SELECT rnum,nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
+                        ORDER BY nt_no
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{pageSize}]]>
+    </select>
+
+    <!-- ======================= 조건검색 페이징 처리하여 조회 ====================-->
+    <select id="selectSearchPage" parameterType="searchCondition" resultType="noticeDto">
+        SELECT rnum,nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
+                        WHERE nt_title LIKE '%' || '${keyword}' || '%'
+                        ORDER BY nt_cdate DESC, nt_no DESC
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{pageSize}]]>
+    </select>
+
+    <!-- ======================= 조건검색 결과 게시물 개수 ====================-->
+    <select id="selectSearchCnt" parameterType="searchCondition" resultType="int">
+        SELECT count(*)
+        FROM(
+                SELECT ROWNUM as rnum, a.*  FROM (
+                     SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit  FROM tb_notice
+                     WHERE nt_title LIKE '%' || '${keyword}' || '%'
+                 ) a
+            )
+    </select>
 </mapper>
