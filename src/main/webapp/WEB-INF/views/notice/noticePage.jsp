@@ -142,6 +142,13 @@
         </ul>
     </nav>
     <%-- ================================= 공지사항 페이지 nav 끝 ====================================--%>
+    <script>
+        // 검색정렬 버튼 이벤트
+        function keywordSort(keyword) {
+            let search_keyword = $(keyword).text();
+            $("#search-select button").text(search_keyword);
+        }
+    </script>
 </main>
 </body>
 </html>
