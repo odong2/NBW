@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 @ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class NoticeDaoTest {
 
@@ -51,7 +52,7 @@ public class NoticeDaoTest {
     @Test
     /* ====================== 공지글 한건 삭제 테스트 =========================*/
     public void removeNoticeTest() throws Exception{
-        int nt_no = 47;
+        int nt_no = 20;
         assertTrue(noticeDao.deleteNotice(nt_no) == 1);
     }
 
@@ -112,6 +113,5 @@ public class NoticeDaoTest {
         int resultCnt = noticeDao.selectSearchCnt(sc);
         assertTrue(resultCnt == 2); // ex) 공지사항 제목2, 공지사항 제목20
     }
-
 
 }
