@@ -16,4 +16,10 @@ public class Notice {
     Date nt_cdate;
     String nt_file;
     Integer nt_hit;
+
+    public Notice(Integer nt_no, String nt_title, String nt_content){
+        this.nt_no = nt_no;
+        this.nt_title = nt_title;
+        this.nt_content = nt_content;
+    }
 }

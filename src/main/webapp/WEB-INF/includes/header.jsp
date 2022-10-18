@@ -39,7 +39,7 @@
             </li>
         </ul>
         <div class="col-12 d-flex align-items-center justify-content-start">
-          <a href="/home"><img alt="" src="/NBW_headlogo.png" style="width: 150px;"></a>
+          <a href="/home"><img alt="" src="/images/NBW_headlogo.png" style="width: 150px;"></a>
           <div class="input-group ms-3">
                 <input
                         type="text"

@@ -1,10 +1,12 @@
 package com.finalpj.nbw.notice.dao;
 
 import com.finalpj.nbw.notice.domain.Notice;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface NoticeDao {
     int insertNotice(Notice noticeDto) throws Exception; // 공지글 등록
@@ -19,5 +21,15 @@ public interface NoticeDao {
 
     List<Notice> selectNoticeList() throws Exception; // 공지글 전체 조회
 
+    int updateViewCnt(Integer nt_no) throws Exception; // 조회수 증가
+
+    int selectNoticeCnt() throws Exception; // 전체 게시글 개수
+
+    List<Notice> selectNoticePage(Map map) throws Exception; // 공지글 페이지 조회
+
+
+    List<Notice> selectSearchPage(SearchCondition sc) throws Exception; // 조건 검색 페이징 처리하여 조회
+
+    public int selectSearchCnt(SearchCondition sc) throws Exception; // 조건검색 결과 게시물 개수
 
 }
