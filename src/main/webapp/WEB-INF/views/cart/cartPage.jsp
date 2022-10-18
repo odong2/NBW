@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>장바구니</title>
   	<%@include file="/WEB-INF/includes/common.jsp" %>
-    <style>
+	<style>
       main {
         width: 70%;
         margin: auto;
@@ -85,7 +85,7 @@
 	<%@include file="/WEB-INF/includes/header.jsp" %>
   <!-- 헤더 끝 -->
    <!-- 메인 시작 -->
-    <main>
+    <main style="position: relative">
       <section class="title">
         <div class="row mt-3">
           <h2><b>장바구니</b></h2>
@@ -93,17 +93,18 @@
       </section>
       <section class="d-flex">
         <div class="left d-flex" style="width: 70%; flex-direction: column">
-          <!-- 장바구니 전체 선택 -->
+          <!-- [[ 장바구니 전체 선택 시작 ]]-->
           <div class="select-all mt-3 mb-3">
             <input type="checkbox" class="all_chk me-3" />
             <label for="all"><b>전체선택</b></label>
           </div>
+          <!-- [[ 장바구니 전체 선택  끝 ]]-->
           <div
             class="container d-flex col-12 justify-content-between"
             style="width: 100%"
           >
             <!-- 상품 리스트 -->
-            <section class="cartProduct col-12" style="position: relative">
+            <section class="cartProduct col-12">
               <table class="tb_product col-12">
                 <tbody>
                   <tr class="row">
@@ -157,7 +158,7 @@
                       </button>
                     </td>
                   </tr>
-                  <!-- 상품 반복 -->
+                  <!-- [[상품 반복 시작 - 여기 위에까지를 forEach 돌리자 ]] -->
                   <tr class="row">
                     <td
                       class="col-1 d-flex justify-content-center align-items-center only_chk"
@@ -209,7 +210,6 @@
                       </button>
                     </td>
                   </tr>
-                  <!-- 상품 반복 -->
                   <tr class="row">
                     <td
                       class="col-1 d-flex justify-content-center align-items-center only_chk"
@@ -261,26 +261,27 @@
                       </button>
                     </td>
                   </tr>
-                  <!-- 반복 끝 -->
+                  <!-- [[ 상품 반복 끝 ]] -->
                 </tbody>
               </table>
             </section>
           </div>
         </div>
-        <!-- 결제 정보 -->
+        <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
         <div
-          class="right d-flex col-12"
+          class="right d-flex"
           style="
-            width: 30%;
-            height: 300px;
-            /* display: flex;
+            width: 300px;
+            height: 270px;
+            display: flex;
             justify-content: end;
-            position: fixed; */
+            position: fixed;
+            left: 67%;
           "
         >
           <!-- 상품 금액+배송비 -->
           <div
-            class="payments_info_area m-3 p-3 d-flex col-12"
+            class="payments_info_area container m-3 p-3 d-flex col-12"
             style="width: 90%; flex-direction: column"
           >
             <div class="row d-flex" style="width: 100%">
@@ -301,13 +302,16 @@
                 <span style="font-size: small"><b>0</b></span>
                 <span style="font-size: small"><b>원</b></span>
               </div>
-              <hr />
             </div>
-            <div class="row d-flex" style="width: 100%">
-              <div class="col-6 d-flex">
+            <!-- 결제 예정금액 + 주문버튼 -->
+            <div
+              class="row d-flex"
+              style="width: 100%; border-top: 1px solid #999"
+            >
+              <div class="col-6 d-flex mt-3">
                 <p style="font-size: small"><b>결제 예정 금액</b></p>
               </div>
-              <div class="col-6 d-flex justify-content-end">
+              <div class="col-6 d-flex justify-content-end mt-3">
                 <span><b>37200</b></span>
                 <span><b>원</b></span>
               </div>
@@ -318,6 +322,7 @@
             </button>
           </div>
         </div>
+        <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
       </section>
     </main>
   </body>
