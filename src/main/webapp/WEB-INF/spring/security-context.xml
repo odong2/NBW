@@ -21,7 +21,10 @@
 			password-parameter="password"
 			default-target-url="/home"
 		/>
+		<security:logout invalidate-session="true" logout-url="/logout" logout-success-url="/logout?logout"/>
 	</security:http>
+	 
+
 	 
 	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
