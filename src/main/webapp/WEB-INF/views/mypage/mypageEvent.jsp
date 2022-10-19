@@ -15,12 +15,12 @@
         /* 행사 포스터 */
         .classimg {
             flex: 1;
-            width: 120px;
-            height: 170px;
-            margin-right: 30px;
+            width: 110px;
+            height: 180px;
+            margin-right: 10px;
         }
         .classimg > img {
-            width: 100%;
+            width: 70%;
             height: 100%;
         }
         /* 행사 포스터 */
@@ -65,7 +65,7 @@
             width: 130px;
             text-align: center;
         }
-        #pick-btn {
+        .pick-btn {
             height: 38px;
             justify-content: flex-end;
             padding: 0 19px;
@@ -250,7 +250,7 @@
             <!-- 행사 설명 끝-->
             <!-- 상세보기 버튼 시작 -->
             <div class="playdetail">
-                <button id="pick-btn">상세보기</button>
+                <button class="pick-btn">상세보기</button>
             </div>
             <!-- 상세보기 버튼 끝 -->
         </div>
@@ -284,7 +284,7 @@
             <!-- 행사 설명 끝-->
             <!-- 상세보기 버튼 시작 -->
             <div class="playdetail">
-                <button id="pick-btn">상세보기</button>
+                <button class="pick-btn">상세보기</button>
             </div>
             <!-- 상세보기 버튼 끝 -->
         </div>
