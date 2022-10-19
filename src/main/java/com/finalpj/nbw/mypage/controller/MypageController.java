@@ -20,4 +20,15 @@ public class MypageController {
             log.info("member: "+ member.getUsername());
             return "/mypage/mypage";
         }
+
+        /* ========= 회원 정보 수정 페이지 ========= */
+        @GetMapping("info")
+        public String doMypageInfo(){
+            log.info("mypageInfo페이지");
+            return "/mypage/mypageInfo";
+        }
+
+
+
+
 }
