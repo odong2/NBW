@@ -27,15 +27,16 @@
             padding-top: 5px;
             padding-bottom: 5px;
         }
-        .qnatypepick {
+        .qnaname {
             margin-top: 10px;
+        }
+        .qnatypepick {
+            margin-top: 30px;
         }
         .qnacontent {
             margin-top: 10px;
         }
-        .dbtn {
-            display: flex;
-            justify-content: center;
+        .dbtn{
         }
         .sendbtn {
             font-size: 18px;
@@ -195,10 +196,18 @@
                     <option value="3">반품</option>
                 </select>
             </div>
+            <%-- 문의제목 시작 --%>
+            <div class="qnaname">문의 제목</div>
+            <div class="namewrite">
+                <input type="text" style="width: 600px">
+            </div>
+            <%-- 문의제목 끝--%>
+            <%-- 문의내용 시작--%>
             <div class="qnacontent">문의 내용</div>
             <div class="mb-3">
                 <textarea rows="3" style="width: 600px"></textarea>
             </div>
+            <%-- 문의내용 끝--%>
             <div class="dbtn"><button class="sendbtn">전송</button></div>
         </form>
     </main>
