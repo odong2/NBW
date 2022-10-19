@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EventController {
 
-    @GetMapping("/eventList")
+    @GetMapping("/List")
     public String eventList() {
-        return "eventList";
+        return "/event/eventList";
     }
-    @GetMapping("/eventDetail")
+    @GetMapping("/Detail")
     public String eventDetail() {
-        return "eventDetail";
+        return "/event/eventDetail";
     }
 }

@@ -13,7 +13,7 @@
                 padding: 0;
             }
             main {
-                width: 70%;
+                width: 1000px;
                 margin: auto;
             }
             h2 {
@@ -42,7 +42,7 @@
             .eventcare {
                 color: red;
             }
-            li {
+            .list {
                 list-style: none;
                 padding: 30px 0px 39px;
                 display: flex;
@@ -162,7 +162,7 @@
         </div>
 
         <hr />
-        <li>
+        <li class="list">
             <!-- 왼쪽 그림 시작 -->
             <div class="picturepeople">
                 <!-- 이미지 사진 시작 -->
@@ -214,7 +214,7 @@
             <!-- 오른쪽 설명 끝 -->
         </li>
         <hr />
-        <li>
+        <li class="list">
             <!-- 왼쪽 그림 시작 -->
             <div class="picturepeople">
                 <!-- 이미지 사진 시작 -->

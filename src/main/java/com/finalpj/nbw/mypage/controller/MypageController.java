@@ -28,6 +28,11 @@ public class MypageController {
             return "/mypage/mypageInfo";
         }
 
+        @GetMapping("mypageEventTest")
+        public String mypageEventTest() {
+            return "/mypage/mypageEvent";
+        }
+
 
 
 
