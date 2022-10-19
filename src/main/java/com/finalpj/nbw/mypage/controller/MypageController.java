@@ -33,6 +33,11 @@ public class MypageController {
             return "/mypage/mypageEvent";
         }
 
+        @GetMapping("mypageQnaTest")
+        public String mypageQnaTest() {
+            return "/mypage/mypageQna";
+        }
+
 
 
 
