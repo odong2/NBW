@@ -128,6 +128,11 @@
             margin-top: 3px;
             margin-bottom: 3px;
         }
+        .phone {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
         .recruitment {
             display: inline-flex;
             margin-top: 3px;
@@ -230,6 +235,11 @@
                     <div style="color: #7c7c7c">2022/10/12</div>
                     <div style="color: #7c7c7c">&nbsp;~&nbsp;</div>
                     <div style="color: #7c7c7c">2022/10/20</div>
+                </div>
+                <br />
+                <div class="phone">
+                    <div>문의번호&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">02-1122-3344</div>
                 </div>
                 <br />
                 <div class="recruitment">
