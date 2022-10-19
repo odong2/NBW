@@ -97,7 +97,7 @@
                   style="width: 100%; height: 100%"
                 />
               </a>
-              <a class="col-3 btn btn-lg btn-primary mt-1" href="#">회원가입</a>
+              <a class="col-3 btn btn-lg btn-primary mt-1" href="member/register">회원가입</a>
             </div>
           </div>
 
@@ -162,7 +162,7 @@
                   style="width: 100%; height: 100%"
                 />
               </a>
-              <a class="col-3 btn btn-lg btn-primary mt-1" href="#">회원가입</a>
+              <a class="col-3 btn btn-lg btn-primary mt-1" href="member/register">회원가입</a>
             </div>
           </div>
         </div>

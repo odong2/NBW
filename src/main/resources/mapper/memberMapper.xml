@@ -4,7 +4,7 @@
 
 <mapper namespace="com.finalpj.nbw.member.dao.MemberDao">
 
-<!--  ||||||||||||||||| *일반 회원 가입* |||||||||||||||||   -->
+<!--  ================== *일반 회원 가입* ==================  -->
     <insert id="insertMember">
         INSERT INTO TB_MEMBER (
                                MEM_ID

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @NoArgsConstructor
@@ -55,6 +56,11 @@ public class Member implements UserDetails {
 			return g_grade;
 		});
 		return collect;
+	}
+
+	/* 패스워드 암호화 메서드 */
+	public void passwordEncode(PasswordEncoder passwordEncoder){
+		this.mem_pw = passwordEncoder.encode(this.mem_pw);
 	}
 
 	// 해당 User의 Password를 리턴하는곳
