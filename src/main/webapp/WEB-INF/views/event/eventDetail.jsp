@@ -39,7 +39,7 @@
         .eventcare {
             color: red;
         }
-        li {
+        .detailcontents {
             list-style: none;
             padding: 40px 0px 39px;
             display: flex;
@@ -95,6 +95,10 @@
         }
         .bookname {
             margin-left: 10px;
+            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff0000;
         }
         .bodycontent {
             margin-left: 10px;
@@ -183,7 +187,7 @@
         </div>
     </div>
 
-    <li>
+    <li class="detailcontents">
         <!-- 왼쪽 그림 시작 -->
         <div class="picturepeople">
             <!-- 이미지 사진 시작 -->
@@ -197,9 +201,9 @@
         <!-- 왼쪽 그림 끝 -->
         <!-- 오른쪽 설명 시작 -->
         <div class="detail">
-            <p class="bookname">
-                <a title="움직이는 책방 9회 : 미스터리 유니온_정탐소설에서 K-스릴러까지">책이름<span style="color: #ff0000"></span></a>
-            </p>
+            <div class="bookname">
+                움직이는 책방
+            </div>
             <div class="bodycontent">
                 <div class="playpeople">
                     <div>대상&nbsp;:&nbsp;</div>
@@ -217,8 +221,8 @@
                 </div>
                 <br />
                 <div class="studytime">
-                    <div>요일/시간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">금요일 12:00~13:00</div>
+                    <div>시간&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">12:00~13:00</div>
                 </div>
                 <br />
                 <div class="applicationday">

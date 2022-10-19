@@ -16,6 +16,6 @@ public class EventController {
     }
     @GetMapping("/Detail")
     public String eventDetail() {
-        return "eventDetail";
+        return "/event/eventDetail";
     }
 }
