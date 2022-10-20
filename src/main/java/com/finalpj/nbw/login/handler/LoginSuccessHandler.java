@@ -1,4 +1,4 @@
-package com.finalpj.nbw.member.handler;
+package com.finalpj.nbw.login.handler;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +16,8 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler{
+	
+	private final String Default_URL = "/home";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

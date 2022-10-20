@@ -8,4 +8,7 @@ public interface MemberDao {
     
     Member selectMember(String id);
 
+    /* ===================== 아이디 중복 체크 ======================== */
+    int selectIdCheck(String strCheckId) throws Exception;
+
 }

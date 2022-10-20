@@ -8,16 +8,18 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	
-	<bean id="loginFailureHandler" class="com.finalpj.nbw.member.handler.LoginFailureHandler" />
+	<bean id="loginFailureHandler" class="com.finalpj.nbw.login.handler.LoginFailureHandler" />
 	
-	<bean id="loginSuccessHandler" class="com.finalpj.nbw.member.handler.LoginSuccessHandler" />
+	<bean id="loginSuccessHandler" class="com.finalpj.nbw.login.handler.LoginSuccessHandler" />
 	
 	<security:global-method-security pre-post-annotations="enabled" />
 
 	<security:http auto-config="true" use-expressions="true">
 		<security:csrf disabled="true"/>
 		<security:intercept-url pattern="/resources/**" access="permitAll()" />
+
 		<!--<security:intercept-url pattern="/mypage/**" access="hasRole('ROLE_USER')" />-->
+
 		<security:intercept-url pattern="/login" access="isAnonymous()" />
 		<security:form-login 
 			login-page="/login"
@@ -31,11 +33,11 @@
 	</security:http>
 	 
 	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-	
-<!--	<bean id="MemberService" class="com.finalpj.nbw.member.service.MemberService" />-->
-	<context:component-scan base-package="com.finalpj.nbw.member.service"/>
+
+	<context:component-scan base-package="com.finalpj.nbw.login.service"/>
+
 	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="memberService">
+		<security:authentication-provider user-service-ref="loginService">
 			<security:password-encoder ref="encoder"/>
 		</security:authentication-provider>
 <!--  		<security:authentication-provider>
