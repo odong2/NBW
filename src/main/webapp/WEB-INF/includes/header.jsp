@@ -63,14 +63,88 @@
 <nav class="navbar" aria-label="Light offcanvas navbar" style="background-image: url('/bg_navi.jpeg');">
     <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
-        <li
-                class="nav-item px-4 border-end border-danger"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbarLight"
-                aria-controls="offcanvasNavbarLight"
-                style="cursor: pointer"
-        >
+        <li class="nav-item fs-5 px-4 border-end dropdown">
+          <a
+            class="text-decoration-none"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             <i class="fas fa-bars"></i>
+          </a>
+          <ul class="dropdown-menu" style="width: 800px; margin-top: 11px">
+            <div class="d-flex justify-content-between py-3">
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목1</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목2</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목3</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목4</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목5</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+            </div>
+            <hr />
+            <div class="d-flex justify-content-between py-3">
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목6</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목7</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목8</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목9</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+              <ul class="px-5" style="list-style: none; padding: 0px">
+                <h5>제목10</h5>
+                <li>소제목</li>
+                <li>소제목</li>
+                <li>소제목</li>
+              </ul>
+            </div>
+          </ul>
         </li>
         <li class="nav-item px-4 border-end border-danger">
             <a href="#" class="text-decoration-none">공지사항</a>
