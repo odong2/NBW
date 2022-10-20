@@ -33,7 +33,7 @@
 	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
 <!--	<bean id="MemberService" class="com.finalpj.nbw.member.service.MemberService" />-->
-	
+	<context:component-scan base-package="com.finalpj.nbw.member.service"/>
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="memberService">
 			<security:password-encoder ref="encoder"/>
