@@ -1,4 +1,4 @@
-package com.finalpj.nbw.member.handler;
+package com.finalpj.nbw.login.handler;
 
 import java.io.IOException;
 import java.util.List;
