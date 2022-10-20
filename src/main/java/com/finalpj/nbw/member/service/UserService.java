@@ -1,4 +1,4 @@
-package com.finalpj.nbw.member.secure;
+package com.finalpj.nbw.member.service;
 
 import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;

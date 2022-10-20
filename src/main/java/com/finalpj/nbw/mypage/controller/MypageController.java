@@ -17,7 +17,7 @@ public class MypageController {
         @GetMapping("mypageTest")
         public String mypageTest(@AuthenticationPrincipal Member member){
             log.info("테스트");
-            log.info("member: "+ member.getUsername());
+//            log.info("member: "+ member.getUsername());
             return "/mypage/mypage";
         }
 

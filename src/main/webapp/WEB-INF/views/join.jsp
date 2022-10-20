@@ -147,7 +147,7 @@
                 </div>
                 <div class="col-9">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="아이디를 입력해 주세요." aria-describedby="button-addon3">
+                        <input name="mem_id" type="text" class="form-control" placeholder="아이디를 입력해 주세요." aria-describedby="button-addon3">
                         <button class="btn btn-outline-secondary" type="button" id="button-addon3">아이디 중복 검사</button>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                 </div>
                 <div class="col-9">
                     <div class="input-group mb-3 w-75">
-                        <input type="text" class="form-control" placeholder="비밀번호를 입력해 주세요.">
+                        <input name= "mem_pw" type="text" class="form-control" placeholder="비밀번호를 입력해 주세요.">
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
                 </div>
                 <div class="col-9">
                     <div class="input-group mb-3 w-75">
-                        <input type="text" class="form-control">
+                        <input name="mem_name" type="text" class="form-control">
                     </div>
                 </div>
             </div>
@@ -202,8 +202,9 @@
                     <h4>이메일</h4>
                 </div>
                 <div class="col-9">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control">
+                    <div class="input-group mb-3 w-100">
+                        <input name="mem_email" type="text" class="form-control" aria-describedby="button-addon2"/>
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">인증메일 발송</button>
                     </div>
                 </div>
             </div>
@@ -218,7 +219,7 @@
                 </div>
                 <div class="col-9">
                     <div class="input-group mb-3 w-75">
-                        <input type="text" class="form-control">
+                        <input name="mem_birthday" type="text" class="form-control">
                     </div>
                 </div>
             </div>
@@ -232,11 +233,11 @@
                     <h4>성별</h4>
                 </div>
                 <div class="col-9 mb-3 w-50">
-                    <select class="form-select" aria-label="Default select example">
+                    <select name="mem_gender" class="form-select" aria-label="Default select example">
                         <option selected>성별을 선택해 주세요</option>
                         <!-- 생년월일을 입력하면 주민번호 뒷자리에 따라 자동으로 성별이 선택되도록 할 예정입니다. -->
-                        <option value="">남</option>
-                        <option value="">여</option>
+                        <option value="남">남</option>
+                        <option value="여">여</option>
                     </select>
                 </div>
             </div>
@@ -250,24 +251,12 @@
                     <h4>휴대폰번호</h4>
                 </div>
                 <div class="col-9 mb-3">
-                    <div class="input-group mb-3 w-100">
-                        <input type="text" class="form-control" placeholder="'-'를 제외한 숫자만 입력해 주세요." aria-describedby="button-addon3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon3">인증번호 요청</button>
+                    <div class="input-group mb-3 w-50">
+                        <input name="mem_phone" type="text" class="form-control" placeholder="'-'를 제외한 숫자만 입력해 주세요.">
+<%--                        <button class="btn btn-outline-secondary" type="button" id="button-addon3">인증번호 요청</button>--%>
                     </div>
                 </div>
             </div>
-
-            <!-- 휴대폰 인증번호 입력 ROW입니다. -->
-            <div class="row">
-                <div class="col-3 "></div>
-                <div class="col-9 mb-3">
-                    <div class="input-group mb-3 w-100">
-                        <input type="text" class="form-control" placeholder="인증번호 6자리 입력" aria-describedby="button-addon3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon">인증번호 확인</button>
-                    </div>
-                </div>
-            </div>
-
             <hr>
             <br>
 
@@ -278,7 +267,7 @@
                 </div>
                 <div class="col-9">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="sample4_roadAddress" aria-label="memberId" aria-describedby="button-addon2">
+                        <input name="mem_zipcode" type="text" class="form-control" id="sample4_roadAddress" aria-label="memberId" aria-describedby="button-addon2">
                         <button class="btn btn-outline-secondary" type="button" onclick="sample4_execDaumPostcode()" >우편번호 찾기</button>
                     </div>
                 </div>
@@ -289,7 +278,7 @@
                 <div class="col-3"></div>
                 <div class="col-9">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소">
+                        <input name="mem_address" type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소">
                     </div>
                 </div>
             </div>
@@ -299,7 +288,7 @@
                 <div class="col-3"></div>
                 <div class="col-9">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="sample4_detailAddress" placeholder="상세주소">
+                        <input name="mem_address2" type="text" class="form-control" id="sample4_detailAddress" placeholder="상세주소">
                     </div>
                 </div>
             </div>

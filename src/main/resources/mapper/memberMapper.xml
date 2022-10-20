@@ -4,7 +4,7 @@
 
 <mapper namespace="com.finalpj.nbw.member.dao.MemberDao">
 
-<!--  ================== *일반 회원 가입* ==================  -->
+    <!--  ================== *일반 회원 가입* ==================  -->
     <insert id="insertMember">
         INSERT INTO TB_MEMBER (
                                MEM_ID
@@ -33,4 +33,10 @@
                 ,#{mem_email}
                 )
     </insert>
+
+    <!--  ================== *ID 중복 체크* ==================  -->
+    <select id="selectIdCheck" resultType="int">
+        SELECT count(*) from tb_member WHERE mem_id = #{mem_id};
+    </select>
+
 </mapper>
