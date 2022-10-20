@@ -1,5 +1,6 @@
 package com.finalpj.nbw.member.controller;
 
+import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
