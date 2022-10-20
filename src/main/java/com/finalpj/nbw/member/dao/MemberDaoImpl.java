@@ -22,7 +22,7 @@ public class MemberDaoImpl implements MemberDao{
 
     @Override
     public String selectIdCheck(String strCheckId) throws Exception {
-        log.info("MemberDaoImpl *selectIdCheck* ===============> 아이디 중복 체크 처리 ");
+//        log.info("MemberDaoImpl *selectIdCheck* ===============> 아이디 중복 체크 처리 ");
         return sqlSession.selectOne("selectIdCheck", strCheckId);
     }
 

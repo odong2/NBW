@@ -84,11 +84,11 @@
                 yearRange: yearRange
             });
 
-            // 회원가입 전처리
+            /* ===================================== 회원가입 전처리 ======================================= */
             $("#joinForm").submit(function(){
                 alert("회원 등록 처리");
                 // submit을 무시하기 때문에 페이지 이동이 되지 않는다.
-                return false;
+                return true;
             });
 
             /* ===================================== 아이디 유효성 체크 ===================================== */
@@ -125,6 +125,24 @@
                     }
                 });
             });
+
+            /* ===================================== 비밀번호 일치 여부 체크 ===================================== */
+            $("#mem_pw2").keyup(function() {
+                const pw2 = $(this).val();
+                const pw = $("#mem_pw").val();
+                console.log("pw ==> "+ pw);
+                console.log("pw2 ==> "+ pw2);
+                if(pw != pw2) {
+                    $("#pwCheckDiv").removeClass("alert-dismissible");
+                    $("#pwCheckDiv").addClass("alert-danger");
+                    $("#pwCheckDiv").text("비밀번호가 일치하지 않습니다.");
+                }else{
+                    $("#pwCheckDiv").removeClass("alert-danger");
+                    $("#pwCheckDiv").addClass("alert-success");
+                    $("#pwCheckDiv").text("비밀번호가 일치합니다.");
+                }
+            });
+
         })
     </script>
 
@@ -137,13 +155,8 @@
             margin:auto;
             padding-top: 10px;
         }
-        /*@media (min-width: 768px) {*/
-        /*    .bd-placeholder-img-lg {*/
-        /*        font-size: 3.5rem;*/
-        /*    }*/
-        /*}*/
-        .form-control, .form-select{
-            height: 45px;
+        .form-control{
+            height: 35px;
         }
         hr {
             height: 1px;
@@ -177,14 +190,11 @@
 <!-- 헤더 시작 -->
 <%@include file="/WEB-INF/includes/header.jsp" %>
 <!-- 헤더 끝 -->
-<%-- 사이드 바 시작 --%>
-<%--<%@include file="/WEB-INF/includes/sidebar.jsp" %>--%>
-
 <!-- MAIN ==> 회원가입 테스트 양식 MAIN 시작! -->
 <main>
 
     <!-- 회원가입 FORM 시작! -->
-    <form action="/member/register" method="post" id="joinForm" style="background-image: url('/bg_joinform.jpg'); padding: 90px 50px; margin: 50px 100px; border-radius: 10px">
+    <form action="/member/register" method="post" id="joinForm" style="background-image: url('/images/bg_joinform.jpg'); padding: 90px 50px; margin: 50px 100px; border-radius: 10px">
 
         <div class="row">
             <div class="col-12 text-center">
@@ -198,19 +208,14 @@
         <!-- 아이디 입력 ROW  -->
         <div class="row">
             <div class="col-md-3">
-                <label for="mem_id"> 아이디 </label>
+                <label for="mem_id"> <span style="color: red; ">*</span> 아이디 </label>
             </div>
             <div class="col-9">
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 w-50">
                     <input name="mem_id" id="mem_id" required="required" pattern="[A-Za-z0-9]{4,20}" class="form-control"
                            autocomplete="off" placeholder="아이디를 입력해 주세요.">
-<%--                    <input onclick="checkLoginIdDup(this);"--%>
-<%--                            class="btn btn-outline-secondary" type="button" id="button-addon3" value="아이디 중복 체크"/>--%>
                 </div>
-<%--                 --%>
-                <div class = "alert alert-danger" id="idCheckDiv">
-                    아이디는 4글자 이상 입력하셔야 합니다.
-                </div>
+                <div class = "alert alert-dismissible w-75" id="idCheckDiv">                </div>
             </div>
         </div>
 
@@ -220,11 +225,11 @@
         <!-- 비밀번호 입력 ROW  -->
         <div class="row">
             <div class="col-3 p-2">
-                <label for="mem-pw"> 비밀번호 </label>
+                <label for="mem_pw"><span style="color: red; ">*</span>비밀번호 </label>
             </div>
             <div class="col-9">
-                <div class="input-group mb-3 w-75">
-                    <input name= "mem_pw" id="mem-pw" required="required" pattern=".{4,20} "
+                <div class="input-group mb-3 w-50">
+                    <input name= "mem_pw" id="mem_pw" required="required" pattern=".{4,20} "
                            class="form-control" placeholder="비밀번호를 입력해 주세요." type="password">
                 </div>
             </div>
@@ -234,10 +239,11 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-9">
-                <div class="input-group mb-3 w-75">
-                    <input name= "mem_pw2" id="mem-pw2" required="required" pattern=".{4,20}"
+                <div class="input-group mb-3 w-50">
+                    <input name= "mem_pw2" id="mem_pw2" required="required" pattern=".{4,20}"
                            class="form-control" placeholder="비밀번호 확인" type="password">
                 </div>
+                <div class = "alert alert-dismissible w-75" id="pwCheckDiv"></div>
             </div>
         </div>
 
@@ -247,10 +253,10 @@
         <!-- 이름 입력 ROW  -->
         <div class="row">
             <div class="col-3">
-                <label for="mem_name">이름</label>
+                <label for="mem_name"><span style="color: red; ">*</span>이름</label>
             </div>
             <div class="col-9">
-                <div class="input-group mb-3 w-75">
+                <div class="input-group mb-3 w-50">
                     <input name="mem_name" id="mem_name" type="text" required="required" pattern="[가-힣]{2,10}"
                            autocomplete="off" class="form-control">
                 </div>
@@ -263,10 +269,10 @@
         <!-- 이메일 입력 ROW  -->
         <div class="row">
             <div class="col-3">
-                <label for="mem_email">이메일</label>
+                <label for="mem_email"><span style="color: red; ">*</span>이메일</label>
             </div>
             <div class="col-9">
-                <div class="input-group mb-3 w-100">
+                <div class="input-group mb-3 w-75">
                     <input name="mem_email" id="mem_email" required="required" aria-describedby="button-addon2"
                            autocomplete="off" class="form-control" />
                     <input class="btn btn-outline-secondary" type="button" id="button-addon2" value="인증메일 발송"/>
@@ -280,10 +286,10 @@
         <!-- 생년월일 입력 ROW  -->
         <div class="row">
             <div class="col-3">
-                <label for="mem_birthday">생년월일</label>
+                <label for="mem_birthday"><span style="color: red;">*</span>생년월일</label>
             </div>
             <div class="col-9">
-                <div class="input-group mb-3 w-75">
+                <div class="input-group mb-3 w-50">
                     <input name="mem_birthday" id="mem_birthday" required="required"
                            class="form-control datepicker" autocomplete="off">
                 </div>
@@ -296,9 +302,9 @@
         <!-- 성별 입력 ROW입니다. -->
         <div class="row">
             <div class="col-3">
-                <label>성별</label>
+                <label><span style="color: red;">*</span>성별</label>
             </div>
-            <div class="col-9 mb-3">
+            <div class="col-9 mb-3 w-25">
                     <label class="radio-inline" style="margin-right: 50px"><input type="radio" name="mem_gender" checked value="남">남</label>
                     <label class="radio-inline"><input type="radio" name="mem_gender" value="여">여</label>
             </div>
@@ -310,13 +316,12 @@
         <!-- 휴대폰 번호 입력 ROW입니다. -->
         <div class="row">
             <div class="col-3">
-                <label for="mem_phone">휴대폰번호</label>
+                <label for="mem_phone"><span style="color: red;">*</span>휴대폰번호</label>
             </div>
             <div class="col-9 mb-3">
                 <div class="input-group mb-3 w-50">
                     <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
                            autocomplete="off" class="form-control">
-                    <%--                        <button class="btn btn-outline-secondary" type="button" id="button-addon3">인증번호 요청</button>--%>
                 </div>
             </div>
         </div>
@@ -326,7 +331,7 @@
         <!-- 주소 ROW : 우편번호  -->
         <div class="row">
             <div class="col-3">
-                <label> 주소 </label>
+                <label><span style="color: red; ">*</span>주소 </label>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3">
@@ -364,7 +369,7 @@
         <%-- 개인정보 수집 및 이용 약관이 모달창으로 뜰 수 있도록 구현할 예정 --%>
         <div>
             <input type="checkbox">
-            (필수) <a href="/?mode=privacy" onclick="SITE.openPrivacy(); return false;" target="_blank" style="text-decoration:underline!important">
+            <span style="color: red; ">(필수)</span><a href="/?mode=privacy" onclick="SITE.openPrivacy(); return false;" target="_blank" style="text-decoration:underline!important">
             개인정보 수집 및 이용</a>에 동의합니다.
         </div>
 
