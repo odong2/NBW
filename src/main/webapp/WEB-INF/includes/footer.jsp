@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<body>
+<style>
+  footer{
+    margin-top:200px
+  }
+</style>
     <footer class="border-top border-dark" style="font-size: 0.7rem">
       <div
         class="container border-bottom d-flex align-items-center justify-content-center"
@@ -34,5 +37,3 @@
         </ul>
       </div>
     </footer>
-</body>
-</html>

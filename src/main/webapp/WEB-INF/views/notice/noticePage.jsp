@@ -14,7 +14,6 @@
             margin: 0;
             padding: 0;
         }
-
         main {
             width: 1000px;
             margin: auto;
