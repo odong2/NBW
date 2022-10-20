@@ -8,7 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MemberService implements UserDetailsService{
 
 	@Autowired

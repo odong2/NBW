@@ -28,10 +28,10 @@
 	 
 	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
-	<bean id="MemberService" class="com.finalpj.nbw.member.service.MemberService" />
+<!--	<bean id="MemberService" class="com.finalpj.nbw.member.service.MemberService" />-->
 	
 	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="MemberService">
+		<security:authentication-provider user-service-ref="memberService">
 			<security:password-encoder ref="encoder"/>
 		</security:authentication-provider>
 <!--  		<security:authentication-provider>
@@ -42,6 +42,4 @@
 			</security:user-service>
 		</security:authentication-provider> -->
 	</security:authentication-manager>
-	
-	
 </beans>
