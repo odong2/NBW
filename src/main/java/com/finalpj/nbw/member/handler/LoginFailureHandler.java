@@ -33,7 +33,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 	
 			// DB에서 비교한 아이가 틀릴경우 발생하는 Exception
 		}else if(exception instanceof BadCredentialsException) {
-			errorMsg = "아이디, 비밀번호가 틀립니다.";
+			errorMsg = "아이디, 비밀번호를 확인해주세요.";
 		
 			// UserDetails 객체의 isAccountNonLocked() 메소드의 리턴값이 false 일 경우
 		} else if(exception instanceof LockedException) {

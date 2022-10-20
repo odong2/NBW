@@ -22,9 +22,8 @@
     >
       <div class="col-10 text-start my-2 fs-5">로그인</div>
       <hr class="col-10 text-center" />
-      <img alt="" src="/images/NBW_logo.png" style="width: 300px; height: auto" />
 
-      <section class="col-5 border rounded-4 px-5 py-3">
+      <section class="col-5 border rounded-4 mt-5 px-5 py-3">
         <div
           class="list-group d-flex flex-row justify-content-start"
           id="list-tab"
@@ -73,9 +72,6 @@
                 로그인
               </button>
             </form>
-            	<c:if test="${!empty LoginFailMsg}" >
-            		<h5>${LoginFailMsg}</h5>
-            	</c:if>
             <div class="text-center my-3">
               <input type="checkbox" value="remember-me" />
               <label class="pe-2"> 아이디 저장 </label>
@@ -170,6 +166,12 @@
           </div>
         </div>
       </section>
+      <c:if test="${!empty LoginFailMsg}" >
+      	<div id="LoginFailMsg" class="col-5 text-center mt-2 list-group-item list-group-item-danger">${LoginFailMsg}</div>
+      </c:if>
+      <script>
+        $("#LoginFailMsg").delay(1500).fadeOut(500);
+      </script>
     </main>
 <!-- 메인 끝 -->
 
