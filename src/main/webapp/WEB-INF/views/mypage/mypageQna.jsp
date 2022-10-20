@@ -2,79 +2,46 @@
 <html>
 <head>
     <%@include file="../../includes/common.jsp" %>
-    <title>MyPageEvent</title>
+    <title>MyPage</title>
     <style>
         a {
             color: black;
         }
-        /* 이벤트 전체 */
-        .applylist {
-            display: flex;
+        .divTitle {
+            margin-top: 10px;
+            font-size: large;
         }
-        /* 이벤트 전체 */
-        /* 행사 포스터 */
-        .classimg {
-            flex: 1;
-            width: 110px;
-            height: 180px;
-            margin-right: 10px;
+        .explainTitle {
+            font-size: 25px;
         }
-        .classimg > img {
-            width: 70%;
-            height: 100%;
+        .typePick {
+            width: 300px;
         }
-        /* 행사 포스터 */
-        /* 행사 설명 시작 */
-        .playcontent {
-            flex: 3;
+        .sendbtn {
+            background-color: #e0e0e0;
+            color: black;
+            border: 0;
+            outline: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
-        /* 행사 제목 */
-        .titlename {
-            font-size: 30px;
-            font-weight: bold;
-            margin-top: 20px;
+        .qnaname {
+            margin-top: 10px;
         }
-        /* 행사 제목 */
-        /* 행사기간 */
-        .playday {
-            display: inline-flex;
-            margin-top: 3px;
-            margin-bottom: 3px;
+        .qnatypepick {
+            margin-top: 30px;
         }
-        /* 행사기간 */
-        /* 행사장소 */
-        .playspace {
-            display: inline-flex;
-            margin-top: 3px;
-            margin-bottom: 3px;
+        .qnacontent {
+            margin-top: 10px;
         }
-        /* 행사장소 */
-        /* 행사시간 */
-        .playtime {
-            display: inline-flex;
-            margin-top: 3px;
-            margin-bottom: 3px;
+        .dbtn{
         }
-        /* 행사시간 */
-        /* 행사 설명 끝 */
-        /* 상세보기 버튼 */
-        .playdetail {
-            flex: 1;
-            margin-left: 100px;
-            margin-top: 60px;
-            width: 130px;
-            text-align: center;
+        .sendbtn {
+            font-size: 18px;
+            font-weight: bolder;
         }
-        .pick-btn {
-            height: 38px;
-            justify-content: flex-end;
-            padding: 0 19px;
-            border: 1px solid #d9d9d9;
-            color: #505050;
-            font-size: 15px;
-            text-align: center;
-        }
-        /* 상세보기 버튼 */
     </style>
 </head>
 <body>
@@ -216,80 +183,33 @@
             </li>
         </ol>
         <!-- 페이지 컨텐츠 레이아웃 -->
-        <%-- 신청한 이벤트 시작--%>
-        <div>
-            <h4 id="divTitle">신청한 이벤트보기</h4>
-        </div>
+        <div class="divTitle">신청한 이벤트보기</div>
         <hr />
-        <div class="applylist">
-            <!-- 행사 포스터 시작 -->
-            <div class="classimg">
-                <img src="https://lib.seoul.go.kr/apload/temp/20221012/1368702620008870.jpg" />
+        <div class="explainTitle">제품 / 교환 / 반품 등 이용에 관한 궁금증을 해결하세요.</div>
+        <form action="">
+            <div class="qnatypepick">문의 유형 선택</div>
+            <div class="typePick">
+                <select class="" style="width: 600px; height: 30px">
+                    <option selected>선택</option>
+                    <option value="1">제품</option>
+                    <option value="2">교환</option>
+                    <option value="3">반품</option>
+                </select>
             </div>
-            <!-- 행사 포스터 끝 -->
-            <!-- 행사 설명 시작-->
-            <div class="playcontent">
-                <div class="titlename">책읽는 서울광장</div>
-                <div class="playday">
-                    <div>행사기간&nbsp;:&nbsp;</div>
-                    <div>2022/10/12</div>
-                    <div>&nbsp;~&nbsp;</div>
-                    <div>2022/10/20</div>
-                </div>
-                <br />
-                <div class="playspace">
-                    <div>장소&nbsp;:&nbsp;</div>
-                    <div>서울광장</div>
-                </div>
-                <br />
-                <div class="playtime">
-                    <div>요일/시간&nbsp;:&nbsp;</div>
-                    <div>금요일 12:00&nbsp;~&nbsp;13:00</div>
-                </div>
+            <%-- 문의제목 시작 --%>
+            <div class="qnaname">문의 제목</div>
+            <div class="namewrite">
+                <input type="text" style="width: 600px">
             </div>
-            <!-- 행사 설명 끝-->
-            <!-- 상세보기 버튼 시작 -->
-            <div class="playdetail">
-                <button class="pick-btn">상세보기</button>
+            <%-- 문의제목 끝--%>
+            <%-- 문의내용 시작--%>
+            <div class="qnacontent">문의 내용</div>
+            <div class="mb-3">
+                <textarea rows="3" style="width: 600px"></textarea>
             </div>
-            <!-- 상세보기 버튼 끝 -->
-        </div>
-        <hr />
-        <div class="applylist">
-            <!-- 행사 포스터 시작 -->
-            <div class="classimg">
-                <img src="https://lib.seoul.go.kr/apload/temp/20221015/1631677478910955.jpg" />
-            </div>
-            <!-- 행사 포스터 끝 -->
-            <!-- 행사 설명 시작-->
-            <div class="playcontent">
-                <div class="titlename">동현이와 함께하는 코딩</div>
-                <div class="playday">
-                    <div>행사기간&nbsp;:&nbsp;</div>
-                    <div>2022/10/12</div>
-                    <div>&nbsp;~&nbsp;</div>
-                    <div>2022/10/20</div>
-                </div>
-                <br />
-                <div class="playspace">
-                    <div>장소&nbsp;:&nbsp;</div>
-                    <div>개발자카페</div>
-                </div>
-                <br />
-                <div class="playtime">
-                    <div>요일/시간&nbsp;:&nbsp;</div>
-                    <div>금요일 12:00&nbsp;~&nbsp;13:00</div>
-                </div>
-            </div>
-            <!-- 행사 설명 끝-->
-            <!-- 상세보기 버튼 시작 -->
-            <div class="playdetail">
-                <button class="pick-btn">상세보기</button>
-            </div>
-            <!-- 상세보기 버튼 끝 -->
-        </div>
-        <hr />
-        <%-- 신청한 이벤트 끝 --%>
+            <%-- 문의내용 끝--%>
+            <div class="dbtn"><button class="sendbtn">전송</button></div>
+        </form>
     </main>
 </div>
 <!-- 메인 -->
