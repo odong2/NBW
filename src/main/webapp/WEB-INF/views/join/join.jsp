@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>회원가입 페이지</title>
     <%@include file="../includes/common.jsp" %>
-
     <!-- 다음 우편번호 검색 API -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <!-- 다음 우편번호 샘플 코드 시작 -->
-    <script>
-        //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+    <script type="text/javascript">
+    // 본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
         function sample4_execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function(data) {
@@ -63,6 +62,76 @@
     </script>
     <!-- 다음 우편번호 샘플 코드 끝 -->
 
+    <script type="text/javascript">
+        $(function(){
+            // datepicker 클래스 이벤트 - 적정한 옵션을 넣어서 초기화 시켜 준다. 기본 datepicker()로 사용 가능
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd",
+                dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+                monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ]
+            });
+
+            // datepicker 클래스 이벤트
+            var now = new Date();
+            var startYear = now.getFullYear();
+            var yearRange = (startYear - 120) +":" + startYear ;
+            // datepicker - 초기값으로 셋팅하는 방법을 사용하면 2번째는 무시 당한다.
+            //원래 있던 datepicker에 option을 추가하는 방법이다.
+            $( ".datepicker" ).datepicker("option", {
+                "maxDate" : new Date(),
+                yearRange: yearRange
+            });
+
+            // 회원가입 전처리
+            $("#joinForm").submit(function(){
+                alert("회원 등록 처리");
+                // submit을 무시하기 때문에 페이지 이동이 되지 않는다.
+                return false;
+            });
+
+            /* ===================================== 아이디 유효성 체크 ===================================== */
+            $("#mem_id").keyup(function(){
+                let id = $(this).val();
+
+                /* id < 4 */
+                if(id.length < 4){
+                    $('#idCheckDiv').removeClass("alert-success");
+                    $('#idCheckDiv').addClass("alert-danger");
+                    $('#idCheckDiv').text("아이디는 4자 이상 입력하셔야 합니다.");
+                    return;
+                }
+                /* id > 20 */
+                if(id.length > 20){
+                    $('#idCheckDiv').removeClass("alert-success");
+                    $('#idCheckDiv').addClass("alert-danger");
+                    $('#idCheckDiv').text("아이디는 20이내로 입력하셔야 합니다.");
+                    return;
+                }
+                /* 중복 아이디가 있을 경우 > 서버로 가서 아이디 중복 체크를 한다
+                * url과 입력 데이터는 바뀌면 안되기 때문에 Ajax로 처리한다. */
+                // url : /member/idCheck
+                // 서버에서 가져온 데이터 즉, result 가 null 이면 사용가능하다. null 이 아니면 사용이 불가하다.
+                $("#idCheckDiv").load("/member/idCheck?id="+id, function(result){
+                    if(result.indexOf("가능한")){
+                        // 중복이 되지 않은 경우
+                        $('#idCheckDiv').addClass("alert-success");
+                        $('#idCheckDiv').removeClass("alert-danger");
+                    } else {
+                        // 중복된 경우
+                        $('#idCheckDiv').removeClass("alert-success");
+                        $('#idCheckDiv').addClass("alert-danger");
+                    }
+                })
+
+
+
+            });
+
+        })
+    </script>
+
     <style>
         /** {*/
         /*    border: solid 1px red;*/
@@ -85,7 +154,7 @@
             border: 0px;
             background: brown;
         }
-        h4 {
+        label {
             color: #646161;
             font-family: "210 Soopilmyungjo";
             padding-top: 12px;
@@ -107,7 +176,6 @@
             color: #801919;
         }
     </style>
-
 </head>
 <body class="text-center">
 <!-- 헤더 시작 -->
@@ -120,7 +188,7 @@
 <main>
 
     <!-- 회원가입 FORM 시작! -->
-    <form action="/member/register" method="post" style="background-image: url('/bg_joinform.jpg'); padding: 90px 50px; margin: 50px 100px; border-radius: 10px">
+    <form action="/member/register" method="post" id="joinForm" style="background-image: url('/bg_joinform.jpg'); padding: 90px 50px; margin: 50px 100px; border-radius: 10px">
 
         <div class="row">
             <div class="col-12 text-center">
@@ -134,12 +202,18 @@
         <!-- 아이디 입력 ROW  -->
         <div class="row">
             <div class="col-md-3">
-                <h4> 아이디 </h4>
+                <label for="mem_id"> 아이디 </label>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3">
-                    <input name="mem_id" type="text" class="form-control" placeholder="아이디를 입력해 주세요." aria-describedby="button-addon3">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon3">아이디 중복 검사</button>
+                    <input name="mem_id" id="mem_id" required="required" pattern="[A-Za-z0-9]{4,20}" class="form-control"
+                           autocomplete="off" placeholder="아이디를 입력해 주세요.">
+<%--                    <input onclick="checkLoginIdDup(this);"--%>
+<%--                            class="btn btn-outline-secondary" type="button" id="button-addon3" value="아이디 중복 체크"/>--%>
+                </div>
+<%--                 --%>
+                <div class = "alert alert-danger" id="idCheckDiv">
+                    아이디는 4글자 이상 입력하셔야 합니다.
                 </div>
             </div>
         </div>
@@ -150,11 +224,12 @@
         <!-- 비밀번호 입력 ROW  -->
         <div class="row">
             <div class="col-3 p-2">
-                <h4> 비밀번호 </h4>
+                <label for="mem-pw"> 비밀번호 </label>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-75">
-                    <input name= "mem_pw" type="text" class="form-control" placeholder="비밀번호를 입력해 주세요.">
+                    <input name= "mem_pw" id="mem-pw" required="required" pattern=".{4,20} "
+                           class="form-control" placeholder="비밀번호를 입력해 주세요." type="password">
                 </div>
             </div>
         </div>
@@ -164,7 +239,8 @@
             <div class="col-3"></div>
             <div class="col-9">
                 <div class="input-group mb-3 w-75">
-                    <input type="text" class="form-control" placeholder="비밀번호 확인">
+                    <input name= "mem_pw2" id="mem-pw2" required="required" pattern=".{4,20}"
+                           class="form-control" placeholder="비밀번호 확인" type="password">
                 </div>
             </div>
         </div>
@@ -175,11 +251,12 @@
         <!-- 이름 입력 ROW  -->
         <div class="row">
             <div class="col-3">
-                <h4>이름</h4>
+                <label for="mem_name">이름</label>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-75">
-                    <input name="mem_name" type="text" class="form-control">
+                    <input name="mem_name" id="mem_name" type="text" required="required" pattern="[가-힣]{2,10}"
+                           autocomplete="off" class="form-control">
                 </div>
             </div>
         </div>
@@ -190,12 +267,13 @@
         <!-- 이메일 입력 ROW  -->
         <div class="row">
             <div class="col-3">
-                <h4>이메일</h4>
+                <label for="mem_email">이메일</label>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-100">
-                    <input name="mem_email" type="text" class="form-control" aria-describedby="button-addon2"/>
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">인증메일 발송</button>
+                    <input name="mem_email" id="mem_email" required="required" aria-describedby="button-addon2"
+                           autocomplete="off" class="form-control" />
+                    <input class="btn btn-outline-secondary" type="button" id="button-addon2" value="인증메일 발송"/>
                 </div>
             </div>
         </div>
@@ -206,11 +284,12 @@
         <!-- 생년월일 입력 ROW  -->
         <div class="row">
             <div class="col-3">
-                <h4>생년월일</h4>
+                <label for="mem_birthday">생년월일</label>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-75">
-                    <input name="mem_birthday" type="text" class="form-control">
+                    <input name="mem_birthday" id="mem_birthday" required="required"
+                           class="form-control datepicker" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -221,15 +300,11 @@
         <!-- 성별 입력 ROW입니다. -->
         <div class="row">
             <div class="col-3">
-                <h4>성별</h4>
+                <label>성별</label>
             </div>
-            <div class="col-9 mb-3 w-50">
-                <select name="mem_gender" class="form-select" aria-label="Default select example">
-                    <option selected>성별을 선택해 주세요</option>
-                    <!-- 생년월일을 입력하면 주민번호 뒷자리에 따라 자동으로 성별이 선택되도록 할 예정입니다. -->
-                    <option value="남">남</option>
-                    <option value="여">여</option>
-                </select>
+            <div class="col-9 mb-3">
+                    <label class="radio-inline" style="margin-right: 50px"><input type="radio" name="mem_gender" checked value="남">남</label>
+                    <label class="radio-inline"><input type="radio" name="mem_gender" value="여">여</label>
             </div>
         </div>
 
@@ -239,11 +314,12 @@
         <!-- 휴대폰 번호 입력 ROW입니다. -->
         <div class="row">
             <div class="col-3">
-                <h4>휴대폰번호</h4>
+                <label for="mem_phone">휴대폰번호</label>
             </div>
             <div class="col-9 mb-3">
                 <div class="input-group mb-3 w-50">
-                    <input name="mem_phone" type="text" class="form-control" placeholder="'-'를 제외한 숫자만 입력해 주세요.">
+                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
+                           autocomplete="off" class="form-control">
                     <%--                        <button class="btn btn-outline-secondary" type="button" id="button-addon3">인증번호 요청</button>--%>
                 </div>
             </div>
@@ -254,11 +330,12 @@
         <!-- 주소 ROW : 우편번호  -->
         <div class="row">
             <div class="col-3">
-                <h4> 주소 </h4>
+                <label> 주소 </label>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3">
-                    <input name="mem_zipcode" type="text" class="form-control" id="sample4_roadAddress" aria-label="memberId" aria-describedby="button-addon2">
+                    <input name="mem_zipcode" type="text" id="sample4_roadAddress"
+                           autocomplete="off" class="form-control" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="button" onclick="sample4_execDaumPostcode()" >우편번호 찾기</button>
                 </div>
             </div>
@@ -269,7 +346,8 @@
             <div class="col-3"></div>
             <div class="col-9">
                 <div class="input-group mb-3">
-                    <input name="mem_address" type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소">
+                    <input name="mem_address" type="text" id="sample5_roadAddress"
+                           autocomplete="off" class="form-control" placeholder="도로명주소">
                 </div>
             </div>
         </div>
@@ -279,7 +357,8 @@
             <div class="col-3"></div>
             <div class="col-9">
                 <div class="input-group mb-3">
-                    <input name="mem_address2" type="text" class="form-control" id="sample4_detailAddress" placeholder="상세주소">
+                    <input name="mem_address2" type="text" id="sample4_detailAddress"
+                           autocomplete="off" class="form-control" placeholder="상세주소">
                 </div>
             </div>
         </div>
