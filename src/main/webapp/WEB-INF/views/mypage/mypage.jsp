@@ -89,7 +89,7 @@
                     <div
                             class="fw-bold d-flex justify-content-center align-items-center mb-2"
                     >
-                        <i class="fas fa-stamp fs-3"></i>
+                        <img src="/images/coupon.png">
                     </div>
                     <div class="mb-2">쿠폰함</div>
                     <div  class="badge bg-primary rounded-pill">

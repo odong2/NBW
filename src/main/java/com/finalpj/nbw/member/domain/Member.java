@@ -52,7 +52,7 @@ public class Member implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collect = new ArrayList<>();
 		collect.add(()->{
-			return g_grade;
+			return "ROLE_USER";
 		});
 		return collect;
 	}

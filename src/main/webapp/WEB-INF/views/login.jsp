@@ -17,14 +17,13 @@
 
 <!-- 메인 시작 -->
 <main
-      class="form-signin d-flex flex-column align-items-center mt-4"
+      class="container form-signin d-flex flex-column align-items-center mt-4"
       style="height: 1000px"
     >
-      <h3 class="col-10 text-start my-2">로그인</h3>
+      <div class="col-10 text-start my-2 fs-5">로그인</div>
       <hr class="col-10 text-center" />
-      <img alt="" src="/NBW_logo.png" style="width: 300px; height: auto" />
 
-      <section class="col-5 border rounded-4 px-5 py-3">
+      <section class="col-5 border rounded-4 mt-5 px-5 py-3">
         <div
           class="list-group d-flex flex-row justify-content-start"
           id="list-tab"
@@ -85,14 +84,14 @@
             <div class="d-flex justify-content-center" style="height: 50px">
               <a class="col-3" href="#">
                 <img
-                  src="/btnG_축약형.png"
+                  src="/images/btnG_축약형.png"
                   alt=""
                   style="width: 100%; height: 100%"
                 />
               </a>
               <a class="col-3 mx-2" href="#">
                 <img
-                  src="/kakao_login_large.png"
+                  src="/images/kakao_login_large.png"
                   alt=""
                   style="width: 100%; height: 100%"
                 />
@@ -150,14 +149,14 @@
             <div class="d-flex justify-content-center" style="height: 50px">
               <a class="col-3" href="#">
                 <img
-                  src="/btnG_축약형.png"
+                  src="/images/btnG_축약형.png"
                   alt=""
                   style="width: 100%; height: 100%"
                 />
               </a>
               <a class="col-3 mx-2" href="#">
                 <img
-                  src="/kakao_login_large.png"
+                  src="/images/kakao_login_large.png"
                   alt=""
                   style="width: 100%; height: 100%"
                 />
@@ -167,6 +166,12 @@
           </div>
         </div>
       </section>
+      <c:if test="${!empty LoginFailMsg}" >
+      	<div id="LoginFailMsg" class="col-5 text-center mt-2 list-group-item list-group-item-danger">${LoginFailMsg}</div>
+      </c:if>
+      <script>
+        $("#LoginFailMsg").delay(1500).fadeOut(500);
+      </script>
     </main>
 <!-- 메인 끝 -->
 
