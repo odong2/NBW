@@ -17,7 +17,7 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:csrf disabled="true"/>
 		<security:intercept-url pattern="/resources/**" access="permitAll()" />
-		<security:intercept-url pattern="/mypage/**" access="hasRole('ROLE_USER')" />
+		<!-- <security:intercept-url pattern="/mypage/**" access="hasRole('ROLE_USER')" /> -->
 		<security:intercept-url pattern="/login" access="isAnonymous()" />
 		<security:form-login 
 			login-page="/login"
@@ -32,7 +32,7 @@
 	 
 	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
-	<!-- <bean id="loginService" class="com.finalpj.nbw.login.service.LoginService" /> -->
+	<context:component-scan base-package="com.finalpj.nbw.login.service"/>
 	
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="loginService">

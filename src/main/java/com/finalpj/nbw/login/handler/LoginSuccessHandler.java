@@ -16,6 +16,8 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler{
+	
+	private final String Default_URL = "/home";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
