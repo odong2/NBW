@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>회원가입 페이지</title>
-    <%@include file="../includes/common.jsp" %>
+    <%@include file="../../includes/common.jsp" %>
     <!-- 다음 우편번호 검색 API -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
@@ -123,12 +123,8 @@
                         $('#idCheckDiv').removeClass("alert-success");
                         $('#idCheckDiv').addClass("alert-danger");
                     }
-                })
-
-
-
+                });
             });
-
         })
     </script>
 
@@ -182,7 +178,7 @@
 <%@include file="/WEB-INF/includes/header.jsp" %>
 <!-- 헤더 끝 -->
 <%-- 사이드 바 시작 --%>
-<%@include file="/WEB-INF/includes/sidebar.jsp" %>
+<%--<%@include file="/WEB-INF/includes/sidebar.jsp" %>--%>
 
 <!-- MAIN ==> 회원가입 테스트 양식 MAIN 시작! -->
 <main>
