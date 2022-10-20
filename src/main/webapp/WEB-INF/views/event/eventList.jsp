@@ -131,6 +131,11 @@
                 margin-top: 3px;
                 margin-bottom: 3px;
             }
+            .eventhit {
+                display: inline-flex;
+                margin-top: 3px;
+                margin-bottom: 3px;
+            }
         </style>
 </head>
 <body>
@@ -260,6 +265,11 @@
                     <div class="recruitment">
                         <div>모집정원&nbsp;:&nbsp;</div>
                         <div style="color: #7c7c7c">30명</div>
+                    </div>
+                    <br />
+                    <div class="eventhit">
+                        <div>조회수&nbsp;:&nbsp;</div>
+                        <div style="color: #7c7c7c">10명</div>
                     </div>
                 </div>
             </div>
