@@ -73,6 +73,9 @@
                 로그인
               </button>
             </form>
+            	<c:if test="${!empty LoginFailMsg}" >
+            		<h5>${LoginFailMsg}</h5>
+            	</c:if>
             <div class="text-center my-3">
               <input type="checkbox" value="remember-me" />
               <label class="pe-2"> 아이디 저장 </label>
