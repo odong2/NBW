@@ -16,4 +16,9 @@ public class MemberDaoImpl implements MemberDao{
     public int insertMember(Member member) throws Exception {
         return sqlSession.insert("insertMember", member);
     }
+
+	@Override
+	public Member selectMember(String id){
+		return sqlSession.selectOne("selectMemeber",id);
+	}
 }
