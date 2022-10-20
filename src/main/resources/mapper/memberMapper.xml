@@ -4,6 +4,10 @@
 
 <mapper namespace="com.finalpj.nbw.member.dao.MemberDao">
 
+	<select id="selectMemeber" parameterType="String" resultType="member">
+		SELECT * FROM tb_MEMBER WHERE MEM_ID = #{value}
+	</select>
+
 <!--  ||||||||||||||||| *일반 회원 가입* |||||||||||||||||   -->
     <insert id="insertMember">
         INSERT INTO TB_MEMBER (
