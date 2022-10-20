@@ -10,7 +10,7 @@
             padding: 0;
         }
         main {
-            width: 70%;
+            width: 1000px;
             margin: auto;
         }
         h2 {
@@ -43,6 +43,11 @@
             list-style: none;
             padding: 40px 0px 39px;
             display: flex;
+        }
+        #title {
+            margin-top: 50px;
+            margin-bottom: 100px;
+            padding: 15px;
         }
         .search-box {
             display: flex;
@@ -179,9 +184,9 @@
 <%@include file="../../includes/sidebar.jsp" %>
 <!-- 사이드바 끝-->
 <main>
-    <div>
-        <h2 id="divTitle" class="fl">프로그램 신청</h2>
-    </div>
+    <session id="title" class="container text-center">
+        <h2>프로그램 신청</h2>
+    </session>
     <hr />
     <div class="lectureHeader">
         <p class="headerTit">프로그램신청 시 유의사항</p>
