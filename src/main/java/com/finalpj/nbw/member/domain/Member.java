@@ -46,52 +46,52 @@ public class Member implements UserDetails {
         this.mem_email = mem_email;
         this.g_grade = g_grade;
     }
-    
-	// 해당 User의 권한을 리턴하는곳
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> collect = new ArrayList<>();
-		collect.add(()->{
-			return "ROLE_USER";
-		});
-		return collect;
-	}
 
-	// 해당 User의 Password를 리턴하는곳
-	@Override
-	public String getPassword() {
-		return mem_pw;
-	}
+    // 해당 User의 권한을 리턴하는곳
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> collect = new ArrayList<>();
+        collect.add(()->{
+            return "ROLE_USER";
+        });
+        return collect;
+    }
 
-	// 해당 User의 Username을 리턴하는곳
-	@Override
-	public String getUsername() {
-		return mem_id;
-	}
+    // 해당 User의 Password를 리턴하는곳
+    @Override
+    public String getPassword() {
+        return mem_pw;
+    }
 
-	// 계정의 만료 여부
-	@Override
-	public boolean isAccountNonExpired() {
-		return true; // 아니요
-	}
+    // 해당 User의 Username을 리턴하는곳
+    @Override
+    public String getUsername() {
+        return mem_id;
+    }
 
-	// 계정이 잠겨있는지 여부
-	@Override
-	public boolean isAccountNonLocked() {
-		return true; // 아니요
-	}
+    // 계정의 만료 여부
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // 아니요
+    }
 
-	// 비밀번호가 오래됐는지 여부
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true; // 아니요
-	}
+    // 계정이 잠겨있는지 여부
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // 아니요
+    }
 
-	// 계정이 비활성화 되어있나
-	@Override
-	public boolean isEnabled() {
-		// 비활성화를 걸려면?
-		// 현재시간 - 로긴시간 => 1년초과시 return false;
-		return true; // 아니요
-	}
+    // 비밀번호가 오래됐는지 여부
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // 아니요
+    }
+
+    // 계정이 비활성화 되어있나
+    @Override
+    public boolean isEnabled() {
+        // 비활성화를 걸려면?
+        // 현재시간 - 로긴시간 => 1년초과시 return false;
+        return true; // 아니요
+    }
 }
