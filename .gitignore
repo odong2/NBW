@@ -24,6 +24,7 @@ Servers/
 .apt_generated_tests
 
 root-context.xml
+security-context.xml
 nbw.iml
 
 # Mac
