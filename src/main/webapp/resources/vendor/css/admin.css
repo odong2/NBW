@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+      body {
+        width: 100%;
+        padding: 0px;
+        height: 130vh;
+        box-sizing: border-box;
+      }
+      #content {
+        height: 80vh;
+      }
+      /* 엔비더 로고 */
+      .logo {
+        width: 100%;
+      }
+      /* 사이드 바 배경 색 */
+      .bg-gradient-primary {
+        background-color: #d81bfe;
+        background-image: linear-gradient(180deg, #d81bfe 10%, #8000ff 100%);
+        background-size: cover;
+      }
+      /* 검색 누르는 곳 버튼 색상 */
+      .btn-primary {
+        color: #fff;
+        background-color: #d81bfe;
+        border-color: #cf18f4;
+      }
+      /* 사이드바 아이콘 이미지 사이즈 결정 */
+      .img-icon {
+        width: 24px;
+        height: 24px;
+      }
+      /* 사이드바 구분 선 색상 */
+      .sidebar-dark hr.sidebar-divider {
+        border-top: 1px solid #eee;
+      }
+      /* 상단 알림바 드롭다운 배경색 변경 */
+      .topbar .dropdown-list .dropdown-header {
+        background-color: #d81bfe;
+        border: 1px solid #d81bfe;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        color: #fff;
+      }
+      .contentdiv {
+        flex-direction: column;
+        /* position: relative;
+        left: 224px; */
+        width: 100%;
+        padding: 0;
+      }
