@@ -10,9 +10,10 @@
         <property name="host" value="smtp.gmail.com"/>
         <!--    (2) 구글 SMT 메일 서버의 포트는 465 또는 587 .. 둘 중 하나 선택    -->
         <property name="port" value="465"/>
-        <!--    (3) 자신의 구글 메일 계정과 비밀번호를 설정한다.    -->
-        <property name="username" value="final.nbw@gmail.com"/>
-        <property name="password" value="final2022!"/>
+        <!--    (3) 자신의 구글 메일 계정과 비밀번호를 설정한다.
+                    test 용 메일임 .. -->
+        <property name="username" value="wjdcodms@gachon.ac.kr"/>
+        <property name="password" value="co1sl1qk1!"/>
 
         <!--    (4) 메일 전달 프로토콜 세부 속성을 설정한다.     -->
         <property name="javaMailProperties">

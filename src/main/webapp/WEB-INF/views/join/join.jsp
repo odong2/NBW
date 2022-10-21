@@ -9,13 +9,7 @@
     <!-- 다음 우편번호 검색 API -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-
-    <%-- 개인정보 보호 정책 모달  --%>
-    <script type="text/javascript">
-        SITE.openPrivacy = function () {
-
-    }
-
+    <script>
     <!-- 다음 우편번호 샘플 코드 시작 -->
     function exePostCode() {
            new daum.Postcode({
@@ -58,9 +52,17 @@
            }).open();
 
     }
+    function sendMail(){
+        const strEmail = $("#mem_email").val();
+        if(strEmail == null || strEmail.trim() =="") alert("이메일 주소를 입력해 주세요.");
+        console.log("인증번호를 보낼 email ==> "+ strEmail);
+        /* (1) 유효한 메일인지 확인해야 한다. 즉, 계정의 존재 여부
+        *  */
+    }
     </script>
-    <!-- 다음 우편번호 샘플 코드 끝 -->
 
+
+<%-- ================================= DatePicker =================================== --%>
     <script type="text/javascript">
         $(function(){
             // datepicker 클래스 이벤트 - 적정한 옵션을 넣어서 초기화 시켜 준다. 기본 datepicker()로 사용 가능
@@ -92,7 +94,7 @@
                 return true;
             });
 
-            /* ===================================== 아이디 유효성 체크 ===================================== */
+            /* ===================================== 아이디 유효성 체크 ========================================= */
             $("#mem_id").keyup(function(){
                 let id = $(this).val();
 
@@ -126,8 +128,7 @@
                     }
                 });
 
-                /* 개인정보 수집 정책 동의 뜨도록 */
-                $()
+
             });
 
             /* ===================================== 비밀번호 일치 여부 체크 ===================================== */
@@ -278,7 +279,7 @@
                 <div class="input-group mb-3 w-75">
                     <input name="mem_email" id="mem_email" required="required" aria-describedby="button-addon2"
                            autocomplete="off" class="form-control" />
-                    <input class="btn btn-outline-secondary" type="button" id="button-addon2" value="인증메일 발송"/>
+                    <input name="btn-email" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="sendMail()" value="인증메일 발송"/>
                 </div>
             </div>
         </div>

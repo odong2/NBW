@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,10 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    //@Autowired
-//    private SimpleMailMessage preConfiguredMessage;
+    // 인증키를 생성한다.
+
+    // 인증코드 난수를 생성한다. 
+
 
     @Async
     public void sendMail(String to, String subject, String body){
@@ -34,12 +37,13 @@ public class MailService {
             // (4)
             messageHelper.setCc("ninxtxn@gmail.com");
             // (5) 보내는 이의 메일 주소가 보여지는 방식을 사용자 정의로 설정할 수 있다.
-            messageHelper.setFrom("final.nbw@gmail.com", "엔비더");
+            messageHelper.setFrom("wjdcodms@gachon.ac.kr", "엔비더");
             // 제목
             messageHelper.setSubject("테스트 메일전송 - SERVICE");
             // 수신처
             messageHelper.setTo("ninxtxn@gmail.com");
             // 내용
+            /* 인증 메일일 경우 인증번호 구하는 logic 으로 ..*/
             messageHelper.setText("인증번호는 44455 입니다.");
             mailSender.send(message);
         }catch(Exception e) {
