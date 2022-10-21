@@ -27,7 +27,6 @@ root-context.xml
 security-context.xml
 nbw.iml
 
-
 # Mac
 .DS_Store
 oracle/

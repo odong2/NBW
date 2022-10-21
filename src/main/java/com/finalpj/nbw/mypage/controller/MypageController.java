@@ -27,4 +27,15 @@ public class MypageController {
             log.info("mypageInfo페이지");
             return "/mypage/mypageInfo";
         }
+
+        @GetMapping("event")
+        public String mypageEventTest() {
+            return "/mypage/mypageEvent";
+        }
+
+        @GetMapping("qna")
+        public String mypageQnaTest() {
+        return "/mypage/mypageQna";
+    }
+
 }
