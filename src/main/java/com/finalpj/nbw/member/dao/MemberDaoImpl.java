@@ -21,9 +21,9 @@ public class MemberDaoImpl implements MemberDao{
     }
 
     @Override
-    public int selectIdCheck(String strCheckId) throws Exception {
-        log.info("MemberDaoImpl *selectIdCheck* ===============> 회원가입 처리 ");
-        return 0;
+    public String selectIdCheck(String strCheckId) throws Exception {
+//        log.info("MemberDaoImpl *selectIdCheck* ===============> 아이디 중복 체크 처리 ");
+        return sqlSession.selectOne("selectIdCheck", strCheckId);
     }
 
 	@Override
