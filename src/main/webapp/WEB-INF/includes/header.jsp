@@ -1,9 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style>
-    a {
-        color: black;
-    }
-</style>
+
 <div class="d-flex flex-wrap">
     <div class="col-2"></div>
     <nav class="d-flex align-items-center flex-column mb-3 col-8">

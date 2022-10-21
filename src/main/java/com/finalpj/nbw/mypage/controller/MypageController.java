@@ -37,5 +37,8 @@ public class MypageController {
         public String mypageQnaTest() {
         return "/mypage/mypageQna";
     }
-
+        @GetMapping("test")
+        public String test() {
+        	return "/mypage/mypage";
+        }
 }
