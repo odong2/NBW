@@ -9,9 +9,15 @@
     <!-- 다음 우편번호 검색 API -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-    <!-- 다음 우편번호 샘플 코드 시작 -->
+
+    <%-- 개인정보 보호 정책 모달  --%>
     <script type="text/javascript">
-        function exePostCode() {
+        SITE.openPrivacy = function () {
+
+    }
+
+    <!-- 다음 우편번호 샘플 코드 시작 -->
+    function exePostCode() {
            new daum.Postcode({
                oncomplete: function(data) {
                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -77,7 +83,9 @@
                 yearRange: yearRange
             });
 
-            /* ===================================== 회원가입 전처리 ======================================= */
+            /* ===================================== 회원가입 전처리 =======================================
+            * 회원가입 데이터가 넘어가기 자바로 넘어가기 전에 검사 되어야 할 리스트
+            * - (필수)입력란의 데이터가 null 인지 */
             $("#joinForm").submit(function(){
                 alert("회원 등록 처리");
                 // submit을 무시하기 때문에 페이지 이동이 되지 않는다.
@@ -117,6 +125,9 @@
                         $('#idCheckDiv').addClass("alert-danger");
                     }
                 });
+
+                /* 개인정보 수집 정책 동의 뜨도록 */
+                $()
             });
 
             /* ===================================== 비밀번호 일치 여부 체크 ===================================== */
@@ -185,7 +196,6 @@
 <!-- 헤더 끝 -->
 <!-- MAIN ==> 회원가입 테스트 양식 MAIN 시작! -->
 <main>
-
     <!-- 회원가입 FORM 시작! -->
     <form action="/member/register" method="post" id="joinForm" style="background-image: url('/images/bg_joinform.jpg'); padding: 90px 50px; margin: 50px 100px; border-radius: 10px">
 
@@ -373,6 +383,7 @@
             </div>
         </div>
     </form>
+
 
 
 
