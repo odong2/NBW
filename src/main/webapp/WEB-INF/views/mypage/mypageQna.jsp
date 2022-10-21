@@ -4,6 +4,9 @@
     <%@include file="../../includes/common.jsp" %>
     <title>MyPage</title>
     <style>
+        /**{*/
+        /*    border: 1px solid red;*/
+        /*}*/
         main {
             width: 100%;
         }
@@ -19,36 +22,36 @@
             margin-top: 10px;
             font-size: large;
         }
-        .explainTitle {
-            font-size: 25px;
+        .col_box {
+            margin-top: 15px;
+        }
+        th > label {
+            margin-left: 15px;
+            margin-right: 15px;
         }
         .typePick {
             width: 300px;
         }
-        .sendbtn {
-            background-color: #e0e0e0;
-            color: black;
-            border: 0;
-            outline: 0;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-top: 5px;
-            padding-bottom: 5px;
+        .inputtitle {
+            margin-top: 20px;
         }
-        .qnaname {
+        #dbtn{
+            width: 150px;
+            height: 50px;
+            color: white;
+            background-color: #767676;
+            font-weight: 500;
+        }
+        #sendbtn {
+            width: 150px;
+            height: 50px;
+            color: white;
+            background-color: #4F55B1;
+            font-weight: 500;
+        }
+        .twobutton {
             margin-top: 10px;
-        }
-        .qnatypepick {
-            margin-top: 30px;
-        }
-        .qnacontent {
-            margin-top: 10px;
-        }
-        .dbtn{
-        }
-        .sendbtn {
-            font-size: 18px;
-            font-weight: bolder;
+            margin-left: 50px;
         }
     </style>
 </head>
@@ -71,31 +74,81 @@
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
             <div class="divTitle">문의 접수</div>
             <hr />
-            <div class="explainTitle">제품 / 교환 / 반품 등 이용에 관한 궁금증을 해결하세요.</div>
-            <form action="">
-                <div class="qnatypepick">문의 유형 선택</div>
-                <div class="typePick">
-                    <select class="" style="width: 600px; height: 30px">
-                        <option selected>선택</option>
-                        <option value="1">제품</option>
-                        <option value="2">교환</option>
-                        <option value="3">반품</option>
-                    </select>
-                </div>
-                <%-- 문의제목 시작 --%>
-                <div class="qnaname">문의 제목</div>
-                <div class="namewrite">
-                    <input type="text" style="width: 600px">
-                </div>
-                <%-- 문의제목 끝--%>
-                <%-- 문의내용 시작--%>
-                <div class="qnacontent">문의 내용</div>
-                <div class="mb-3">
-                    <textarea rows="3" style="width: 600px"></textarea>
-                </div>
-                <%-- 문의내용 끝--%>
-                <div class="dbtn"><button class="sendbtn">전송</button></div>
-            </form>
+            <div>
+                <table class="tbl_row">
+                    <tbody>
+                    <%--[[문의 유형]]--%>
+                    <tr>
+                        <th scope="row">
+                            <label>문의유형</label>
+                        </th>
+                        <td>
+                            <div class="typePick">
+                                <select class="" style="width: 600px; height: 45px">
+                                    <option selected>선택</option>
+                                    <option value="1">제품</option>
+                                    <option value="2">교환</option>
+                                    <option value="3">반품</option>
+                                    <option value="4">기타</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <%--[[문의 유형]]--%>
+                    <%--[[내용]]--%>
+                    <tr>
+                        <th scope="row" class="has_ip">
+                            <label for="InquiryTitle">내용</label>
+                        </th>
+                        <td>
+                            <div class="form_col_group w_full">
+                                <div class="inputtitle" >
+                                    <%--[[제목입력란]]--%>
+                                    <input
+                                            data-kbbfn-field=""
+                                            id="InquiryTitle"
+                                            type="text"
+                                            class="form_ip w_full"
+                                            title="제목 입력"
+                                            placeholder="제목을 입력해 주세요."
+                                            style="width: 600px; height: 45px"
+                                            required=""
+                                            maxlength="30"
+                                    />
+                                </div>
+                                <%--[[제목입력란]]--%>
+                                <%--[[문의내용]]--%>
+                                <div class="col_box">
+                                    <textarea
+                                        data-kbbfn-field=""
+                                        id="InquiryContent"
+                                        class="form_textarea"
+                                        title="문의 내용 입력"
+                                        placeholder="빠른 답변을 위해 10자 이상의 문의 내용을 입력해 주세요."
+                                        maxlength="500"
+                                        style="height: 246px; width: 600px"
+                                        required=""
+                                    ></textarea>
+                                </div>
+                                <%--[[문의내용]]--%>
+                            </div>
+                        </td>
+                    </tr>
+                    <%--[[취소&접수 버튼]]--%>
+                    <tr>
+                        <td>
+                        <th scope="row">
+                            <div class="twobutton">
+                                <button type="button" class="btn btn-secondary btn-lg" id="dbtn">취소</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="sendbtn">문의접수</button>
+                            </div>
+                        </th>
+                        </td>
+                    </tr>
+                   <%-- [[취소&접수 버튼]]--%>
+                    </tbody>
+                </table>
+            </div>
     </main>
     <%-- ==================== 메인 끝 ==================--%>
 </section>
