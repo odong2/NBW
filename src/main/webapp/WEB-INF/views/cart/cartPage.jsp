@@ -337,5 +337,8 @@
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
       </section>
     </main>
+<!-- 풋터 시작 -->
+<%@include file="../../includes/footer.jsp" %>
+<!-- 풋터 끝 -->
   </body>
 </html>

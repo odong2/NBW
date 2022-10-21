@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+	
+    body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        width: 100%;
+    }
+    .mypage {
+        margin-top: 50px;
+        width: auto;
+        margin-bottom: 60px;
+    }
+    .sidebar {
+        margin-left: 270px;
+        width: 150px;
+        height: 100%;
+    }
+    .sidebar ul {
+        padding: 0;
+    }
+    li {
+        list-style: none;
+    }
+    .sidebar a {
+        text-decoration: none;
+        color: black;
+        font-size: 0.8rem;
+        margin-left: 15px;
+    }
+    .sidebar a:active {
+        color: #676bad;
+        font-weight: bold;
+    }
+    .sidebar a:hover {
+        color: #676bad;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .sidebar .side-link {
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+    .sidebarList .title {
+        margin-left: 15px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    #userInfo {
+        text-align: center;
+        width: 150px;
+        height: 200px;
+        background-color: #676bad;
+        border-radius: 10px;
+        color: white;
+        padding: 20px;
+        margin-right: 50px;
+    }
+    .info-label {
+        font-size: 0.9rem;
+    }
+    .info-detail,
+    #membership {
+        font-size: 0.8rem;
+    }
+  

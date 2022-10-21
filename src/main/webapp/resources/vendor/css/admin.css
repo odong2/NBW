@@ -3,11 +3,8 @@
       body {
         width: 100%;
         padding: 0px;
-        height: 130vh;
+        height: 100%;
         box-sizing: border-box;
-      }
-      #content {
-        height: 80vh;
       }
       /* 엔비더 로고 */
       .logo {
@@ -44,8 +41,15 @@
       }
       .contentdiv {
         flex-direction: column;
-        /* position: relative;
-        left: 224px; */
         width: 100%;
         padding: 0;
+    	position: relative;
+	  	min-height: 100vh;
       }
+      footer {
+ 	   bottom: 0;
+ 	   height: 40px;
+	  }
+	  main{
+	  	height: 100%;
+	  }
