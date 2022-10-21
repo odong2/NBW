@@ -1,5 +1,6 @@
 package com.finalpj.nbw.mypage.controller;
 
+import com.finalpj.nbw.member.domain.Member;
 import lombok.extern.log4j.Log4j;
 
 import org.springframework.security.core.Authentication;
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.finalpj.nbw.member.domain.Member;
+
+
 
 @Log4j
 @RequestMapping("/mypage/*")

@@ -3,16 +3,11 @@
 <head>
 <%@include file="/WEB-INF/includes/common.jsp" %>
     <title>Login</title>
-  <style>
-    a {
-      color: black;
-    }
   </style>
 </head>
 <body>
 <!-- 헤더 시작 -->
 <%@include file="/WEB-INF/includes/header.jsp" %>
-<%@include file="/WEB-INF/includes/sidebar.jsp" %>
 <!-- 헤더 끝 -->
 
 <!-- 메인 시작 -->

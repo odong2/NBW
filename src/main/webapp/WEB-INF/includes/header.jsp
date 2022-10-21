@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<body>
+<style>
+    a {
+        color: black;
+    }
+</style>
 <div class="d-flex flex-wrap">
     <div class="col-2"></div>
     <nav class="d-flex align-items-center flex-column mb-3 col-8">
@@ -63,7 +66,7 @@
 <nav class="navbar" aria-label="Light offcanvas navbar" style="background-image: url('/bg_navi.jpeg');">
     <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
-        <li class="nav-item fs-5 px-4 border-end dropdown">
+        <li class="nav-item fs-5 px-4 border-end dropdown border-danger">
           <a
             class="text-decoration-none"
             type="button"
@@ -161,5 +164,4 @@
     </ul>
     <div class="col-1"></div>
 </nav>
-</body>
-</html>
+
