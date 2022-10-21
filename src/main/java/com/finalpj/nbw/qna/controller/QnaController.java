@@ -9,8 +9,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/event/*")
 @Controller
 public class QnaController {
-    @GetMapping("mypageQnaTest")
-    public String mypageQnaTest() {
-        return "/mypage/mypageQna";
-    }
 }

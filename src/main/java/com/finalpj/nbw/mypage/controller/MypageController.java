@@ -28,9 +28,14 @@ public class MypageController {
             return "/mypage/mypageInfo";
         }
 
-        @GetMapping("mypageEventTest")
+        @GetMapping("event")
         public String mypageEventTest() {
             return "/mypage/mypageEvent";
         }
+
+        @GetMapping("qna")
+        public String mypageQnaTest() {
+        return "/mypage/mypageQna";
+    }
 
 }
