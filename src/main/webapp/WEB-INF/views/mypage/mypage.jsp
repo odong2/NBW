@@ -4,9 +4,12 @@
 <%@include file="../../includes/common.jsp" %>
 <title>MyPage</title>
 <style>
+
+
 main {
     width: 100%;
 }
+
 
 main .header-list {
     border: 1px solid rgba(204, 204, 204, 0.8);
