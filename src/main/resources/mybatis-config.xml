@@ -6,5 +6,6 @@
             <typeAlias alias="noticeDto" type="com.finalpj.nbw.notice.domain.Notice"/>
             <typeAlias alias="searchCondition" type="com.finalpj.nbw.notice.domain.SearchCondition"/>
             <typeAlias alias="member" type="com.finalpj.nbw.member.domain.Member"/>
+            <typeAlias alias="eventDto" type="com.finalpj.nbw.event.domain.Event"/>
         </typeAliases>
 </configuration>
