@@ -92,7 +92,7 @@
     <!-- 사이드바 끝-->
     <%-- ==================== 메인 시작==================--%>
     <main>
-        <div class="divTitle">참여중인 이벤트</div>
+        <div class="divTitle">문의내역</div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button
