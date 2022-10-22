@@ -9,14 +9,10 @@
             width: 100%;
             padding-left: 30px;
         }
-        /*main .header-list {*/
-        /*    border: 1px solid rgba(204, 204, 204, 0.8);*/
-        /*    width: 200px;*/
-        /*    height: 100px;*/
-        /*    border-radius: 7px;*/
-        /*    font-size: 0.8rem;*/
-        /*    padding: 5px;*/
-        /*}*/
+        .divTitle {
+            margin-top: 10px;
+            font-size: large;
+        }
         /* 이벤트 전체 */
         .applylist {
             display: flex;
@@ -105,9 +101,7 @@
         </header>
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
             <%-- 신청한 이벤트 시작--%>
-            <div>
-                <h4 id="divTitle">신청한 이벤트보기</h4>
-            </div>
+            <div class="divTitle">참여중인 이벤트</div>
             <hr />
             <div class="applylist">
                 <!-- 행사 포스터 시작 -->
