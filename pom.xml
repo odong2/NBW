@@ -262,20 +262,35 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${org.springframework-version}</version>
+			<version>5.7.4</version>
 		</dependency>
 		<!-- security-web -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${org.springframework-version}</version>
+			<version>5.7.4</version>
 		</dependency>
 		<!-- security-config -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${org.springframework-version}</version>
+			<version>5.7.4</version>
 		</dependency>
+		
+		<!-- spring-security-oauth2-jose -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-oauth2-jose</artifactId>
+		    <version>5.7.4</version>
+		</dependency>
+		
+		<!-- spring-security-oauth2-client -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-oauth2-client</artifactId>
+		    <version>5.7.4</version>
+		</dependency>
+		
 <!-- ==================== 웹소켓 관련 ====================-->
 		<!-- websocket -->
 		<dependency>
