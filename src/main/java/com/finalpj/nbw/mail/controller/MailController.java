@@ -5,11 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -23,6 +20,7 @@ public class MailController {
     private MailService mailService;
 
     @GetMapping("send/")
+
     public void sendSimpleMail(HttpServletRequest request, HttpServletResponse response) throws Exception{
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html; charset=utf-8");
