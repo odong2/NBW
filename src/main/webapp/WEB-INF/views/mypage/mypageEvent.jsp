@@ -2,19 +2,21 @@
 <html>
 <head>
     <%@include file="../../includes/common.jsp" %>
+    <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <style>
         main {
             width: 100%;
+            padding-left: 30px;
         }
-        main .header-list {
-            border: 1px solid rgba(204, 204, 204, 0.8);
-            width: 200px;
-            height: 100px;
-            border-radius: 7px;
-            font-size: 0.8rem;
-            padding: 5px;
-        }
+        /*main .header-list {*/
+        /*    border: 1px solid rgba(204, 204, 204, 0.8);*/
+        /*    width: 200px;*/
+        /*    height: 100px;*/
+        /*    border-radius: 7px;*/
+        /*    font-size: 0.8rem;*/
+        /*    padding: 5px;*/
+        /*}*/
         /* 이벤트 전체 */
         .applylist {
             display: flex;
@@ -129,8 +131,8 @@
                     </div>
                     <br />
                     <div class="playtime">
-                        <div>요일/시간&nbsp;:&nbsp;</div>
-                        <div>금요일 12:00&nbsp;~&nbsp;13:00</div>
+                        <div>시간&nbsp;:&nbsp;</div>
+                        <div>12:00&nbsp;~&nbsp;13:00</div>
                     </div>
                 </div>
                 <!-- 행사 설명 끝-->
@@ -163,8 +165,8 @@
                     </div>
                     <br />
                     <div class="playtime">
-                        <div>요일/시간&nbsp;:&nbsp;</div>
-                        <div>금요일 12:00&nbsp;~&nbsp;13:00</div>
+                        <div>시간&nbsp;:&nbsp;</div>
+                        <div>12:00&nbsp;~&nbsp;13:00</div>
                     </div>
                 </div>
                 <!-- 행사 설명 끝-->
