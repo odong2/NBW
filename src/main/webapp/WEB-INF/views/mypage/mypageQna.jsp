@@ -5,21 +5,12 @@
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <style>
-        /**{*/
-        /*    border: 1px solid red;*/
-        /*}*/
+
         main {
             width: 100%;
             padding-left: 30px;
         }
-        /*main .header-list {*/
-        /*    border: 1px solid rgba(204, 204, 204, 0.8);*/
-        /*    width: 200px;*/
-        /*    height: 100px;*/
-        /*    border-radius: 7px;*/
-        /*    font-size: 0.8rem;*/
-        /*    padding: 5px;*/
-        /*}*/
+
         .divTitle {
             margin-top: 10px;
             font-size: large;
