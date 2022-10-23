@@ -29,7 +29,7 @@ public class PageHandler {
     }
 
 
-    void print(){
+    public void print(){
         System.out.println("현재 페이지는 = " + page + "page");
         System.out.print(showPrev ? "[PREV]" : "");
         for (int i = beginPage; i <= endPage; i++) {

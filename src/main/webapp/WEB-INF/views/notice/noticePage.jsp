@@ -164,7 +164,7 @@
                         <div>
                             <img class="header-img ms-1" src="/images/comment.png" alt="댓글 개수 이미지" width="20px"/>
                 <%-- ================= 게시글 댓글수 (commenter controller 작성 후 작성해야함) =================--%>
-                            <span class="comment-count ms-1">10</span>
+                            <span class="comment-count ms-1">  <c:out value="${notice.nt_cocnt}"/></span>
                         </div>
                     </div>
                 </div>

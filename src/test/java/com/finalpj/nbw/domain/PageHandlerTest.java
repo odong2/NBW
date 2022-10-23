@@ -1,5 +1,6 @@
-package com.finalpj.nbw.notice.domain;
+package com.finalpj.nbw.domain;
 
+import com.finalpj.nbw.notice.domain.PageHandler;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

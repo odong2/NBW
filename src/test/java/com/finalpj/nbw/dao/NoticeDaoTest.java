@@ -106,7 +106,7 @@ public class NoticeDaoTest {
         log.info("조회된 리스트 : " + list);
         assertTrue(list.size() == 2);
     }
-
+    /* ====================== 조건 검색 테스트 =========================*/
     @Test
     public void selectSearchCnt() throws Exception{
         SearchCondition sc = new SearchCondition(1, 10, "공지사항 제목2", "T");
