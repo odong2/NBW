@@ -2,6 +2,7 @@ package com.finalpj.nbw.notice.service;
 
 import com.finalpj.nbw.notice.dao.NoticeDao;
 import com.finalpj.nbw.notice.domain.Notice;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,7 @@ public class NoticeService {
     public int increaseViewCnt(Integer nt_no) throws Exception{
         return noticeDao.updateViewCnt(nt_no);
     }
+    /************************ 공지글 총 개수 조회 ****************************/
     public int getNoticeTotalCnt() throws Exception{
         return noticeDao.selectNoticeCnt();
     }
@@ -67,6 +69,13 @@ public class NoticeService {
     /************************ 페이지 게시물 조회 ****************************/
     public List<Notice> getPageNotiseList(Map map) throws Exception{
         return noticeDao.selectNoticePage(map);
+    }
+
+    public List<Notice> getSearchResultPage(SearchCondition sc) throws Exception{
+        return noticeDao.selectSearchPage(sc);
+    }
+    public int getSearchResultCnt(SearchCondition sc) throws Exception{
+        return noticeDao.selectSearchCnt(sc);
     }
 
 }

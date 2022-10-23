@@ -55,8 +55,19 @@
                         ORDER BY nt_no
                     ) a
                 )
-        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{pageSize}]]>
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
     </select>
+    <!-- ======================= 조건검색 중복부분 include ====================-->
+    <sql id="searchCondition">
+        <choose>
+            <when test='option=="content"'>
+                nt_content LIKE '%' || '${keyword}' || '%'
+            </when>
+            <otherwise>
+                nt_title LIKE '%' || '${keyword}' || '%'
+            </otherwise>
+        </choose>
+    </sql>
 
     <!-- ======================= 조건검색 페이징 처리하여 조회 ====================-->
     <select id="selectSearchPage" parameterType="searchCondition" resultType="noticeDto">
@@ -64,11 +75,12 @@
                 FROM(
                     SELECT ROWNUM as rnum, a.*  FROM (
                         SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit, nt_cocnt  FROM tb_notice
-                        WHERE nt_title LIKE '%' || '${keyword}' || '%'
+                        WHERE
+                        <include refid="searchCondition"/>
                         ORDER BY nt_cdate DESC, nt_no DESC
                     ) a
                 )
-        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{pageSize}]]>
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
     </select>
 
     <!-- ======================= 조건검색 결과 게시물 개수 ====================-->
@@ -77,7 +89,8 @@
         FROM(
                 SELECT ROWNUM as rnum, a.*  FROM (
                      SELECT nt_no, nt_title, nt_content, nt_cdate, nt_file, nt_hit, nt_cocnt  FROM tb_notice
-                     WHERE nt_title LIKE '%' || '${keyword}' || '%'
+                     WHERE
+                    <include refid="searchCondition"/>
                  ) a
             )
     </select>
