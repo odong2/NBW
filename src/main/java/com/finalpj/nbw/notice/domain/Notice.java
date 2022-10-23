@@ -16,6 +16,7 @@ public class Notice {
     Date nt_cdate;
     String nt_file;
     Integer nt_hit;
+    Integer nt_cocnt;
 
     public Notice(Integer nt_no, String nt_title, String nt_content){
         this.nt_no = nt_no;
