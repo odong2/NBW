@@ -59,7 +59,7 @@
     </nav>
     <div class="col-2"></div>
 </div>
-<nav class="navbar" aria-label="Light offcanvas navbar" style="background-image: url('/bg_navi.jpeg');">
+<nav class="navbar" aria-label="Light offcanvas navbar" style="background-image: url('/images/bg_navi.jpeg');">
     <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
         <li class="nav-item fs-5 px-4 border-end dropdown border-danger">
