@@ -136,14 +136,13 @@
 <!-- 헤더 시작 -->
 <%@include file="/WEB-INF/includes/header.jsp" %>
 <!-- 헤더 끝 -->
-<!--  공지사항 메인-->
-<!-- ================================ 공지사항 메인 시작 ================================= -->
+<%-- ================================ 공지사항 메인 시작 ================================= --%>
 <main>
     <section class="container-title text-center">
         <h5>공지사항</h5>
         <h6>NBW 전체 공지사항 페이지</h6>
     </section>
-    <!-- ================================ 공지사항 header 시작================================= -->
+    <%-- ================================ 공지사항 header 시작 ================================= --%>
     <section class="notice-header">
         <h5 class="mb-3">결제시스템 오류로 인해 결제가 불가합니다.</h5>
         <div class="d-flex">
@@ -157,8 +156,8 @@
             </div>
         </div>
     </section>
-    <!-- ================================ 공지사항 header 끝================================= -->
-    <!-- ================================ 공지사항 content 시작================================= -->
+    <%-- ================================ 공지사항 header 끝 ================================= --%>
+    <%-- ================================ 공지사항 content 시작 ================================= --%>
     <section class="content">
         <div id="notice-content">
             [OKKY 특별 성명]  '앱 마켓 사업자 결제방식 강제 금지' 법안 통과 환영
@@ -194,55 +193,38 @@
             </button>
         </div>
     </section>
-    <!-- ================================ 공지사항 content 끝================================= -->
-    <!-- ================================ 댓글 입력 시작 ================================= -->
+    <%-- ================================ 공지사항 content 시작 ================================= --%>
+    <%-- ================================ 댓글 입력 시작================================= --%>
     <section class="comment-input">
         <div
                 class="comment-wrapper d-flex justify-content-center mt-4 mb-4 col-12"
         >
             <div class="user-contatiner d-flex me-2">
-                <img
-                        src="/images/blueuser.png"
-                        alt="댓글입력 유저 기본 이미지"
-                        style="width: 40px"
-                />
+                <img src="/images/blueuser.png" alt="댓글입력 유저 기본 이미지" style="width: 40px"/>
             </div>
             <div class="form- col-8">
-            <textarea
-                    class="form-control"
-                    id="comment-input"
-                    name="comment"
-                    placeholder="댓글을 작성해 주세요"
-            ></textarea>
+            <textarea class="form-control" id="comment-input" name="comment" placeholder="댓글을 작성해 주세요"></textarea>
             </div>
             <div class="col-2 d-flex align-items-end justify-content-center ms-2">
-                <button id="comment-inputBtn" type="button" class="btn btn-success">
-                    댓글 쓰기
-                </button>
+                <button id="comment-inputBtn" type="button" class="btn btn-success">댓글 쓰기</button>
             </div>
         </div>
     </section>
-    <!-- ================================ 댓글 입력 끝 ================================= -->
-    <!-- ================================ 댓글 보기 시작 =============================== -->
+    <%-- ================================ 댓글 입력 끝================================= --%>
+    <%-- ================================ 댓글 보기 시작================================= --%>
     <section class="comment-display">
         <ul class="mt-5">
             <li class="commentList mt-5">
                 <div class="notice-commenter me-2 d-flex align-items-center">
                     <div class="user-icon">
-                        <img
-                                src="/images/blueuser.png"
-                                alt="유저기본이미지"
-                                style="width: 40px"
-                        />
+                        <img src="/images/blueuser.png" alt="유저기본이미지" style="width: 40px"/>
                     </div>
                     <div class="flex-column ms-3">
                         <div class="notice-commenter">
                             <span>김민준</span>
                         </div>
                         <div class="commenter-cdate">
-                  <span class="text-muted" style="font-size: 0.8rem"
-                  >2022-10-01 작성</span
-                  >
+                            <span class="text-muted" style="font-size: 0.8rem">2022-10-01 작성</span>
                         </div>
                     </div>
                 </div>
@@ -254,33 +236,21 @@
                         recusandae sit incidunt dolor.
                     </p>
                 </div>
-                <div
-                        class="container d-flex justify-content-end"
-                        style="border-bottom: solid 1px #8c8c8c; padding-bottom: 30px"
-                        ;
-                >
-                    <button class="reply-commentBtn mt-3 me-2 text-muted">
-                        댓글 쓰기
-                    </button>
+                <div class="container d-flex justify-content-end" style="border-bottom: solid 1px #8c8c8c; padding-bottom: 30px" ;>
+                    <button class="reply-commentBtn mt-3 me-2 text-muted">댓글 쓰기</button>
                 </div>
             </li>
             <li class="commentList mt-5">
                 <div class="notice-commenter me-2 d-flex align-items-center">
                     <div class="user-icon">
-                        <img
-                                src="/images/blueuser.png"
-                                alt="유저기본이미지"
-                                style="width: 40px"
-                        />
+                        <img src="/images/blueuser.png" alt="유저기본이미지" style="width: 40px"/>
                     </div>
                     <div class="flex-column ms-3">
                         <div class="notice-commenter">
                             <span>김민준</span>
                         </div>
                         <div class="commenter-cdate">
-                  <span class="text-muted" style="font-size: 0.8rem"
-                  >2022-10-01 작성</span
-                  >
+                            <span class="text-muted" style="font-size: 0.8rem">2022-10-01 작성</span>
                         </div>
                     </div>
                 </div>
@@ -292,7 +262,7 @@
                         recusandae sit incidunt dolor.
                     </p>
                 </div>
-                <!-- ================================ 대댓글 있는 경우 collapse =============================== -->
+                <%-- ================================ 대댓글 있는 경우 collapse =============================== --%>
                 <div class="reply-display">
                     <ul class="reply-accordion">
                         <button id="foldBtn" type="button" aria-selected="false">
@@ -302,20 +272,14 @@
                             <div class="reply-container mt-4">
                                 <div class="reply-info me-2 d-flex align-items-center">
                                     <div class="user-icon">
-                                        <img
-                                                src="/images/blueuser.png"
-                                                alt="유저기본이미지"
-                                                style="width: 30px"
-                                        />
+                                        <img src="/images/blueuser.png" alt="유저기본이미지" style="width: 30px"/>
                                     </div>
                                     <div class="flex-column ms-1">
                                         <div class="reply-commenter">
                                             <span>김민준</span>
                                         </div>
                                         <div class="reply-cdate">
-                          <span class="text-muted" style="font-size: 0.8rem"
-                          >2022-10-01 11:05 작성</span
-                          >
+                                            <span class="text-muted" style="font-size: 0.8rem">2022-10-01 11:05 작성</span>
                                         </div>
                                     </div>
                                 </div>
@@ -328,20 +292,14 @@
                             <div class="reply-container mt-4">
                                 <div class="reply-info me-2 d-flex align-items-center">
                                     <div class="user-icon">
-                                        <img
-                                                src="/images/blueuser.png"
-                                                alt="유저기본이미지"
-                                                style="width: 30px"
-                                        />
+                                        <img src="/images/blueuser.png" alt="유저기본이미지" style="width: 30px"/>
                                     </div>
                                     <div class="flex-column ms-1">
                                         <div class="reply-commenter">
                                             <span>김민준</span>
                                         </div>
                                         <div class="reply-cdate">
-                          <span class="text-muted" style="font-size: 0.8rem"
-                          >2022-10-01 13:25 작성</span
-                          >
+                                            <span class="text-muted" style="font-size: 0.8rem">2022-10-01 13:25 작성</span>
                                         </div>
                                     </div>
                                 </div>
@@ -353,48 +311,27 @@
                                     <button class="reply-deleteBtn text-muted">삭제</button>
                                 </div>
                                 <div class="ms-5">
-                                    <input
-                                            type="text"
-                                            class="modify-input col-7"
-                                            name="modify-input"
-                                            style="display: none"
-                                    />
+                                    <input type="text" class="modify-input col-7" name="modify-input" style="display: none"/>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <!-- ================================ 대댓글 보기 collapse 끝 =============================== -->
-                <div
-                        class="container d-flex justify-content-end"
-                        style="border-bottom: solid 1px #8c8c8c; padding-bottom: 30px"
-                        ;
-                >
-                    <button class="reply-commentBtn mt-3 me-2 text-muted">
-                        댓글 쓰기
-                    </button>
+                <%-- ================================ 대댓글 보기 collapse 끝 =============================== --%>
+                <div class="container d-flex justify-content-end" style="border-bottom: solid 1px #8c8c8c; padding-bottom: 30px" ;>
+                    <button class="reply-commentBtn mt-3 me-2 text-muted">댓글 쓰기</button>
                 </div>
             </li>
         </ul>
     </section>
-    <!-- ================================ 댓글 보기 끝 =============================== -->
-    <!-- ================================ 대댓글 입력 폼 시작 =============================== -->
+    <%-- ================================ 댓글 보기 끝================================= --%>
+    <%-- ================================ 대댓글 입력 폼 시작 =============================== --%>
     <section id="replyForm" style="display: none" class="mt-5">
-        <input
-                type="text"
-                name="replyComment"
-                id="reply-input"
-                placeholder="대댓글을 입력해 주세요."
-                class="col-5"
-        />
-        <button id="wrtRepBtn" type="button" class="btn-primary ms-2">
-            등록
-        </button>
-        <button id="delRepBtn" type="button" class="btn-danger ms-2">
-            취소
-        </button>
+        <input type="text" name="replyComment" id="reply-input" placeholder="대댓글을 입력해 주세요." class="col-5"/>
+        <button id="wrtRepBtn" type="button" class="btn-primary ms-2">등록 </button>
+        <button id="delRepBtn" type="button" class="btn-danger ms-2">취소</button>
     </section>
-    <!-- ================================ 대댓글 입력 폼 끝 =============================== -->
+    <%-- ================================ 대댓글 입력 폼 끝 =============================== --%>
 </main>
 <script>
     $(".commentList").on("click", ".reply-commentBtn", function () {

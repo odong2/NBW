@@ -24,8 +24,6 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                  "file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class NoticeDaoTest {
-    @Autowired
-    DataSource ds;
 
     @Autowired
     NoticeDao noticeDao;
@@ -57,15 +55,15 @@ public class NoticeDaoTest {
     @Test
     /* ====================== 공지글 전체 삭제 테스트 =========================*/
     public void removeAllNoticeTest() throws Exception{
-        assertTrue(noticeDao.deleteNoticeList() > 0);
+        assertTrue(noticeDao.deleteNoticeAll() > 0);
     }
     @Test
     /* ====================== 공지글 한 건 조회 테스트 =========================*/
     public void getNoticeTest() throws Exception{
         Notice noticeDto = new Notice();
-        int nt_no = 47;
+        int nt_no = 20;
         noticeDto = noticeDao.selectNotice(nt_no);
-        log.info("47번 공지글 조회 결과 : " + noticeDto);
+        log.info("20번 공지글 조회 결과 : " + noticeDto);
         assertNotEquals(noticeDto, null);
     }
     @Test
@@ -92,7 +90,7 @@ public class NoticeDaoTest {
     /* ====================== 조건 검색 테스트 =========================*/
     @Test
     public void selectSearchPageTest() throws Exception{
-        noticeDao.deleteNoticeList();
+        noticeDao.deleteNoticeAll();
         for(int i =1; i<=20; i++){
             Notice noticeDto = new Notice(i, "공지사항 제목"+i, "테스트");
             noticeDao.insertNotice(noticeDto);

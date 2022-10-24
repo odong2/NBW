@@ -22,9 +22,9 @@ public class NoticeService {
         this.noticeDao = noticeDao;
     }
 
-    /***************************** 공지글 입력 ****************************/
+    /***************************** 공지글 작성 ****************************/
     @Transactional(rollbackFor = Exception.class)
-    public int registNotice(Notice noticeDto) throws Exception{
+    public int writeNotice(Notice noticeDto) throws Exception{
         return noticeDao.insertNotice(noticeDto);
     }
     /**************************** 공지글 수정 ****************************/
@@ -40,7 +40,7 @@ public class NoticeService {
     /************************** 공지글 전체 삭제 ***************************/
     @Transactional(rollbackFor = Exception.class)
     public int removeAllNotice() throws Exception{
-        return noticeDao.deleteNoticeList();
+        return noticeDao.deleteNoticeAll();
     }
     /******************** 공지글 한 건 조회  + 조회수 증가 *********************/
     @Transactional(readOnly = true)

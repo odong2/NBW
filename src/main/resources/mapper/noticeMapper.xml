@@ -19,7 +19,7 @@
         DELETE from tb_notice WHERE nt_no= #{nt_no}
     </delete>
     <!-- ================== 공지글 전체 삭제 =================-->
-    <delete id="deleteNoticeList">
+    <delete id="deleteNoticeAll">
         DELETE FROM tb_notice
     </delete>
     <!-- ================== 공지글 한 건 조회 ================-->
@@ -94,4 +94,10 @@
                  ) a
             )
     </select>
+    <!-- ======================= 댓글수 업데이트====================-->
+    <update id="updateCommentCnt" parameterType="map">
+        UPDATE tb_notice
+        SET NT_COCNT = nt_cocnt + #{cnt}
+        WHERE nt_no = #{nt_no}
+    </update>
 </mapper>
