@@ -17,31 +17,28 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    // 인증키를 생성한다.
-
-    // 인증코드 난수를 생성한다.
-
     @Async
     public void sendMail(String to, String subject, String body){
         log.info("SERVICE ===> sendMail 진입");
-        /* (2) MimeMessage 타입 객체를 생성한다. */
-        MimeMessage message = mailSender.createMimeMessage();
+        log.info("SERVICE ===> to : "+ to);
+        log.info("SERVICE ===> subject : "+ subject);
+        log.info("SERVICE ===> body : "+ body);
+
         try{
+            /* (2) MimeMessage 타입 객체를 생성한다. */
+            MimeMessage message = mailSender.createMimeMessage();
             /* (3) 메일을 보내기 위해 MimeMessageHelper 객체를 생성한다. */
             MimeMessageHelper messageHelper =
                     new MimeMessageHelper(message, true, "UTF-8");
 
-            // (4) 수신인을 설정한다.
-            messageHelper.setCc("ninxtxn@gmail.com");
             // (5) 보내는 이의 메일 주소가 보여지는 방식을 사용자 정의로 설정할 수 있다.
-            messageHelper.setFrom("wjdcodms@gachon.ac.kr", "엔비더");
+            messageHelper.setFrom("wjdcodms@gachon.ac.kr", "NBW");
             // 제목
-            messageHelper.setSubject("테스트 메일전송 - SERVICE");
-            // 수신처
-            messageHelper.setTo("ninxtxn@gmail.com");
+            messageHelper.setSubject(subject);
+            // (4) 수신인을 설정한다.--> Controller 에서 넘어온 수신메일 View -> Controller -> *Service*
+            messageHelper.setTo(to);
             // 내용
-
-            messageHelper.setText("인증번호는 44455 입니다.");
+            messageHelper.setText(body);
             mailSender.send(message);
         }catch(Exception e) {
             e.printStackTrace();
