@@ -13,10 +13,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
+//@Transactional
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                  "file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class NtCommentServiceTest {
@@ -26,6 +28,20 @@ public class NtCommentServiceTest {
     NtCommentDao ntCommentDao;
     @Autowired
     NoticeDao noticeDao;
+
+    // 댓글 여러개 생성
+    @Test
+    public void writeComments() throws Exception{
+        Integer nt_no = 1;
+        ntCommentDao.deleteAll(nt_no);
+        for(int i=1; i<=20;i++){
+            NtComment comment = new NtComment(i,nt_no,0,"commentTest","mj");
+            ntCommentService.writeComment(comment);
+        }
+        List<NtComment> list = ntCommentService.getCommentList(nt_no);
+        log.info("리스트의 사이즈는 " + list.size());
+        assertTrue(list.size() == 20);
+    }
 
     @Test
     public void writeComment() throws Exception{

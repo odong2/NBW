@@ -151,7 +151,8 @@
                     </div>
                     <h5 class="notice-title">
                 <%-- ================ 게시글 제목 링크 ===============--%>
-                        <a href="<c:url value="/notice/read?nt_no=${notice.nt_no}&page=${param.page}"/>" class="ms-3 board-content mb-3 text-decoration-none text-dark">
+                        <a href="<c:url value="/notice/read${ph.sc.queryString}&nt_no=${notice.nt_no}"/>" class="ms-3 board-content mb-3 text-decoration-none text-dark">
+
                             <c:out value="${notice.nt_title}"/>
                         </a>
                     </h5>
@@ -213,13 +214,16 @@
         </ul>
     </nav>
     <%-- ================================= 공지사항 페이지 nav 끝 ====================================--%>
-    <script>
-        <%-- 검색정렬 버튼 이벤트 --%>
-        function keywordSort(keyword) {
-            let search_keyword = $(keyword).text();
-            $("#search-select button").text(search_keyword);
-        }
-    </script>
 </main>
+<!-- 풋터 시작 -->
+<%@include file="/WEB-INF/includes/footer.jsp" %>
+<!-- 풋터 끝 -->
+<script>
+    <%-- 검색정렬 버튼 이벤트 --%>
+    function keywordSort(keyword) {
+        let search_keyword = $(keyword).text();
+        $("#search-select button").text(search_keyword);
+    }
+</script>
 </body>
 </html>

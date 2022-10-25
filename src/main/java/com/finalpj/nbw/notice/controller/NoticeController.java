@@ -1,6 +1,7 @@
 package com.finalpj.nbw.notice.controller;
 
 import com.finalpj.nbw.notice.domain.Notice;
+import com.finalpj.nbw.notice.domain.NtComment;
 import com.finalpj.nbw.notice.domain.PageHandler;
 import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.notice.service.NoticeService;
@@ -32,7 +33,7 @@ public class NoticeController {
            // 전체 게시물 개수 조회
            int totalCnt = noticeService.getSearchResultCnt(sc);
            PageHandler pageHandler = new PageHandler(totalCnt, sc);
-//           PageHandler pageHandler = new PageHandler(totalCnt, page);
+//         PageHandler pageHandler = new PageHandler(totalCnt, page);
            log.info("총 게시물 개수는 " + totalCnt + "개");
            log.info("pageHandler는 " + pageHandler);
 
@@ -47,16 +48,23 @@ public class NoticeController {
     }
 
     @GetMapping("read")
-    public String noticeRead(Integer nt_no, Integer page, Model m){
+    public String readNotice(Integer nt_no, SearchCondition sc, Model m){
         try {
-            Notice noticeDto = noticeService.getNotice(nt_no);
-            m.addAttribute(noticeDto);
-            m.addAttribute("page", page);
-/*            m.addAttribute("pageSize", pageSize);*/
+
+//          Notice noticeDto = noticeService.getNotice(nt_no);
+            Map<String, Object> map = noticeService.getNotice(nt_no);
+            Notice noticeDto = (Notice)map.get("noticeDto");
+            m.addAttribute("noticeDto", noticeDto);
+            m.addAttribute("SearchCondition", sc);
+            log.info("noticeDto = " + noticeDto);
+//            log.info("commentList = " + (List<NtComment>)map.get("commentList"));
+//            if(map.get("commentList") != null) {
+//                m.addAttribute("commentList",(List<NtComment>)map.get("commentList"));
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "/notice/noticeDetail";
+        return "/notice/noticeDetailTest";
    }
 
 }

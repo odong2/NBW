@@ -23,14 +23,14 @@
         INSERT INTO tb_noticecomment
             (ntc_no, nt_no, ntc_pcno, ntc_comment, ntc_commenter)
         VALUES
-            (#{ntc_no},#{nt_no}, #{ntc_pcno}, #{ntc_comment}, #{ntc_commenter})
+            (SEQ_NTC_NO.NEXTVAL,#{nt_no}, #{ntc_pcno}, #{ntc_comment}, #{ntc_commenter})
     </insert>
-    <!-- ============================= 대댓글 등록 =================================-->
+    <!-- ============================= 대댓글 리스트 조회 =================================-->
     <select id="selectAll" parameterType="int" resultType="ntCommentDto">
         SELECT ntc_no, nt_no, NVL(ntc_pcno,ntc_no) as pcno, ntc_comment, ntc_commenter, ntc_cdate, ntc_update
         FROM tb_noticecomment
-        WHERE ntc_no = #{ntc_no}
-        ORDER BY pcno asc, ntc_no asc
+        WHERE nt_no = #{nt_no}
+        ORDER BY ntc_cdate desc, ntc_no desc
     </select>
     <!-- =========================== 댓글 한 건 조회 ==============================-->
     <select id="select" parameterType="int" resultType="ntCommentDto">

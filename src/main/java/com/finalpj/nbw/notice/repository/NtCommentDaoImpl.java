@@ -10,11 +10,12 @@ import java.util.List;
 
 @Repository
 public class NtCommentDaoImpl implements NtCommentDao {
-    private SqlSession sqlSession;
-
+    private final SqlSession sqlSession;
+    
     public NtCommentDaoImpl(SqlSession sqlSession){
         this.sqlSession = sqlSession;
     }
+    
     // 특정 공지글 모든 댓글 삭제
     @Override
     public int deleteAll(Integer nt_no) throws Exception{
@@ -38,6 +39,8 @@ public class NtCommentDaoImpl implements NtCommentDao {
     public int insert(NtComment ntCommentDto) throws Exception{
         return sqlSession.insert("insert", ntCommentDto);
     }
+    
+    // 특정 공지글 모든 댓글 조회
     @Override
     public List<NtComment> selectAll(Integer ntc_no) throws Exception{
         return sqlSession.selectList("selectAll", ntc_no);

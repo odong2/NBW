@@ -29,7 +29,7 @@ public class SearchCondition {
 
 
 
-    /* 조건검색 페이지 상세보기 */
+    /* 목록으로 가기 시 메서드 호출하여 리스트로 이동(페이지 지정) */
     public String getQueryString(Integer page){
         return UriComponentsBuilder.newInstance()
                 .queryParam("page",page)

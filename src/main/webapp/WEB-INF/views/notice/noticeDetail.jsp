@@ -130,6 +130,9 @@
             border: 1px solid #8c8c8c;
             padding:5px;
         }
+        #notice-content{
+            line-height: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -196,14 +199,12 @@
     <%-- ================================ 공지사항 content 시작 ================================= --%>
     <%-- ================================ 댓글 입력 시작================================= --%>
     <section class="comment-input">
-        <div
-                class="comment-wrapper d-flex justify-content-center mt-4 mb-4 col-12"
-        >
+        <div class="comment-wrapper d-flex justify-content-center mt-4 mb-4 col-12">
             <div class="user-contatiner d-flex me-2">
                 <img src="/images/blueuser.png" alt="댓글입력 유저 기본 이미지" style="width: 40px"/>
             </div>
             <div class="form- col-8">
-            <textarea class="form-control" id="comment-input" name="comment" placeholder="댓글을 작성해 주세요"></textarea>
+            <textarea  name="comment" class="form-control" id="comment-input" placeholder="댓글을 작성해 주세요"></textarea>
             </div>
             <div class="col-2 d-flex align-items-end justify-content-center ms-2">
                 <button id="comment-inputBtn" type="button" class="btn btn-success">댓글 쓰기</button>
@@ -237,7 +238,7 @@
                     </p>
                 </div>
                 <div class="container d-flex justify-content-end" style="border-bottom: solid 1px #8c8c8c; padding-bottom: 30px" ;>
-                    <button class="reply-commentBtn mt-3 me-2 text-muted">댓글 쓰기</button>
+                    <button class="reply-commentBtn mt-3 me-2 text-muted">답글 쓰기</button>
                 </div>
             </li>
             <li class="commentList mt-5">
@@ -319,7 +320,7 @@
                 </div>
                 <%-- ================================ 대댓글 보기 collapse 끝 =============================== --%>
                 <div class="container d-flex justify-content-end" style="border-bottom: solid 1px #8c8c8c; padding-bottom: 30px" ;>
-                    <button class="reply-commentBtn mt-3 me-2 text-muted">댓글 쓰기</button>
+                    <button class="reply-commentBtn mt-3 me-2 text-muted">답글 쓰기</button>
                 </div>
             </li>
         </ul>
@@ -333,7 +334,22 @@
     </section>
     <%-- ================================ 대댓글 입력 폼 끝 =============================== --%>
 </main>
+<!-- 풋터 시작 -->
+<%@include file="/WEB-INF/includes/footer.jsp" %>
+<!-- 풋터 끝 -->
 <script>
+    // window.onload
+    $(function () {
+        // 대댓글 답글보기를 위해 숨겨놓기
+        $(".reply-container").css("display", "none");
+
+        // 목록으로 가기 이벤트
+        $("#noticeListBtn").on("click", function () {
+            location.href = "<c:url value='/notice/list/'/>?page=${page}";
+        });
+    });
+
+    // 답글 쓰기 이벤트
     $(".commentList").on("click", ".reply-commentBtn", function () {
         const replyCommentBtn = this;
         $(".reply-commentBtn").show();
@@ -343,31 +359,18 @@
         // 댓글쓰기 버튼 안보이도록
         $(this).css("display", "none");
 
-        // 대댓글 달기 취소 이벤트
+
+        // 답글 달기 취소 이벤트
         $("#delRepBtn").click(function () {
             // 댓글 쓰기 버튼 보이도록
-            $(replyCommentBtn).css("display", "block");
+            $(".replyCommentBtn").css("display", "block");
             $("#replyForm").appendTo("body");
             $("#replyForm").removeClass("d-flex justify-content-end col-12");
             $("#replyForm").css("display", "none");
         });
     });
 
-    // window.onload
-    $(function () {
-        // 대댓글 답글보기를 위해 숨겨놓기
-        $(".reply-container").css("display", "none");
-
-        // 목록으로 가기 이벤트
-        $("#noticeListBtn").on("click", function () {
-            location.href =
-                "<c:url value='/notice/noticePageTest/'/>?page=${page}";
-        });
-    });
-
-    let active = false;
-
-    //답글보기 클릭 이벤트
+    // 답글보기 클릭 이벤트
     $(".reply-accordion #foldBtn").click(function (e) {
         e.preventDefault();
         $(this)
@@ -377,10 +380,10 @@
             .slideToggle(100);
     });
 
-    $(".commentList").on("click", ".reply-commentBtn", function () {});
+
+    // 대댓글 수정 이벤트
     $(".reply-container").on("click", ".reply-modifyBtn", function () {
         $(".modify-input").css("display", "block");
-        $();
     });
 </script>
 </body>

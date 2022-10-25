@@ -14,10 +14,10 @@ import java.util.List;
 public class NtCommentService {
 
     NoticeDao noticeDao;
-    NtCommentDao ntCommentDao;
+    NtCommentDao commentDao;
 
-    public NtCommentService(NtCommentDao ntCommentDao, NoticeDao noticeDao){
-        this.ntCommentDao = ntCommentDao;
+    public NtCommentService(NtCommentDao commentDao, NoticeDao noticeDao){
+        this.commentDao = commentDao;
         this.noticeDao = noticeDao;
     }
 
@@ -27,28 +27,28 @@ public class NtCommentService {
 
         noticeDao.updateCommentCnt(ntCommentDto.getNt_no(), 1); // 댓글수 1증가
         //throw new Exception("testException");                     // 실패하면 롤백
-        return ntCommentDao.insert(ntCommentDto);
+        return commentDao.insert(ntCommentDto);
     }
     /******************************** 댓글 삭제(removeComment) ********************************/
     @Transactional(rollbackFor = Exception.class)
     public int removeComment(Integer nt_cno, Integer nt_no, String ntc_commenter) throws Exception {
         int rowCnt = noticeDao.updateCommentCnt(nt_no, -1); // 댓글수 1 감소
         log.info("updateCommentCnt - rowCnt = " + rowCnt);
-        rowCnt = ntCommentDao.delete(nt_cno, ntc_commenter); // 댓글 삭제
+        rowCnt = commentDao.delete(nt_cno, ntc_commenter); // 댓글 삭제
         log.info("rowCnt = " + rowCnt);
         return rowCnt;
     }
     /*********************** 특정 공지글의 댓글 모두 조회(getCommentList) ************************/
     public List<NtComment> getCommentList(Integer nt_no) throws Exception {
-        return ntCommentDao.selectAll(nt_no);
+        return commentDao.selectAll(nt_no);
     }
     /*************************** 댓글 한 건 조회(readComment) *****************************/
     public NtComment readComment(Integer ntc_no) throws Exception {
-        return ntCommentDao.select(ntc_no);
+        return commentDao.select(ntc_no);
     }
     /***************************** 댓글 수정(modifyComment) *******************************/
     public int modifyComment(NtComment ntCommentDto) throws Exception {
-        return ntCommentDao.update(ntCommentDto);
+        return commentDao.update(ntCommentDto);
     }
 
 }
