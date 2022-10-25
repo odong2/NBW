@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalpj.nbw.login.oauth2.module.ApiKeyBean;
 import com.finalpj.nbw.login.oauth2.module.NaverOAuth2;
+import com.finalpj.nbw.member.domain.Member;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -34,7 +35,7 @@ public class Oauth2LoginService {
 		return service.getAuthorizationUrl();
 	}
 	
-	public void getUserProfile(String code) throws Exception {
+	public Member getUserProfile(String code) throws Exception {
 		OAuth2AccessToken accessToken = service.getAccessToken(code);
 		
 		OAuthRequest request = new OAuthRequest(Verb.GET, naverOAuth2.getUserInfoEndPoint());
@@ -53,7 +54,10 @@ public class Oauth2LoginService {
 	    
 	    System.out.println("email: "+email);
 	    System.out.println("name: "+name);
-		//return parseJson(response.getBody());
+		
+	    Member member = new Member().builder().mem_id(email).build();
+	    
+	    return member;
 	}
 	
 }
