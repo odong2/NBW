@@ -8,7 +8,7 @@
   	<%@include file="/WEB-INF/includes/common.jsp" %>
 	<style>
       main {
-        width: 70%;
+        width: 1000px;
         margin: auto;
       }
       /* 체크박스 꾸미기 */
@@ -23,7 +23,7 @@
       }
 
       input[type="checkbox"]:checked {
-        background: #8ab78a;
+        background: #5055b1;
         border: none;
       }
 
@@ -74,9 +74,12 @@
         outline: 1px;
         border-radius: 0.5rem;
         padding: 3px;
-        font-size: large;
         font-weight: bold;
-        background-color: #8ab78a;
+        background-color: #5055b1;
+        color: white;
+      }
+      .row{
+      	margin-left: 0;
       }
     </style>
   </head>
@@ -220,7 +223,7 @@
                       <div class="prod_img">
                         <img
                           class="img-thumbnail"
-                          src="https://image.aladin.co.kr/product/23149/20/cover/8901239868_2.jpg"
+                          src="https://image.aladin.co.kr/product/25967/84/cover/k242733121_1.jpg"
                         />
                       </div>
                     </td>
@@ -229,7 +232,7 @@
                       style="flex-direction: column"
                     >
                       <div class="prod_title">
-                        <b>인간관계의법칙</b>
+                        <b>눈감으면졸리지만명상은좀멋져요진로,성적,sns,친구관계로들어하는10대를위한마음챙김입문서</b>
                       </div>
                       <div class="mem_discount">
                         <span class="discount">10%</span>
@@ -308,12 +311,21 @@
               class="row d-flex"
               style="width: 100%; border-top: 1px solid #999"
             >
-              <div class="col-6 d-flex mt-3">
+              <div class="col-8 d-flex mt-3">
                 <p style="font-size: small"><b>결제 예정 금액</b></p>
               </div>
-              <div class="col-6 d-flex justify-content-end mt-3">
+              <div class="col-4 d-flex justify-content-end mt-3">
                 <span><b>37200</b></span>
                 <span><b>원</b></span>
+              </div>
+            </div>
+            <div class="row">
+           	  <div class="col-8">
+                <p style="font-size: small">적립 예정 포인트</p>
+              </div>
+              <div class="col-4 justify-content-end">
+                <span style="font-size: small">3750</span>
+                <span style="font-size: small">p</span>
               </div>
             </div>
             <button type="button" class="mt-3" id="order_btn">
@@ -325,5 +337,8 @@
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
       </section>
     </main>
+<!-- 풋터 시작 -->
+<%@include file="../../includes/footer.jsp" %>
+<!-- 풋터 끝 -->
   </body>
 </html>

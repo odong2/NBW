@@ -1,0 +1,12 @@
+@charset "UTF-8";
+	footer{
+		width: 100%;
+		margin: auto;
+		bottom: 0;
+		position: relative;
+		margin-top: 200px;
+	}
+	footer .container{
+		height: 30px;
+		padding-top: 8px;
+	}

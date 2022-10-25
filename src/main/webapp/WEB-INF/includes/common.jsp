@@ -14,3 +14,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%-- jstl core tags--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<link href="/commoncss/footer.css" rel="stylesheet" type="text/css"/>
+<link href="/commoncss/header.css" rel="stylesheet" type="text/css"/>

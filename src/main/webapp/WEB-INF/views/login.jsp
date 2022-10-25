@@ -77,7 +77,7 @@
               >
             </div>
             <div class="d-flex justify-content-center" style="height: 50px">
-              <a class="col-3" href="#">
+              <a class="col-3" href="${ url }" target="_blank">
                 <img
                   src="/images/btnG_축약형.png"
                   alt=""

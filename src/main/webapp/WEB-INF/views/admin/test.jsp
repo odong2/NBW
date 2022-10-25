@@ -26,21 +26,14 @@
         <!-- Topbar -->
 	   <%@include file="../../includes/admin/header.jsp" %>
         <!-- End of Topbar -->
-        <div id="content-wrapper" class="d-flex flex-column">
-          <!-- Main Content -->
-          <div id="content">
-            <!-- Begin Page Content [[ 메인 시작 ]] -->
-            <main class="container-fluid">
-              <!-- ******************[[ 
+        <!-- Main Content -->
+		<main class="container-fluid">
+		<!-- ******************[[ 
               
               	이부분이 메인 들어갈 부분 
               
-              ]]****************** -->
-            </main>
-            <!-- /.container-fluid -->
-          </div>
-          <!-- End of Main Content [[ 메인 끝 ]]-->
-        </div>
+		]]****************** -->
+        </main>
         <!-- Footer -->
 		<%@include file="../../includes/admin/footer.jsp" %>
         <!-- End of Footer -->

@@ -262,34 +262,48 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>5.7.4</version>
+			<version>5.3.13.RELEASE</version>
 		</dependency>
 		<!-- security-web -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>5.7.4</version>
+			<version>5.3.13.RELEASE</version>
 		</dependency>
 		<!-- security-config -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>5.7.4</version>
+			<version>5.3.13.RELEASE</version>
 		</dependency>
-		
+
 		<!-- spring-security-oauth2-jose -->
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-oauth2-jose</artifactId>
 		    <version>5.7.4</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- spring-security-oauth2-client -->
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-oauth2-client</artifactId>
 		    <version>5.7.4</version>
+		</dependency> -->
+
+		<!-- OAuth 2.0 scribejava-apis -->
+		<dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-apis</artifactId>
+		    <version>8.3.1</version>
 		</dependency>
+		
+		<!-- scribejava-core -->
+<!-- 		<dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-core</artifactId>
+		    <version>8.3.2</version>
+		</dependency> -->
 		
 <!-- ==================== 웹소켓 관련 ====================-->
 		<!-- websocket -->
