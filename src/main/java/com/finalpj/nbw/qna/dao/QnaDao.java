@@ -1,4 +1,5 @@
 package com.finalpj.nbw.qna.dao;
 
-public class QnaDao {
+public interface QnaDao {
+    int insertQuestion (QnaDao qnadao) throws Exception; // 문의글 등록
 }
