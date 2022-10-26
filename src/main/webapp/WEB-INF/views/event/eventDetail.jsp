@@ -174,15 +174,22 @@
             line-height: 2.8em;
             vertical-align: top;
         }
+        .dotted {
+            height: 1px;
+            background: url(https://www.iei.or.kr/resources/images/common/point_bar.png);
+        }
+        #board_reply {
+            background: #f2f5f9;
+            border-top: 1px solid #dae0e9;
+            padding: 30px;
+        }
     </style>
 </head>
 <body>
 <!-- 헤더 시작 -->
 <%@include file="../../includes/header.jsp" %>
 <!-- 헤더 끝 -->
-<!-- 사이드바 시작-->
-<%@include file="../../includes/sidebar.jsp" %>
-<!-- 사이드바 끝-->
+
 <main>
     <session id="title" class="container text-center">
         <h2>프로그램 신청</h2>
@@ -270,7 +277,43 @@
         프로그램이 변경될 수 있습니다!
     </div>
     <hr />
-    <div class="buttonpick"><button id="pick-btn">신청</button><button id="list-btn">목록</button></div>
+    <div class="buttonpick"><button id="pick-btn">목록</button><button id="list-btn">신청하기</button></div>
+    <%-- 댓글 시작 --%>
+    <hr />
+
+    <ul>
+        <li>
+            <div>
+                <p>첫번째 댓글 작성자</p>
+                <p>첫번째 댓글</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <p>두번째 댓글 작성자</p>
+                <p>두번째 댓글</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <p>세번째 댓글 작성자</p>
+                <p>세번째 댓글</p>
+            </div>
+        </li>
+    </ul>
+
+    <div>
+        <p>
+            <label>댓글 작성자</label> <input type="text">
+        </p>
+        <p>
+            <textarea rows="5" cols="50"></textarea>
+        </p>
+        <p>
+            <button type="button">댓글 작성</button>
+        </p>
+    </div>
+    <%-- 댓글 끝 --%>
 </main>
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>
