@@ -31,10 +31,11 @@ public class Member
     private String mem_update;
     private String mem_tprice;
     private String mem_email;
+    private String mem_email_domain;
 
     @Builder
     public Member(String mem_id, String mem_pw, String mem_name, String mem_gender, String mem_birthday, String mem_phone
-            , String mem_zipcode, String mem_address, String mem_address2, String mem_cdate, String mem_email,String g_grade){
+            , String mem_zipcode, String mem_address, String mem_address2, String mem_cdate, String mem_email, String g_grade, String mem_email_domain){
         this.mem_id = mem_id;
         this.mem_pw = mem_pw;
         this.mem_name = mem_name;
@@ -47,6 +48,7 @@ public class Member
         this.mem_cdate = mem_cdate;
         this.mem_email = mem_email;
         this.g_grade = g_grade;
+        this.mem_email_domain = mem_email_domain;
     }
 
 //    // 해당 User의 권한을 리턴하는곳
