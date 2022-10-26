@@ -65,7 +65,7 @@
         <header>
         </header>
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
-            <div class="divTitle">문의 접수</div>
+            <div class="divTitle">문의접수</div>
             <hr />
             <div>
                 <table class="tbl_row">
