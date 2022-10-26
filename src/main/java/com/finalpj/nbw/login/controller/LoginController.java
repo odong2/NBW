@@ -30,8 +30,8 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String getLogin(Model model) {
-		String url = oauth2LoginService.getAuthorizationUrl();
-		model.addAttribute("url", url);
+//		String url = oauth2LoginService.getAuthorizationUrl();
+//		model.addAttribute("url", url);
 		return "/login";
 	}
 	

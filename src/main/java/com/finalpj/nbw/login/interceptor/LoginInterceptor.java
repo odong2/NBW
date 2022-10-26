@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finalpj.nbw.login.dto.LoginDto;
 import com.finalpj.nbw.login.exception.PasswordWrongException;
 
 public class LoginInterceptor implements HandlerInterceptor{
@@ -23,15 +24,13 @@ public class LoginInterceptor implements HandlerInterceptor{
 			logincheck = false;
 			response.sendError(403, "이미 로그인한 사용자 입니다. ");
 		} else {
-		
+			// 1-2. 로그인 상태가 아닐시 계속 진행
 			String userId = request.getParameter("userId");
 			String userPassword = request.getParameter("userPassword");
 			
 			System.out.println("Interceptor -> userId: "+userId);
 			System.out.println("Interceptor -> userPassword: "+userPassword);
-		}
-			// 1-2. 로그인 상태가 아닐시 계속 진행
-			
+		}	
 		return logincheck;
 	}
 
