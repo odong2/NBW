@@ -40,6 +40,9 @@
         color: goldenrod;
         font-size: small;
       }
+      .mem_discount{
+      	margin-top: 5px;
+      }
       table {
         border-collapse: collapse;
       }
@@ -81,9 +84,39 @@
       .row{
       	margin-left: 0;
       }
+      .img-thumbnail{
+      	width: 100px;
+		height: 130px;      	
+      }
+      /* 빈장바구니 담는 div */
+      .emptyCart {
+        margin-top: 80px;
+        text-align: center;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
+<c:set  var="totalProductsNum" value="0" />  <!--주문 개수 -->
+<c:set var = "totalPrice" value = "0" /><!-- 총 주문금액 -->
+  <script type="text/javascript">
+  /* 체크박스 전체 선택하기 */
+  $(document).ready(function () {
+    $("#cbx_chkAll").click(function () {
+      if ($("#cbx_chkAll").is(":checked"))
+        $("input[class=one_chk]").prop("checked", true);
+      else $("input[class=one_chk]").prop("checked", false);
+    });
+
+    $("input[class=one_chk]").click(function () {
+      var total = $("input[class=one_chk]").length;
+      var checked = $("input[class=one_chk]:checked").length;
+
+      if (total != checked) $("#cbx_chkAll").prop("checked", false);
+      else $("#cbx_chkAll").prop("checked", true);
+    });
+  });
+  </script>
   <!-- 헤더 시작 -->
 	<%@include file="/WEB-INF/includes/header.jsp" %>
   <!-- 헤더 끝 -->
@@ -98,173 +131,74 @@
         <div class="left d-flex" style="width: 70%; flex-direction: column">
           <!-- [[ 장바구니 전체 선택 시작 ]]-->
           <div class="select-all mt-3 mb-3">
-            <input type="checkbox" class="all_chk me-3" />
+            <input type="checkbox" class="all_chk me-3" id="cbx_chkAll" />
             <label for="all"><b>전체선택</b></label>
           </div>
           <!-- [[ 장바구니 전체 선택  끝 ]]-->
-          <div
-            class="container d-flex col-12 justify-content-between"
-            style="width: 100%"
-          >
-            <!-- 상품 리스트 -->
+          <div class="container d-flex col-12 justify-content-between" style="width: 100%">
             <section class="cartProduct col-12">
               <table class="tb_product col-12">
                 <tbody>
-                  <tr class="row">
-                    <td
-                      class="col-1 d-flex justify-content-center align-items-center only_chk"
-                    >
-                      <input type="checkbox" class="one_chk" />
-                    </td>
-                    <td class="col-2 d-flex prod">
-                      <div class="prod_img">
-                        <img
-                          class="img-thumbnail"
-                          src="https://image.aladin.co.kr/product/23149/20/cover/8901239868_2.jpg"
-                        />
-                      </div>
-                    </td>
-                    <td
-                      class="col-5 d-flex justify-content-center align-items-center product_info"
-                      style="flex-direction: column"
-                    >
-                      <div class="prod_title">
-                        <b>인간관계의법칙</b>
-                      </div>
-                      <div class="mem_discount">
-                        <span class="discount">10%</span>
-                        <span class="price">
-                          <span class="price">37200</span>
-                          <span class="price">원</span>
-                        </span>
-                      </div>
-                    </td>
-                    <td
-                      class="col-3 d-flex justify-content-center align-items-center order_info"
-                      style="flex-direction: column"
-                    >
-                      <div class="order_price" style="font-weight: bold">
-                        <span>37200</span>
-                        <span>원</span>
-                      </div>
-                      <div class="product_count mt-3">
-                        <button><i class="fas fa-minus-circle"></i></button>
-                        <span>1</span>
-                        <button><i class="fas fa-plus-circle"></i></button>
-                      </div>
-                    </td>
-                    <td
-                      class="col-1 d-flex justify-content-center align-items-center"
-                    >
-                      <button>
-                        <i class="fas fa-trash-alt" style="color: #e9967a"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- [[상품 반복 시작 - 여기 위에까지를 forEach 돌리자 ]] -->
-                  <tr class="row">
-                    <td
-                      class="col-1 d-flex justify-content-center align-items-center only_chk"
-                    >
-                      <input type="checkbox" class="one_chk" />
-                    </td>
-                    <td class="col-2 d-flex prod">
-                      <div class="prod_img">
-                        <img
-                          class="img-thumbnail"
-                          src="https://image.aladin.co.kr/product/23149/20/cover/8901239868_2.jpg"
-                        />
-                      </div>
-                    </td>
-                    <td
-                      class="col-5 d-flex justify-content-center align-items-center product_info"
-                      style="flex-direction: column"
-                    >
-                      <div class="prod_title">
-                        <b>인간관계의법칙</b>
-                      </div>
-                      <div class="mem_discount">
-                        <span class="discount">10%</span>
-                        <span class="price">
-                          <span class="price">37200</span>
-                          <span class="price">원</span>
-                        </span>
-                      </div>
-                    </td>
-                    <td
-                      class="col-3 d-flex justify-content-center align-items-center order_info"
-                      style="flex-direction: column"
-                    >
-                      <div class="order_price" style="font-weight: bold">
-                        <span>37200</span>
-                        <span>원</span>
-                      </div>
-                      <div class="product_count mt-3">
-                        <button><i class="fas fa-minus-circle"></i></button>
-                        <span>1</span>
-                        <button><i class="fas fa-plus-circle"></i></button>
-                      </div>
-                    </td>
-                    <td
-                      class="col-1 d-flex justify-content-center align-items-center"
-                    >
-                      <button>
-                        <i class="fas fa-trash-alt" style="color: #e9967a"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="row">
-                    <td
-                      class="col-1 d-flex justify-content-center align-items-center only_chk"
-                    >
-                      <input type="checkbox" class="one_chk" />
-                    </td>
-                    <td class="col-2 d-flex prod">
-                      <div class="prod_img">
-                        <img
-                          class="img-thumbnail"
-                          src="https://image.aladin.co.kr/product/25967/84/cover/k242733121_1.jpg"
-                        />
-                      </div>
-                    </td>
-                    <td
-                      class="col-5 d-flex justify-content-center align-items-center product_info"
-                      style="flex-direction: column"
-                    >
-                      <div class="prod_title">
-                        <b>눈감으면졸리지만명상은좀멋져요진로,성적,sns,친구관계로들어하는10대를위한마음챙김입문서</b>
-                      </div>
-                      <div class="mem_discount">
-                        <span class="discount">10%</span>
-                        <span class="price">
-                          <span class="price">37200</span>
-                          <span class="price">원</span>
-                        </span>
-                      </div>
-                    </td>
-                    <td
-                      class="col-3 d-flex justify-content-center align-items-center order_info"
-                      style="flex-direction: column"
-                    >
-                      <div class="order_price" style="font-weight: bold">
-                        <span>37200</span>
-                        <span>원</span>
-                      </div>
-                      <div class="product_count mt-3">
-                        <button><i class="fas fa-minus-circle"></i></button>
-                        <span>1</span>
-                        <button><i class="fas fa-plus-circle"></i></button>
-                      </div>
-                    </td>
-                    <td
-                      class="col-1 d-flex justify-content-center align-items-center"
-                    >
-                      <button>
-                        <i class="fas fa-trash-alt" style="color: #e9967a"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- [[ 상품 반복 끝 ]] -->
+                  <!-- [[ 장바구니에 담은 상품 목록]] -->
+                  <c:choose>
+		          	<c:when test="${cartList != null && cartList.size() > 0}">
+		                  <c:forEach var="cart" items="${cartList}">
+			                  <tr class="row">
+			                    <td class="col-1 d-flex justify-content-center align-items-center only_chk">
+			                      <input type="checkbox" class="one_chk" />
+			                    </td>
+			                    <td class="col-2 d-flex prod">
+			                      <div class="prod_img">
+			                        <img
+			                          class="img-thumbnail"
+			                          src="${cart.P_IMG}"
+			                        />
+			                      </div>
+			                    </td>
+			                    <td
+			                      class="col-5 d-flex justify-content-center align-items-center product_info"
+			                      style="flex-direction: column"
+			                    >
+			                      <div class="prod_title">
+			                        <b>${cart.P_TITLE}</b>
+			                      </div>
+			                      <div class="mem_discount">
+			                        <span class="price">
+			                          <span class="price">${cart.P_PRICE}</span>
+			                          <span class="price">원</span>
+			                        </span>
+			                      </div>
+			                    </td>
+			                    <td
+			                      class="col-3 d-flex justify-content-center align-items-center order_info"
+			                      style="flex-direction: column"
+			                    >
+			                      <div class="order_price" style="font-weight: bold">
+			                        <span><fmt:formatNumber value="${cart.P_PRICE*cart.CART_COUNT}" type="number"/></span>
+			                        <span>원</span>
+			                      </div>
+			                      <div class="product_count mt-3">
+			                        <button><i class="fas fa-minus-circle"></i></button>
+			                        <span>${cart.CART_COUNT}</span>
+			                        <button><i class="fas fa-plus-circle"></i></button>
+			                      </div>
+			                    </td>
+			                    <td
+			                      class="col-1 d-flex justify-content-center align-items-center"
+			                    >
+			                      <button>
+			                        <i class="fas fa-trash-alt" style="color: #e9967a"></i>
+			                      </button>
+			                    </td>
+			                  </tr>
+			                  <c:set var= "totalPrice" value="${totalPrice + cart.P_PRICE*cart.CART_COUNT}"/>
+		                  </c:forEach>
+                  	</c:when>
+                  	<c:otherwise>
+                  		<div class="emptyCart">장바구니에 담긴 상품이 없어요.</div>
+                  	</c:otherwise>
+                  </c:choose>
+                  <!-- [[ 장바구니에 담은 상품 목록]] -->
                 </tbody>
               </table>
             </section>
@@ -292,7 +226,7 @@
                 <p style="font-size: small">상품금액</p>
               </div>
               <div class="col-8 d-flex justify-content-end">
-                <span style="font-size: small"><b>37200</b></span>
+                <span style="font-size: small"><b>${totalPrice }</b></span>
                 <span style="font-size: small"><b>원</b></span>
               </div>
             </div>
@@ -315,17 +249,8 @@
                 <p style="font-size: small"><b>결제 예정 금액</b></p>
               </div>
               <div class="col-4 d-flex justify-content-end mt-3">
-                <span><b>37200</b></span>
+                <span><b>${totalPrice }</b></span>
                 <span><b>원</b></span>
-              </div>
-            </div>
-            <div class="row">
-           	  <div class="col-8">
-                <p style="font-size: small">적립 예정 포인트</p>
-              </div>
-              <div class="col-4 justify-content-end">
-                <span style="font-size: small">3750</span>
-                <span style="font-size: small">p</span>
               </div>
             </div>
             <button type="button" class="mt-3" id="order_btn">

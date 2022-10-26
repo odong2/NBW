@@ -1,5 +1,7 @@
 package com.finalpj.nbw.cart.domain;
 
+import com.finalpj.nbw.product.domain.Product;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +15,5 @@ public class Cart {
 	private int[] mcart_count;
 	private String btn;
 	private String mem_id;
+	private Product product;
 }
