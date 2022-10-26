@@ -26,12 +26,13 @@
 			username-parameter="id"
 			password-parameter="password"
 			authentication-failure-handler-ref="loginFailureHandler"
-			authentication-success-handler-ref="loginSuccessHandler"
+			authentication-success-handler-ref="loginSuccessHandler" 
 		/>
+
 		<security:logout invalidate-session="true" logout-url="/logout" logout-success-url="/login" />
 	</security:http>
 	 
-	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<!-- <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> -->
 
 	<context:component-scan base-package="com.finalpj.nbw.login.service"/>
 

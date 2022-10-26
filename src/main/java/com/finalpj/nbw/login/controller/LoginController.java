@@ -3,10 +3,11 @@ package com.finalpj.nbw.login.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,18 +23,22 @@ public class LoginController {
 	
 	public LoginController() {}
 	
-	@Autowired
+	//@Autowired
 	public LoginController(Oauth2LoginService oauth2LoginService) {
 		this.oauth2LoginService = oauth2LoginService;
 	}
 	
-	@RequestMapping("/login")
-	public String Login(Model model) {
+	@GetMapping("/login")
+	public String getLogin(Model model) {
 		String url = oauth2LoginService.getAuthorizationUrl();
-		
-		System.out.println(url);
-		
 		model.addAttribute("url", url);
+		return "/login";
+	}
+	
+	@PostMapping("/login")
+	public String postLogin(@RequestParam String userId, @RequestParam String userPassword) {
+		System.out.println("Controller -> userId: "+userId);
+		System.out.println("Controller -> userPassword: "+userPassword);
 		return "/login";
 	}
 	

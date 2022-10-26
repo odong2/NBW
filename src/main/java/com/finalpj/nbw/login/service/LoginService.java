@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;
 
-@Service
+//@Service
 public class LoginService implements UserDetailsService{
 	
 	BCryptPasswordEncoder bCryptPasswordEncoder;

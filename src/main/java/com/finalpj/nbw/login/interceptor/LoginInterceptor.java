@@ -7,7 +7,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-public class TestInterceptor implements HandlerInterceptor{
+import com.finalpj.nbw.login.exception.PasswordWrongException;
+
+public class LoginInterceptor implements HandlerInterceptor{
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -21,8 +23,7 @@ public class TestInterceptor implements HandlerInterceptor{
 			logincheck = false;
 			response.sendError(403, "이미 로그인한 사용자 입니다. ");
 		} else {
-			
-
+		
 			String userId = request.getParameter("userId");
 			String userPassword = request.getParameter("userPassword");
 			
@@ -39,6 +40,8 @@ public class TestInterceptor implements HandlerInterceptor{
 			@Nullable ModelAndView modelAndView) throws Exception {
 		
 		System.out.println("postHandle");
+		
+		System.out.println(new PasswordWrongException("비밀번호가 틀렸습니다."));
 		
 	}
 }
