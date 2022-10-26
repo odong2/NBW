@@ -3,25 +3,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mybatis.mapper.cartMapper">
-    <select id="selectEvent" parameterType="int" resultType="eventDto">
-        select EV_NO,
-               EV_TITLE,
-               EV_CONTENT,
-               EV_CDATE,
-               EV_FILE,
-               EV_HIT,
-               EV_START,
-               EV_END,
-               EV_PEOPLE,
-               EV_STATUS,
-               EV_NOWPEOPLE,
-               EV_TARGET,
-               EV_PLACE,
-               EV_IMG,
-               EV_TIME,
-               EV_TODAY,
-               EV_PHONE
-        from TB_EVENT
-        where EV_NO = #{EV_NO}
-    </select>
+    <insert id="insertQuestion">
+        INSERT INTO TB_QUESTION (
+                                QN_NO
+                                , QN_FROM
+                                , QN_CATEGORY
+                                , QN_CDATE
+                                , QN_CONTENT
+                                , QN_STATE
+                                , QN_TITLE
+        )
+        VALUES (
+                   #{QN_NO}
+               , #{QN_FROM}
+               , #{QN_CATEGORY}
+               , #{QN_CDATE}
+               , #{QN_CONTENT}
+               , #{QN_STATE}
+               , #{QN_TITLE}
+               )
+    </insert>
 </mapper>
