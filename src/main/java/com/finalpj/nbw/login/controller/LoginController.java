@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finalpj.nbw.login.dto.LoginDto;
+import com.finalpj.nbw.login.exception.LoginException;
+import com.finalpj.nbw.login.exception.WrongPasswordException;
 import com.finalpj.nbw.login.service.LoginService;
 import com.finalpj.nbw.login.service.Oauth2LoginService;
 import com.finalpj.nbw.member.domain.Member;
@@ -39,11 +41,14 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String postLogin(LoginDto logindto) {
-		System.out.println(logindto.getUserPassword());
-		System.out.println(logindto.getUserId());
-
-		return "/login";
+	public void postLogin(LoginDto logindto, Model model){
+		Member member = null;
+		try {
+			member = loginService.loginCheck(logindto);
+			model.addAttribute("member", member);
+		} catch (LoginException e) {
+			model.addAttribute("LoginFailMsg", e.getMessage());
+		}
 	}
 	
 	@RequestMapping("login/oauth2/code/{snsService}")
@@ -58,12 +63,9 @@ public class LoginController {
 
 		// 1. code를 이용해서 access_token 받기
 		// 2. access_token을 이용해서 사용자 profile 정보 가져오기
-
 		// 3. DB 해당 유저가 존재하는 체크 (googleid, naverid 컬럼 추가)
-
-			//미존재시 가입페이지로!!
-
-			// 4. 존재시 강제로그인
+		//미존재시 가입페이지로!!
+		// 4. 존재시 강제로그인
 			
 		return "loginResult";
 	}

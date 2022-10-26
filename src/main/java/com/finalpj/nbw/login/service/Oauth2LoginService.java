@@ -15,13 +15,13 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
-//@Service
+@Service
 public class Oauth2LoginService {
 	OAuth20Service service;
 	NaverOAuth2 naverOAuth2 = new NaverOAuth2();
 	ApiKeyBean naverApiKeyBean;
 	
-	//@Autowired
+	@Autowired
 	public Oauth2LoginService(ApiKeyBean naverApiKeyBean) {
 		this.naverApiKeyBean = naverApiKeyBean;
 	}

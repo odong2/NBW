@@ -1,17 +1,17 @@
 package com.finalpj.nbw.login.exception;
 
-public class PasswordWrongException extends Exception {
+public class LoginException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-    public PasswordWrongException() {
+    public LoginException() {
         super();
     }
 	
-    public PasswordWrongException(String message) {
+    public LoginException(String message) {
         super(message);
     }
 }

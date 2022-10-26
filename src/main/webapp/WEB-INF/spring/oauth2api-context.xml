@@ -12,10 +12,6 @@
 		<constructor-arg name="secret" value="x4iiEosFjS"/>
 		<constructor-arg name="callback" value="http://localhost:8080/login/oauth2/code/naver"/>
 	</bean>
-
-	<bean id="naverAuthModule" class="com.finalpj.nbw.login.oauth2.module.NaverAuthModule">
-		<constructor-arg ref="naverApiKeyBean"/>
-	</bean>
 	
 	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </beans>

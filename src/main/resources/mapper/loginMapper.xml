@@ -4,8 +4,19 @@
 
 <mapper namespace="com.finalpj.nbw.login.dao.LoginDao">
 
-<!-- 	<select id="selectMemeber" parameterType="String" resultType="member">
-		
-	</select> -->
+	<select id="selectUserId" parameterType="String" resultType="boolean">
+		SELECT COUNT(MEM_ID) 
+		  FROM TB_MEMBER
+		 WHERE MEM_ID = #{value}
+	</select>
+
+	<select id="selectUserPassword" parameterType="String" resultType="String">
+		SELECT MEM_PW FROM TB_MEMBER WHERE MEM_ID = #{value}
+	</select>
+
+	<select id="selectUser" parameterType="String" resultType="member">
+		SELECT * FROM TB_MEMBER WHERE MEM_ID = #{value}
+	</select>
+	 
 
 </mapper>
