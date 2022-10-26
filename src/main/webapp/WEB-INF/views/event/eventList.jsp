@@ -142,9 +142,6 @@
 <!-- 헤더 시작 -->
 <%@include file="../../includes/header.jsp" %>
 <!-- 헤더 끝 -->
-<!-- 사이드바 시작-->
-<%@include file="../../includes/sidebar.jsp" %>
-<!-- 사이드바 끝-->
 <main>
         <div>
             <h2 id="divTitle" class="fl">프로그램 신청</h2>
