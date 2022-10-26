@@ -1,4 +1,5 @@
 package com.finalpj.nbw.login.dao;
 
-public class LoginDao {
+public interface LoginDao {
+	//public LoinDto 
 }

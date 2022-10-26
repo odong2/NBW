@@ -23,14 +23,15 @@ public class LoginInterceptor implements HandlerInterceptor{
 			// 1-1. 로그인 상태에서 요청시 에러 페이지로 이동
 			logincheck = false;
 			response.sendError(403, "이미 로그인한 사용자 입니다. ");
-		} else {
+		} else if(request.getMethod().equals("POST")) {
 			// 1-2. 로그인 상태가 아닐시 계속 진행
 			String userId = request.getParameter("userId");
 			String userPassword = request.getParameter("userPassword");
 			
 			System.out.println("Interceptor -> userId: "+userId);
 			System.out.println("Interceptor -> userPassword: "+userPassword);
-		}	
+		}
+		
 		return logincheck;
 	}
 
