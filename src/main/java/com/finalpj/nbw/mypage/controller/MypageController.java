@@ -27,22 +27,26 @@ public class MypageController {
             log.info("mypageInfo페이지");
             return "/mypage/mypageInfo";
         }
-
+    /***************** [[마이페이지 참여중인 이벤트 조회페이지]] ***************/
         @GetMapping("event")
         public String mypageEventTest() {
             return "/mypage/mypageEvent";
         }
-
+    /***************** [[마이페이지 문의 접수페이지]] ***************/
         @GetMapping("qna")
         public String mypageQnaTest() {
         return "/mypage/mypageQna";
     }
-
+    /***************** [[마이페이지 문의 조회페이지]] ***************/
         @GetMapping("qnalist")
         public String mypageQnaListTest() {
         return "/mypage/mypageQnaList";
     }
-
+    /***************** [[마이페이지 문의 디테일 조회페이지]] ***************/
+        @GetMapping("qnaDetail")
+        public String mypageQnaDetailTest() {
+        return "/mypage/mypageQnaDetail";
+    }
 
         @GetMapping("test")
         public String test() {
