@@ -3,4 +3,56 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mybatis.mapper.cartMapper">
+	<!-- [[ 회원의 장바구니 전체조회 ]] -->
+	<select id="selectCartList" parameterType="String" resultType="Map">
+		SELECT P.P_IMG, P.P_TITLE, P.P_PRICE, P.P_NO, C.CART_COUNT
+		  FROM TB_PRODUCT  P , 
+		      (
+		        SELECT P_NO, CART_COUNT FROM TB_MEMCART 
+		         WHERE MEM_ID= #{mem_id}
+		       ) C
+		 WHERE P.P_NO = C.P_NO  
+	</select>
+	
+	<!-- [[ 회원의 장바구니에 상품이 존재하는지 확인: 장바구니에 존재하면 2, 없으면 1 ]] -->
+	<select id="selectProductList" parameterType="Map" resultType="int">
+		<![CDATA[ 
+			SELECT DECODE(COUNT(*), 0, 1, 2)
+			  FROM TB_MEMCART 
+			 WHERE p_no = #{p_no}
+			   AND mem_id = #{mem_id}
+		]]>
+	</select>
+	
+	<!-- [[ 장바구니 상품 추가 ]] -->
+	<insert id="insertCart" parameterType="Map">
+		INSERT INTO TB_MEMCART (mem_id, p_no, cart_count)
+		VALUES (#{mem_id}, #{p_no}, #{cart_count})
+	</insert>
+	
+	<!-- [[ 장바구니 상품 수량변경 ]] -->
+	<update id="updateCart" parameterType="Map">
+		UPDATE (
+		        SELECT cart_count FROM TB_MEMCART 
+		         WHERE mem_id = #{mem_id}
+		           AND p_no = #{p_no}
+		       )
+		<if test="btn != null and btn.equals('minus')">
+		   	SET CART_COUNT = CART_COUNT-1
+		</if>
+		<if test="btn != null and btn.equals('plus')">
+		   	SET CART_COUNT = CART_COUNT+1
+		</if>
+		<if test='cart_count gt 0'>
+			SET CART_COUNT = CART_COUNT + #{cart_count}
+		</if>
+	</update>
+	
+	<!-- [[ 장바구니 상품 삭제 ]] -->
+	<delete id="deleteCart" parameterType="Map">
+		DELETE FROM TB_MEMCART 
+		 WHERE mem_id = #{mem_id}
+		   AND p_no = #{p_no}
+	</delete>
+	
 </mapper>
