@@ -3,61 +3,46 @@ package com.finalpj.nbw.login.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finalpj.nbw.login.oauth2.module.ApiKeyBean;
 import com.finalpj.nbw.login.oauth2.module.NaverOAuth2;
 import com.finalpj.nbw.member.domain.Member;
-import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth20Service;
 
 @Service
 public class Oauth2LoginService {
-	OAuth20Service service;
-	NaverOAuth2 naverOAuth2 = new NaverOAuth2();
-	ApiKeyBean naverApiKeyBean;
-	
+
+	NaverOAuth2 naverOAuth2;
+
 	@Autowired
-	public Oauth2LoginService(ApiKeyBean naverApiKeyBean) {
-		this.naverApiKeyBean = naverApiKeyBean;
+	public Oauth2LoginService(NaverOAuth2 naverOAuth2) {
+		this.naverOAuth2 = naverOAuth2;
 	}
 	
-	public String getAuthorizationUrl() {
-		service = new ServiceBuilder(naverApiKeyBean.getApi())
-				.apiSecret(naverApiKeyBean.getSecret())
-				.callback(naverApiKeyBean.getCallback())
-				.build(naverOAuth2);
+	public String getAuthorizationUrl(String platform) {
+		String platform_url = null;
 		
-		return service.getAuthorizationUrl();
+		switch (platform) {
+			case "naver": 
+				platform_url = naverOAuth2.getAuthorizationUrl();
+				break;
+			default: 
+				platform_url = "javascript:alert('잠시 점검중입니다.');";
+				break;
+			}
+		
+		return platform_url;
 	}
 	
-	public Member getUserProfile(String code) throws Exception {
-		OAuth2AccessToken accessToken = service.getAccessToken(code);
+	public Member getUserProfile(String code, String platform) throws Exception {
+		Member member = null;
 		
-		OAuthRequest request = new OAuthRequest(Verb.GET, naverOAuth2.getUserInfoEndPoint());
-		service.signRequest(accessToken, request);
+		switch (platform) {
+			case "naver": 
+				member = naverOAuth2.getUserInfo(code);
+				break;
+			default:
+				break;
+			}
 		
-		Response response = service.execute(request);
-		
-	    ObjectMapper mapper = new ObjectMapper();
-	    
-	    JsonNode node = mapper.readTree(response.getBody());
-	    
-	    System.out.println(response.getBody());
-	    
-	    String email = node.get("response").get("email") == null ? "미동의" : node.get("response").get("email").textValue();
-	    String name = node.get("response").get("name") == null ? "미동의" : node.get("response").get("name").textValue();
-	    
-	    System.out.println("email: "+email);
-	    System.out.println("name: "+name);
-		
-	    Member member = new Member().builder().mem_id(email).build();
-	    
-	    return member;
+		return member;
 	}
 	
 }

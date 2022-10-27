@@ -8,9 +8,13 @@
 	<context:component-scan base-package="com.finalpj.nbw.login.service"/>
 
 	<bean id="naverApiKeyBean" class="com.finalpj.nbw.login.oauth2.module.ApiKeyBean">
-		<constructor-arg name="api" value="FYD4maKXAUPLyn_tenrY"/>
-		<constructor-arg name="secret" value="x4iiEosFjS"/>
+		<constructor-arg name="api" value="HCsJBCah1kSfrxdbnNSO"/>
+		<constructor-arg name="secret" value="G5R3Qq60qM"/>
 		<constructor-arg name="callback" value="http://localhost:8080/login/oauth2/code/naver"/>
+	</bean>
+	
+	<bean id="naverOAuth2" class="com.finalpj.nbw.login.oauth2.module.NaverOAuth2">
+		<constructor-arg ref="naverApiKeyBean"/>
 	</bean>
 	
 	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>

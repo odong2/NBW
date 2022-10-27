@@ -1,5 +1,6 @@
 package com.finalpj.nbw.login.controller;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finalpj.nbw.login.dto.LoginDto;
 import com.finalpj.nbw.login.exception.LoginException;
-import com.finalpj.nbw.login.exception.WrongPasswordException;
 import com.finalpj.nbw.login.service.LoginService;
 import com.finalpj.nbw.login.service.Oauth2LoginService;
 import com.finalpj.nbw.member.domain.Member;
@@ -35,8 +33,8 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String getLogin(Model model) {
-		String url = oauth2LoginService.getAuthorizationUrl();
-		model.addAttribute("url", url);
+		String NaverUrl = oauth2LoginService.getAuthorizationUrl("naver");
+		model.addAttribute("NaverUrl", NaverUrl);
 		return "/login";
 	}
 	
@@ -51,22 +49,32 @@ public class LoginController {
 		}
 	}
 	
-	@RequestMapping("login/oauth2/code/{snsService}")
-	@ResponseBody
-	public String snsLoginCallback(@PathVariable String snsService,
+	@GetMapping("/logout")
+	public void logout(HttpSession session, HttpServletResponse response) throws Exception{
+		if (session.getAttribute("member") == null) {
+			response.sendError(403, "로그인 상태가 아닙니다.");
+		} else {
+			session.removeAttribute("member");
+			session.invalidate();
+			response.sendRedirect("/login");
+		}
+	}
+	
+	@GetMapping("login/oauth2/code/{platform}")
+	public String snsLoginCallback(@PathVariable String platform,
 			Model model, @RequestParam String code, HttpSession session) throws Exception {
+		String nextURL = "/home";
 		
-		System.out.printf("snsLoginCallback: service={%s} \n",snsService);
-		System.out.println("code: "+code);
+		// access_token을 이용해서 사용자 profile 정보 가져오기
+		Member member = oauth2LoginService.getUserProfile(code, platform);
 		
-		Member member = oauth2LoginService.getUserProfile(code);
-
-		// 1. code를 이용해서 access_token 받기
-		// 2. access_token을 이용해서 사용자 profile 정보 가져오기
-		// 3. DB 해당 유저가 존재하는 체크 (googleid, naverid 컬럼 추가)
-		//미존재시 가입페이지로!!
-		// 4. 존재시 강제로그인
-			
-		return "loginResult";
+		// DB 해당 유저가 존재하는 체크
+		if (loginService.idCheck(member.getMem_id())) {
+			//미존재시 가입페이지로!!
+			model.addAttribute("member",member);
+			nextURL = "/OAuthJoin";
+		}
+		
+		return nextURL;
 	}
 }
