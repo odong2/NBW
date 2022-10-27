@@ -1,8 +1,10 @@
 package com.finalpj.nbw.member.service;
 
+import com.finalpj.nbw.member.domain.PasswordMeter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;
@@ -12,9 +14,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class MemberService {
 
-	//BCryptPasswordEncoder bCryptPasswordEncoder;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
     private MemberDao memberDao;
-    
+
     public MemberService() {}
     
     @Autowired
@@ -31,6 +35,7 @@ public class MemberService {
         System.out.println(memberDao.selectIdCheck(strCheckId));
         return memberDao.selectIdCheck(strCheckId);
     }
+
 
     /* 회원가입 처리 */
     public int postMem(Member member) throws Exception{

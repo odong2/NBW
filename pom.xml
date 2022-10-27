@@ -78,6 +78,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.13.3</version>
 		</dependency>
+		<!-- jason-lib -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib-ext-spring</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 <!-- ================= DB 관련 설정 시작====================-->
 		<!-- Spring-tx -->
 		<dependency>
@@ -258,39 +264,6 @@
 		</dependency>
 
 <!-- ==================== security =====================-->
-		<!-- spring-security-core -->
-<!-- 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>5.3.13.RELEASE</version>
-		</dependency>
-		security-web
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>5.3.13.RELEASE</version>
-		</dependency>
-		security-config
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>5.3.13.RELEASE</version>
-		</dependency> -->
-
-		<!-- spring-security-oauth2-jose -->
-<!-- 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-oauth2-jose</artifactId>
-		    <version>5.7.4</version>
-		</dependency> -->
-		
-		<!-- spring-security-oauth2-client -->
-<!-- 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-oauth2-client</artifactId>
-		    <version>5.7.4</version>
-		</dependency> -->
-
 		<!-- OAuth 2.0 scribejava-apis -->
 		<dependency>
 		    <groupId>com.github.scribejava</groupId>
@@ -304,13 +277,6 @@
 		    <artifactId>spring-security-crypto</artifactId>
 		    <version>5.7.4</version>
 		</dependency>
-
-		<!-- scribejava-core -->
-<!-- 		<dependency>
-		    <groupId>com.github.scribejava</groupId>
-		    <artifactId>scribejava-core</artifactId>
-		    <version>8.3.2</version>
-		</dependency> -->
 		
 <!-- ==================== 웹소켓 관련 ====================-->
 		<!-- websocket -->

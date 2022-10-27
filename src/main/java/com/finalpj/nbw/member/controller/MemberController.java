@@ -1,12 +1,17 @@
 package com.finalpj.nbw.member.controller;
 
 import com.finalpj.nbw.member.domain.Member;
+import com.finalpj.nbw.member.domain.PasswordMeter;
+import com.finalpj.nbw.member.domain.PasswordStrength;
 import com.finalpj.nbw.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @Slf4j
@@ -15,6 +20,10 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private PasswordMeter passwordMeter;
+
     /* GET : 회원가입 페이지 */
     @GetMapping("register")
     public String joinPage(){
@@ -38,7 +47,13 @@ public class MemberController {
     }
 
 
+    @GetMapping(value = "pwCheck")
+    @ResponseBody
+    public String pwCheck(String pw) throws Exception{
+        String result = passwordMeter.meter(pw).toString();
+        log.info("비밀번호 안전도 수준은? ====> "+ result);
 
-
-
+        /* ajax 를 통해 뷰로 안전도 수준을 반환한다. */
+        return result;
+    }
 }

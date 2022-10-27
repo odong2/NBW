@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.finalpj.nbw.product.domain.Product;
 import com.finalpj.nbw.product.repository.ProductDaoImpl;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -27,6 +28,14 @@ public class ProductController {
 	@GetMapping("/category")
 	public String goCategory(){
 		return "/search/detailSearch";
+	}
+
+	/* ============================ 검색 =========================== */
+	@GetMapping("/product/search")
+	@ResponseBody
+	public String search(String keyword) throws Exception{
+		String result = "";
+		return result;
 	}
 }
 

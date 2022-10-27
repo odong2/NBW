@@ -5,9 +5,9 @@
     <nav class="d-flex align-items-center flex-column mb-3 col-8">
         <ul
                 class="col-12 nav nav-pills d-flex justify-content-end p-2"
-                style="font-size: 13px"
+                style="font-size: 13px;"
         >
-        <c:if test="${ !empty member }">
+<%--         <c:if test="${ !empty member }">
 	        <li class="nav-item">
 		            <a href="#" class="text-decoration-none px-3 border-end rounded-0"
 		            >김동현님
@@ -34,7 +34,36 @@
                 >로그인</a
                 >
             </li>
-        </c:if>
+        </c:if> --%>
+            <c:choose>
+                <c:when test="${ !empty member}">
+                    <li class="nav-item">
+                        <a href="/mypage/info" class="text-decoration-none px-3 border-end rounded-0"
+                        ><strong><span style="color: #0055ec; ">${loginMember.getMem_name()}</span></strong>님 환영합니다!
+                            <div id="state_ing" class="badge bg-warning rounded-pill">
+                                    ${loginMember.getG_grade()}
+                            </div></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="text-decoration-none px-3 border-end rounded-0"
+                        >로그아웃</a
+                        >
+                    </li>
+                    <li class="nav-item">
+	                <a href="#" class="text-decoration-none px-3 border-end rounded-0"
+		                >주문내역</a
+		                >
+		            </li>
+                </c:when>
+                <c:otherwise>
+					 <li class="nav-item">
+                        <a href="/login" class="text-decoration-none px-3 border-end rounded-0"
+                        >로그인</a
+                        >
+                    </li>
+                </c:otherwise>
+            </c:choose>
             <li class="nav-item">
                 <a href="/cart/list" class="text-decoration-none px-3">
                     <i class="fas fa-shopping-cart"></i>
@@ -47,8 +76,9 @@
                 >
             </li>
         </ul>
+        <br>
         <div class="col-12 d-flex align-items-center justify-content-start">
-          <a href="/home"><img alt="" src="/images/NBW_headlogo.png" style="width: 150px;"></a>
+          <a href="/home"><img alt="" src="/images/NBW_title.png" style="width: 200px;"></a>
           <div class="input-group ms-3">
                 <input
                         type="text"
@@ -56,11 +86,13 @@
                         placeholder="검색어를 입력해주세요."
                         aria-label="Recipient's username"
                         aria-describedby="button-addon2"
+                        style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
                 />
                 <button
                         class="btn btn-outline-secondary"
                         type="button"
                         id="button-addon2"
+                        style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
                 >
                     <i class="fas fa-search"></i>
                 </button>
