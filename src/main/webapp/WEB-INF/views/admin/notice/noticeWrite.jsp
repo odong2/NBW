@@ -46,6 +46,9 @@
         .ck-content {
             font-size: 12px;
         }
+        #main{
+            width: 60%;
+        }
     </style>
 </head>
 <body id="page-top">
@@ -63,15 +66,15 @@
         <!-- End of Topbar -->
         <!-- Main Content -->
         <main class="container-fluid">
-            <section class="container-fluid">
+            <section id="main" class="container-fluid">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 등록</h1>
-            <form action="/admin/notice/write" method="POST">
+            <form action="/admin/notice/write" method="POST" enctype="multipart/form-data">
                 <h5 class="mt-3 mb-2">제목</h5>
                 <input type="text" name="nt_title" id="inptitle" placeholder="제목을 입력해 주세요"/>
                 <h5 class="mt-3 mb-2">내용</h5>
-                <textarea type="text" name="nt_content" id="editor"></textarea>
-                <input id="fileInput" name="file" type="file" value="파일"/>
+                <textarea type="text" class="text-dark" name="nt_content" id="editor"></textarea>
+                <input type="file" name="file" id="fileInput"  value="파일"/>
                 <p><input type="submit" value="전송" class="mt-3" /></p>
             </form>
             </section>

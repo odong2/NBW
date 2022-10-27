@@ -20,8 +20,11 @@
           table th{
               color: black;
           }
-          tbody{
+          #content{
               height: 50vh;
+          }
+          #main{
+              width:90%;
           }
       </style>
   </head>
@@ -41,39 +44,49 @@
         <!-- Main Content -->
 		<main class="container-fluid">
             <!-- Begin Page Content -->
-            <section class="container-fluid">
+            <section id="main" class="container-fluid">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 상세 페이지</h1>
                 <!-- Notice Content -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <table class="table table-bordered border-dark" id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th class="text-center col-1">글번호</th>
-                                    <td colspan="3">${noticeDto.nt_no}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-center col-1">조회수</th>
-                                    <td>${noticeDto.nt_hit}</td>
-                                    <th class="text-center col-1">댓글수</th>
-                                    <td>${noticeDto.nt_cocnt}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-center col-1">제목</th>
-                                    <td colspan="3">${noticeDto.nt_title}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-center col-1">등록일</th>
-                                    <td colspan="3"><fmt:formatDate pattern="yyyy-MM-dd" value="${noticeDto.nt_cdate}"/></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <th class="text-center align-middle col-1">내용</th>
-                            <td colspan="3">
-                                <p class="mt-2">${noticeDto.nt_content}</p>
-                            </td>
-                            </tbody>
+                            <tr>
+                                <th class="text-center col-1">글번호</th>
+                                <td colspan="3">${noticeDto.nt_no}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center col-1">조회수</th>
+                                <td>${noticeDto.nt_hit}</td>
+                                <th class="text-center col-1">댓글수</th>
+                                <td>${noticeDto.nt_cocnt}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center col-1">제목</th>
+                                <td colspan="3">${noticeDto.nt_title}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center col-1">등록일</th>
+                                <td colspan="3"><fmt:formatDate pattern="yyyy-MM-dd" value="${noticeDto.nt_cdate}"/></td>
+                            </tr>
+                            <tr id="content">
+                                <th class="text-center align-middle col-1">내용</th>
+                                <td colspan="3">
+                                    <p class="mt-2">${noticeDto.nt_content}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center col-1">첨부파일</th>
+                                <c:choose>
+                                    <c:when test="${not empty noticeDto.nt_file}">
+                                        <td colspan="3"><a href="/admin/notice/download?fileName=${noticeDto.nt_file}"><c:out value="${noticeDto.nt_filename}"/></a></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td colspan="3">첨부파일 없음</td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </tr>
+
                         </table>
                     </div>
                     <div class="card-header py-3 d-flex justify-content-center">

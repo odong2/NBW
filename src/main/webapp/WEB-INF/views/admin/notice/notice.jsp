@@ -30,6 +30,10 @@
         tbody tr{
             cursor: pointer;
         }
+        #main{
+            width: 80%;
+            margin: auto;
+        }
       </style>
   </head>
   <body id="page-top">
@@ -48,6 +52,7 @@
         <!-- Main Content -->
 		<main class="container-fluid">
             <!-- Begin Page Content -->
+            <section id="main">
             <section class="container-fluid">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 페이지</h1>
@@ -124,6 +129,7 @@
                     <%-- ================== 검색 결과가 존재 하는 경우 끝 ================== --%>
                 </ul>
             </nav>
+            </section>
         </main>
         <!-- Footer -->
 		<%@include file="../../../includes/admin/footer.jsp" %>

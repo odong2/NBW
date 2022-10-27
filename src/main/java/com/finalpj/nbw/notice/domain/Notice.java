@@ -15,6 +15,7 @@ public class Notice {
     String nt_content;
     Date nt_cdate;
     String nt_file;
+    String nt_filename;
     Integer nt_hit;
     Integer nt_cocnt;
 
