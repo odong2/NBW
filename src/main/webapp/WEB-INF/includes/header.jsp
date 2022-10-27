@@ -7,41 +7,13 @@
                 class="col-12 nav nav-pills d-flex justify-content-end p-2"
                 style="font-size: 13px;"
         >
-<%--         <c:if test="${ !empty member }">
-	        <li class="nav-item">
-		            <a href="#" class="text-decoration-none px-3 border-end rounded-0"
-		            >김동현님
-		                <div id="state_ing" class="badge bg-warning rounded-pill">
-		                    GOLD
-		                </div></a
-		            >
-		        </li>
-			<li class="nav-item">
-		            <a href="/logout" class="text-decoration-none px-3 border-end rounded-0"
-		            >로그아웃</a
-		            >
-		    </li>
-		    <li class="nav-item">
-		        <a href="#" class="text-decoration-none px-3 border-end rounded-0"
-		        >주문내역</a
-		        >
-		    </li>
-        </c:if>
-        
-        <c:if test="${ empty member }">
-        	<li class="nav-item">
-                <a href="/login" class="text-decoration-none px-3 border-end rounded-0"
-                >로그인</a
-                >
-            </li>
-        </c:if> --%>
             <c:choose>
-                <c:when test="${ !empty member}">
+                <c:when test="${ !empty sessionScope.member}">
                     <li class="nav-item">
                         <a href="/mypage/info" class="text-decoration-none px-3 border-end rounded-0"
-                        ><strong><span style="color: #0055ec; ">${loginMember.getMem_name()}</span></strong>님 환영합니다!
+                        ><strong><span style="color: #0055ec; ">${sessionScope.member.getMem_name()}</span></strong>님 환영합니다!
                             <div id="state_ing" class="badge bg-warning rounded-pill">
-                                    ${loginMember.getG_grade()}
+                                    ${sessionScope.member.getG_grade()}
                             </div></a
                         >
                     </li>
@@ -202,4 +174,3 @@
     </ul>
     <div class="col-1"></div>
 </nav>
-

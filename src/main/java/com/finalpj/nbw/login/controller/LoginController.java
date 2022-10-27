@@ -77,28 +77,18 @@ public class LoginController {
 		Member member = oauth2LoginService.getUserProfile(code, platform);
 		
 		// DB 해당 유저가 존재하는 체크
-		if (loginService.idCheck(member.getMem_id())) {
-			//미존재시 가입페이지로!!
+		if (!loginService.idCheck(member.getMem_id())) {
+			// 미존재시 가입페이지로!!
 			model.addAttribute("member",member);
-			nextURL = "/OAuthJoin";
+			nextURL = "/join/join";
+		} else {
+			// 존재시 가입된 아이디 불러오기!!
+			Member resultMember = loginService.loginCheck(member.getMem_id());
+			session.setAttribute("member", resultMember);
 		}
 		
 		return nextURL;
 	}
-
-
-	/* 채은 추가 부분 =============== 로그아웃 =====================> */
-
-//	@GetMapping("/logout")
-//	public String logout(HttpServletRequest request){
-//		/* false ==> 기존에 가지고 있는 세션을 쓰도록 하겠다. */
-//		HttpSession session = request.getSession(false);
-//		/* 세션을 버리는 메소드로 세션을 날리도록 하겠다. ==> 로그아웃 */
-//		session.invalidate();
-//		return "redirect:/home";
-//	}
-	/* <========================== 로그아웃 ========== 채은 추가 부분 끝 */
-
 }
 
 

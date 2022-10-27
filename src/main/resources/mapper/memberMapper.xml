@@ -22,7 +22,6 @@
                                , MEM_CDATE
                                , MEM_BIRTHDAY
                                , MEM_EMAIL
-
                                )
         VALUES (
                 #{mem_id}
@@ -36,7 +35,6 @@
                 , sysdate
                 ,#{mem_birthday}
                 ,#{mem_email}
-
                 )
     </insert>
 

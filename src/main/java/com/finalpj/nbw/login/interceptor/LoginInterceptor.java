@@ -11,6 +11,9 @@ import com.finalpj.nbw.login.dto.LoginDto;
 import com.finalpj.nbw.login.exception.WrongPasswordException;
 import com.finalpj.nbw.member.domain.Member;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 public class LoginInterceptor implements HandlerInterceptor{
 
 	@Override
@@ -35,6 +38,8 @@ public class LoginInterceptor implements HandlerInterceptor{
 			@Nullable ModelAndView modelAndView) throws Exception {
 		
 		Member member = (Member)modelAndView.getModelMap().get("member");
+		
+		log.info(member);
 		
 		if (member != null) {
 			request.getSession().setAttribute("member", member);

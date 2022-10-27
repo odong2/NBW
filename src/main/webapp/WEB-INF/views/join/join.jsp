@@ -146,7 +146,9 @@
                     $('.final_privacy_ck').attr("hidden", true);
                     privacyCheck = true;
                 }
-
+				<c:if test="${ !empty member }">
+					mailCodeCheck = true;
+				</c:if>
                 /* 최종 유효성 검사 체크 > 모든 것이 참이어야 가입 가능 */
                 if(idCheck&&pwCheck&&nameCheck&&mailCheck&&birthCheck&&genderCheck&&phoneCheck&&addressCheck&&privacyCheck&&mailCodeCheck) {
                     $("#joinForm").attr("action", "/member/join");
@@ -418,8 +420,16 @@
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-75">
-                    <input name="mem_id" id="mem_id" required="required" pattern="[A-Za-z0-9]{4,20}" class="form-control"
-                           autocomplete="off" placeholder="아이디를 입력해 주세요.">
+                    <c:choose>
+		                <c:when test="${ empty member}">
+							<input name="mem_id" id="mem_id" required="required" pattern="[A-Za-z0-9]{4,20}" class="form-control"
+                           		autocomplete="off" placeholder="아이디를 입력해 주세요.">
+		                </c:when>
+		                <c:otherwise>
+							<input name="mem_id" id="mem_id" required="required" pattern="[A-Za-z0-9]{4,20}" class="form-control"
+                          		autocomplete="off" value="${ member.getMem_id()}" readonly>
+		                </c:otherwise>
+		            </c:choose>
                 </div>
                 <div class = "alert alert-dismissible w-75" id="idCheckDiv"></div>                </div>
             </div>
@@ -470,8 +480,16 @@
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-50">
-                    <input name="mem_name" id="mem_name" type="text" required="required" pattern="[가-힣]{2,10}"
-                           autocomplete="off" class="form-control">
+		            <c:choose>
+		                <c:when test="${ empty member}">
+							<input name="mem_name" id="mem_name" type="text" required="required" pattern="[가-힣]{2,10}"
+                           		autocomplete="off" class="form-control">
+		                </c:when>
+		                <c:otherwise>
+							<input name="mem_name" id="mem_name" type="text" required="required" pattern="[가-힣]{2,10}"
+                           		autocomplete="off" class="form-control" value="${ member.getMem_name() }" readonly>
+		                </c:otherwise>
+		            </c:choose>
                 </div>
             </div>
         </div>
@@ -486,38 +504,46 @@
                 <span class="final_mail_ck" style="font-size: 5px; color: red" hidden>이메일을 입력해 주세요.</span>
             </div>
             <div class="col-9">
-                <div class="row">
-                    <div class="col-6 input-group mb-3 w-100">
-                        <input name="mem_email" id="mem_email_id" placeholder="이메일 입력" required="required"
-                               autocomplete="off" class="form-control w-50" />
-                        <p>@</p>
-
-                        <input name="email_domain" id="email_domain" required="required"
-                               autocomplete="off" class="form-control" readonly>
-
-                        <select name="email_domain_list" id="email_domain_list" class="form-control w-50" required="required">
-                            <option value="naver">naver.com</option>
-                            <option value="gmail">gmail.com</option>
-                            <option value="daum">hanmail.net</option>
-                            <option value="self">직접 입력</option>
-                        </select>
-                    </div>
-
-                </div>
-                <%-- 메일 인증번호 입력란 --%>
-                <div class="row">
-                    <div class="col-9">
-                        <input id="mem_email_num" required="required" aria-describedby="button-addon2"
-                               autocomplete="off" class="form-control " placeholder="인증번호를 입력해 주세요" disabled/>
-                    </div>
-                    <div class="col-3">
-                        <button name="btn-email-send" class="btn btn-outline-secondary" type="button">인증메일 전송</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <span id="mail_check_input_box_warn"></span>
-                </div>
-
+            <c:choose>
+				<c:when test="${ empty member}">
+					<div class="row">
+	                    <div class="col-6 input-group mb-3 w-100">
+	                        <input name="mem_email" id="mem_email_id" placeholder="이메일 입력" required="required"
+	                               autocomplete="off" class="form-control w-50" />
+	                        <p>@</p>
+	
+	                        <input name="email_domain" id="email_domain" required="required"
+	                               autocomplete="off" class="form-control" readonly>
+	
+	                        <select name="email_domain_list" id="email_domain_list" class="form-control w-50" required="required">
+	                            <option value="naver">naver.com</option>
+	                            <option value="gmail">gmail.com</option>
+	                            <option value="daum">hanmail.net</option>
+	                            <option value="self">직접 입력</option>
+	                        </select>
+	                    </div>
+	                </div>
+	                <%-- 메일 인증번호 입력란 --%>
+	                <div class="row">
+	                    <div class="col-9">
+	                        <input id="mem_email_num" required="required" aria-describedby="button-addon2"
+	                               autocomplete="off" class="form-control " placeholder="인증번호를 입력해 주세요" disabled/>
+	                    </div>
+	                    <div class="col-3">
+	                        <button name="btn-email-send" class="btn btn-outline-secondary" type="button">인증메일 전송</button>
+	                    </div>
+	                </div>
+	                <div class="row">
+	                    <span id="mail_check_input_box_warn"></span>
+	                </div>
+				</c:when>
+				<c:otherwise>
+					<div class="col-6 input-group mb-3 w-100">
+	                    <input name="mem_email" id="mem_email_id" placeholder="이메일 입력" required="required"
+	                           autocomplete="off" class="form-control w-50" value="${ member.getMem_email()}" readonly/>
+	                </div>
+				</c:otherwise>
+			</c:choose>
             </div>
 
         </div>
@@ -533,11 +559,22 @@
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-50">
-                    <input name="mem_birthday" id="mem_birthday" required="required"
-                           class="form-control datepicker" autocomplete="off">
+                    <c:choose>
+			                <c:when test="${ empty member}">
+								<input name="mem_birthday" id="mem_birthday" required="required"
+                           			class="form-control datepicker" autocomplete="off">
+			                </c:when>
+			                <c:otherwise>
+								<input name="mem_birthday" id="mem_birthday" required="required"
+                           			class="form-control datepicker" autocomplete="off" value="${ member.getMem_birthday() }" readonly>
+			                </c:otherwise>
+			       	</c:choose>
+
                 </div>
             </div>
         </div>
+        
+
 
         <hr>
         <br>
@@ -565,8 +602,16 @@
             </div>
             <div class="col-9 mb-3">
                 <div class="input-group mb-3 w-50">
-                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
-                           autocomplete="off" class="form-control">
+		            <c:choose>
+		                <c:when test="${ empty member}">
+		                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
+		                           autocomplete="off" class="form-control">
+		                </c:when>
+		                <c:otherwise>
+		                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
+		                           autocomplete="off" class="form-control" value="${member.getMem_phone()}" readonly>
+		                </c:otherwise>
+		            </c:choose>
                 </div>
             </div>
         </div>
@@ -800,7 +845,11 @@
         </div>
     </form>
 </main>
-
+<c:if test="${ !empty member }">
+	<script type="text/javascript">
+		alert('최초 로그인시 개인정보 입력이 추가로 필요합니다.');
+	</script>
+</c:if>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

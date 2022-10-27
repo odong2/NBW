@@ -90,9 +90,7 @@ public class NaverOAuth2 extends DefaultApi20{
 	    		.mem_name(map.get("name"))
 	    		.mem_birthday(map.get("birthyear")+"-"+map.get("birthday"))
 	    		.build();
-	    
-	    log.info(member);
-	    
+		
 	    return member;
 	}
 }

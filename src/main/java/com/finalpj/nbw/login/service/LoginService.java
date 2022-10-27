@@ -53,6 +53,10 @@ public class LoginService
     	return member;
     }
     
+    public Member loginCheck(String OAuth2UserId) throws LoginException {
+    	return loginDao.seleteUser(OAuth2UserId);
+    }
+    
     public boolean passwordCheck(String userPassword, String resultPassword) {    
     	return bCryptPasswordEncoder.matches(userPassword, resultPassword);
     }
