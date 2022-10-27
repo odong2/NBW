@@ -48,7 +48,7 @@
 
         $(function(){
             /* ============================ 수정 요청 전송 ========================== */
-            $("#btn-update").click(function(){
+            $("#btn-update").click(function(e){
 
                 /* 입력칸 변수 */
                 let mail = $("#mem_email").val();        // 메일주소 입력란
@@ -76,12 +76,15 @@
                     addressCheck = true;
                 }
 
-                if(mailCheck&&mailCodeCheck&&addressCheck){
+                if(!mailCheck || !mailCodeCheck || !addressCheck){
+                    // alert("입력을 다시 한 번 확인해 주세요.");
+                    /* 자동 새로고침 방지 */
+                    e.preventDefault();
+                    return;
+                }else{
                     $("#updateForm").attr("action", "/mypage/info");
                     $("#updateForm").attr("method", "post");
                     $("#updateForm").submit();
-                }else{
-                    alert("입력을 다시 한 번 확인해 주세요.");
                 }
             })
 
@@ -174,15 +177,11 @@
                 <div class="row m-4">
                     <div class="col-3">
                         <h6><strong>아이디</strong></h6>
-
-        <%-- !!!!!  Test용 mem_id
-                       value값에 해당이 되는 아이디가 수정이 될 것이다.
-       --%>
-                        <input type="text" name="mem_id" value="chaeeun94" hidden/>
+                        <input type="text" name="mem_id" value="${loginMember.getMem_id()}" hidden/>
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label> hye1363 </label>
+                            <label>${loginMember.getMem_id()}</label>
                         </div>
                     </div>
                 </div>
@@ -194,7 +193,7 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label> 정채은 </label>
+                            <label>${loginMember.getMem_name()}</label>
                         </div>
                     </div>
                 </div>
@@ -207,7 +206,7 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label> 1994.09.10 / 여 </label>
+                            <label> ${loginMember.getMem_birthday()} / ${loginMember.getMem_gender()} </label>
                         </div>
                     </div>
                 </div>
@@ -219,7 +218,7 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label> 010-1234-5678 </label>
+                            <label> ${loginMember.getMem_phone()} </label>
                         </div>
                     </div>
                 </div>
@@ -232,7 +231,7 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label id="lb-mail"> ninxtxn@gmail.com</label>
+                            <label id="lb-mail"> ${loginMember.getMem_email()}</label>
                             <input name="mem_email" type="text" id="mem_email" hidden
                                    autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="이메일을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
                             <button name="btn-email-send" id="btn-email-send" hidden
@@ -249,7 +248,7 @@
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
                             <input type="text" id="mem_email_num" hidden
-                                   autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="인증번호 6자리">
+                                   autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="인증번호 6자리" style="background-color: #fffbc5; border-radius: 5px">
                         </div>
                         <div class="row">
                             <span id="mail_check_input_box_warn"></span>
@@ -266,7 +265,7 @@
                     <div class="col-8">
                         <div class="input-group mb-3 w-100">
                             <input name="mem_zipcode" type="text" id="address1" readonly
-                                   class="form-control" value="12345" aria-describedby="button-addon2">
+                                   class="form-control" value="${loginMember.getMem_zipcode()}" aria-describedby="button-addon2">
                             <button class="btn btn-outline-secondary" id="upBtn-addr" type="button" onclick="exePostCode()" >변경</button>
                         </div>
                     </div>
@@ -278,7 +277,7 @@
                     <div class="col-8">
                         <div class="input-group mb-3 w-100">
                             <input name="mem_address" type="text" id="address2" readonly
-                                   autocomplete="off" class="form-control" value="00로 00길 55">
+                                   autocomplete="off" class="form-control" value="${loginMember.getMem_address()}">
                         </div>
                     </div>
                 </div>
@@ -289,7 +288,7 @@
                     <div class="col-8">
                         <div class="input-group mb-3 w-100">
                             <input name="mem_address2" type="text" id="address3" readonly
-                                   autocomplete="off" class="form-control" value="00아파트 101호">
+                                   autocomplete="off" class="form-control" value="${loginMember.getMem_address2()}">
                         </div>
                     </div>
                     <br>
@@ -297,6 +296,11 @@
                     <br>
                 </div>
                 <hr style="border: solid 1px black;">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-3"></div>
+                    <div class="col-6" style="text-align: right;"> <p style="font-size: x-small">마지막 수정일은 <strong>${loginMember.getMem_update()}</strong>입니다.</div>
+                </div>
                 <%-- 버튼 ROW  --%>
                 <div class="row m-auto">
                     <div class="col-4"></div>
