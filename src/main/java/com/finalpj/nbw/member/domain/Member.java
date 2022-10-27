@@ -49,6 +49,15 @@ public class Member implements UserDetails {
         this.mem_email_domain = mem_email_domain;
     }
 
+    @Builder
+    public Member(String mem_email, String mem_zipcode, String mem_address, String mem_address2, String mem_update){
+        this.mem_email = mem_email;
+        this.mem_zipcode = mem_zipcode;
+        this.mem_address = mem_address;
+        this.mem_address2 = mem_address2;
+        this.mem_update = mem_update;
+    }
+
     // 해당 User의 권한을 리턴하는곳
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

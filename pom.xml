@@ -78,6 +78,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.13.3</version>
 		</dependency>
+		<!-- jason-lib -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib-ext-spring</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 <!-- ================= DB 관련 설정 시작====================-->
 		<!-- Spring-tx -->
 		<dependency>

@@ -11,6 +11,7 @@
 
     <script type="text/javascript">
         let code = ""; // 이메일 전송 인증번호 저장을 위한 코드
+        let result = "";
 
         /* 유효성 검사 통과유무 변수 > 필수 항목 */
         let idCheck = false;            // 아이디
@@ -30,7 +31,7 @@
          * 회원가입 데이터가 넘어가기 자바로 넘어가기 전에 검사 되어야 할 리스트
          * - (필수)입력란의 데이터가 null 인지 */
             /* 유효성 검사 통과유무 변수를 선언한다. */
-            $("#btn-join").click(function(){
+            $("#btn-join").click(function(e){
 
                 /* 입력값 변수 */
                 let id = $('#mem_id').val();                 // id 입력란
@@ -153,6 +154,8 @@
                     $("#joinForm").submit();
                 }else
                     alert("회원가입 양식을 다시 한 번 확인해 주세요.");
+                    e.preventDefault();
+
             });
 
             <%-- ================================= DatePicker =================================== --%>
@@ -217,95 +220,105 @@
                 });
             });
 
+            $("#mem_pw").mouseover(function(){
+                $('#layer').css('display', 'block')
+                            .css('background-color', '#ffffff');
+            });
+
             /* ===================================== 비밀번호 유효성 처리(길이, 일치여부) ===================================== */
             // 비밀번호 처리 이벤트
-            $("#mem_pw").keyup(function(){
-                let pw = $(this).val();
-                let pw2 = $("#mem_pw2").val();
-                console.log("pw ===> "+ pw);
-                console.log("pw2 ===> "+ pw2);
+            $("#mem_pw").keyup(function() {
+                let pw = $("#mem_pw").val();
+                console.log("입력한 비밀번호 ===> "+ pw);
 
-                /* 8자 미만 처리 */
-                if(pw.length < 8){
-                    $('#pwCheckDiv').removeClass("alert-dismissible");
-                    $('#pwCheckDiv').addClass("alert-danger");
-                    $('#pwCheckDiv').text("비밀번호는 8자 이상이어야 합니다.");
-                    return;
-                }
-                /* 20자 초과 처리 */
-                if(pw.length > 20){
-                    $('#pwCheckDiv').removeClass("alert-success");
-                    $('#pwCheckDiv').addClass("alert-danger");
-                    $('#pwCheckDiv').text("비밀번호는 20자 이내여야 합니다.");
-                    return;
-                }
+                /* (2) ajax 코드를 추가한다 > controller 에 요청할 때 화면이 전환되는 것을 방지 */
+                $.ajax({
+                    type:"GET",
+                    url:"/member/pwCheck?pw="+pw,
+                    success:function(data){
+                        /* Controller 단에서 반환받은 안전도 수준이 잘 전송되었는지 확인 */
+                        console.log("data : "+ data);
+                        result = data;
 
-                /* 8자 이상 20자 이하일 경우 비밀번호 일치 여부를 체크한다. */
-                if(pw == pw2) {
-                    // 비밀번호와 비밀번호 확인이 같은 경우
-                    $("#pwCheckDiv, #pwCheckDiv2").removeClass("alert-danger");
-                    $("#pwCheckDiv, #pwCheckDiv2").addClass("alert-success");
-                    $("#pwCheckDiv, #pwCheckDiv2").text("비밀번호가 일치합니다.");
-                } else {
-                    // 같지 않은 경우
-                    $("#pwCheckDiv, #pwCheckDiv2").removeClass("alert-dismissible");
-                    $("#pwCheckDiv, #pwCheckDiv2").addClass("alert-danger");
-                    $("#pwCheckDiv").text("비밀번호가 일치하지 않습니다.");
-
-                    if(pw2.length < 8)
-                        $("#pwCheckDiv").text("비밀번호는 8자 이상이어야 합니다.");
-                    else if(pw2.length > 20)
-                        $("#pwCheckDiv").text("비밀번호는 20자 이내이여야 합니다.");
-                    else
-                        $("#pwCheckDiv").text("비밀번호가 일치하지 않습니다.");
-                }
+                        if(result == "WEAK"){
+                            result = "낮음";
+                            console.log(result);
+                            $('#pwCheckDiv').removeClass("alert-dismissible");
+                            $('#pwCheckDiv').addClass("alert-danger");
+                            $('#pwCheckDiv').text("보안수준 : "+ result);
+                        }
+                        if(result == "NORMAL"){
+                            result = "보통";
+                            console.log(result);
+                            $('#pwCheckDiv').removeClass("alert-danger");
+                            $('#pwCheckDiv').addClass("alert-success");
+                            $('#pwCheckDiv').text("보안수준 : "+ result);
+                        }
+                        if(result == "STRONG"){
+                            result = "강력";
+                            console.log(result);
+                            $('#pwCheckDiv').removeClass("alert-info");
+                            $('#pwCheckDiv').addClass("alert-info");
+                            $('#pwCheckDiv').text("보안수준 : "+ result);
+                        }
+                       /* 비밀번호를 입력했다가 지웠을 때 처리도 해줘야 한다.*/
+                    }
+                });
             });
 
-            // 비밀번호 확인 처리 이벤트
-            $("#mem_pw2").keyup(function(){
-                let pw2 = $(this).val();
-                let pw = $("#mem_pw").val();
-
-                /* 8자 미만 처리 */
-                if(pw.length < 8){
+            /* ===================================== 비밀번호 유효성 처리(길이, 일치여부) ===================================== */
+            $('#mem_pw2').keyup(function(){
+                let pw = $('#mem_pw').val();
+                let pw2 = $('#mem_pw2').val();
+                if(pw!=pw2){
                     $('#pwCheckDiv2').removeClass("alert-dismissible");
                     $('#pwCheckDiv2').addClass("alert-danger");
-                    $('#pwCheckDiv2').text("비밀번호는 8자 이상이어야 합니다.");
-                    pwCheck = false;
-                    return;
-                }
-                /* 20자 초과 처리 */
-                if(pw.length > 20){
-                    $('#pwCheckDiv2').removeClass("alert-success");
-                    $('#pwCheckDiv2').addClass("alert-danger");
-                    $('#pwCheckDiv2').text("비밀번호는 20자 이내여야 합니다.");
-                    pwCheck = false;
-                    return;
-                }
-                /* 8자 이상 20자 이하일 경우 비밀번호 일치 여부를 체크한다. */
-                if(pw == pw2) {
-                    // 비밀번호와 비밀번호 확인이 같은 경우
-                    $("#pwCheckDiv, #pwCheckDiv2").removeClass("alert-danger");
-                    $("#pwCheckDiv, #pwCheckDiv2").addClass("alert-success");
-                    $("#pwCheckDiv, #pwCheckDiv2").text("비밀번호가 일치합니다.");
-                    pwCheck = true;
-                } else {
-                    // 같지 않은 경우
-                    $("#pwCheckDiv, #pwCheckDiv2").removeClass("alert-dismissible");
-                    $("#pwCheckDiv, #pwCheckDiv2").addClass("alert-danger");
-                    $("#pwCheckDiv2").text("비밀번호가 일치하지 않습니다.");
-                    pwCheck = false;
-
-                    if(pw2.length < 8)
-                        $("#pwCheckDiv2").text("비밀번호는 8자 이상이어야 합니다.");
-                    else if(pw2.length > 20)
-                        $("#pwCheckDiv2").text("비밀번호는 20자 이내이여야 합니다.");
-                    else
-                        $("#pwCheckDiv2").text("비밀번호가 일치하지 않습니다.");
+                    $('#pwCheckDiv2').text("비밀번호가 일치하지 않습니다.");
+                }else{
+                    $('#pwCheckDiv2').removeClass("alert-danger");
+                    $('#pwCheckDiv2').addClass("alert-info");
+                    $('#pwCheckDiv2').text("비밀번호가 일치합니다.");
                 }
             });
 
+
             /* ===================================== 이메일 전송  ===================================== */
+            $("[name=btn-email-send]").click(function(e){
+                /* (1) 먼저 이메일 입력 칸에 입력한 이메일이 있는지 확인한다.*/
+                const id = $("#mem_email_id").val(); // 입력한 이메일 ID
+                const domain = $("#email_domain").val(); // 선택한 이메일 DOMAIN
+                // 인증번호 입력란 박스
+                console.log(id);
+                console.log(domain);
+
+                const email = (id+"@"+domain).trim();
+
+                if(id == null || id.trim() =="") {
+                    alert("이메일 주소를 입력해 주세요.");
+                    e.preventDefault();
+                }
+                else {
+                    alert("id => "+id + "domain => "+domain+"email =>"+email+"로 이메일을 전송하였습니다.");
+                    console.log("인증번호를 보낼 email ==> "+ email)
+                }
+
+                /* (2) ajax 코드를 추가한다 > controller 에 요청할 때 화면이 전환되는 것을 방지 */
+                $.ajax({
+                    type:"GET",
+                    url:"/mail/mailCheck?email="+email,
+                    success:function(data){
+
+                        /* Controller 단에서 반환받은 랜덤코드가 잘 전송되는 지 확인 */
+                        console.log("data : "+ data);
+                        /* 인증번호 입력 칸의 disabled 속성을 true -> false 로 변경한다. */
+                        $("#mem_email_num").attr("disabled", false);
+                        /* Controller 로부터 전달받은 인증번호를 위에서 선언한 code 변수에 새로 할당한다. */
+                        code = data;
+                        console.log("code : "+ code); // 할당이 되었는지 확인
+                    }
+                });
+            });
+
             $("select[name=email_domain_list]").change(function(){
                 /* 도메인 */
                 let selectedDomain = $("select[name=email_domain_list] option:selected").text(); // text값 가져오기
@@ -318,38 +331,6 @@
                     $("#email_domain").attr("readonly", true); // readonly 활성화
                     $("#email_domain").val(selectedDomain); // 선택한 도메인이 자동으로 입력된다.
                 }
-            });
-
-            $("[name=btn-email-send]").click(function(){
-                /* (1) 먼저 이메일 입력 칸에 입력한 이메일이 있는지 확인한다.*/
-                    const id = $("#mem_email_id").val(); // 입력한 이메일 ID
-                    const domain = $("#email_domain").val(); // 선택한 이메일 DOMAIN
-                     // 인증번호 입력란 박스
-                    console.log(id);
-                    console.log(domain);
-
-                    const email = (id+"@"+domain).trim();
-
-                    if(id == null || id.trim() =="") alert("이메일 주소를 입력해 주세요.");
-                    else alert("id => "+id + "domain => "+domain+"email =>"+email+"로 이메일을 전송하였습니다.");
-                    console.log("인증번호를 보낼 email ==> "+ email)
-
-                /* (2) ajax 코드를 추가한다 > controller 에 요청할 때 화면이 전환되는 것을 방지 */
-                    $.ajax({
-                        type:"GET",
-                        url:"/mail/mailCheck?email="+email,
-                        success:function(data){
-
-                            /* Controller 단에서 반환받은 랜덤코드가 잘 전송되는 지 확인 */
-                            console.log("data : "+ data);
-                            /* 인증번호 입력 칸의 disabled 속성을 true -> false 로 변경한다. */
-                            $("#mem_email_num").attr("disabled", false);
-                            /* Controller 로부터 전달받은 인증번호를 위에서 선언한 code 변수에 새로 할당한다. */
-                            code = data;
-                            console.log("code : "+ code); // 할당이 되었는지 확인
-
-                        }
-                    });
             });
 
             /* ===================================== 발송된 인증번호 비교  ===================================== */
@@ -404,7 +385,7 @@
             background-color: transparent;
         }
         #btn-join:hover {
-            background-color: #f6edd3;
+            background-color: #fffbc5;
             font-size: x-large;
             font-weight: bolder;
             font-family: "210 Soopilmyungjo";
@@ -453,6 +434,9 @@
             <div class="col-3">
                 <h6><span style="color: red; ">*</span>비밀번호 </h6>
                 <span class="final_pw_ck" style="font-size: 5px; color: red" hidden>비밀번호를 입력해주세요.</span>
+                <div id="layer" style="display: none">
+                    <p style="font-size: x-small"> 비밀번호에 <strong>숫자, 소문자, 대문자</strong>를<br>모두 포함해 주세요.</p>
+                </div>
             </div>
             <div class="col-9">
                 <div class="input-group mb-3 w-75">
