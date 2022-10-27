@@ -5,13 +5,15 @@ import com.finalpj.nbw.notice.domain.PageHandler;
 import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.notice.service.NoticeService;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Log4j
 @Controller
@@ -58,5 +60,22 @@ public class AdminNoticeController {
         return "/admin/notice/noticeRead";
     }
 
+    @GetMapping("/write")
+    public String getWritePage(){
+
+        return "/admin/notice/noticeWrite";
+    }
+    @PostMapping("/write")
+    public String writeNotice(Notice notice, RedirectAttributes rattr){
+        try{
+            noticeService.writeNotice(notice);
+            rattr.addFlashAttribute("msg","WRT_OK");
+        }catch (Exception e){
+            e.printStackTrace();
+            rattr.addFlashAttribute("msg","WRT_ERR");
+        }
+
+        return "redirect:/admin/notice/list";
+    }
 
 }
