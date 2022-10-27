@@ -13,10 +13,16 @@
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자 공지사항</title>
       <style>
-        #noticeData,
-        #noticeTitle{
-            text-align: center;
-        }
+          .card-body{
+              height: 100%;
+          }
+          table tr,
+          table th{
+              color: black;
+          }
+          tbody{
+              height: 50vh;
+          }
       </style>
   </head>
   <body id="page-top">
@@ -37,83 +43,49 @@
             <!-- Begin Page Content -->
             <section class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 페이지</h1>
-                <p class="mb-4">
-                    공지글을 관리하는 페이지 입니다. 클라이언트 페이지의 공지사항으로 이동하시려면 <a href="/notice/list" >링크</a>를 눌러주세요.
-                </p>
+                <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 상세 페이지</h1>
                 <!-- Notice Content -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <button id="ntWrtBtn" type="button" class="btn btn-dark">글 등록하기</button>
-                    </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable">
-                                <thead id="noticeTitle">
+                        <table class="table table-bordered border-dark" id="dataTable">
+                            <thead>
                                 <tr>
-                                    <th>번호</th>
-                                    <th>제목</th>
-                                    <th>조회수</th>
-                                    <th>댓글수</th>
-                                    <th>작성일</th>
+                                    <th class="text-center col-1">글번호</th>
+                                    <td colspan="3">${noticeDto.nt_no}</td>
                                 </tr>
-                                </thead>
-                                <tbody id="noticeData">
-                                <c:forEach var="noticeDto" items="${noticeList}">
-                                    <tr>
-                                        <td><c:out value="${noticeDto.nt_no}"/></td>
-                                        <td>
-                                            <a href="<c:url value="/admin/notice/read${ph.sc.queryString}&nt_no=${notice.nt_no}"/>">
-                                                <c:out value="${noticeDto.nt_title}"/>
-                                            </a>
-                                        </td>
-                                        <td><c:out value="${noticeDto.nt_hit}"/></td>
-                                        <td><c:out value="${noticeDto.nt_cocnt}"/></td>
-                                        <td><fmt:formatDate pattern="yyyy-MM-dd" value="${noticeDto.nt_cdate}"/></td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
+                                <tr>
+                                    <th class="text-center col-1">조회수</th>
+                                    <td>${noticeDto.nt_hit}</td>
+                                    <th class="text-center col-1">댓글수</th>
+                                    <td>${noticeDto.nt_cocnt}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center col-1">제목</th>
+                                    <td colspan="3">${noticeDto.nt_title}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center col-1">등록일</th>
+                                    <td colspan="3"><fmt:formatDate pattern="yyyy-MM-dd" value="${noticeDto.nt_cdate}"/></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <th class="text-center align-middle col-1">내용</th>
+                            <td colspan="3">
+                                <p class="mt-2">${noticeDto.nt_content}</p>
+                            </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-header py-3 d-flex justify-content-center">
+                        <button id="ntModBtn" type="button" class="btn">공지글 수정하기</button>
+                        <button id="ntDelBtn" type="button" class="btn">공지글 삭제하기</button>
                     </div>
                 </div>
             </section>
-            <nav aria-label="Page navigation ">
-                <ul class="pagination d-flex justify-content-center">
-                    <%-- ================== 검색 결과가 없는 경우 ================== --%>
-                    <c:if test="${ph.totalCnt==null || ph.totalCnt==0}">
-                        <div> 게시물이 없습니다. </div>
-                    </c:if>
-                    <%-- ================== 검색 결과가 존재 하는 경우 ================== --%>
-                    <c:if test="${ph.totalCnt!=null || ph.totalCnt!=0}">
-                        <%-- =================== 이전 페이지 링크 보여줄 지 여부 ================--%>
-                        <c:if test="${ph.showPrev}">
-                            <li class="page-item">
-                                <a class="page-link" href=""<c:url value="/admin/notice/list${ph.sc.getQueryString(ph.beginPage-1)}"/>">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                        </c:if>
-                        <%-- =================== 총 게시물 개수만큼 페이징 처리 ================--%>
-                        <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                            <li class="page-item">
-                                <a class="page-link" href="<c:url value="/admin/notice/list${ph.sc.getQueryString(i)}"/>">${i}</a>
-                            </li>
-                        </c:forEach>
-                        <%-- =================== 다음 페이지 링크 보여줄 지 여부 ================--%>
-                        <c:if test="${ph.showNext}">
-                            <li class="page-item">
-                                <a class="page-link"href="<c:url value="/admin/notice/list${ph.sc.getQueryString(ph.endPage+1)}"/>">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </c:if>
-                    </c:if>
-                    <%-- ================== 검색 결과가 존재 하는 경우 끝 ================== --%>
-                </ul>
-            </nav>
+            <%-- ================================== 공지사항 댓글 관리 ====================================--%>
+            <section>
+
+            </section>
         </main>
         <!-- Footer -->
 		<%@include file="../../../includes/admin/footer.jsp" %>

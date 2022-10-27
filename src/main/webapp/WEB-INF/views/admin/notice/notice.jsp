@@ -17,6 +17,19 @@
         #noticeTitle{
             text-align: center;
         }
+        table > thead{
+            pointer-events: none;
+        }
+        .info{
+            font-size: 0.9rem;
+            color: #1a1e21;
+        }
+        table td{
+            color: black;
+        }
+        tbody tr{
+            cursor: pointer;
+        }
       </style>
   </head>
   <body id="page-top">
@@ -38,9 +51,10 @@
             <section class="container-fluid">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 페이지</h1>
-                <p class="mb-4">
-                    공지글을 관리하는 페이지 입니다. 클라이언트 페이지의 공지사항으로 이동하시려면 <a href="/notice/list" >링크</a>를 눌러주세요.
+                <p class="mt-3 mb-1 info">
+                    공지글을 관리하는 페이지 입니다. 클라이언트 페이지의 공지사항으로 이동하시려면 <a href="/notice/list" class="font-weight-bold">링크</a>를 눌러주세요.
                 </p>
+                <p class="info">글 수정 및 삭제는 공지글 조회 후 상세페이지에서 진행해 주세요.</p>
                 <!-- Notice Content -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -48,9 +62,9 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable">
-                                <thead id="noticeTitle">
-                                <tr>
+                            <table class="table table-bordered table-hover" id="dataTable">
+                                <thead id="noticeTitle" class="table-dark">
+                                <tr class="text-white">
                                     <th>번호</th>
                                     <th>제목</th>
                                     <th>조회수</th>
@@ -60,13 +74,9 @@
                                 </thead>
                                 <tbody id="noticeData">
                                 <c:forEach var="noticeDto" items="${noticeList}">
-                                    <tr>
+                                    <tr onclick="link('/admin/notice/read${ph.sc.queryString}&nt_no=${noticeDto.nt_no}')">
                                         <td><c:out value="${noticeDto.nt_no}"/></td>
-                                        <td>
-                                            <a href="<c:url value="/admin/notice/read${ph.sc.queryString}&nt_no=${notice.nt_no}"/>">
-                                                <c:out value="${noticeDto.nt_title}"/>
-                                            </a>
-                                        </td>
+                                        <td><c:out value="${noticeDto.nt_title}"/></td>
                                         <td><c:out value="${noticeDto.nt_hit}"/></td>
                                         <td><c:out value="${noticeDto.nt_cocnt}"/></td>
                                         <td><fmt:formatDate pattern="yyyy-MM-dd" value="${noticeDto.nt_cdate}"/></td>
@@ -132,6 +142,9 @@
         $("#ntWrtBtn").click(function(){
             alert("공지사항 등록 버튼");
         })
+        let link = function(detailLink){
+            location.href= detailLink;
+        }
     </script>
   </body>
 </html>

@@ -50,17 +50,10 @@ public class NoticeController {
     @GetMapping("read")
     public String readNotice(Integer nt_no, SearchCondition sc, Model m){
         try {
-
-//          Notice noticeDto = noticeService.getNotice(nt_no);
-            Map<String, Object> map = noticeService.getNotice(nt_no);
-            Notice noticeDto = (Notice)map.get("noticeDto");
+            Notice noticeDto = noticeService.getNotice(nt_no);
             m.addAttribute("noticeDto", noticeDto);
             m.addAttribute("SearchCondition", sc);
             log.info("noticeDto = " + noticeDto);
-//            log.info("commentList = " + (List<NtComment>)map.get("commentList"));
-//            if(map.get("commentList") != null) {
-//                m.addAttribute("commentList",(List<NtComment>)map.get("commentList"));
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

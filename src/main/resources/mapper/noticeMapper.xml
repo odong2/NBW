@@ -24,7 +24,7 @@
     </delete>
     <!-- ================== 공지글 한 건 조회 ================-->
     <select id="selectNotice" parameterType="noticeDto" resultType="noticeDto">
-        SELECT nt_no, nt_content, nt_cdate, nt_file, nt_hit, nt_cocnt
+        SELECT nt_no,nt_title, nt_content, nt_cdate, nt_file, nt_hit, nt_cocnt
         FROM tb_notice
         WHERE nt_no = #{nt_no}
     </select>

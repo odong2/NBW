@@ -24,8 +24,8 @@ public class AdminNoticeController {
         this.noticeService = noticeService;
     }
 
-    @GetMapping("/page")
-    public String getNoticePage(SearchCondition sc,  Model m){
+    @GetMapping("/list")
+    public String getNoticeList(SearchCondition sc,  Model m){
         try {
             // 전체 게시물 개수 조회
             int totalCnt = noticeService.getSearchResultCnt(sc);
@@ -44,6 +44,18 @@ public class AdminNoticeController {
         }
 
         return "/admin/notice/notice";
+    }
+    @GetMapping("/read")
+    public String getNoticeRead(Integer nt_no,SearchCondition sc, Model m){
+        try {
+            Notice noticeDto = noticeService.getNotice(nt_no);
+            m.addAttribute("noticeDto", noticeDto);
+            m.addAttribute("SearchCondition", sc);
+            log.info("noticeDto = " + noticeDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "/admin/notice/noticeRead";
     }
 
 

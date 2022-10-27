@@ -48,15 +48,10 @@ public class NoticeService {
     }
     /******************** 공지글 한 건 조회  + 조회수 증가 + 댓글 조회 *********************/
     @Transactional(readOnly = true)
-    public Map<String, Object> getNotice(Integer nt_no) throws Exception{
+    public Notice getNotice(Integer nt_no) throws Exception{
         Notice noticeDto = noticeDao.selectNotice(nt_no);
         noticeDao.updateViewCnt(nt_no); // 조회수 증가
-        HashMap map = new HashMap();
-        map.put("noticeDto", noticeDto);
-        List<NtComment> commentList = null;
-        commentList = commentDao.selectAll(nt_no);
-        map.put("commentList", commentList);
-        return map;
+        return noticeDto;
     }
     /************************ 공지글 전체 조회 ****************************/
     @Transactional(readOnly = true)
