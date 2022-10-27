@@ -33,11 +33,13 @@ public class CartController {
 	
 	/***************** [[ 장바구니 페이지 ]] *****************/
 	@GetMapping("list")
-	public String cartList( HttpServletRequest req, HttpSession session, Model model) {
+	public String cartList(HttpSession session, Model model) {
 //		Member member = (Member) session.getAttribute("member");
 //		String id = member.getMem_id();
+		// 테스트용
 		session.setAttribute("mem_id", "yuri");
 		String id = (String)session.getAttribute("mem_id");
+		
 		List<Map<String,Object>> cartList = cartService.getCartList(id);
 		model.addAttribute("cartList", cartList);
 		return "/cart/cartPage";
@@ -52,7 +54,7 @@ public class CartController {
 	 */
 	@PostMapping("add")
 	@ResponseBody
-	public String cartAdd(HttpServletRequest req, HttpSession session, @RequestParam("p_no") int p_no,@RequestParam("cart_count") int cart_count) {
+	public String cartAdd(HttpSession session, @RequestParam("p_no") int p_no,@RequestParam("cart_count") int cart_count) {
 		log.info(p_no);
 		log.info(cart_count);
 		log.info("컨트롤러에서 cartAdd호출");
@@ -68,40 +70,57 @@ public class CartController {
 		pMap.put("mem_id", id);
 		// 장바구니 담을 결과
 		int result = 0;
-		// 장바구니에 이미 담겨있는 상품인지 확인한다
+		// 장바구니에 이미 담겨있는 상품인지 확인
 		result = cartService.checkCart(pMap);
-		log.info(result);
 
 		if(result == 1){ // 카트에 상품이 없는 경우
-			log.info("result가 1일경우 컨트롤러에서 여기를 타야함");
-			result = cartService.addCart(pMap);
-			if(result == 1) {
-				result = 1;
-			}
+			cartService.addCart(pMap);
 			return result+"";
 		}else if(result == 2) {// 카트에 상품이 존재하는 경우
-			log.info("result가 2일경우 컨트롤러에서 여기를 타야함");
-			result = cartService.modifyCart(pMap);
-			if(result == 1) {
-				result = 2;
-			}
+			cartService.modifyCart(pMap);
 			return result+"";
 		}else {
-			log.info(result);
 			return result+"";
 		}
 	}
 	
 	/***************** [[ 장바구니에 상품 수량변경 ]] *****************/
 	@PostMapping("modify")
-	public String cartModify() {
-		return "/cart/";
+	@ResponseBody
+	public String cartModify(HttpSession session, @RequestParam("p_no") String p_no, 
+							@RequestParam("cart_count") int cart_count,@RequestParam("btn") String btn) {
+		log.info("컨트롤러에서 cartModify호출");
+		//테스트용
+		session.setAttribute("mem_id", "yuri");
+		String id = (String)session.getAttribute("mem_id");
+
+		log.info("btn: "+btn);
+		Map<String, Object> pMap = new HashMap<>();
+		pMap.put("btn", btn);
+		pMap.put("p_no", p_no);
+//		pMap.put("cart_count", cart_count);
+		pMap.put("mem_id", id);
+		// 결과 담을 변수
+		int result = 0;
+		result = cartService.modifyCart(pMap);
+		
+		return result+"";
 	}
 
 	/***************** [[ 장바구니에 상품 삭제 ]] *****************/
 	@PostMapping("remove")
-	public String cartRemove() {
-		return "/cart/";
+	@ResponseBody
+	public void cartRemove(HttpSession session, @RequestParam("p_no") String p_no) {
+		log.info("컨트롤러에서 cartRemove호출");
+		//테스트용
+		session.setAttribute("mem_id", "yuri");
+		String id = (String)session.getAttribute("mem_id");
+		
+		Map<String, Object> pMap = new HashMap<>();
+		pMap.put("p_no", p_no);
+		pMap.put("mem_id", id);
+		
+		cartService.removeProduct(pMap);
 	}
 	
 }

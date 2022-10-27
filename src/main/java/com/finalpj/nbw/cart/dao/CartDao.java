@@ -23,4 +23,6 @@ public interface CartDao {
 	int insertCart(Map<String, Object> pMap);
 
 	int updateCart(Map<String, Object> pMap);
+
+	void deleteCart(Map<String, Object> pMap);
 }

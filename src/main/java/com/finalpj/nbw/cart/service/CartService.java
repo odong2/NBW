@@ -24,7 +24,6 @@ public class CartService {
 	
 	
 	/* [[ 회원의 장바구니 전체 목록가져오기 ]] */
-//	@Transactional
 	public List<Map<String, Object>> getCartList(String id) {
 		log.info("서비스의 getCartList호출");
 		List<Map<String,Object>> cartList;
@@ -33,7 +32,6 @@ public class CartService {
 	}
 
 	/* [[ 회원 장바구니에 이미 존재하는지 확인하기 ]] */
-//	@Transactional
 	public int checkCart(Map<String, Object> pMap) {
 		log.info("서비스의 checkCart호출");
 		int result = 0;
@@ -46,7 +44,7 @@ public class CartService {
 	}
 
 	/* [[ 회원 장바구니 추가하기 ]] */
-//	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int addCart(Map<String, Object> pMap) {
 		log.info("서비스의 addCart호출");
 		int result = 0;
@@ -58,6 +56,11 @@ public class CartService {
 		int result = 0;
 		result = cartDao.updateCart(pMap);
 		return result;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public void removeProduct(Map<String, Object> pMap) {
+		cartDao.deleteCart(pMap);
 	}
 	
 	

@@ -29,23 +29,16 @@
 	  		}
 	  	});
 	  	
-  });
-	  	function add_cart(p_no) {
+  	});
+	function add_cart(p_no) {
 			$.ajax({
 				type : "post",
-				//async : false, //false인 경우 동기식으로 처리한다.
 				url : "${contextPath}/cart/add",
 				data : {
 					p_no:${product.getP_no()},
 					cart_count: $("#inputQuantity").val()
 				},
 				success : function(result) {
-					//alert(data);
-					/* if(data.trim()=='add_success'){
-						alert("장바구니에 상품이 추가되었습니다.");	
-					}else if(data.trim()=='already_existed'){
-						alert("장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");	
-					} */
 					cartAlert(result);
 					
 				},
@@ -53,12 +46,11 @@
 					alert("에러가 발생했습니다."+data);
 				},
 				complete : function(data, textStatus) {
-					//alert("작업을완료 했습니다");
 				}
 			}); //end ajax	
-		}// end of add_cart()
+	}// end of add_cart()
 		
-	  	function cartAlert(result){
+	function cartAlert(result){
 			if(result == '0'){
 				alert("장바구니에 추가에 실패하였습니다.");
 			} else if(result == '1'){
@@ -66,9 +58,9 @@
 			} else if(result == '2'){
 				alert("장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");
 			} else if(result == '5'){
-				alert("로그인이 필요합니다.");	
+				alert("로그인이 필요합니다.");
 			}
-		}
+	}
 </script>
 <!-- 헤더 시작 -->
 <%@include file="/WEB-INF/includes/header.jsp" %>

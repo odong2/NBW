@@ -55,6 +55,13 @@ public class CartDaoImpl implements CartDao {
 		return result;
 	}
 	
+	/* [[ 상품 삭제 ]] */
+	@Override
+	public void deleteCart(Map<String, Object> pMap) {
+		log.info("Dao에서 deleteCart호출");
+		sqlSession.delete("deleteCart",pMap);
+	}
+	
 	@Override
 	public int insertCart(Product productVO) throws Exception {
 		// TODO Auto-generated method stub
@@ -78,6 +85,7 @@ public class CartDaoImpl implements CartDao {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 
 
 }

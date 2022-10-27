@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Cart {
 	
-	private int[] p_no;
+	private String[] p_no;
 	private String[] p_title;
 	private String[] p_price;
 	private String[] p_img;

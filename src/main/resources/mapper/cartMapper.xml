@@ -38,18 +38,18 @@
 		           AND p_no = #{p_no}
 		       )
 		<if test="btn != null and btn.equals('minus')">
-		   SET cart_count = cart_count - 1
+		   	SET CART_COUNT = CART_COUNT-1
 		</if>
 		<if test="btn != null and btn.equals('plus')">
-		   SET cart_count = cart_count + 1
+		   	SET CART_COUNT = CART_COUNT+1
 		</if>
 		<if test='cart_count gt 0'>
-			SET cart_count = cart_count + #{cart_count}
+			SET CART_COUNT = CART_COUNT + #{cart_count}
 		</if>
 	</update>
 	
 	<!-- [[ 장바구니 상품 삭제 ]] -->
-	<delete id="deleteCart" parameterType="com.finalpj.nbw.product.domain.Product">
+	<delete id="deleteCart" parameterType="Map">
 		DELETE FROM TB_MEMCART 
 		 WHERE mem_id = #{mem_id}
 		   AND p_no = #{p_no}
