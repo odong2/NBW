@@ -1,5 +1,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<script type="text/javascript">
+    /* ================ 검색어 자동 완성 기능 추가 ================== */
+    $(function(){
+
+        $('#mainSearch').autocomplete({
+            source:function(request, response){ //source 는 자동완성의 대상
+
+                $.ajax({
+                    url:"/product/search"
+                    ,type:"POST"
+                    ,dataType:"json"
+                    ,data:{keyword:$('#mainSearch').val()} // 검색창에 입력된 키워드가 url 요청에서 파라미터로 전송된다.
+                    ,success:function(data){
+                        response(
+                            $.map(data, function(item){
+                                return{
+                                    label:item.testNm // 목록에 표시되는 값
+                                    ,value:item.testNm // tjsxor tl input시 표시되는 값
+                                };
+                            })
+                        );// response
+                    }
+                    , error:function(request,status,error){ // 실패
+                        alert("통신에 실패했습니다.");
+                        alert("code : "+ request.status + "\n" +"message : "+ request.responseText + "\n"+
+                        "error : "+ error);
+                    }
+                });
+            }
+            , minLength:1
+            , autoFocus: true
+            , select : function(evt, ui){
+                console.log("전체 data: "+ JSON.stringify(ui));
+                console.log("검색 데이터: "+ ui.item.value);
+            }
+            ,focus:function(evt, ui){
+                return false;
+            }
+            ,close:function(evt){
+
+            }
+        });
+    })
+
+</script>
+
 <div class="d-flex flex-wrap">
     <div class="col-2"></div>
     <nav class="d-flex align-items-center flex-column mb-3 col-8">
@@ -55,10 +101,12 @@
         </ul>
         <br>
         <div class="col-12 d-flex align-items-center justify-content-start">
-          <a href="/home"><img alt="" src="/images/NBW_title.png" style="width: 200px;"></a>
+          <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
           <div class="input-group ms-3">
                 <input
                         type="text"
+                        id="mainSearch"
+                        name="keyword"
                         class="form-control"
                         placeholder="검색어를 입력해주세요."
                         aria-label="Recipient's username"
