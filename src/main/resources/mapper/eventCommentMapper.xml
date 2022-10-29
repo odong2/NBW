@@ -1,58 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.finalpj.nbw.event.dao.EventDao">
-    <!-- 이벤트 게시물 목록 -->
-    <select id="selectEvent" parameterType="int" resultType="eventDto">
-        select EV_NO,
-               EV_TITLE,
-               EV_CONTENT,
-               EV_CDATE,
-               EV_FILE,
-               EV_HIT,
-               EV_START,
-               EV_END,
-               EV_PEOPLE,
-               EV_STATUS,
-               EV_NOWPEOPLE,
-               EV_TARGET,
-               EV_PLACE,
-               EV_IMG,
-               EV_TIME,
-               EV_TODAY,
-               EV_PHONE
-        from TB_EVENT
-        where EV_NO = #{EV_NO}
-    </select>
-    <!-- 댓글 조회 -->
-    <select id="replyList" parameterType="int">
-        select
-            evc_no, ev_no, evc_commenter, evc_content, evc_cdate
-        from tb_eventcomment
-        where ev_no = #{ev_no}
+<mapper namespace="com.finalpj.nbw.event.dao.EventCommentMapper">
+    <delete id="deleteAll" parameterType="int">
+        DELETE FROM tb_eventcomment
+        WHERE  ev_no = #{ev_no}
+    </delete>
+
+    <select id="count" parameterType="int" resultType="int">
+        SELECT count(*) FROM tb_eventcomment
+        WHERE  ev_no = #{ev_no}
     </select>
 
-    <!-- 댓글 작성 -->
-    <insert id="replyWrite" parameterType="eventCommentDto">
-        insert into tb_eventcomment(ev_no, evc_commenter, evc_content, evc_cdate)
-            value(#{ev_no}, #{evc_commenter}, #{evc_content}, #{evc_cdate})
+    <delete id="delete" parameterType="map">
+        DELETE FROM tb_eventcomment WHERE evc_no = #{evc_no} AND evc_commenter = #{evc_commenter}
+    </delete>
+
+    <insert id="insert" parameterType="eventCommentDto">
+        INSERT INTO tb_eventcomment
+            (evc_no, ev_no, evc_pcno, evc_content, evc_commenter, evc_cdate, evc_update)
+        VALUES
+            (#{SEQ_EVC_NO.NEXTVAL}, #{ev_no}, #{evc_pcno}, #{evc_content}, #{evc_commenter}, sysdate, sysdate)
     </insert>
 
-    <!-- 댓글 수정 -->
-    <update id="replyModify" parameterType="eventCommentDto">
-        update tb_eventcomment set
-                             evc_commenter = #{evc_commenter},
-                             evc_content = #{evc_content},
-                             evc_update = #{evc_update}
-        where evc_no = #{evc_no}
-          and ev_no = #{ev_no}
-    </update>
+    <select id="selectAll" parameterType="int" resultType="eventCommentDto">
+        SELECT evc_no, ev_no, evc_pcno, evc_content, evc_commenter, evc_cdate, evc_update
+        FROM tb_eventcomment
+        WHERE ev_no = #{ev_no}
+        ORDER BY evc_cdate ASC, ecv_no ASC
+    </select>
 
-    <!-- 댓글 삭제 -->
-    <delete id="replyDelete" parameterType="eventCommentDto">
-        delete from tb_eventcomment
-        where evc_no = #{evc_no}
-          and ev_no = ${ev_no}
-    </delete>
+    <select id="select" parameterType="int" resultType="eventCommentDto">
+        SELECT evc_no, ev_no, evc_pcno, evc_content, evc_commenter, evc_cdate, evc_update
+        FROM tb_eventcomment
+        WHERE evc_no = #{evc_no}
+    </select>
+
+    <update id="update" parameterType="eventCommentDto">
+        UPDATE tb_eventcomment
+        SET evc_content = #{evc_comment}
+          , evc_update = sysdate
+        WHERE evc_no = #{evc_no} and evc_commenter = #{evc_commenter}
+    </update>
 </mapper>
