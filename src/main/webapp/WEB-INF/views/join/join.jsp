@@ -566,7 +566,7 @@
 			                </c:when>
 			                <c:otherwise>
 								<input name="mem_birthday" id="mem_birthday" required="required"
-                           			class="form-control datepicker" autocomplete="off" value="${ member.getMem_birthday() }" readonly>
+                           			class="form-control datepicker" autocomplete="off" value="${ member.getMem_birthday() }">
 			                </c:otherwise>
 			       	</c:choose>
 
@@ -609,7 +609,7 @@
 		                </c:when>
 		                <c:otherwise>
 		                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
-		                           autocomplete="off" class="form-control" value="${member.getMem_phone()}" readonly>
+		                           autocomplete="off" class="form-control" value="${member.getMem_phone()}">
 		                </c:otherwise>
 		            </c:choose>
                 </div>

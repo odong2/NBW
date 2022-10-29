@@ -21,6 +21,7 @@ import com.finalpj.nbw.member.domain.Member;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -41,8 +42,14 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String getLogin(Model model) {
-		String NaverUrl = oauth2LoginService.getAuthorizationUrl("naver");
-		model.addAttribute("NaverUrl", NaverUrl);
+		String naverUrl = oauth2LoginService.getAuthorizationUrl("naver");
+		String kakaoUrl = oauth2LoginService.getAuthorizationUrl("kakao");
+		
+		HashMap<String,String> urlMap = new HashMap<>();
+		urlMap.put("NaverUrl", naverUrl);
+		urlMap.put("KakaoUrl", kakaoUrl);
+		
+		model.addAllAttributes(urlMap);
 		return "/login";
 	}
 	
@@ -72,6 +79,9 @@ public class LoginController {
 	public String snsLoginCallback(@PathVariable String platform,
 			Model model, @RequestParam String code, HttpSession session) throws Exception {
 		String nextURL = "/home";
+		
+		System.out.println(platform);
+		System.out.println(code);
 		
 		// access_token을 이용해서 사용자 profile 정보 가져오기
 		Member member = oauth2LoginService.getUserProfile(code, platform);

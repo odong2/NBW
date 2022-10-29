@@ -84,7 +84,7 @@
                   style="width: 100%; height: 100%"
                 />
               </a>
-              <a class="col-3 mx-2" href="#">
+              <a class="col-3 mx-2" href="${ KakaoUrl }">
                 <img
                   src="/images/kakao_login_large.png"
                   alt=""
