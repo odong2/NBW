@@ -154,6 +154,12 @@
 			contentType: "application/json; charset=UTF-8",
 			success : function(result){
 				console.log(result);
+					
+				if(result.success){
+					
+				}else {
+					
+				}
 			},
 			error : function(a, b, c){
 				//통신 실패시 발생하는 함수(콜백)
@@ -171,6 +177,7 @@
         const minutes = String(date.getMinutes()).padStart(2, "0");
         return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
     }
+	
 </script>
 </body>
 </html>
