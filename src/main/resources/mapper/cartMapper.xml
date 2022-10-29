@@ -24,6 +24,13 @@
 		]]>
 	</select>
 	
+	<!-- [[ 장바구니에 담긴 수량 가져오기 ]] -->
+	<select id="selectCount" parameterType="Map" resultType="int">
+		SELECT CART_COUNT FROM TB_MEMCART
+		 WHERE MEM_ID = #{mem_id}
+		   AND p_no = #{p_no}
+	</select>
+	
 	<!-- [[ 장바구니 상품 추가 ]] -->
 	<insert id="insertCart" parameterType="Map">
 		INSERT INTO TB_MEMCART (mem_id, p_no, cart_count)

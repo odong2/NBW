@@ -46,6 +46,17 @@ public class CartDaoImpl implements CartDao {
 		result = sqlSession.insert("insertCart", pMap);
 		return result;
 	}
+	
+	/* [[ 상품수량 가져오기 ]] */
+	@Override
+	public int selectCount(Map<String,Object> pMap) {
+		log.info("Dao에서 selectCount 호출");
+		int cart_count = 0;
+		cart_count = sqlSession.selectOne("selectCount", pMap);
+		return cart_count;
+	}
+	
+	
 	/* [[ 상품 수량 변경 ]] */
 	@Override
 	public int updateCart(Map<String, Object> pMap) {
