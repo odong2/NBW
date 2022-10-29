@@ -76,13 +76,6 @@
             padding-left:0;
         }
 
-        #foldBtn {
-            border: none;
-            background-color: white;
-            color: #1568d6;
-            font-size: 0.8rem;
-            padding: 0;
-        }
 
         div > .repMod {
             position: relative;
@@ -121,12 +114,9 @@
         #comment-input,
         #noticeListBtn,
         .reply-commentBtn {
-            font-size: 0.7rem;
+            font-size: 0.9rem;
         }
 
-        .comment-content p {
-            font-size: 0.8rem;
-        }
         .reply-accordion li {
             padding-left: 1rem;
         }
@@ -147,6 +137,9 @@
         .reply-commenter,
         .reply-cdate{
             font-size:0.8rem;
+        }
+        #commentList{
+            width:90%;
         }
     </style>
 </head>
@@ -236,7 +229,7 @@
     </section>
     <%-- ================================ 댓글 입력 끝 ================================= --%>
     <%-- ================================ 댓글 보기 시작 ================================= --%>
-    <section>
+    <section class="container" id="commentList">
         <ul id="comment-display" class="mt-5">
          <%-- ====================== Ajax에 의해 댓글이 삽입되는 곳 ======================== --%>
         </ul>
@@ -283,6 +276,7 @@
         $("#modifyForm").addClass("d-flex col-12");
         $("#modifyForm").css("display", "block");
         $("#modifyInput").attr('data-ntc-no',ntc_no);
+        $("#modifyInput").focus();
         // 댓글쓰기 버튼 안보이도록
         $(modifyBtn).css("display", "none");
         $(modifyBtn).next().css("display","none");
@@ -309,6 +303,7 @@
         $("#replyForm").attr('data-pcno',pcno);
         $("#replyForm").addClass("d-flex col-12");
         $("#replyForm").css("display", "block");
+        $("#replyInput").focus();
     }
 
     <%-- ============================= 답글 입력모드 나가기 ============================== --%>
@@ -325,7 +320,6 @@
         let commentList = "";
         comments.forEach(function (comment) {
             let ntc_cdate = getCdate(comment.ntc_cdate)
-            console.log(ntc_cdate);
             <%-- ===== ntc_no == nt_pcno 일 경우 댓글이다. ===== --%>
             if(comment.ntc_no == comment.ntc_pcno){
             commentList +=`
@@ -346,19 +340,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="comment-content mt-3 d-flex">
-                        <p class="col-10">
+                    <div class="comment-content mt-3">
+                        <p class="col-12">
                         <%-- ============ 댓글 내용 =============== --%>
                            <c:out value="${'${comment.ntc_comment}'}"/>
                         </p>
                         <%-- ================ 댓글 수정,삭제 ================= --%>
-                        <div class="commentMod container d-flex justify-content-end col-2" data-ntc-no="${'${comment.ntc_no}'}" >
+                        <div class="commentMod d-flex justify-content-start mb-1" data-ntc-no="${'${comment.ntc_no}'}" >
                             <p style="display:none">${'${comment.ntc_comment}'}</p>
                             <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>
                             <button type="button"  class="commentBtn comment-deleteBtn text-muted me-1" onclick="deleteCom(this)">삭제</button>
                         </div>
                     </div>
-                    <div class=" col-12 px-3 d-flex justify-content-end">
+                    <div class=" d-flex justify-content-start">
                         <button type="button"  class="reply-btn comment-modifyBtn text-muted" onclick="replyMod(this)">답글 달기</button>
                     </div>
                    </li>`
@@ -387,10 +381,16 @@
                         </div>
                     </div>
                     <div class="comment-content mt-3 ms-5">
-                        <p>
+                        <p class="col-12">
                         <%-- ============ 댓글 내용 =============== --%>
                            <c:out value="${'${comment.ntc_comment}'}"/>
                         </p>
+                        <%-- ================ 댓글 수정,삭제 ================= --%>
+                        <div class="commentMod container d-flex justify-content-start mb-2" data-ntc-no="${'${comment.ntc_no}'}" >
+                            <p style="display:none">${'${comment.ntc_comment}'}</p>
+                            <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>
+                            <button type="button"  class="commentBtn comment-deleteBtn text-muted me-1" onclick="deleteCom(this)">삭제</button>
+                        </div>
                     </div>
                 </li>
                 </div>
@@ -442,7 +442,7 @@
                 headers : {"content-type": "application/json"},
                 data: JSON.stringify({nt_no:nt_no, ntc_comment: comment}),
                 success : function(result){
-                    alert("댓글을 등록하였습니다.");
+                    // alert("댓글을 등록하였습니다.");
                     showComments(nt_no); <%-- 데이터 변경으로 인해 댓글을 다시 가져온다 --%>
                 },
                 error : function (){alert("댓글 등록에 실패하였습니다")}
@@ -462,7 +462,7 @@
             headers : {"content-type": "application/json"},
             data: JSON.stringify({nt_no:nt_no, ntc_pcno:ntc_pcno, ntc_comment:comment, ntc_commenter: ntc_commenter}),
             success:function(){
-                alert("답글 등록 완료");
+                // alert("답글 등록 완료");
                 showComments(nt_no);
             },
             error: function(){
@@ -484,8 +484,9 @@
             headers : {"content-type": "application/json"},
             data: JSON.stringify({nt_no:nt_no, ntc_comment: comment,ntc_commenter: ntc_commenter}),
             success:function(){
-                alert("댓글 수정에 성공하였습니다.");
+                // alert("댓글 수정에 성공하였습니다.");
                 showComments(nt_no);
+                modifyOut();
             },
             error: function(){
                 alert("댓글 수정에 실패하였습니다.");
@@ -506,7 +507,7 @@
             type: 'DELETE',
             url: '/notice/comments/' + ntc_no + '?nt_no=' + nt_no,
             success: function (result) {
-                alert("댓글을 삭제하였습니다.");
+                // alert("댓글을 삭제하였습니다.");
                 showComments(nt_no);<%-- 댓글 리스트 갱신 --%>
             },
             error: function () {
