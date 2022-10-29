@@ -2,7 +2,6 @@ package com.finalpj.nbw.event.controller;
 
 import com.finalpj.nbw.event.domain.Event;
 import com.finalpj.nbw.event.service.EventService;
-import com.finalpj.nbw.event.domain.PageHandler;
 import com.finalpj.nbw.event.domain.SearchCondition;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;

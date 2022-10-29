@@ -1,7 +1,6 @@
 package com.finalpj.nbw.event.service;
 
 import com.finalpj.nbw.event.dao.EventCommentDao;
-import com.finalpj.nbw.event.dao.EventCommentDaoTest;
 import com.finalpj.nbw.event.dao.EventDao;
 import com.finalpj.nbw.event.domain.EventComment;
 import lombok.extern.log4j.Log4j;
