@@ -1,32 +1,35 @@
 package com.finalpj.nbw.event.dao;
 
 import com.finalpj.nbw.event.domain.Event;
-import com.finalpj.nbw.notice.domain.SearchCondition;
+import com.finalpj.nbw.event.domain.SearchCondition;
 
 import java.util.List;
 import java.util.Map;
 
 public interface EventDao {
-    /* 이벤트글 등록 */
-    int insertEvent(Event event) throws Exception;
-    /* 이번트글 수정 */
-    int updateEvent(Event event) throws  Exception;
-    /* 이벤트글 한건 삭제*/
-    int deleteEvent(Integer ev_no) throws Exception;
-    /* 이번트글 전체 삭제 */
-    int deleteEventList() throws Exception;
-    /* 이벤트글 한건 조회 */
-    Event selectEvent(Integer ev_no) throws Exception;
-    /* 이벤트글 전체 조회 */
-    List<Event> selectEventList() throws  Exception;
-    /* 조회수 증가 */
-    int updateViewCnt(Integer ev_no) throws Exception;
-    /* 전체 이벤트글 개수 */
-    int selectEventCnt() throws Exception;
-    /* 이벤트글 페이지 조회 */
-    List<Event> selectEventPage(Map map) throws Exception;
-    /* 조건검색 페이징 처리하여 조회 */
-    List<Event> selectSearchPage(SearchCondition sc) throws Exception;
-    /* 조건검색 결과 게시물 개수 */
-    public int selectSearchCnt(SearchCondition sc) throws Exception;
+    int insert(Event eventDto) throws Exception; // 이벤트글 등록
+
+    int update(Event eventDto) throws Exception; // 공지글 수정
+
+    int delete(Integer ev_no) throws Exception; // 공지글 한 건 삭제
+
+    int deleteAll() throws Exception; // 공지글 전체 삭제
+
+    Event select(Integer ev_no) throws Exception; // 공지글 한건 조회
+
+    List<Event> selectList() throws Exception; // 공지글 전체 조회
+
+    int updateViewCnt(Integer ev_no) throws Exception; // 조회수 증가
+
+    int selectCnt() throws Exception; // 전체 게시글 개수
+
+    List<Event> selectPage(Map map) throws Exception; // 공지글 페이지 조회
+
+
+    List<Event> selectSearchPage(SearchCondition sc) throws Exception; // 조건 검색 페이징 처리하여 조회
+
+    int selectSearchCnt(SearchCondition sc) throws Exception; // 조건검색 결과 게시물 개수
+
+    int updateCommentCnt(Integer ev_no, int ev_cocnt) throws Exception; // 댓글수 업데이트
+
 }
