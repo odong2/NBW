@@ -21,11 +21,9 @@ import static org.junit.Assert.*;
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml",
+                                 "file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class NoticeDaoTest {
-
-    @Autowired
-    DataSource ds;
 
     @Autowired
     NoticeDao noticeDao;
@@ -49,26 +47,24 @@ public class NoticeDaoTest {
         noticeDto.setNt_no(47);
         assertTrue(noticeDao.updateNotice(noticeDto) == 1);
     }
-
     @Test
     /* ====================== 공지글 한건 삭제 테스트 =========================*/
     public void removeNoticeTest() throws Exception{
         int nt_no = 20;
         assertTrue(noticeDao.deleteNotice(nt_no) == 1);
     }
-
     @Test
     /* ====================== 공지글 전체 삭제 테스트 =========================*/
     public void removeAllNoticeTest() throws Exception{
-        assertTrue(noticeDao.deleteNoticeList() > 0);
+        assertTrue(noticeDao.deleteNoticeAll() > 0);
     }
     @Test
     /* ====================== 공지글 한 건 조회 테스트 =========================*/
     public void getNoticeTest() throws Exception{
         Notice noticeDto = new Notice();
-        int nt_no = 47;
+        int nt_no = 20;
         noticeDto = noticeDao.selectNotice(nt_no);
-        log.info("47번 공지글 조회 결과 : " + noticeDto);
+        log.info("20번 공지글 조회 결과 : " + noticeDto);
         assertNotEquals(noticeDto, null);
     }
     @Test
@@ -79,14 +75,12 @@ public class NoticeDaoTest {
         log.info("공지글 전체 조회 결과 : " + noticeList);
         assertNotEquals(noticeList, null);
     }
-
     @Test
     /* ====================== 공지글 조회수 증가 =========================*/
     public void updateViewCntTest() throws Exception{
         int result = noticeDao.updateViewCnt(47);
         assertNotEquals(result, 0);
     }
-
     @Test
     /* ====================== 공지글 전체 개수 =========================*/
     public void selectNoticeCntTest() throws Exception{
@@ -97,7 +91,7 @@ public class NoticeDaoTest {
     /* ====================== 조건 검색 테스트 =========================*/
     @Test
     public void selectSearchPageTest() throws Exception{
-        noticeDao.deleteNoticeList();
+        noticeDao.deleteNoticeAll();
         for(int i =1; i<=20; i++){
             Notice noticeDto = new Notice(i, "공지사항 제목"+i, "테스트");
             noticeDao.insertNotice(noticeDto);
@@ -107,12 +101,11 @@ public class NoticeDaoTest {
         log.info("조회된 리스트 : " + list);
         assertTrue(list.size() == 2);
     }
-
+    /* ====================== 조건 검색 테스트 =========================*/
     @Test
     public void selectSearchCnt() throws Exception{
         SearchCondition sc = new SearchCondition(1, 10, "공지사항 제목2", "T");
         int resultCnt = noticeDao.selectSearchCnt(sc);
         assertTrue(resultCnt == 2); // ex) 공지사항 제목2, 공지사항 제목20
     }
-
 }
