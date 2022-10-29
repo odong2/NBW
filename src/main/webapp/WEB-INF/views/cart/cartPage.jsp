@@ -122,7 +122,7 @@
     	setTotalCart();
 	}); // end of ready
   
-	/* 총 주문 정보 세팅(배송비, 총 가격, 물품 수) */
+	/* 총 주문 정보 세팅(배송비, 총 가격, 총 갯수) */
 	function setTotalCart(){
 		/* 종합 정보 섹션 정보 삽입 */
 		let totalPrice = 0;				// 총 가격
@@ -164,7 +164,7 @@
 	
 	/* 체크여부에 따른 종합 정보 변화 */
 	$(".one_chk").on("change", function(){
-		/* 총 주문 정보 세팅(배송비, 총 가격, 마일리지, 물품 수, 종류) */
+		/* 총 주문 정보 세팅(배송비, 총 가격, 총 갯수) */
 		setTotalInfo($(".cart_info"));
 	});
 </script>
@@ -238,19 +238,23 @@
 					                	 <button disabled><i class="fas fa-minus-circle"></i></button>	                
 					                </c:when>
 					                <c:otherwise>
-				                        <button onClick=update_cart('minus',${cart.P_NO},${cart.CART_COUNT});><i class="fas fa-minus-circle"></i></button>
+				                        <button class="count_btn" data-btn="minus" data-pno="${cart.P_NO}" data-cnt="${cart.CART_COUNT}" onClick=update_cart(this);><i class="fas fa-minus-circle"></i></button>
 					                </c:otherwise>
 					                </c:choose>
 			                        <span>${cart.CART_COUNT}</span>
-			                        <button onClick=update_cart('plus',${cart.P_NO},${cart.CART_COUNT});><i class="fas fa-plus-circle"></i></button>
+			                        <button class="count_btn"  data-btn="plus" data-pno="${cart.P_NO}" data-cnt="${cart.CART_COUNT}" onClick=update_cart(this);><i class="fas fa-plus-circle"></i></button>
 			                      </div>
 			                    </td>
 			                    <td
 			                      class="col-1 d-flex justify-content-center align-items-center"
 			                    >
-			                      <button onclick="delete_cart(${cart.P_NO})">
+			                    <!-- 삭제 보내는 form -->
+			                    <form action="/cart/remove" method="post">
+			                      <input type="hidden" value="${cart.P_NO}" name="p_no" >
+			                      <button type="submit">
 			                        <i class="fas fa-trash-alt" style="color: #e9967a"></i>
 			                      </button>
+			                    </form>
 			                    </td>
 			                  </tr>
 			                  <c:set var= "c_totalPrice" value="${c_totalPrice + cart.P_PRICE*cart.CART_COUNT}"/>
@@ -329,50 +333,23 @@
 <%@include file="../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 <script type="text/javascript">
-	/* 상품 삭제하기 */
-	function delete_cart(p_no) {
-		$.ajax({
-				type : "post",
-				url : "${contextPath}/cart/remove",
-				data : {
-					p_no:p_no
-				},
-				success : function(result) {
-					alert("상품이 장바구니에서 삭제되었습니다.");
-					location.reload();
-				},
-				error : function(data, textStatus) {
-					alert("에러가 발생했습니다."+data);
-				},
-				complete : function(data, textStatus) {
-				}
-		}); //end of ajax
-	}// end of delete_cart()
-
 	/* 상품 수량 변경하기 */
-	function update_cart(btn, p_no, cart_count) {
-		let p_btn = "";
-		if(btn == "plus"){
-			p_btn = "plus"
-		} else if(btn == "minus"){
-			p_btn = "minus"
-		}
-		$.ajax({
+	function update_cart(button) {
+		
+		let btn = $(button).attr("data-btn");
+		let pno = $(button).attr("data-pno");
+		let cnt = $(button).attr("data-cnt");
+		
+ 		$.ajax({
 				type : "post",
 				url : "${contextPath}/cart/modify",
-				async: false, // false인 경우 동기식으로 처리한다.
 				data : {
-					p_no:p_no,
-					btn: p_btn,
-					cart_count: cart_count
+					p_no:pno,
+					btn: btn,
+					cart_count: cnt
 				},
-				success : function(result) {
-					if(result == "1"){
-						alert("수량을 변경했습니다.");
-						location.reload();
-					} else{
-						alert("다시 시도해주세요!");
-					}
+				success : function(count) {
+					location.reload();
 				},
 				error : function(data, textStatus) {
 					alert("에러가 발생했습니다."+data);

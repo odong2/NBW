@@ -25,4 +25,6 @@ public interface CartDao {
 	int updateCart(Map<String, Object> pMap);
 
 	void deleteCart(Map<String, Object> pMap);
+	
+	int selectCount(Map<String,Object> pMap); // 장바구니 상품 수량
 }

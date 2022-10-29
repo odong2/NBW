@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,6 +32,19 @@ public class CartController {
 		this.cartService = cartService;
 	}
 	
+	/***************** [[ 회원인지 비회원이지 체크해주는 메소드 ]] *****************/
+	@PostMapping("check")
+	@ResponseBody
+	public String checkMember(HttpSession session) {
+		String result = "";
+		if(session.getAttribute("member") != null) { // 회원
+			result = "member";
+		} else { // 비회원
+			result = "nonMember";
+		}
+		return result;
+	}
+	
 	/***************** [[ 장바구니 페이지 ]] *****************/
 	@GetMapping("list")
 	public String cartList(HttpSession session, Model model) {
@@ -46,18 +60,22 @@ public class CartController {
 	}
 	
 	/***************** [[ 장바구니에 상품 추가 ]] *****************/
-	/** 장바구니 담을 결과
-	 * 0: 등록 실패
-	 * 1: 등록 성공
-	 * 2: 등록된 데이터 존재
-	 * 5: 비회원
+	/** ajax로 보낼 결과
+	 * "fail": 등록 실패
+	 * "addCart": 등록 성공
+	 * "modifyCart": 등록된 데이터 존재
+	 * "unmem": 비회원
 	 */
 	@PostMapping("add")
 	@ResponseBody
-	public String cartAdd(HttpSession session, @RequestParam("p_no") int p_no,@RequestParam("cart_count") int cart_count) {
-		log.info(p_no);
-		log.info(cart_count);
+	public String cartAdd(HttpSession session, @RequestParam("p_no") int p_no,@RequestParam("cart_count") int cart_count, HttpServletRequest req) {
 		log.info("컨트롤러에서 cartAdd호출");
+		log.info(req.getCookies());	
+		
+		//쿠키 가져오기
+		Cookie[] cookies = req.getCookies();
+		
+		
 		// 회원인지 비회원인지 체크해주기 - 우선은 회원인 경우만 - 비회원은 추후 추가
 		
 		//테스트용
@@ -69,25 +87,16 @@ public class CartController {
 		pMap.put("cart_count", cart_count);
 		pMap.put("mem_id", id);
 		// 장바구니 담을 결과
-		int result = 0;
-		// 장바구니에 이미 담겨있는 상품인지 확인
-		result = cartService.checkCart(pMap);
-
-		if(result == 1){ // 카트에 상품이 없는 경우
-			cartService.addCart(pMap);
-			return result+"";
-		}else if(result == 2) {// 카트에 상품이 존재하는 경우
-			cartService.modifyCart(pMap);
-			return result+"";
-		}else {
-			return result+"";
-		}
+		String msg = "";
+		msg = cartService.cartAdd(pMap);
+		
+		return msg;
 	}
 	
 	/***************** [[ 장바구니에 상품 수량변경 ]] *****************/
 	@PostMapping("modify")
 	@ResponseBody
-	public String cartModify(HttpSession session, @RequestParam("p_no") String p_no, 
+	public int cartModify(HttpSession session, @RequestParam("p_no") String p_no, 
 							@RequestParam("cart_count") int cart_count,@RequestParam("btn") String btn) {
 		log.info("컨트롤러에서 cartModify호출");
 		//테스트용
@@ -98,19 +107,17 @@ public class CartController {
 		Map<String, Object> pMap = new HashMap<>();
 		pMap.put("btn", btn);
 		pMap.put("p_no", p_no);
-//		pMap.put("cart_count", cart_count);
 		pMap.put("mem_id", id);
-		// 결과 담을 변수
-		int result = 0;
-		result = cartService.modifyCart(pMap);
-		
-		return result+"";
+		// 장바구니 수량 ajax로 전달
+		int count = 0;
+		count = cartService.modifyCart(pMap);
+		log.info(count);
+		return count;
 	}
 
 	/***************** [[ 장바구니에 상품 삭제 ]] *****************/
 	@PostMapping("remove")
-	@ResponseBody
-	public void cartRemove(HttpSession session, @RequestParam("p_no") String p_no) {
+	public String cartRemove(HttpSession session, @RequestParam("p_no") String p_no) {
 		log.info("컨트롤러에서 cartRemove호출");
 		//테스트용
 		session.setAttribute("mem_id", "yuri");
@@ -121,6 +128,7 @@ public class CartController {
 		pMap.put("mem_id", id);
 		
 		cartService.removeProduct(pMap);
+		return "redirect:/cart/list";
 	}
 	
 }
