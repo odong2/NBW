@@ -34,9 +34,8 @@ public class LoginDaoTest {
     
     @Test
     public void selectUserPassword() throws Exception {
-    	
     	String result = loginDao.selectUserPassword("qorwhdr");
-    	log.info("result: "+result);
+    	log.info(result);
     }
 //    @Test
 //    /* ========================= 공지글 등록 테스트 ============================*/

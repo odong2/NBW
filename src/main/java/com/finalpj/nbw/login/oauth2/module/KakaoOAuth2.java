@@ -73,8 +73,11 @@ public class KakaoOAuth2 extends DefaultApi20{
 	    ObjectMapper mapper = new ObjectMapper();
 	    JsonNode node = mapper.readTree(response.getBody());
 	    
+	    System.out.println(response.getBody());
+	    
 	    // 필요한 유저정보 변수로 선언
-	    String id = "KAKAO_"+node.get("id").textValue();
+	    String id = "KAKAO_"+node.get("id").asText();
+	    System.out.println(id);
 	    
 	    String name = node.get("kakao_account").get("profile").get("nickname").textValue();
 	    String email = node.get("kakao_account").get("email").textValue();
@@ -83,7 +86,7 @@ public class KakaoOAuth2 extends DefaultApi20{
 	    // 저장한 자료구조를 이용해서 전달할 member 객체 생성
 		Member member = Member
 				.builder()
-				.mem_id("KAKAO_"+id)
+				.mem_id(id)
 				.mem_name(name)
 				.mem_email(email)
 				.build();
