@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +43,8 @@ public class NoticeDaoImpl implements NoticeDao {
 
     /*************************** 공지글 전체 삭제 ******************************/
     @Override
-    public int deleteNoticeList() throws Exception {
-        return sqlSession.delete("deleteNoticeList");
+    public int deleteNoticeAll() throws Exception {
+        return sqlSession.delete("deleteNoticeAll");
     }
 
     /*************************** 공지글 한 건 조회 ******************************/
@@ -85,5 +86,13 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     public int selectSearchCnt(SearchCondition sc) throws Exception{
         return sqlSession.selectOne("selectSearchCnt", sc);
+    }
+    /************************** 조건검색 결과 게시물 개수 ****************************/
+    @Override
+    public int updateCommentCnt (Integer nt_no, int cnt) throws Exception{
+        Map map = new HashMap();
+        map.put("nt_no",nt_no);
+        map.put("cnt", cnt);
+        return sqlSession.update("updateCommentCnt", map);
     }
 }
