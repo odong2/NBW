@@ -8,10 +8,10 @@
 
 
 	<!-- ===================================== 제목 검색 ================================================= -->
-	<select id="selectProductByWord" parameterType="String" resultType="java.util.List">
-		SELECT P_NO, P_IMG, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE
+	<select id="selectProductByWord" parameterType="java.util.Map" resultType="map">
+		SELECT P_TITLE
 		FROM TB_PRODUCT
-		WHERE P_TITLE LIKE '%'||#{searchWord}||'%'
+		WHERE P_TITLE LIKE '%'||#{keyword}||'%'
 		ORDER BY P_TITLE ASC
 	</select>
 </mapper>

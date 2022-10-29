@@ -5,12 +5,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordMeter {
 
+    /* password 의 안전도를 판단해 주는 메서드 */
     public PasswordStrength meter(String pw){
 
         /* pw가 null 일 경우, 그리고 ""빈값인 경우 IllegalArgumentException 을 던져준다. */
         if (pw == null || pw.isEmpty()) throw new IllegalArgumentException();
 
-        /* 충족하는 개수 */
+        /* 충족하는 개수에 따라 안전도 수준이 결정이 된다. */
         int metCount = 0;
         // 길이규칙을 충족하면 충족 개수 +1
         if(pw.length()>=8) metCount++;

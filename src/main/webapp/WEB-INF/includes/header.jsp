@@ -15,15 +15,17 @@
                     ,success:function(data){
                         response(
                             $.map(data, function(item){
+                                // console.log(data[0]);
                                 return{
                                     label:item.testNm // 목록에 표시되는 값
-                                    ,value:item.testNm // tjsxor tl input시 표시되는 값
+                                    ,value:item.testNm // 선택 시 input에 표시되는 값
                                 };
                             })
                         );// response
                     }
-                    , error:function(request,status,error){ // 실패
+                    , error:function(request, status, error){ // 실패
                         alert("통신에 실패했습니다.");
+                        // 에러 메세지 출력
                         alert("code : "+ request.status + "\n" +"message : "+ request.responseText + "\n"+
                         "error : "+ error);
                     }

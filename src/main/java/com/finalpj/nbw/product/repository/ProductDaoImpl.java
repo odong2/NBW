@@ -1,5 +1,6 @@
 package com.finalpj.nbw.product.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,10 @@ import com.finalpj.nbw.product.domain.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
+@Slf4j
 public class ProductDaoImpl implements ProductDao{
 
 	@Autowired
@@ -28,9 +31,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public List<Product> selectProductByWord(String key) throws Exception {
-		List<Product> productList = new ArrayList<>();
-		productList = sqlSession.selectList("selectProductByWord", key);
-		return productList;
+	public List<Map<String, Object>> selectProductByWord(Map<String, Object> paramMap) throws Exception {
+		return sqlSession.selectList("selectProductByWord", paramMap);
 	}
 }
