@@ -3,10 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/security/oauth2 https://www.springframework.org/schema/security/spring-security-oauth2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-	
 	
 	<bean id="loginFailureHandler" class="com.finalpj.nbw.login.handler.LoginFailureHandler" />
 	
@@ -17,9 +18,7 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:csrf disabled="true"/>
 		<security:intercept-url pattern="/resources/**" access="permitAll()" />
-
 		<!--<security:intercept-url pattern="/mypage/**" access="hasRole('ROLE_USER')" />-->
-
 		<security:intercept-url pattern="/login" access="isAnonymous()" />
 		<security:form-login 
 			login-page="/login"
@@ -27,12 +26,13 @@
 			username-parameter="id"
 			password-parameter="password"
 			authentication-failure-handler-ref="loginFailureHandler"
-			authentication-success-handler-ref="loginSuccessHandler"
+			authentication-success-handler-ref="loginSuccessHandler" 
 		/>
+
 		<security:logout invalidate-session="true" logout-url="/logout" logout-success-url="/login" />
 	</security:http>
 	 
-	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<!-- <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> -->
 
 	<context:component-scan base-package="com.finalpj.nbw.login.service"/>
 
@@ -40,12 +40,13 @@
 		<security:authentication-provider user-service-ref="loginService">
 			<security:password-encoder ref="encoder"/>
 		</security:authentication-provider>
-<!--  		<security:authentication-provider>
-			<security:password-encoder ref="encoder"/>
-			<security:user-service>
-				<security:user name="admin" password="$2a$10$75pBjapg4Nl8Pzd.3JRnUe7PDJmk9qBGwNEJDAlA3V.dEJxcDKn5O" authorities="ROLE_ADMIN" />
-				<security:user name="user" password="{noop}user" authorities="ROLE_USER" />
-			</security:user-service>
-		</security:authentication-provider> -->
 	</security:authentication-manager>
+	
+	<!-- OAuth 2.0 -->
+	<bean id="naverApiKeyBean" class="com.finalpj.nbw.login.oauth2.module.ApiKeyBean">
+		<constructor-arg name="api" value="HCsJBCah1kSfrxdbnNSO"/>
+		<constructor-arg name="secret" value="_CGtGl8dg1"/>
+		<constructor-arg name="callback" value="http://localhost:8080/login/oauth2/code/naver"/>
+	</bean>
+	
 </beans>

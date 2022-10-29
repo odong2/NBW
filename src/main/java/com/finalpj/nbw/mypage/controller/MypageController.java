@@ -5,9 +5,10 @@ import com.finalpj.nbw.member.service.MemberService;
 import com.finalpj.nbw.mypage.service.MypageService;
 import lombok.extern.log4j.Log4j;
 
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +27,8 @@ public class MypageController {
         private MypageService mypageService;
 
         @GetMapping("mypageTest")
-        public String mypageTest(Authentication authentication, Model model){
-        	Member member = (Member) authentication.getPrincipal();
-            log.info("member: "+ member.getUsername());
+        public String mypageTest(Member member, Model model){
+            log.info("member: "+ member.getMem_id());
             return "/mypage/mypage";
         }
 

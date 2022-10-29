@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan base-package="com.finalpj.nbw.login.service, com.finalpj.nbw.member.service"/>
+
+	<bean id="naverApiKeyBean" class="com.finalpj.nbw.login.oauth2.module.ApiKeyBean">
+		<constructor-arg name="api" value="HCsJBCah1kSfrxdbnNSO"/>
+		<constructor-arg name="secret" value="G5R3Qq60qM"/>
+		<constructor-arg name="callback" value="http://localhost:80/login/oauth2/code/naver"/>
+	</bean>
+	
+	<bean id="kakaoApiKeyBean" class="com.finalpj.nbw.login.oauth2.module.ApiKeyBean">
+		<constructor-arg name="api" value="be64030b364f7bedea42be6ec6e94deb"/>
+		<constructor-arg name="secret" value="l7XQeJbzmAwFLc4e7Vh6Wx1UjxANVCM1"/>
+		<constructor-arg name="callback" value="http://localhost:80/login/oauth2/code/kakao"/>
+	</bean>
+	
+	<bean id="naverOAuth2" class="com.finalpj.nbw.login.oauth2.module.NaverOAuth2">
+		<constructor-arg ref="naverApiKeyBean"/>
+	</bean>
+	
+	<bean id="kakaoOAuth2" class="com.finalpj.nbw.login.oauth2.module.KakaoOAuth2">
+		<constructor-arg ref="kakaoApiKeyBean"/>
+	</bean>
+	
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+</beans>

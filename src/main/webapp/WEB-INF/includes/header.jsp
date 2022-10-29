@@ -8,39 +8,34 @@
                 style="font-size: 13px;"
         >
             <c:choose>
-                <c:when test="${not empty loginMember}">
+                <c:when test="${ !empty sessionScope.member}">
                     <li class="nav-item">
                         <a href="/mypage/info" class="text-decoration-none px-3 border-end rounded-0"
-                        ><strong><span style="color: #0055ec; ">${loginMember.getMem_name()}</span></strong>님 환영합니다!
+                        ><strong><span style="color: #0055ec; ">${sessionScope.member.getMem_name()}</span></strong>님 환영합니다!
                             <div id="state_ing" class="badge bg-warning rounded-pill">
-                                    ${loginMember.getG_grade()}
+                                    ${sessionScope.member.getG_grade()}
                             </div></a
                         >
                     </li>
-                </c:when>
-            </c:choose>
-
-            <c:choose>
-                <c:when test="${empty loginMember}">
-                    <li class="nav-item">
-                        <a href="/login" class="text-decoration-none px-3 border-end rounded-0"
-                        >로그인</a
-                        >
-                    </li>
-                </c:when>
-                <c:otherwise>
                     <li class="nav-item">
                         <a href="/logout" class="text-decoration-none px-3 border-end rounded-0"
                         >로그아웃</a
                         >
                     </li>
+                    <li class="nav-item">
+	                <a href="#" class="text-decoration-none px-3 border-end rounded-0"
+		                >주문내역</a
+		                >
+		            </li>
+                </c:when>
+                <c:otherwise>
+					 <li class="nav-item">
+                        <a href="/login" class="text-decoration-none px-3 border-end rounded-0"
+                        >로그인</a
+                        >
+                    </li>
                 </c:otherwise>
             </c:choose>
-            <li class="nav-item">
-                <a href="#" class="text-decoration-none px-3 border-end rounded-0"
-                >주문내역</a
-                >
-            </li>
             <li class="nav-item">
                 <a href="/cart/list" class="text-decoration-none px-3">
                     <i class="fas fa-shopping-cart"></i>
@@ -179,4 +174,3 @@
     </ul>
     <div class="col-1"></div>
 </nav>
-

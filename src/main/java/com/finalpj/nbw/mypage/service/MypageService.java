@@ -19,7 +19,7 @@ public class MypageService {
     }
 
     public int postMyInfo(Member member) throws Exception{
-        log.info("SERVICE ====================> 회원정보 수정 : "+ member.getUsername());
+        log.info("SERVICE ====================> 회원정보 수정 : "+ member.getMem_id());
         return memberDao.updateMyInfo(member);
     }
 }
