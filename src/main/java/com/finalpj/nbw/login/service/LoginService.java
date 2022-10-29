@@ -1,5 +1,9 @@
 package com.finalpj.nbw.login.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.finalpj.nbw.login.dao.LoginDao;
+import com.finalpj.nbw.login.dto.FindDto;
 import com.finalpj.nbw.login.dto.LoginDto;
 import com.finalpj.nbw.login.exception.LoginException;
 import com.finalpj.nbw.login.exception.WrongIdException;
@@ -64,17 +69,18 @@ public class LoginService
     public boolean idCheck(String userId) {    	
     	return loginDao.selectUserId(userId);
     }
-    
-//	@Override
-//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		System.out.println("username : " + username );
-//		
-//		Member member = memberDao.selectMember(username);
-//	
-//		if (member == null) {
-//			throw new UsernameNotFoundException("해당 유저는 존재하지않습니다.");
-//		}
-//
-//		return member;
-//	}
+
+	public Map<String,Object> findId(FindDto dto) {
+		HashMap<String,Object> responseMap = new HashMap<>();
+		FindDto ResponseDto = loginDao.findId(dto);
+		
+		if(ResponseDto != null) {
+			responseMap.put("success", true);
+			responseMap.put("dto", ResponseDto);
+		} else {
+			responseMap.put("success", false);
+			responseMap.put("msg", "해당 아이디는 존재하지 않는 아이디입니다.");
+		}
+		return responseMap;
+	}
 }

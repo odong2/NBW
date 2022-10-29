@@ -43,7 +43,7 @@ public class MemberController {
         log.info("===================== 회원가입 처리 POST =======================");
         int intI = memberService.postMem(member);
         /* 회원가입이 성공하면 이동할 디폴트 페이지는? 로그인 페이지*/
-        return "redirect:/login";
+        return "redirect:/login/login";
     }
 
 
