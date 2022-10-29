@@ -1,15 +1,17 @@
 package com.finalpj.nbw.member.controller;
 
 import com.finalpj.nbw.member.domain.Member;
+import com.finalpj.nbw.member.domain.PasswordMeter;
+import com.finalpj.nbw.member.domain.PasswordStrength;
 import com.finalpj.nbw.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @Slf4j
@@ -18,20 +20,25 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private PasswordMeter passwordMeter;
+
     /* GET : 회원가입 페이지 */
-    @GetMapping("/register")
+    @GetMapping("register")
     public String joinPage(){
-//        log.info("===================== 회원가입 페이지 GET =======================");
+        log.info("===================== 회원가입 페이지 GET =======================");
         return "join/join";
     }
 
-    @GetMapping("/idCheck")
+    @GetMapping("idCheck")
     public String idCheck(String id, Model model) throws Exception{
         model.addAttribute("id", memberService.idCheck(id));
         return "join/idCheck";
     }
 
-    @PostMapping("/register")
+
+    @RequestMapping(value="join", method= RequestMethod.POST)
     public String joinPageExe(@ModelAttribute Member member) throws Exception {
         log.info("===================== 회원가입 처리 POST =======================");
         int intI = memberService.postMem(member);
@@ -39,4 +46,14 @@ public class MemberController {
         return "redirect:/login";
     }
 
+
+    @GetMapping(value = "pwCheck")
+    @ResponseBody
+    public String pwCheck(String pw) throws Exception{
+        String result = passwordMeter.meter(pw).toString();
+        log.info("비밀번호 안전도 수준은? ====> "+ result);
+
+        /* ajax 를 통해 뷰로 안전도 수준을 반환한다. */
+        return result;
+    }
 }

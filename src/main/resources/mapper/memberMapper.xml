@@ -8,7 +8,7 @@
 		SELECT * FROM tb_MEMBER WHERE MEM_ID = #{value}
 	</select>
 
-<!--  ||||||||||||||||| *일반 회원 가입* |||||||||||||||||   -->
+<!--  ================= *회원 가입* ================= -->
     <insert id="insertMember">
         INSERT INTO TB_MEMBER (
                                MEM_ID
@@ -42,5 +42,16 @@
     <select id="selectIdCheck" resultType="java.lang.String">
         SELECT mem_id from tb_member WHERE mem_id = #{mem_id}
     </select>
+
+    <!--  ================== *회원 정보 수정* ==================  -->
+    <update id="updateMyInfo" parameterType="member">
+        UPDATE tb_member
+        SET  mem_zipcode = #{mem_zipcode}
+            ,mem_address = #{mem_address}
+            ,mem_address2 = #{mem_address2}
+            ,mem_email = #{mem_email}
+            ,mem_update = sysdate
+        WHERE mem_id = #{mem_id}
+    </update>
 
 </mapper>

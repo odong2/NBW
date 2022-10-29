@@ -47,7 +47,7 @@
                     type="text"
                     class="form-control"
                     id="floatingInput"
-                    name="id"
+                    name="userId"
                     placeholder="name@example.com"
                   />
                   <label for="floatingInput">아이디</label>
@@ -57,7 +57,7 @@
                     type="password"
                     class="form-control"
                     id="floatingPassword"
-                    name="password"
+                    name="userPassword"
                     placeholder="password"
                   />
                   <label for="floatingPassword">비밀번호</label>
@@ -77,14 +77,14 @@
               >
             </div>
             <div class="d-flex justify-content-center" style="height: 50px">
-              <a class="col-3" href="#">
+              <a class="col-3" href="${	NaverUrl }">
                 <img
                   src="/images/btnG_축약형.png"
                   alt=""
                   style="width: 100%; height: 100%"
                 />
               </a>
-              <a class="col-3 mx-2" href="#">
+              <a class="col-3 mx-2" href="${ KakaoUrl }">
                 <img
                   src="/images/kakao_login_large.png"
                   alt=""

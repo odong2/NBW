@@ -27,6 +27,7 @@ public class NoticeDaoTest {
 
     @Autowired
     NoticeDao noticeDao;
+    
     @Test
     /* ========================= 공지글 등록 테스트 ============================*/
     public void noticeInsertTest() throws Exception{

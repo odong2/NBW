@@ -1,95 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-<%@include file="../../includes/common.jsp" %>
-<title>MyPage</title>
-
-
-    <!-- 다음 우편번호 검색 API -->
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-    <!-- 다음 우편번호 샘플 코드 시작 -->
-    <script>
-        //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-        function sample4_execDaumPostcode() {
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                    // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                    var roadAddr = data.roadAddress; // 도로명 주소 변수
-                    var extraRoadAddr = ''; // 참고 항목 변수
-
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraRoadAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraRoadAddr !== ''){
-                        extraRoadAddr = ' (' + extraRoadAddr + ')';
-                    }
-
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    document.getElementById('sample4_postcode').value = data.zonecode;
-                    document.getElementById("sample4_roadAddress").value = roadAddr;
-
-                    // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-                    if(roadAddr !== ''){
-                        document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-                    } else {
-                        document.getElementById("sample4_extraAddress").value = '';
-                    }
-
-                    var guideTextBox = document.getElementById("guide");
-                    // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                    if(data.autoRoadAddress) {
-                        var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                        guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                        guideTextBox.style.display = 'block';
-
-                    } else if(data.autoJibunAddress) {
-                        var expJibunAddr = data.autoJibunAddress;
-                        guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                        guideTextBox.style.display = 'block';
-                    } else {
-                        guideTextBox.innerHTML = '';
-                        guideTextBox.style.display = 'none';
-                    }
-                }
-            }).open();
-        }
-
-        /* 수정 버튼을 누르면 수정할 수 있는 모달창이 뜬다.*/
-        $(function(){
-            $("#button-addon3").click(function(){
-                $(".modal").fadeIn();
-            });
-            $(".btn-exit").click(function(){
-                $(".modal").fadeOut();
-            });
-            $(".btn-close").click(function(){
-                $(".modal").fadeOut();
-            });
-
-            $("#button-addon4").click(function(){
-                $(".modal").fadeIn();
-            });
-            $(".btn-exit").click(function(){
-                $(".modal").fadeOut();
-            });
-            $(".btn-close").click(function(){
-                $(".modal").fadeOut();
-            });
-        });
-
-    </script>
-    <!-- 다음 우편번호 샘플 코드 끝 -->
+    <%@include file="../../includes/common.jsp" %>
+    <%--  daum postcode  --%>
+    <%@include file="../../includes/daumPostCode.jsp" %>
+    <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
+    <title>MyPage</title>
 
     <style>
         /** {*/
@@ -97,16 +13,12 @@
         /*}*/
 
         main {
-            width: 70%;
-            margin: auto;
+            width: 100%;
+            padding-left: 30px;
         }
 
         a {
             color: black;
-        }
-
-        h5 {
-            font-family: "210 Soopilmyungjo";
         }
 
         .modal {
@@ -123,173 +35,190 @@
     </style>
     </head>
     <body>
-
     <!-- 헤더 시작 -->
     <%@include file="../../includes/header.jsp" %>
+
+    <script type="text/javascript">
+        let code = ""; // 이메일 전송 인증번호 저장을 위한 코드
+
+        /* 수정 유효성 검사 통과 유무 변수 */
+        let mailCheck = false;            // 이메일
+        let mailCodeCheck = false;          // 이메일 인증 코드 일치
+        let addressCheck = false            // 주소
+
+        $(function(){
+            /* ============================ 수정 요청 전송 ========================== */
+            $("#btn-update").click(function(e){
+
+                /* 입력칸 변수 */
+                let mail = $("#mem_email").val();        // 메일주소 입력란
+                let addr1 = $('#address1').val();        // 우편번호 입력란
+                let addr2 = $('#address2').val();        // 주소 입력란
+                let addr3 = $('#address3').val();        // 상세주소 입력란
+
+                /* 메일 유효성 검사 */
+                if(mail == null || mail.trim() == ""){
+                    // 메일이 입력이 되지 않은 경우 숨김처리 되었던 span 태그를 활성화 시킨다.
+                    $('.final_mail_ck').attr("hidden", false);
+                }else{
+                    // 메일이 정상적으로 입력이 되었다면 통과 유무를 true 로 변경한다.
+                    $('.final_mail_ck').attr("hidden", true);
+                    mailCheck = true;
+                }
+
+                /* 주소 유효성 검사 => 우편번호, 주소, 상세주소 모두가 입력이 되어있어야 함. */
+                if((addr1 == null || addr1.trim() == "") || (addr2 == null || addr2.trim() == "") || (addr3 == null || addr3.trim() == "") ){
+                    // 주소가 입력이 되지 않은 경우 숨김처리 되었던 span 태그를 활성화 시킨다.
+                    $('.final_addr_ck').attr("hidden", false);
+                }else{
+                    // 주소가 정상적으로 입력이 되었다면 통과 유무를 true 로 변경한다.
+                    $('.final_addr_ck').attr("hidden", true);
+                    addressCheck = true;
+                }
+
+                if(!mailCheck || !mailCodeCheck || !addressCheck){
+                    // alert("입력을 다시 한 번 확인해 주세요.");
+                    /* 자동 새로고침 방지 */
+                    e.preventDefault();
+                    return;
+                }else{
+                    $("#updateForm").attr("action", "/mypage/info");
+                    $("#updateForm").attr("method", "post");
+                    $("#updateForm").submit();
+                }
+            })
+
+            /* ============================ 주소 변경 이벤트 ========================== */
+            $("#upBtn-addr").click(function(){
+                // 우편번호, 주소, 상세주소 칸이 활성화 된다.
+                $("#address1").attr("readonly", false);
+                $("#address2").attr("readonly", false);
+                $("#address3").attr("readonly", false);
+                $("#address3").val("");
+            });
+
+            /* ============================ 메일 변경 이벤트 ========================== */
+            $("#upBtn-mail").click(function(){
+                // 기존 이메일 숨긴다.
+                $("#lb-mail").attr("hidden", true);
+                // 변경 버튼을 숨긴다.
+                $("#upBtn-mail").attr("hidden", true);
+                // 이메일 입력 칸이 나타난다.
+                $("#mem_email").attr("hidden", false);
+                // 인증코드 전송 버튼이 나타난다.
+                $("#btn-email-send").attr("hidden", false);
+            });
+
+            /* ========================== 인증번호 전송 이벤트 ========================== */
+            $("#btn-email-send").click(function(){
+                let email = $("#mem_email").val();
+                // 메일이 입력되지 않으면 경고창이 뜬다.
+                if(email == null || email.trim() =="") alert("이메일 주소를 입력해 주세요.");
+                else {
+                    alert(email + "로 이메일을 전송하였습니다.");
+                        /* (2) ajax 코드를 추가한다 > controller 에 요청할 때 화면이 전환되는 것을 방지 */
+                        $.ajax({
+                            type: "GET",
+                            url: "/mail/mailCheck?email=" + email,
+                            success: function (data) {
+                                /* Controller 단에서 반환받은 랜덤코드가 잘 전송되는 지 확인 */
+                                console.log("data : " + data);
+                                /* 인증번호 입력 칸의 hidden 속성을 true -> false 로 변경한다. */
+                                $("#mem_email_num").attr("hidden", false);
+                                $("#message").attr("hidden", false);
+                                /* Controller 로부터 전달받은 인증번호를 위에서 선언한 code 변수에 새로 할당한다. */
+                                code = data;
+                                console.log("code : " + code); // 할당이 되었는지 확인
+                            }
+                        });
+                    }
+                });
+
+            /* ===================================== 발송된 인증번호 비교  ===================================== */
+            $("#mem_email_num").blur(function (){
+                let inputCode = $("#mem_email_num").val(); // 입력한 코드
+                let checkResult = $("#mail_check_input_box_warn"); // 비교 결과
+                if(inputCode != code){
+                    checkResult.addClass("alert-danger");
+                    checkResult.text("인증번호가 일치하지 않습니다.");
+                } else{
+                    checkResult.removeClass("alert-danger");
+                    checkResult.addClass("alert-success");
+                    checkResult.text("인증번호가 일치합니다.");
+                    // 인증번호가 일치한다면 통과 유무를 true 로 변경한다.
+                    mailCodeCheck = true;
+                }
+            });
+        });
+
+    </script>
     <!-- 헤더 끝 -->
+    <!-- 마이 페이지 시작 -->
+    <section class="mypage wrapper d-flex">
     <!-- 사이드바 시작-->
     <%@include file="../../includes/sidebar.jsp" %>
     <!-- 사이드바 끝-->
-
-    <!-- 마이 페이지 시작 -->
-    <!-- 메인 -->
-    <div class="row" style="height: 1000px">
-        <nav
-                id="sidebarMenu"
-                class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-        >
-            <div class="position-sticky sidebar-sticky">
-                <h4 class="border-bottom p-3">마이페이지</h4>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> 주문조회 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> 문의내역 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> 쿠폰등록 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> 등록한 리뷰 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> 좋아요 상품 </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                        >
-                            개인정보 수정
-                        </a>
-                        <ul class="dropdown-menu text-center">
-                            <li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
-                            <li><a class="dropdown-item" href="#">회원 탈퇴</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-<%-- ============================== MAIN 시작 ================================= --%>
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <ol class="list-group d-flex flex-row justify-content-center mt-2">
-                <li
-                        class="d-flex justify-content-center align-items-start col-2 border py-2"
-                >
-                    <div
-                            class="d-flex justify-content-center align-items-center flex-column"
-                    >
-                        <div
-                                class="fw-bold d-flex justify-content-center align-items-center mb-2"
-                        >
-                            <i class="fas fa-user fs-3"></i>
-                        </div>
-                        <div class="mb-2">김동현님</div>
-                        <div class="badge bg-warning rounded-pill">
-                            GOLD
-                        </div>
-                    </div>
-                </li>
-                <li
-                        class="d-flex justify-content-center align-items-start col-2 border py-2"
-                >
-                    <div
-                            class="d-flex justify-content-center align-items-center flex-column"
-                    >
-                        <div
-                                class="fw-bold d-flex justify-content-center align-items-center mb-2"
-                        >
-                            <i class="fas fa-stamp fs-3"></i>
-                        </div>
-                        <div class="mb-2">쿠폰함</div>
-                        <div  class="badge bg-primary rounded-pill">
-                            1장
-                        </div>
-                    </div>
-                </li>
-                <li
-                        class="d-flex justify-content-center align-items-start col-2 border py-2"
-                >
-                    <div
-                            class="d-flex justify-content-center align-items-center flex-column"
-                    >
-                        <div
-                                class="fw-bold d-flex justify-content-center align-items-center mb-2"
-                        >
-                            <i class="fas fa-truck fs-3"></i>
-                        </div>
-                        <div class="mb-2">배송중</div>
-                        <div class="badge bg-primary rounded-pill">0</div>
-                    </div>
-                </li>
-                <li
-                        class="d-flex justify-content-center align-items-start col-2 border py-2"
-                >
-                    <div
-                            class="d-flex justify-content-center align-items-center flex-column"
-                    >
-                        <div
-                                class="fw-bold d-flex justify-content-center align-items-center mb-2"
-                        >
-                            <i class="fas fa-box fs-3"></i>
-                        </div>
-                        <div class="mb-2">배송완료</div>
-                        <div id="state_complete" class="badge bg-primary rounded-pill">
-                            0
-                        </div>
-                    </div>
-                </li>
-                <li
-                        class="d-flex justify-content-center align-items-start col-2 border py-2"
-                >
-                    <div
-                            class="d-flex justify-content-center align-items-center flex-column"
-                    >
-                        <div
-                                class="fw-bold d-flex justify-content-center align-items-center mb-2"
-                        >
-                            <i class="fas fa-undo-alt fs-3"></i>
-                        </div>
-                        <div class="mb-2">취소/반품/교환</div>
-                        <div id="state_trade" class="badge bg-primary rounded-pill">
-                            0
-                        </div>
-                    </div>
-                </li>
-            </ol>
-
+        <%-- ==================== 메인 시작==================--%>
+        <main>
         <!-- 페이지 컨텐츠 레이아웃 -->
         <%-- =========================== MEMBER 기본 정보 FORM 시작 ========================== --%>
-            <div class="form" style="padding: 50px 70px">
-                <div class="row m-4">
-                    <div class="col-12">
-                        <p style="font-family: '210 Soopilmyungjo'">{mem_id} 님의 정보입니다.</p>
-                    </div>
-                    <hr>
+            <form id="updateForm" style="padding: 50px 250px 50px 70px;">
+                <div class="row">
+                    <h4> <strong>회원정보 수정</strong> </h4>
                 </div>
-
-                <%-- 생년월일 info ROW  --%>
-                <div class="row m-4">
-                    <%--    사용자에게 생년월일을 보이게 할 것인지?
-                    어차피 수정이 되지 않는다면 화면에는 보이지 않도록?
-                    생년월일(수정 X)
-                    --%>
+                <br>
+                <br>
+                <div>
+                    <h6> 기본 정보 </h6>
                 </div>
+                <hr style="border: solid 1px black;">
 
-                <!-- 전화번호 info ROW. -->
+                <!-- 아이디 정보  -->
                 <div class="row m-4">
                     <div class="col-3">
-                        <h5>전화번호</h5>
+                        <h6><strong>아이디</strong></h6>
+                        <input type="text" name="mem_id" value="${loginMember.getMem_id()}" hidden/>
                     </div>
-                    <div class="col-9 mb-3">
+                    <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <input name="mem_phone" type="text" class="form-control" aria-describedby="button-addon3" value="010-1234-5678" disabled>
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon3">수정</button>
+                            <label>${loginMember.getMem_id()}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 이름 정보  -->
+                <div class="row m-4">
+                    <div class="col-3">
+                        <h6><strong>이름</strong></h6>
+                    </div>
+                    <div class="col-8 mb-3">
+                        <div class="input-group mb-3 w-100">
+                            <label>${loginMember.getMem_name()}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <!-- 생년월일, 성별 정보  -->
+                <div class="row m-4">
+                    <div class="col-3">
+                        <h6><strong>생년월일/성별</strong></h6>
+                    </div>
+                    <div class="col-8 mb-3">
+                        <div class="input-group mb-3 w-100">
+                            <label> ${loginMember.getMem_birthday()} / ${loginMember.getMem_gender()} </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 전화번호  -->
+                <div class="row m-4">
+                    <div class="col-3">
+                        <h6><strong>전화번호</strong></h6>
+                    </div>
+                    <div class="col-8 mb-3">
+                        <div class="input-group mb-3 w-100">
+                            <label> ${loginMember.getMem_phone()} </label>
                         </div>
                     </div>
                 </div>
@@ -297,12 +226,32 @@
                 <!-- 이메일 입력 ROW입니다. -->
                 <div class="row m-4">
                     <div class="col-3">
-                        <h5>이메일 주소</h5>
+                        <h6><strong>이메일 주소</strong></h6>
+                        <span class="final_mail_ck" style="font-size: 5px; color: red" hidden>이메일을 입력해 주세요.</span>
                     </div>
-                    <div class="col-9 mb-3">
+                    <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <input name="mem_email" type="text" class="form-control" aria-describedby="button-addon4" value="dong@mail.com" disabled>
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon4">수정</button>
+                            <label id="lb-mail"> ${loginMember.getMem_email()}</label>
+                            <input name="mem_email" type="text" id="mem_email" hidden
+                                   autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="이메일을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
+                            <button name="btn-email-send" id="btn-email-send" hidden
+                                    class="btn btn-outline-secondary" type="button" style="border-radius: 2px" >인증번호 전송</button>
+                            <button class="btn-circle" id="upBtn-mail" type="button" style="float: right; border-radius: 10px; border: 0; margin-left: 10px;">변경</button>
+                            <span class="mailCode-ck" style="font-size: 5px; color: red" hidden></span>
+                        </div>
+                        <div class="row"><span id="message"hidden><p style="font-size: small; color: #535759">인증번호가 전송되었습니다. 미전송 시 이메일 주소를 확인해 주세요.</p></span></div>
+
+                    </div>
+                </div>
+                <div class="row m-4">
+                    <div class="col-3"></div>
+                    <div class="col-8 mb-3">
+                        <div class="input-group mb-3 w-100">
+                            <input type="text" id="mem_email_num" hidden
+                                   autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="인증번호 6자리" style="background-color: #fffbc5; border-radius: 5px">
+                        </div>
+                        <div class="row">
+                            <span id="mail_check_input_box_warn"></span>
                         </div>
                     </div>
                 </div>
@@ -310,12 +259,14 @@
                 <!-- 주소 ROW : 우편번호  -->
                 <div class="row m-4">
                     <div class="col-3">
-                        <h5> 주소 </h5>
+                        <h6><strong>주소</strong></h6>
+                        <span class="final_addr_ck" style="font-size: 5px; color: red" hidden>주소를 입력해 주세요.</span>
                     </div>
-                    <div class="col-9">
-                        <div class="input-group mb-3">
-                            <input name="mem_zipcode" type="text" class="form-control" id="sample4_roadAddress" value="12345" aria-describedby="button-addon2" disabled>
-                            <button class="btn btn-outline-secondary" type="button" onclick="sample4_execDaumPostcode()" >수정하기</button>
+                    <div class="col-8">
+                        <div class="input-group mb-3 w-100">
+                            <input name="mem_zipcode" type="text" id="address1" readonly
+                                   class="form-control" value="${loginMember.getMem_zipcode()}" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-secondary" id="upBtn-addr" type="button" onclick="exePostCode()" >변경</button>
                         </div>
                     </div>
                 </div>
@@ -323,9 +274,10 @@
                 <!-- 주소 ROW : 주소 1 -->
                 <div class="row m-4">
                     <div class="col-3"></div>
-                    <div class="col-9">
-                        <div class="input-group mb-3">
-                            <input name="mem_address" type="text" class="form-control" id="sample4_roadAddress" value="00로 00길 55" disabled>
+                    <div class="col-8">
+                        <div class="input-group mb-3 w-100">
+                            <input name="mem_address" type="text" id="address2" readonly
+                                   autocomplete="off" class="form-control" value="${loginMember.getMem_address()}">
                         </div>
                     </div>
                 </div>
@@ -333,62 +285,41 @@
                 <!-- 주소 ROW : 주소 2 -->
                 <div class="row m-4">
                     <div class="col-3"></div>
-                    <div class="col-9">
-                        <div class="input-group mb-3">
-                            <input name="mem_address2" type="text" class="form-control" id="sample4_detailAddress" value="00아파트 101호" disabled>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <hr>
-                </div>
-            </div>
-            <%-- =========================== MEMBER 기본 정보 FORM 끝 ========================== --%>
-
-            <%-- =========================== 인증 MODAL 시작 ============================ --%>
-            <div class="modal">
-                <div class="row">
-                        <div class="col-12" style="background-color: #b6d4fe;">
-                            <button class="btn-close"/>
-                        </div>
-                </div>
-                <div class="modal_content m-4">
-                    <div class="row m-4" style="text-align: center;">
-                        <h6>
-                            {mem_id}의 회원정보를 </br>
-                            수정하기 위한 </br>
-                            인증절차가 필요합니다.
-                        </h6>
-                        <hr>
-                    </div>
-                    <%--        인증번호 INPUT 시작            --%>
-                    <div class="row m-4">
+                    <div class="col-8">
                         <div class="input-group mb-3 w-100">
-                            <input type="text" class="form-control" aria-describedby="button-addon2" placeholder="인증번호를 입력해 주세요.">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">인증번호 발송</button>
+                            <input name="mem_address2" type="text" id="address3" readonly
+                                   autocomplete="off" class="form-control" value="${loginMember.getMem_address2()}">
                         </div>
                     </div>
-                    <%--        인증번호 INPUT 끝            --%>
+                    <br>
+                    <br>
+                    <br>
                 </div>
-                <%--   취소, 완료 버튼  --%>
-                <div class="row m-4 justify-content-sm-center" >
-                    <div class="col-6 text-center">
-                        <button class="btn-exit"> 취소 </button>
-                    </div>
-                    <div class="col-6 text-center">
-                        <button class="btn-succ"> 완료 </button>
-                    </div>
+                <hr style="border: solid 1px black;">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-3"></div>
+                    <div class="col-6" style="text-align: right;"> <p style="font-size: x-small">마지막 수정일은 <strong>${loginMember.getMem_update()}</strong>입니다.</div>
                 </div>
-            </div>
-
-
-            </main>
-            </div>
-            <!-- 메인 -->
-
-            <!-- 마이 페이지 끝 -->
-
+                <%-- 버튼 ROW  --%>
+                <div class="row m-auto">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <button id="btn-cancel"
+                                class="btn btn-success btn-lg m-2"
+                                style="background-color: #9d9d9d"> 취소 </button>
+                        <button id="btn-update"
+                                class="btn btn-primary btn-lg m-2"
+                                style="background-color: #3b5998;"> 확인 </button>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+            </form>
+            <%-- =========================== MEMBER 기본 정보 FORM 끝 ========================== --%>
+        </main>
+        <%-- ==================== 메인 끝 ==================--%>
+    </section>
+    <!-- 마이 페이지 끝 -->
     <!-- 풋터 시작 -->
     <%@include file="../../includes/footer.jsp" %>
     <!-- 풋터 끝 -->

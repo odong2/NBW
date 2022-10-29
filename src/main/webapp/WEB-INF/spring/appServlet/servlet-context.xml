@@ -33,5 +33,14 @@
 	<context:component-scan base-package="com.finalpj.nbw" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+	
+	<beans:bean id="loginInterceptor" class="com.finalpj.nbw.login.interceptor.LoginInterceptor"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/login"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+	</interceptors>
 
 </beans:beans>

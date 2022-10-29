@@ -5,5 +5,13 @@
 	<select id="getProduct" parameterType="String" resultType="com.finalpj.nbw.product.domain.Product">
 		SELECT * FROM tb_PRODUCT WHERE p_no = #{value}
 	</select>
-	
+
+
+	<!-- ===================================== 제목 검색 ================================================= -->
+	<select id="selectProductByWord" parameterType="String" resultType="java.util.List">
+		SELECT P_NO, P_IMG, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE
+		FROM TB_PRODUCT
+		WHERE P_TITLE LIKE '%'||#{searchWord}||'%'
+		ORDER BY P_TITLE ASC
+	</select>
 </mapper>
