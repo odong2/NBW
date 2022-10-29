@@ -79,8 +79,12 @@ public class KakaoOAuth2 extends DefaultApi20{
 	    String id = "KAKAO_"+node.get("id").asText();
 	    System.out.println(id);
 	    
-	    String name = node.get("kakao_account").get("profile").get("nickname").textValue();
-	    String email = node.get("kakao_account").get("email").textValue();
+	    String name = node.get("kakao_account").get("profile").get("nickname") == null 
+	    			? "미동의:입력해주세요." 
+	    			: node.get("kakao_account").get("profile").get("nickname").textValue();
+	    String email = node.get("kakao_account").get("email") == null
+	    			? "미동의:입력해주세요." 
+	    			: node.get("kakao_account").get("email").textValue();
 
 	    
 	    // 저장한 자료구조를 이용해서 전달할 member 객체 생성
