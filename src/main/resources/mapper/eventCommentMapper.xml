@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.finalpj.nbw.event.dao.EventDao">
+    <!-- 이벤트 게시물 목록 -->
+    <select id="selectEvent" parameterType="int" resultType="eventDto">
+        select EV_NO,
+               EV_TITLE,
+               EV_CONTENT,
+               EV_CDATE,
+               EV_FILE,
+               EV_HIT,
+               EV_START,
+               EV_END,
+               EV_PEOPLE,
+               EV_STATUS,
+               EV_NOWPEOPLE,
+               EV_TARGET,
+               EV_PLACE,
+               EV_IMG,
+               EV_TIME,
+               EV_TODAY,
+               EV_PHONE
+        from TB_EVENT
+        where EV_NO = #{EV_NO}
+    </select>
+    <!-- 댓글 조회 -->
+    <select id="replyList" parameterType="int">
+        select
+            evc_no, ev_no, evc_commenter, evc_content, evc_cdate
+        from tb_eventcomment
+        where ev_no = #{ev_no}
+    </select>
+
+    <!-- 댓글 작성 -->
+    <insert id="replyWrite" parameterType="eventCommentDto">
+        insert into tb_eventcomment(ev_no, evc_commenter, evc_content, evc_cdate)
+            value(#{ev_no}, #{evc_commenter}, #{evc_content}, #{evc_cdate})
+    </insert>
+
+    <!-- 댓글 수정 -->
+    <update id="replyModify" parameterType="eventCommentDto">
+        update tb_eventcomment set
+                             evc_commenter = #{evc_commenter},
+                             evc_content = #{evc_content},
+                             evc_update = #{evc_update}
+        where evc_no = #{evc_no}
+          and ev_no = #{ev_no}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="replyDelete" parameterType="eventCommentDto">
+        delete from tb_eventcomment
+        where evc_no = #{evc_no}
+          and ev_no = ${ev_no}
+    </delete>
+</mapper>
