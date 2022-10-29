@@ -46,8 +46,8 @@ public class NtCommentController {
         String commenter = "admin";
         commentDto.setNtc_commenter(commenter);
         commentDto.setNt_no(nt_no);
-        commentDto.setNtc_pcno(0);
-        commentDto.setNtc_no(25); // 임시로 준 것. 이후 시퀀스로 변경
+//        commentDto.setNtc_pcno(0); --> null 값으로 대체
+//        commentDto.setNtc_no(25); // 임시로 준 것. 이후 시퀀스로 변경
         log.info("commentDto = " + commentDto);
         try {
             if (ntCommentService.writeComment(commentDto) != 1) {

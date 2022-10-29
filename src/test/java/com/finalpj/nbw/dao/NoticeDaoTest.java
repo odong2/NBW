@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
-//@Transactional
+@Transactional
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                  "file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class NoticeDaoTest {

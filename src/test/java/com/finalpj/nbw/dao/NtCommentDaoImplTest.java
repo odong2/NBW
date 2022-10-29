@@ -47,7 +47,6 @@ public class NtCommentDaoImplTest {
         NtComment ntCommentDto = new NtComment(1,1, 0, "comment", "asdf");
         assertTrue(ntCommentDao.insert(ntCommentDto)==1);
         assertTrue(ntCommentDao.count(1)==1);
-
         ntCommentDto = new NtComment(1,1, 0, "comment", "asdf");
         assertTrue(ntCommentDao.insert(ntCommentDto)==1);
         assertTrue(ntCommentDao.count(1)==2);

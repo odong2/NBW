@@ -5,7 +5,7 @@
     <!-- ================= 공지글 등록 ================= -->
     <insert id="insertNotice" parameterType="noticeDto">
         INSERT INTO TB_NOTICE (nt_no, nt_title, nt_content,nt_file)
-        VALUES (SEQ_NT_NO.nextval, #{nt_title}, #{nt_content}, #{nt_file})
+        VALUES (SEQ_NT_NO.nextval, #{nt_title}, #{nt_content}, #{nt_file, jdbcType=VARCHAR})
     </insert>
     <!-- ================= 공지글 수정 ================= -->
     <update id="updateNotice" parameterType="noticeDto">

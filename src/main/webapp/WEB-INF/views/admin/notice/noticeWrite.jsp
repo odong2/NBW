@@ -14,16 +14,6 @@
     <%@include file="../../../includes/admin/common.jsp" %>
     <title>공지글 등록하기</title>
     <style>
-        .card-body{
-            height: 100%;
-        }
-        table tr,
-        table th{
-            color: black;
-        }
-        tbody{
-            height: 50vh;
-        }
         textarea{
             color: black;
         }

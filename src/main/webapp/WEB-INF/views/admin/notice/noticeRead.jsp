@@ -11,10 +11,41 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 	<%@include file="../../../includes/admin/common.jsp" %>
+    <script src="/ckeditor5-35.2.0/build/ckeditor.js"></script>
     <title>관리자 공지사항</title>
       <style>
+          .main{
+              width:90%;
+              height: 130vh;
+          }
+          #modSection{
+              display: none;
+          }
+          textarea{
+              color: black;
+          }
+          #inptitle{
+              width:100%;
+              height:40px;
+
+          }
+          #inptitle:focus{
+              outline: solid 1px #b6d4fe;
+          }
+          form h5{
+              font-size:0.9rem;
+              color: black;
+          }
+
+          .ck-editor__editable {
+              height: 400px;
+          }
+          .ck-content {
+              font-size: 12px;
+          }
+          /*/////////////////*/
           .card-body{
-              height: 100%;
+              height: 90%;
           }
           table tr,
           table th{
@@ -23,8 +54,16 @@
           #content{
               height: 50vh;
           }
-          #main{
-              width:90%;
+          .file_row{
+              font-size:0.9rem;
+          }
+          .file_row a{
+              color: black;
+              margin-left: 10px;
+          }
+          .file_row a:hover{
+              color: #4e73df;
+              font-weight: bold;
           }
       </style>
   </head>
@@ -43,8 +82,24 @@
         <!-- End of Topbar -->
         <!-- Main Content -->
 		<main class="container-fluid">
-            <!-- Begin Page Content -->
-            <section id="main" class="container-fluid">
+            <%-- ================ 공지글 수정하기 폼 시작 ================--%>
+            <section id="modSection" class="container-fluid main">
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 수정</h1>
+                <form action="/admin/notice/write" method="POST" enctype="multipart/form-data">
+                    <h5 class="mt-3 mb-2">제목</h5>
+                    <input type="text" name="nt_title" id="inptitle" placeholder="제목을 입력해 주세요" value="${noticeDto.nt_title}"/>
+                    <h5 class="mt-3 mb-2">내용</h5>
+                    <textarea type="text" class="text-dark" name="nt_content" id="editor">${noticeDto.nt_content}</textarea>
+                    <input type="hidden" name="nt_no" value="${noticeDto.nt_no}">
+                    <input type="file" name="file" id="fileInput"  value="${noticeDto.nt_filename}"/>
+                    <button id="wrtBtn" type="button"  class="btn btn-primary mt-3">수정</button>
+                    <button id="modOutBtn" type="button" class="mt-3 btn btn-danger">취소</button>
+                </form>
+            </section>
+            <%-- ================ 공지글 수정하기 폼 끝================--%>
+            <%-- ================ 공지글 읽기 폼 시작 ================--%>
+            <section id="readSection" class="container-fluid main">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 상세 페이지</h1>
                 <!-- Notice Content -->
@@ -76,17 +131,50 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th class="text-center col-1">첨부파일</th>
+                            <th class="text-center col-1">첨부파일</th>
+                            <c:set var="file" value="${noticeDto.nt_file}"/>
+                            <c:if test="${not empty file}">
                                 <c:choose>
-                                    <c:when test="${not empty noticeDto.nt_file}">
-                                        <td colspan="3"><a href="/admin/notice/download?fileName=${noticeDto.nt_file}"><c:out value="${noticeDto.nt_filename}"/></a></td>
+                                    <%-- 한글 파일일 경우 --%>
+                                    <c:when test="${fn:contains(file, '.hwp')}">
+                                        <td colspan="3" class="align-middle file_row">
+                                                <img src="/images/hwp.png" width="25px"/>
+                                                <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                                    <c:out value="${noticeDto.nt_filename}"/>
+                                                </a>
+                                        </td>
+                                    </c:when>
+                                    <%-- 엑셀일 경우 파일일 경우 --%>
+                                    <c:when test="${fn:contains(file, '.xlsx')}">
+                                        <td colspan="3" class="align-middle file_row">
+                                            <img src="/images/xlsx.png" width="20px"/>
+                                            <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                                <c:out value="${noticeDto.nt_filename}"/>
+                                            </a>
+                                        </td>
+                                    </c:when>
+                                    <%-- pdf일 경우 파일일 경우 --%>
+                                    <c:when test="${fn:contains(file, '.pdf')}">
+                                        <td colspan="3" class="align-middle file_row">
+                                            <img src="/images/pdf.png" width="23px"/>
+                                            <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                                <c:out value="${noticeDto.nt_filename}"/>
+                                            </a>
+                                        </td>
                                     </c:when>
                                     <c:otherwise>
-                                        <td colspan="3">첨부파일 없음</td>
+                                        <td colspan="3" class="align-middle file_row">
+                                            <a  href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                                <c:out value="${noticeDto.nt_filename}"/>
+                                            </a>
+                                        </td>
                                     </c:otherwise>
                                 </c:choose>
+                            </c:if>
+                            <c:if test="${empty noticeDto.nt_file}">
+                                <td colspan="3">첨부파일 없음</td>
+                            </c:if>
                             </tr>
-
                         </table>
                     </div>
                     <div class="card-header py-3 d-flex justify-content-center">
@@ -114,9 +202,28 @@
       <i class="fas fa-angle-up"></i>
     </a>
     <script>
-        $("#ntWrtBtn").click(function(){
-            alert("공지사항 등록 버튼");
+        $("#ntModBtn").click(function(){
+            <%--location.href=`/admin/notice/modify?nt_title=${noticeDto.nt_title}&nt_content=${noticeDto.nt_content}`;--%>
+            $("#readSection").css('display','none');
+            $("#modSection").css('display','block');
+
+        });
+        $("#ntDelBtn").click(function(){
+            location.href=`/admin/notice/delete/${noticeDto.nt_no}`;
         })
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector("#editor"),
+                {
+                    language: "ko",
+                })
+            .then(newEditor => {
+                editor = newEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
     </script>
   </body>
 </html>

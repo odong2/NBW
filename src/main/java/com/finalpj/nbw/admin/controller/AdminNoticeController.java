@@ -1,11 +1,9 @@
 package com.finalpj.nbw.admin.controller;
-
 import com.finalpj.nbw.notice.domain.Notice;
 import com.finalpj.nbw.notice.domain.PageHandler;
 import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.notice.service.NoticeService;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -18,8 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -83,12 +79,14 @@ public class AdminNoticeController {
 
     @GetMapping("/write")
     public String getWritePage(){
-
         return "/admin/notice/noticeWrite";
     }
     @PostMapping("/write")
-    public String writeNotice(Notice notice, MultipartFile file, HttpServletRequest request, RedirectAttributes rattr){
-            String originalFileName = file.getOriginalFilename();
+    public String writeNotice(Notice notice, MultipartFile file, RedirectAttributes rattr){
+        log.info("file = " + file.getOriginalFilename());
+        String originalFileName = file.getOriginalFilename();
+        // 첨부파일이 있을 경우
+        if(originalFileName!= null && originalFileName != "") {
             String saveFileName = "";
             String uploadPath = "C:\\upload\\file";
             UUID uuid = UUID.randomUUID();
@@ -96,23 +94,56 @@ public class AdminNoticeController {
             saveFileName = uuid.toString() + "_" + originalFileName;
             File folder = new File(uploadPath, saveFileName);
             // 폴더가 없다면 생성
-            if(!folder.isDirectory()){
-               folder.mkdirs();
+            if (!folder.isDirectory()) {
+                folder.mkdirs();
             }
-             notice.setNt_file(saveFileName);
-        try{
-            noticeService.writeNotice(notice);
-            file.transferTo(folder);
-            rattr.addFlashAttribute("msg","WRT_OK");
-        }catch (Exception e){
-            e.printStackTrace();
-            rattr.addFlashAttribute("msg","WRT_ERR");
+            notice.setNt_file(saveFileName);
+            try{
+                noticeService.writeNotice(notice);
+                file.transferTo(folder);
+                rattr.addFlashAttribute("msg","WRT_OK");
+            }catch (Exception e){
+                e.printStackTrace();
+                rattr.addFlashAttribute("msg","WRT_ERR");
+            }
+        }
+        else{
+            try{
+                noticeService.writeNotice(notice);
+                rattr.addFlashAttribute("msg","WRT_OK");
+            }catch (Exception e){
+                e.printStackTrace();
+                rattr.addFlashAttribute("msg","WRT_ERR");
+            }
         }
 
         return "redirect:/admin/notice/list";
     }
+    /********************************* 공지글 삭제 *********************************/
+    @GetMapping("/delete/{nt_no}")
+    public String deleteNotice(@PathVariable Integer nt_no, RedirectAttributes rattr){
+        log.info("AdminNotice Delete 호출");
+        try {
+            int result = noticeService.removeNotice(nt_no);
+            log.info("삭제 결과는 " + result + "입니다");
+            rattr.addFlashAttribute("msg","DEL_OK");
+        } catch (Exception e) {
+            e.printStackTrace();
+            rattr.addFlashAttribute("msg","DEL_ERR");
+        }
+        return "redirect:/admin/notice/list";
+    }
 
-    /***************************** 첨부파일 다운로드 ******************************/
+    /********************************* 공지글 삭제 *********************************/
+    @GetMapping("/modify")
+    public String modtifyNotice(@ModelAttribute Notice noticeDto, RedirectAttributes rattr){
+        log.info("AdminNotice Modify 페이지 호출");
+        log.info("수정하는 공지글 정보 = " + noticeDto);
+        return "/admin/notice/noticeModify";
+    }
+
+
+    /****************************** 첨부파일 다운로드 ******************************/
     @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(String fileName){
@@ -138,5 +169,6 @@ public class AdminNoticeController {
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 
     }
+
 
 }

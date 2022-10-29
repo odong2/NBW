@@ -51,13 +51,21 @@ public class NoticeController {
     public String readNotice(Integer nt_no, SearchCondition sc, Model m){
         try {
             Notice noticeDto = noticeService.getNotice(nt_no);
+            // 첨부파일이 존재하면 기존 파일 이름을 세팅하여 모델에 dto에 저장
+            if(noticeDto.getNt_file() != null){
+                String saveFileName = noticeDto.getNt_file();
+                int idx = saveFileName.indexOf("_");
+                // uuid를 제거하여 저장
+                String originalFileName = saveFileName.substring(idx+1);
+                noticeDto.setNt_filename(originalFileName);
+            }
             m.addAttribute("noticeDto", noticeDto);
             m.addAttribute("SearchCondition", sc);
             log.info("noticeDto = " + noticeDto);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "/notice/noticeDetailTest";
+        return "/notice/noticeDetailTest2";
    }
 
 }

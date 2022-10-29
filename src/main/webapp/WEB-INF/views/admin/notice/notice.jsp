@@ -31,24 +31,44 @@
             cursor: pointer;
         }
         #main{
-            width: 80%;
+            width: 90%;
             margin: auto;
         }
+        /*.card-body{*/
+        /*    border: solid 1px black;*/
+        /*}*/
       </style>
   </head>
   <body id="page-top">
+    <script>
+            let msg = "${msg}";
+            if(msg == 'WRT_OK'){
+                alert("새로운 공지글을 등록하셨습니다");
+            }
+            else if(msg == 'MOD_OK'){
+                alert("게시글을 수정하셨습니다.");
+            }
+            else if(msg == 'DEL_OK'){
+                alert("게시글을 삭제하셨습니다.");
+            }
+            else if(msg == 'WRT_ERR'){
+                alert("공지글 등록에 실패하였습니다. 다시 등록해 주세요.");
+            }
+            else if(msg == 'MOD_ERR'){
+                alert("게시글을 수정에 실패하였습니다. 다시 수정해 주세요.");
+            }
+            else if(msg == 'DEL_ERR'){
+                alert("게시글을 삭제에 실패하였습니다. 다시 삭제해 주세요.");
+            }
+    </script>
     <!-- Page Wrapper -->
     <div class="d-flex justify-content-start">
       <!-- Sidebar -->
 	  <%@include file="../../../includes/admin/sidebar.jsp" %>
-      <!-- End of Sidebar -->
-
       <!-- Content Wrapper -->
-      <!-- [[ 오른쪽 div 시작 ]] -->
       <section class="contentdiv d-flex" style="margin-left: 224px">
         <!-- Topbar -->
 	   <%@include file="../../../includes/admin/header.jsp" %>
-        <!-- End of Topbar -->
         <!-- Main Content -->
 		<main class="container-fluid">
             <!-- Begin Page Content -->
@@ -61,13 +81,13 @@
                 </p>
                 <p class="info">글 수정 및 삭제는 공지글 조회 후 상세페이지에서 진행해 주세요.</p>
                 <!-- Notice Content -->
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
                     <div class="card-header py-3">
                         <button id="ntWrtBtn" type="button" class="btn btn-dark">글 등록하기</button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="dataTable">
+                            <table class="table table-hover table-bordered" id="dataTable">
                                 <thead id="noticeTitle" class="table-dark">
                                 <tr class="text-white">
                                     <th>번호</th>

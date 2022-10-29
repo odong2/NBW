@@ -20,11 +20,8 @@
         }
 
         main {
-            width: 700px;
+            width: 900px;
             margin: auto;
-        }
-        #notice-content {
-            font-size: 0.8rem;
         }
         .container-title {
             margin-top: 30px;
@@ -32,7 +29,6 @@
             padding: 15px;
         }
         .notice-header {
-            border-bottom: solid 1px #8c8c8c;
             padding-bottom: 50px;
         }
         .header-img {
@@ -49,14 +45,15 @@
         .user-contatiner {
             align-items: center;
         }
-        #notice-content {
+        #noticeContent {
             border-bottom: solid 1px #8c8c8c;
             padding-bottom: 40px;
             margin-bottom: 40px;
+            font-size: 1rem;
         }
         .comment-input {
             margin-top: 50px;
-            border: solid 0.8px #8c8c8c;
+            border: solid 1px #8c8c8c;
             border-radius: 10px;
         }
         .user-icon {
@@ -98,7 +95,7 @@
             right: 10px;
         }
         #wrtBtn,
-        #modoutBtn {
+        #modOutBtn {
             border: none;
             border-radius: 10%;
             outline: none;
@@ -137,7 +134,7 @@
             border: 1px solid #8c8c8c;
             padding:5px;
         }
-        #notice-content{
+        #noticeContent{
             line-height: 2rem;
         }
         .commentMod{
@@ -161,12 +158,12 @@
     <%-- ================================ 공지사항 header 시작 ================================= --%>
     <section class="notice-header">
         <%-- =============== 제목 바인딩 ================ --%>
-        <h5 class="mb-3"><c:out value="${noticeDto.nt_title}"/></h5>
+        <h3 class="mb-4"><c:out value="${noticeDto.nt_title}"/></h3>
         <div class="d-flex">
             <div class="me-3">
                 <img class="header-img" src="/images/eyes.png" alt="조회수 이미지" />
                 <%-- =============== 조회수 바인딩 ================ --%>
-                <span id="notice-hit" class="header-text me-2"><c:out value="${noticeDto.nt_hit}"/> </span>
+                <span id="noticeHit" class="header-text me-2"><c:out value="${noticeDto.nt_hit}"/> </span>
             </div>
             <div>
                 <img class="header-img" src="/images/clock.png" alt="등록 날짜 이미지" />
@@ -178,10 +175,42 @@
     <%-- ================================ 공지사항 header 끝 ================================= --%>
     <%-- ================================ 공지사항 content 시작 ================================= --%>
     <section class="content">
-        <div id="notice-content"><c:out value="${noticeDto.nt_content}"/></div>
+        <div id="noticeContent">${noticeDto.nt_content}</div>
         <div class="file">
-            <i class="fas fa-file-alt"></i>
-            <span style="font-size: 0.7rem">첨부파일</span>
+            <c:set var="file" value="${noticeDto.nt_file}"/>
+            <c:if test="${not empty file}">
+                <c:choose>
+                    <%-- 한글 파일일 경우 --%>
+                    <c:when test="${fn:contains(file, '.hwp')}">
+                            <img src="/images/hwp.png" width="25px"/>
+                            <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <c:out value="${noticeDto.nt_filename}"/>
+                            </a>
+                    </c:when>
+                    <%-- 엑셀일 경우 파일일 경우 --%>
+                    <c:when test="${fn:contains(file, '.xlsx')}">
+                            <img src="/images/xlsx.png" width="20px"/>
+                            <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <c:out value="${noticeDto.nt_filename}"/>
+                            </a>
+                    </c:when>
+                    <%-- pdf일 경우 파일일 경우 --%>
+                    <c:when test="${fn:contains(file, '.pdf')}">
+                            <img src="/images/pdf.png" width="23px"/>
+                            <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <c:out value="${noticeDto.nt_filename}"/>
+                            </a>
+                    </c:when>
+                    <c:otherwise>
+                            <a  href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <c:out value="${noticeDto.nt_filename}"/>
+                            </a>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
+            <c:if test="${empty noticeDto.nt_file}">
+                <span>첨부파일 없음</span>
+            </c:if>
         </div>
         <div class="d-flex justify-content-center mt-5">
             <button id="noticeListBtn" type="button" class="btn btn-secondary">목록으로</button>
@@ -213,7 +242,7 @@
     <section id="modifyForm" style="display: none" class="mt-5">
          <textarea  id="modify-input" placeholder="대댓글을 입력해 주세요." class="col-5" rows="2"></textarea>
          <button    id="wrtBtn" type="button" class="modBtn btn-primary ms-2">수정 </button>
-         <button    id="modoutBtn" type="button" class="modBtn btn-danger ms-2" onclick="modifyOut()">취소</button>
+         <button    id="modOutBtn" type="button" class="modBtn btn-danger ms-2" onclick="modifyOut()">취소</button>
     </section>
     <%-- ================================ 댓글 수정 입력 폼 끝 =============================== --%>
 </main>
