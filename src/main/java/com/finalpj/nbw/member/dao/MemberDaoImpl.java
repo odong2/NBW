@@ -36,7 +36,7 @@ public class MemberDaoImpl implements MemberDao{
     /* ============================== 내 정보 수정 ==================================== */
     @Override
     public int updateMyInfo(Member member) throws Exception {
-        log.info("dao ===> 수정할 아이디 "+member.getUsername());
+        log.info("dao ===> 수정할 아이디 "+member.getMem_id());
         int result = sqlSession.update("updateMyInfo", member);
         log.info("dao ===> 수정 여부 "+ result);
         return result;
