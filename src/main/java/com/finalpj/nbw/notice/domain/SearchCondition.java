@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchCondition {
+public class SearchCondition extends com.finalpj.nbw.event.domain.SearchCondition {
     private Integer page = 1;
     private Integer pageSize = 10;
     private Integer offset = 0;

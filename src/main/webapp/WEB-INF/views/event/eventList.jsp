@@ -164,114 +164,69 @@
         </div>
 
         <hr />
+    <%-- ************************************** [[EVENT CONTENT 시작]] ************************************ --%>
+<%--    <section id="event-main" class="container">--%>
+      <ul>
+<%--        <c:forEach var="event" items="${eventList}">--%>
         <li class="list">
             <!-- 왼쪽 그림 시작 -->
             <div class="picturepeople">
                 <!-- 이미지 사진 시작 -->
-                <img class="classimg" src="https://lib.seoul.go.kr/apload/temp/20221012/1368702620008870.jpg" />
+                <img
+                    class="classimg"
+                    src="${eventDto.ev_img}"/>
                 <!-- 이미지 사진 끝 -->
                 <div class="picking">
                     <span class="receiving">접수중</span>
-                    <span class="receivingpeople">7</span>
+                    <span class="receivingpeople"><c:out value="${eventDto.ev_people-event.ev_nowpeople}"/></span>
                 </div>
             </div>
             <!-- 왼쪽 그림 끝 -->
             <!-- 오른쪽 설명 시작 -->
             <div class="detail">
                 <p class="bookname">
-                    <a title="움직이는 책방 9회 : 미스터리 유니온_정탐소설에서 K-스릴러까지">책이름<span style="color: #ff0000"></span></a>
+                    <a href="<c:url value="/event/read${ph.sc.queryString}&ev_no=${event.ev_no}"/>" style="color: #ff0000">
+                        <c:out value="${eventDto.ev_title}"/>
+                    </a>
                 </p>
                 <div class="bodycontent">
                     <div class="playpeople">
                         <div>대상&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">시민 누구나</div>
+                        <div style="color: #7c7c7c"><c:out value="${eventDto.ev_target}"/></div>
                     </div>
                     <br />
                     <div class="playplace">
                         <div>장소&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">서울광장</div>
+                        <div style="color: #7c7c7c"><c:out value="${eventDto.ev_place}"/></div>
                     </div>
                     <br />
                     <div class="studyday">
-                        <div>교육기간&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">2022/10/21</div>
+                        <div>행사기간&nbsp;:&nbsp;</div>
+                        <div style="color: #7c7c7c"><c:out value="${eventDto.ev_today}"/></div>
                     </div>
                     <br />
                     <div class="studytime">
-                        <div>요일/시간&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">금요일 12:00~13:00</div>
+                        <div>시간&nbsp;:&nbsp;</div>
+                        <div style="color: #7c7c7c"><c:out value="${eventDto.ev_time}"/></div>
                     </div>
                     <br />
                     <div class="applicationday">
                         <div>접수기간&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">2022/10/12 ~ 2022/10/20</div>
+                        <div style="color: #7c7c7c"><c:out value="${eventDto.ev_start}"/> ~ <c:out value="${eventDto.ev_end}"/></div>
                     </div>
                     <br />
                     <div class="recruitment">
                         <div>모집정원&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">30명</div>
+                        <div style="color: #7c7c7c"><c:out value="${eventDto.ev_people}"/></div>
                     </div>
                 </div>
             </div>
+            <hr />
             <!-- 오른쪽 설명 끝 -->
         </li>
-        <hr />
-        <li class="list">
-            <!-- 왼쪽 그림 시작 -->
-            <div class="picturepeople">
-                <!-- 이미지 사진 시작 -->
-                <img class="classimg" src="https://lib.seoul.go.kr/apload/temp/20221015/1631677478910955.jpg" />
-                <!-- 이미지 사진 끝 -->
-                <div class="picking">
-                    <span class="receiving">접수중</span>
-                    <span class="receivingpeople">7</span>
-                </div>
-            </div>
-            <!-- 왼쪽 그림 끝 -->
-            <!-- 오른쪽 설명 시작 -->
-            <div class="detail">
-                <p class="bookname">
-                    <a title="움직이는 책방 9회 : 미스터리 유니온_정탐소설에서 K-스릴러까지">동현이와 함께하는 코딩<span style="color: #ff0000"></span></a>
-                </p>
-                <div class="bodycontent">
-                    <div class="playpeople">
-                        <div>대상&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">시민 누구나</div>
-                    </div>
-                    <br />
-                    <div class="playplace">
-                        <div>장소&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">개발자카페</div>
-                    </div>
-                    <br />
-                    <div class="studyday">
-                        <div>교육기간&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">2022/10/21</div>
-                    </div>
-                    <br />
-                    <div class="studytime">
-                        <div>요일/시간&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">금요일 12:00~13:00</div>
-                    </div>
-                    <br />
-                    <div class="applicationday">
-                        <div>접수기간&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">2022/10/12 ~ 2022/10/20</div>
-                    </div>
-                    <br />
-                    <div class="recruitment">
-                        <div>모집정원&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">30명</div>
-                    </div>
-                    <br />
-                    <div class="eventhit">
-                        <div>조회수&nbsp;:&nbsp;</div>
-                        <div style="color: #7c7c7c">10명</div>
-                    </div>
-                </div>
-            </div>
-            <!-- 오른쪽 설명 끝 -->
-        </li>
+    </ul>
+<%--    </section>--%>
+    <%-- ************************************** [[EVENT CONTENT 끝]] ************************************ --%>
 </main>
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>
