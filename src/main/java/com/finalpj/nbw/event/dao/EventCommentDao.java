@@ -1,4 +1,4 @@
-package com.finalpj.nbw.event.repository;
+package com.finalpj.nbw.event.dao;
 
 import com.finalpj.nbw.event.domain.EventComment;
 
