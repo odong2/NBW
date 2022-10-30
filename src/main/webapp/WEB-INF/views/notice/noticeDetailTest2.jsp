@@ -141,6 +141,14 @@
         #commentList{
             width:90%;
         }
+        .file a{
+            color: black;
+            margin-left: 5px;
+        }
+        .file a:hover{
+            color: #4e73df;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
