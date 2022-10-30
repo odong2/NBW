@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MultiProduct {
+public class CartList {
     private List<CartProduct> cartProducts;
 }
