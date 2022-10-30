@@ -487,7 +487,7 @@
 		                </c:when>
 		                <c:otherwise>
 							<input name="mem_name" id="mem_name" type="text" required="required" pattern="[가-힣]{2,10}"
-                           		autocomplete="off" class="form-control" value="${ member.getMem_name() }" readonly>
+                           		autocomplete="off" class="form-control" value="${ member.getMem_name() }">
 		                </c:otherwise>
 		            </c:choose>
                 </div>
@@ -540,7 +540,7 @@
 				<c:otherwise>
 					<div class="col-6 input-group mb-3 w-100">
 	                    <input name="mem_email" id="mem_email_id" placeholder="이메일 입력" required="required"
-	                           autocomplete="off" class="form-control w-50" value="${ member.getMem_email()}" readonly/>
+	                           autocomplete="off" class="form-control w-50" value="${ member.getMem_email()}"/>
 	                </div>
 				</c:otherwise>
 			</c:choose>
