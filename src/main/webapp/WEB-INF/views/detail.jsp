@@ -68,7 +68,6 @@
 														}
 													]
 										};
-							
 						
 						} else { // 비회원 장바구니에 상품이 담겨있을 경우
 							let cookie = $.cookie.json
