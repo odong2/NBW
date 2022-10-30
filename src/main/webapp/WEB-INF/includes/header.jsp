@@ -160,7 +160,7 @@
           </ul>
         </li>
         <li class="nav-item px-4 border-end border-danger">
-            <a href="#" class="text-decoration-none">공지사항</a>
+            <a href="/notice/list" class="text-decoration-none">공지사항</a>
         </li>
         <li class="nav-item px-4 border-end border-danger">
             <a href="#" class="text-decoration-none">문의사항</a>
