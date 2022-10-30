@@ -18,6 +18,7 @@ Servers/
 /target/
 /bin/
 .springBeans
+security-context.xml
 
 # intellij
 .apt_generated
@@ -26,6 +27,8 @@ Servers/
 root-context.xml
 security-context.xml
 nbw.iml
+exe_nbw.log
+exp_nbw.dat
 
 # Mac
 .DS_Store

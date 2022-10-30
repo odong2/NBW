@@ -13,8 +13,13 @@ public class MypageService {
     @Autowired
     private MemberDao memberDao;
 
+
+    public Member getMyInfo(String id) throws Exception{
+        return memberDao.selectMember(id);
+    }
+
     public int postMyInfo(Member member) throws Exception{
-        log.info("SERVICE ====================> 회원정보 수정");
+        log.info("SERVICE ====================> 회원정보 수정 : "+ member.getMem_id());
         return memberDao.updateMyInfo(member);
     }
 }

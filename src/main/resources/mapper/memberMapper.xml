@@ -22,7 +22,6 @@
                                , MEM_CDATE
                                , MEM_BIRTHDAY
                                , MEM_EMAIL
-
                                )
         VALUES (
                 #{mem_id}
@@ -36,7 +35,6 @@
                 , sysdate
                 ,#{mem_birthday}
                 ,#{mem_email}
-
                 )
     </insert>
 
@@ -46,12 +44,13 @@
     </select>
 
     <!--  ================== *회원 정보 수정* ==================  -->
-    <update id="updateMyInfo">
+    <update id="updateMyInfo" parameterType="member">
         UPDATE tb_member
         SET  mem_zipcode = #{mem_zipcode}
             ,mem_address = #{mem_address}
             ,mem_address2 = #{mem_address2}
             ,mem_email = #{mem_email}
+            ,mem_update = sysdate
         WHERE mem_id = #{mem_id}
     </update>
 
