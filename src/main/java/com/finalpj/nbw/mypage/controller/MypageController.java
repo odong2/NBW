@@ -46,7 +46,7 @@ public class MypageController {
 //            return "/mypage/mypageInfo";
 //        }
 
-
+//
 //        @PostMapping("info")
 //        public String postMypageInfo(Authentication authentication) throws Exception{
 //            Member member = (Member)authentication.getPrincipal();

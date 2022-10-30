@@ -8,14 +8,14 @@
                 <img src="/images/mypageuser.png" alt="" width="60px" />
             </div>
             <div class="wrapper">
-                <span id="user-name">${loginMember.getMem_name()}님</span>
+                <span id="user-name">${sessionScope.member.getMem_name()}님</span>
             </div>
             <div class="wrapper d-flex ms-3">
                 <div>
                     <img src="/images/gold-medal.png" alt="" width="20px" />
                 </div>
                 <div class="mt-1">
-                    <span id="membership">${loginMember.getG_grade()}회원</span>
+                    <span id="membership">${sessionScope.member.getG_grade()}회원</span>
                 </div>
             </div>
             <div class="wrapper d-flex mt-2">
