@@ -1,12 +1,15 @@
 package com.finalpj.nbw.notice.service;
 
 import com.finalpj.nbw.notice.dao.NoticeDao;
+import com.finalpj.nbw.notice.dao.NtCommentDao;
 import com.finalpj.nbw.notice.domain.Notice;
+import com.finalpj.nbw.notice.domain.NtComment;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,14 +19,16 @@ public class NoticeService {
 
 
     private final NoticeDao noticeDao;
+    private final NtCommentDao commentDao;
 
-    public NoticeService(NoticeDao noticeDao){
+    public NoticeService(NoticeDao noticeDao, NtCommentDao commentDao){
         this.noticeDao = noticeDao;
+        this.commentDao = commentDao;
     }
 
-    /***************************** 공지글 입력 ****************************/
+    /***************************** 공지글 작성 ****************************/
     @Transactional(rollbackFor = Exception.class)
-    public int registNotice(Notice noticeDto) throws Exception{
+    public int writeNotice(Notice noticeDto) throws Exception{
         return noticeDao.insertNotice(noticeDto);
     }
     /**************************** 공지글 수정 ****************************/
@@ -39,14 +44,13 @@ public class NoticeService {
     /************************** 공지글 전체 삭제 ***************************/
     @Transactional(rollbackFor = Exception.class)
     public int removeAllNotice() throws Exception{
-        return noticeDao.deleteNoticeList();
+        return noticeDao.deleteNoticeAll();
     }
-    /******************** 공지글 한 건 조회  + 조회수 증가 *********************/
+    /******************** 공지글 한 건 조회  + 조회수 증가 + 댓글 조회 *********************/
     @Transactional(readOnly = true)
     public Notice getNotice(Integer nt_no) throws Exception{
         Notice noticeDto = noticeDao.selectNotice(nt_no);
-        noticeDao.updateViewCnt(nt_no);
-
+        noticeDao.updateViewCnt(nt_no); // 조회수 증가
         return noticeDto;
     }
     /************************ 공지글 전체 조회 ****************************/
@@ -60,13 +64,24 @@ public class NoticeService {
     public int increaseViewCnt(Integer nt_no) throws Exception{
         return noticeDao.updateViewCnt(nt_no);
     }
+    /************************ 공지글 총 개수 조회 ****************************/
     public int getNoticeTotalCnt() throws Exception{
         return noticeDao.selectNoticeCnt();
     }
 
-    /************************ 페이지 게시물 조회 ****************************/
+    /************************  조건 검색 페이지 ****************************/
     public List<Notice> getPageNotiseList(Map map) throws Exception{
         return noticeDao.selectNoticePage(map);
     }
+
+    public List<Notice> getSearchResultPage(SearchCondition sc) throws Exception{
+        return noticeDao.selectSearchPage(sc);
+    }
+    /************************ 조건 검색 총 개수 ****************************/
+    public int getSearchResultCnt(SearchCondition sc) throws Exception{
+        return noticeDao.selectSearchCnt(sc);
+    }
+
+
 
 }

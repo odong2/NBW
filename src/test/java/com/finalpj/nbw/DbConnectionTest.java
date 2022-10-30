@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -14,7 +15,8 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml",
+                                 "file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class DbConnectionTest {
         @Autowired
         DataSource ds;
@@ -28,7 +30,6 @@ public class DbConnectionTest {
         public void tearDown() throws Exception {
             log.info("------------테스트 종료--------------");
         }
-
         @Test
         public void dbConnectionTest() throws Exception {
             Connection conn = ds.getConnection();
@@ -37,6 +38,5 @@ public class DbConnectionTest {
 
             assertTrue(conn!=null);
         }
-
 
 }
