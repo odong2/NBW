@@ -67,7 +67,19 @@
 													}
 												]
 									};
-							
+						$.ajax({
+							type : "post",
+							url : "${contextPath}/cart/unMemAdd",
+							data : JSON.stringify(cookie);
+							success : function() {
+								
+							},
+							error : function(data, textStatus) {
+								alert("에러가 발생했습니다."+data);
+							},
+							complete : function(data, textStatus) {
+							}
+						}); //end of second ajax
 					} else { // 비회원 장바구니에 상품이 담겨있을 경우
 						let cookie = $.cookie.json
 						let result = JSON.parse(cookie);
@@ -75,7 +87,6 @@
 						
 						data : JSON.stringify(result);
 						
-							
 					}// end of 쿠키 존재여부 if-else
 				} // end of 회원 비회원 구분 if-else
 			}, error : function(data, textStatus) {
