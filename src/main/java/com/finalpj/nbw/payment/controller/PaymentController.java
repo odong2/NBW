@@ -1,18 +1,10 @@
 package com.finalpj.nbw.payment.controller;
 
-import com.finalpj.nbw.payment.domain.CartProduct;
-import com.finalpj.nbw.payment.domain.MultiProduct;
+import com.finalpj.nbw.payment.domain.CartList;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Log4j
 @Controller
@@ -21,8 +13,10 @@ public class PaymentController {
 
 
     @GetMapping("list")
-    public String getPaymentList(@ModelAttribute MultiProduct cartList){
-        log.info("카트 리스트는 " + cartList);
+    public String getPaymentList(@ModelAttribute CartList cartList, Model m){
+        log.info("장바구니에서 넘어온 상품 결제페이지로 넘어온 삼품의 정보 ========> " + cartList);
+        int cartSize= cartList.getCartProducts().size();
+        m.addAttribute("cartSize",cartSize);
         return "/payment/payment";
     }
     @GetMapping("test")
