@@ -3,20 +3,32 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.finalpj.nbw.event.dao.EventMapper">
+
+    <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
+    <select id="select" parameterType="int" resultType="eventDto">
+        Select * FROM tb_event
+        WHERE ev_no = #{ev_no}
+    </select>
+    <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
+    <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
+    <select id="selectAll" resultType="eventDto">
+            SELECT * FROM tb_event
+            ORDER BY ev_cdate DESC, ev_no DESC
+    </select>
+    <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
+    <select id="count" resultType="int">
+            SELECT count(*) FROM tb_event
+    </select>
+
+    <delete id="deleteAll">
+            DELETE FROM tb_event
+    </delete>
         <select id="select" parameterType="int" resultType="eventDto">
             Select ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start, ev_end, ev_people
                 , ev_status, ev_nowpeople, ev_target, ev_place, ev_img, ev_time, ev_today, ev_phone
             FROM tb_event
             WHERE ev_no = #{ev_no}
         </select>
-
-        <select id="count" resultType="int">
-            SELECT count(*) FROM tb_event
-        </select>
-
-        <delete id="deleteAll">
-            DELETE FROM tb_event
-        </delete>
 
         <delete id="delete" parameterType="map">
             DELETE FROM tb_event WHERE ev_no = #{ev_no}
@@ -28,19 +40,6 @@
             VALUES
                 (#{ev_title}, #{ev_content}
         </insert>
-
-        <select id="selectAll" resultType="eventDto">
-            SELECT ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start, ev_end, ev_people
-                , ev_status, ev_nowpeople, ev_target, ev_place, ev_img, ev_time, ev_today, ev_phone
-            FROM tb_event
-            ORDER BY ev_cdate DESC, ev_no DESC
-        </select>
-
-        <sql id="selectFromEvent">
-            SELECT ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start, ev_end, ev_people
-                , ev_status, ev_nowpeople, ev_target, ev_place, ev_img, ev_time, ev_today, ev_phone
-            FROM tb_event
-        </sql>
 
 <!--        <select id="select" parameterType="int" resultType="eventDto">-->
 <!--            <include refid="selectFromEvent"/>-->
