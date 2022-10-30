@@ -2,7 +2,6 @@ package com.finalpj.nbw.event.repository;
 
 import com.finalpj.nbw.event.dao.EventDao;
 import com.finalpj.nbw.event.domain.Event;
-import com.finalpj.nbw.event.domain.SearchCondition;
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -20,8 +19,17 @@ public class EventDaoImpl implements EventDao {
     public EventDaoImpl(SqlSession sqlSession){
         this.sqlSession = sqlSession;
     }
+    /****************************** [[이벤트 전체조회]] **********************************/
+    public List<Event> eventList() {
+        List<Event> eventList = null;
+        eventList = sqlSession.selectList("eventListAll");
+        return eventList;
+    }
+    /****************************** [[이벤트 전체조회]] **********************************/
+    /****************************** [[이벤트 한건 조회]] **********************************/
+    /****************************** [[이벤트 한건 조회]] **********************************/
 
-    /****************************** 공지글 등록 ********************************/
+    /****************************** [[공지글 등록]] ***************************/
     @Override
     public int insert(Event eventDto) throws Exception {
         return sqlSession.insert("insertEvent", eventDto);
@@ -45,18 +53,6 @@ public class EventDaoImpl implements EventDao {
         return sqlSession.delete("deleteEventAll");
     }
 
-    // 공지글 한 건 조회
-    @Override
-    public Event select(Integer ev_no) throws Exception{
-        return sqlSession.selectOne("selectEvent", ev_no);
-    }
-
-    // 공지글 전체 조회
-    @Override
-    public List<Event> selectList() throws Exception{
-        return sqlSession.selectList("selectEventList");
-    }
-
     // 공지글 조회수 증가
     @Override
     public int updateViewCnt(Integer ev_no) throws Exception{
@@ -72,18 +68,6 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> selectPage(Map map) throws Exception{
         return sqlSession.selectList("selectEventPage", map);
-    }
-
-    // 조건검색 페이징 처리하여 조회
-    @Override
-    public List<Event> selectSearchPage(SearchCondition sc) throws Exception{
-        return sqlSession.selectList("selectSearchPage", sc);
-    }
-
-    // 조건검색 결과 게시물 개수
-    @Override
-    public int selectSearchCnt(SearchCondition sc) throws Exception{
-        return sqlSession.selectOne("selectSearchCnt", sc);
     }
     // 조건검색 결과 게시물 개수
     @Override

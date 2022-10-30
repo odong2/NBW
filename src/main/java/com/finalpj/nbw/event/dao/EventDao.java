@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface EventDao {
+    //이벤트 전체 조회
+    List<Event> eventList() throws Exception;
+    //이벤트 한건 조회
     int insert(Event eventDto) throws Exception; // 이벤트글 등록
 
     int update(Event eventDto) throws Exception; // 공지글 수정
@@ -15,15 +18,7 @@ public interface EventDao {
 
     int deleteAll() throws Exception; // 공지글 전체 삭제
 
-    Event select(Integer ev_no) throws Exception; // 공지글 한건 조회
 
-
-//    Event selectList(Integer ev_no) throws Exception;
-
-    Event selectList(Integer ev_no) throws Exception;
-
-    //공지글 전체 조회
-    List<Event> eventList() throws Exception;
 
     int updateViewCnt(Integer ev_no) throws Exception; // 조회수 증가
 
@@ -38,5 +33,4 @@ public interface EventDao {
 //    int selectSearchCnt(SearchCondition sc) throws Exception; // 조건검색 결과 게시물 개수
 
     int updateCommentCnt(Integer ev_no, int ev_cocnt) throws Exception; // 댓글수 업데이트
-
 }

@@ -5,8 +5,8 @@ import org.springframework.web.util.*;
 
 @Data
 @ToString
-public class PageHandler {
-    private SearchCondition sc;
+public class EventPageHandler {
+    private EventSearchCondition sc;
     //    private int pageSize = 10; // 한 페이지당 게시물 갯수
 //    private int page; // 현재 페이지
 //    private String  option;
@@ -22,22 +22,22 @@ public class PageHandler {
     private boolean showNext = false; // 이후를 보여줄지의 여부. endPage==totalPage이면, showNext는 false
     private boolean showPrev = false; // 이전을 보여줄지의 여부. beginPage==1이 아니면 showPrev는 false
 
-    public PageHandler(int totalCnt, Integer page) {
-        this(totalCnt, new SearchCondition(page, 10));
+    public EventPageHandler(int totalCnt, Integer page) {
+        this(totalCnt, new EventSearchCondition(page, 10));
     }
 
-    public PageHandler(int totalCnt, Integer page, Integer pageSize) {
-        this(totalCnt, new SearchCondition(page, pageSize));
+    public EventPageHandler(int totalCnt, Integer page, Integer pageSize) {
+        this(totalCnt, new EventSearchCondition(page, pageSize));
     }
 
-    public PageHandler(int totalCnt, SearchCondition sc) {
+    public EventPageHandler(int totalCnt, EventSearchCondition sc) {
         this.totalCnt = totalCnt;
         this.sc = sc;
 
         doPaging(totalCnt, sc);
     }
 
-    private void doPaging(int totalCnt, SearchCondition sc) {
+    private void doPaging(int totalCnt, EventSearchCondition sc) {
         this.totalPage = totalCnt / sc.getPageSize() + (totalCnt % sc.getPageSize()==0? 0:1);
         this.sc.setPage(Math.min(sc.getPage(), totalPage));  // page가 totalPage보다 크지 않게
         this.beginPage = (this.sc.getPage() -1) / naviSize * naviSize + 1; // 11 -> 11, 10 -> 1, 15->11. 따로 떼어내서 테스트
@@ -70,11 +70,11 @@ public class PageHandler {
         System.out.println(showNext? " NEXT" : "");
     }
 
-    public SearchCondition getSc() {
+    public EventSearchCondition getSc() {
         return sc;
     }
 
-    public void setSc(SearchCondition sc) {
+    public void setSc(EventSearchCondition sc) {
         this.sc = sc;
     }
 

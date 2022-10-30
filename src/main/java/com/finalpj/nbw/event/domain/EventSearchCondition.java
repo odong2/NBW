@@ -5,7 +5,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static java.lang.Math.*;
 import static java.util.Objects.requireNonNullElse;
 
-public class SearchCondition {
+public class EventSearchCondition {
     private Integer page = 1;
     private Integer pageSize = DEFAULT_PAGE_SIZE;
     private String  option = "";
@@ -16,13 +16,13 @@ public class SearchCondition {
     public static final int DEFAULT_PAGE_SIZE = 10;
     public static final int MAX_PAGE_SIZE = 50;
 
-    public SearchCondition(){}
+    public EventSearchCondition(){}
 
-    public SearchCondition(Integer page, Integer pageSize) {
+    public EventSearchCondition(Integer page, Integer pageSize) {
         this(page, pageSize, "", "");
     }
 
-    public SearchCondition(Integer page, Integer pageSize, String option, String keyword) {
+    public EventSearchCondition(Integer page, Integer pageSize, String option, String keyword) {
         this.page = page;
         this.pageSize = pageSize;
         this.option = option;
