@@ -64,6 +64,7 @@ public class MypageController {
 //        }
 
 
+
         @GetMapping("event")
         public String mypageEventTest() {
             return "/mypage/mypageEvent";
