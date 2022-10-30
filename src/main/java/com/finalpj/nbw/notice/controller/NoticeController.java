@@ -28,7 +28,6 @@ public class NoticeController {
     /************************ 공지글 목록 페이지 요청  ***********************/
    @GetMapping("list")
     public String getnoticeList(SearchCondition sc, Model m){
-
        try {
            // 전체 게시물 개수 조회
            int totalCnt = noticeService.getSearchResultCnt(sc);
