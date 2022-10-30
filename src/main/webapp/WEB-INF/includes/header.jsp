@@ -34,6 +34,11 @@
                         >로그인</a
                         >
                     </li>
+                    <li class="nav-item">
+                        <a href="/join" class="text-decoration-none px-3 border-end rounded-0"
+                        >회원가입</a
+                        >
+                    </li>
                 </c:otherwise>
             </c:choose>
             <li class="nav-item">
