@@ -9,6 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class NtComment {
     private Integer ntc_no;         // 댓글 번호(pk)
     private Integer nt_no;          // 공지글 번호(fk)

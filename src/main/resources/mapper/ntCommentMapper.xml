@@ -14,7 +14,7 @@
     </select>
 
     <!-- ====================== 댓글 삭제(일치하는 작성자만) =========================-->
-    <delete id="delete" parameterType="map">
+    <delete id="delete" parameterType="ntCommentDto">
         DELETE FROM tb_noticecomment WHERE ntc_no = #{ntc_no} AND ntc_commenter = #{ntc_commenter}
     </delete>
 
