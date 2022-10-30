@@ -35,7 +35,7 @@
                         >
                     </li>
                     <li class="nav-item">
-                        <a href="/join" class="text-decoration-none px-3 border-end rounded-0"
+                        <a href="/member/register" class="text-decoration-none px-3 border-end rounded-0"
                         >회원가입</a
                         >
                     </li>
