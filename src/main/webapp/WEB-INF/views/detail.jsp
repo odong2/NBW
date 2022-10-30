@@ -45,7 +45,6 @@
 						},
 						success : function(msg) {
 							cartAlert(msg);
-							
 						},
 						error : function(data, textStatus) {
 							alert("에러가 발생했습니다."+data);
@@ -54,34 +53,34 @@
 						}
 					}); //end of second ajax	
 				} else if(result == "nonMember"){
-					$.ajax({
-						let c_cart = $.cookie('cart'); // 쿠키의 'cart'에 담긴 value를 문자열로 받아온다
-						if(c_cart == null){  // 비회원 장바구니에 담긴 상품이 한 건도 없을 경우
-							let cookie = {
-											cart : [ 
-														{
-														pno : ${product.getP_no()},
-														title : ${product.getP_title()},
-														img : ${product.getP_img()},
-														price : ${product.getP_price()},
-														count : $("#inputQuantity").val()
-														}
-													]
-										};
+					let c_cart = $.cookie('cart'); // 쿠키의 'cart'에 담긴 value를 문자열로 받아온다
+					if(c_cart == null){  // 비회원 장바구니에 담긴 상품이 한 건도 없을 경우
+						// json형식으로 객체 생성
+						let cookie = {
+										cart : [ 
+													{
+													pno : ${product.getP_no()},
+													title : ${product.getP_title()},
+													img : ${product.getP_img()},
+													price : ${product.getP_price()},
+													count : $("#inputQuantity").val()
+													}
+												]
+									};
+							
+					} else { // 비회원 장바구니에 상품이 담겨있을 경우
+						let cookie = $.cookie.json
+						let result = JSON.parse(cookie);
+						result.cart.push(1)
 						
-						} else { // 비회원 장바구니에 상품이 담겨있을 경우
-							let cookie = $.cookie.json
-							let result = JSON.parse(cookie);
-							result.cart.push(1)
+						data : JSON.stringify(result);
+						
 							
-							data : JSON.stringify(result);
-							
-							
-						}
-					}); // end of second ajax
-				}
+					}// end of 쿠키 존재여부 if-else
+				} // end of 회원 비회원 구분 if-else
+			}, error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
 			}
-			
 		}); // end of first ajax
 	}// end of add_cart()
 		
