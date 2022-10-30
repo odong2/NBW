@@ -8,6 +8,7 @@
             <typeAlias alias="searchCondition" type="com.finalpj.nbw.notice.domain.SearchCondition"/>
             <typeAlias alias="member" type="com.finalpj.nbw.member.domain.Member"/>
             <typeAlias alias="eventDto" type="com.finalpj.nbw.event.domain.Event"/>
+            <typeAlias alias="eventCommentDto" type="com.finalpj.nbw.event.domain.EventComment"/>
             <typeAlias alias="product" type="com.finalpj.nbw.product.domain.Product"/>
             <typeAlias alias="find" type="com.finalpj.nbw.login.dto.FindDto"/>
         </typeAliases>

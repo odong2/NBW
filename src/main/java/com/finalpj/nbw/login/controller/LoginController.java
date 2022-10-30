@@ -52,18 +52,23 @@ public class LoginController {
 		urlMap.put("KakaoUrl", kakaoUrl);
 		
 		model.addAllAttributes(urlMap);
-		return "/login/login";
+		return "/login/loginpage";
 	}
 	
 	@PostMapping("/login")
-	public void postLogin(LoginDto logindto, Model model){
+	public String postLogin(LoginDto logindto, Model model){
+		String default_url = "/home";
+		
 		Member member = null;
 		try {
 			member = loginService.loginCheck(logindto);
 			model.addAttribute("member", member);
 		} catch (LoginException e) {
 			model.addAttribute("LoginFailMsg", e.getMessage());
+			default_url = "/login/loginpage";
 		}
+		
+		return default_url;
 	}
 	
 	@GetMapping("/logout")

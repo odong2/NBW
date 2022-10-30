@@ -11,7 +11,6 @@ public class AdminController {
 	
 	@GetMapping("test")
 	public String main() {
-		
 		return "admin/test";
 	}
 	
@@ -25,6 +24,19 @@ public class AdminController {
 	public String adminAnswer() {
 		return "admin/answer";
 	}
-	
-	
+	/***************** [[관리자 이벤트 조회페이지]] *********************/
+	@GetMapping("event")
+	public String adminEvent() {
+		return "admin/event";
+	}
+	/***************** [[관리자 이벤트 신청자 조회페이지]] ***************/
+	@GetMapping("applicant")
+	public String adminEventApplicant() {
+		return "admin/eventApplicant";
+	}
+	/***************** [[관리자 이벤트 등록페이지]] ***************/
+	@GetMapping("register")
+	public String adminEventregister() {
+		return "admin/eventRegister";
+	}
 }
