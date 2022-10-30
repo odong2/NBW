@@ -2,15 +2,18 @@ package com.finalpj.nbw.event.controller;
 
 
 import com.finalpj.nbw.event.service.EventService;
-=======
 import com.finalpj.nbw.event.domain.Event;
 import com.finalpj.nbw.event.domain.PageHandler;
 import com.finalpj.nbw.event.domain.SearchCondition;
 import com.finalpj.nbw.event.service.EventService;
 import com.finalpj.nbw.member.controller.MemberController;
-
-
-
+import lombok.extern.log4j.Log4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Log4j
