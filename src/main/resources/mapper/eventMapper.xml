@@ -23,6 +23,12 @@
     <delete id="deleteAll">
             DELETE FROM tb_event
     </delete>
+        <select id="select" parameterType="int" resultType="eventDto">
+            Select ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start, ev_end, ev_people
+                , ev_status, ev_nowpeople, ev_target, ev_place, ev_img, ev_time, ev_today, ev_phone
+            FROM tb_event
+            WHERE ev_no = #{ev_no}
+        </select>
 
         <delete id="delete" parameterType="map">
             DELETE FROM tb_event WHERE ev_no = #{ev_no}
@@ -34,8 +40,6 @@
             VALUES
                 (#{ev_title}, #{ev_content}
         </insert>
-
-
 
 <!--        <select id="select" parameterType="int" resultType="eventDto">-->
 <!--            <include refid="selectFromEvent"/>-->

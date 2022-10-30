@@ -37,7 +37,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {
 		
-		Member member = (Member)modelAndView.getModelMap().get("member");
+		Member member = (Member) modelAndView.getModelMap().get("member");
 		
 		log.info("postHandle-->");
 		log.info(member);

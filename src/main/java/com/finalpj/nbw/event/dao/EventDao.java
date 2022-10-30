@@ -18,8 +18,6 @@ public interface EventDao {
 
     int deleteAll() throws Exception; // 공지글 전체 삭제
 
-
-
     int updateViewCnt(Integer ev_no) throws Exception; // 조회수 증가
 
     int selectCnt() throws Exception; // 전체 게시글 개수
@@ -33,4 +31,6 @@ public interface EventDao {
 //    int selectSearchCnt(SearchCondition sc) throws Exception; // 조건검색 결과 게시물 개수
 
     int updateCommentCnt(Integer ev_no, int ev_cocnt) throws Exception; // 댓글수 업데이트
+
+
 }

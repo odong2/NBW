@@ -31,6 +31,14 @@ public class MypageController {
             log.info("member: "+ member.getMem_id());
             return "/mypage/mypage";
         }
+        
+        /* ========= 회원 정보 수정 페이지 ========= */
+        @GetMapping("info")
+        public String doMypageInfo(){
+            log.info("mypageInfo페이지");
+            return "/mypage/mypageInfo";
+        }
+    /***************** [[마이페이지 참여중인 이벤트 조회페이지]] ***************/
 
         /* ========= 회원 정보 수정 페이지 GET ========= */
 //        @GetMapping("info")

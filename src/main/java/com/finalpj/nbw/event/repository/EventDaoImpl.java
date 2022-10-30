@@ -70,6 +70,7 @@ public class EventDaoImpl implements EventDao {
         return sqlSession.selectList("selectEventPage", map);
     }
     // 조건검색 결과 게시물 개수
+
     @Override
     public int updateCommentCnt (Integer ev_no, int ev_cocnt) throws Exception{
         Map map = new HashMap();

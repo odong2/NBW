@@ -36,6 +36,8 @@ public class EventService {
     /********************************* [[이벤트 한 건 조회]] **************************************/
     /********************************* [[이벤트 한 건 조회]] **************************************/
 
+
+
     // 공지글 작성
     @Transactional(rollbackFor = Exception.class)
     public int write(Event eventDto) throws Exception{
@@ -71,6 +73,7 @@ public class EventService {
     public List<Event> getPageList(Map map) throws Exception{
         return eventDao.selectPage(map);
     }
+
 
 //    public List<Event> getSearchResultPage(SearchCondition sc) throws Exception{
 //        return eventDao.selectSearchPage(sc);
