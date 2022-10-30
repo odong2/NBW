@@ -7,6 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>도서 결제페이지</title>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <%@include file="/WEB-INF/includes/common.jsp" %>
 <style>
     * {
@@ -34,8 +36,8 @@
         font-size: 0.8rem;
     }
 
-    .productImg {
-        width: 60px;
+    .product-img {
+        width: 80px;
     }
     .orderInfo-wrap {
         width: 800px;
@@ -111,7 +113,7 @@
         height: 25px;
         padding: 5px;
     }
-    #delivery-memo,
+    #delevertMemo,
     #coupon,
     #direct-memo {
         font-size: 0.7rem;
@@ -122,11 +124,13 @@
         font-weight: 600;
     }
     .paymentInfo-wrap {
-        width: 250px;
+        width: 300px;
         position: fixed;
     }
     .paymentInfo-area {
         border: solid 1px #d8d8d8;
+        height: 270px;
+        padding: 15px;
         border-radius: 5px;
         margin-bottom: 5px;
     }
@@ -219,63 +223,27 @@
                     <span id="prdTotallCnt" class="mt-2">총 3개</span>
                 </div>
             </button>
-<%--            <c:forEach var="products" items="${cartProducts}">--%>
-<%--                ${products.nt_no}--%>
-<%--            </c:forEach>--%>
             <%-- ========================== 주문 상품 정보 시작 ==============================--%>
             <table id="prdInfo" class="fold">
                 <tbody>
+                <c:forEach var="product" items="${cartList.cartProducts}">
                 <tr class="prdList">
                     <td class="d-flex align-items-center col-8 ms-2">
                         <div class="productImg-box">
-                            <img
-                                    src="http://image.yes24.com/goods/112929848/XL"
-                                    class="productImg"
-                            />
+                            <img src=<c:out value="${product.p_img}"/> class="product-img"/>
                         </div>
                         <div class="prdTitle-box ms-3 col-12">
-                            <span class="prdTitle">[국내도서]넘버스 스틱!</span>
+                            <span class="prdTitle">
+                                [<c:out value="${product.p_category}"/>]
+                                 <c:out value="${product.p_title}"/>
+                            </span>
                         </div>
                     </td>
                     <td class="delivery col-1"><span>자체배송</span></td>
-                    <td class="col-1"><span class="prdCount">1</span></td>
-                    <td class="col-2"><span class="prdPrice">15,300원</span></td>
+                    <td class="col-1"><span class="prdCount"><c:out value="${product.mcart_count}"/>개</span></td>
+                    <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price}" type="number"/>원</span></td>
                 </tr>
-                <tr class="prdList">
-                    <td class="d-flex align-items-center col-8 ms-2">
-                        <div class="productImg-box">
-                            <img
-                                    src="https://image.aladin.co.kr/product/30169/22/cover500/8959897094_3.jpg"
-                                    class="productImg"
-                            />
-                        </div>
-                        <div class="prdTitle-box ms-3 col-12">
-                    <span class="prdTitle"
-                    >트렌드 코리아 2023 - 서울대 소비트렌드 분석센터의 2023
-                      전망</span
-                    >
-                        </div>
-                    </td>
-                    <td class="delivery col-1"><span>자체배송</span></td>
-                    <td class="col-1"><span class="prdCount">1</span></td>
-                    <td class="col-2"><span class="prdPrice">15,300원</span></td>
-                </tr>
-                <tr class="prdList">
-                    <td class="d-flex align-items-center col-8 ms-2">
-                        <div class="productImg_box">
-                            <img
-                                    src="https://image.aladin.co.kr/product/29489/3/cover500/k252837531_1.jpg"
-                                    class="productImg"
-                            />
-                        </div>
-                        <div class="prdTitle-box ms-3 col-12">
-                            <span class="prdTitle">[국내도서]넘버스 스틱!</span>
-                        </div>
-                    </td>
-                    <td class="delivery col-1"><span>자체배송</span></td>
-                    <td class="col-1"><span class="prdCount">1</span></td>
-                    <td class="col-2"><span class="prdPrice">15,300원</span></td>
-                </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <%-- ========================== 주문 상품 정보 끝 ==============================--%>
@@ -289,22 +257,22 @@
                             <span class="label">이름</span>
                         </div>
                         <div class="col-sm-8 ms-3">
-                            <span>김민준</span>
+                            <span><c:out value="${member.mem_name}"/></span>
                         </div>
                     </li>
-                    <li class="d-flex">
+                    <li class="d-flex mt-2">
                         <div class="col-lg-9 col-sm-4">
                             <span class="label">전화번호</span>
                         </div>
                         <div class="col-sm-8 ms-3">
-                            <span> 010-2323-2323 </span>
+                            <span><c:out value="${member.mem_phone}"/></span>
                         </div>
                     </li>
-                    <li class="d-flex">
+                    <li class="d-flex mt-2">
                         <div class="col-lg-9 col-sm-4">
                             <span class="label">회원등급</span>
                         </div>
-                        <div class="col-sm-8 ms-3"><span>골드</span></div>
+                        <div class="col-sm-8 ms-3"><span><c:out value="${member.g_grade}"/></span></div>
                     </li>
                 </ul>
             </section>
@@ -316,109 +284,56 @@
                 <!-- 수령자 정보 선택 라디오 -->
                 <div class="radio d-flex ms-3 mb-3">
                     <div class="me-3">
-                        <input
-                                id="order-eq"
-                                type="radio"
-                                name="orderUser-radio"
-                                style="width: 10px"
-                                checked
-                        />
-                        <label for="orderUser-radio" class="receiver-label"
-                        >주문자 동일</label
-                        >
-                        <input
-                                id="order-dif"
-                                type="radio"
-                                name="orderUser-radio"
-                                style="width: 10px"
-                        />
-                        <label for="orderUser-radio" class="receiver-label"
-                        >수령자 별도</label
-                        >
+                        <input id="orderEq" type="radio" name="orderUser-radio" style="width: 10px" checked/>
+                        <label for="orderEq" class="receiver-label">주문자 동일</label>
+                        <input id="orderDif" type="radio" name="orderUser-radio" style="width: 10px"/>
+                        <label for="orderDif" class="receiver-label">수령자 별도</label>
                     </div>
                 </div>
                 <!-- 수령자 정보 선택 라디오 끝-->
                 <!-- 수령자 정보 input 시작 -->
-                <ul class="ms-3">
+                <ul id="recvInfoList" class="ms-3">
                     <li>
-                        <label for="receiver-name" class="receiver-label"
-                        >수령자 이름</label
-                        >
+                        <label for="recvName" class="receiver-label">수령자 이름</label>
                         <div class="mt-2 mb-1">
-                            <input
-                                    type="text"
-                                    name="receiver-name"
-                                    class="form-controller col-7"
-                                    value="김민준"
-                            />
+                            <input type="text" id="recvName"
+                                   name="receiver-name"
+                                   class="form-controller col-7" value=<c:out value="${member.mem_name}"/>>
                         </div>
                     </li>
                     <li>
-                        <label for="receiver-name" class="receiver-label"
-                        >전화번호</label
-                        >
+                        <label for="recvPhone" class="receiver-label">전화번호</label>
                         <div class="mt-2 mb-1">
-                            <input
-                                    type="text"
-                                    name="receiver-phone"
-                                    class="form-controller col-7"
-                                    value="010-2323-2323"
-                            />
+                            <input type="text" id="recvPhone" name="receiver-phone"
+                                   class="form-controller col-7" value=<c:out value="${member.mem_phone}"/>>
                         </div>
                     </li>
                     <li>
-                        <label for="receiver-name" class="receiver-label"
-                        >우편번호</label
-                        >
+                        <label for="recvZipcode" class="receiver-label">우편번호</label>
                         <div class="mt-2 mb-1">
-                            <input
-                                    type="text"
-                                    name="receiver-zipcode"
-                                    class="form-controller col-5"
-                                    value="06002"
-                            />
-                            <button type="button" id="zipcodeBtn" class="btn">
-                                우편번호 찾기
-                            </button>
+                            <input type="text" id="recvZipcode" name="receiver-zipcode"
+                                   class="form-controller col-5" value=<c:out value="${member.mem_zipcode}"/>>
+                            <button type="button" id="zipcodeBtn" class="btn" onClick="changeSelectAddress();">우편번호 찾기</button>
                         </div>
                     </li>
                     <li>
-                        <label for="receiver-address1" class="receiver-label"
-                        >주소</label
-                        >
+                        <label for="recvAddress" class="receiver-label">주소</label>
                         <div class="mt-2 mb-1">
-                            <input
-                                    type="text"
-                                    name="receiver-address1"
-                                    class="form-controller col-7"
-                                    value="서울시 강남구 역삼동"
-                            />
+                            <input type="text" id="recvAddress" name="receiver-address"
+                                   class="form-controller col-7" value=<c:out value="${member.mem_address}"/>>
                         </div>
                     </li>
                     <li>
-                        <label for="receiver-address2" class="receiver-label"
-                        >상세주소</label
-                        >
+                        <label for="recvAddress2" class="receiver-label">상세주소</label>
                         <div class="mt-2 mb-2">
-                            <input
-                                    type="text"
-                                    name="receiver-address2"
-                                    class="form-controller col-7"
-                                    value="KH정보교육원"
-                            />
+                            <input type="text" ID="recvAddress2" name="receiver-address2"
+                                   class="form-controller col-7" value=<c:out value="${member.mem_address2}"/>>
                         </div>
                     </li>
                     <li>
-                        <label for="delivery-memo" class="receiver-label"
-                        >배송메모</label
-                        >
+                        <label for="delevertMemo" class="receiver-label">배송메모</label>
                         <div class="mt-2 col-7">
-                            <select
-                                    id="delivery-memo"
-                                    name="delivery-memo"
-                                    class="form-select"
-                                    onchange="deliveryMemo()"
-                            >
+                            <select id="delevertMemo"name="delevertMemo"class="form-select"onchange="deliveryMemo()">
                                 <option value="0" selected>
                                     배송시 요청사항을 선택해주세요
                                 </option>
@@ -427,8 +342,7 @@
                                 <option value="3">부재시 문앞에 놔주세요</option>
                                 <option value="4">배송전 연락바랍니다</option>
                                 <option value="5">직접입력</option>
-                                <textarea
-                                        name="delivery-memo"
+                                <textarea name="delevertMemo"
                                         id="direct-memo"
                                         cols="70"
                                         rows="2"
@@ -524,7 +438,7 @@
             <div class="paymentInfo-wrap ms-3 mt-4">
                 <div class="paymentInfo-area">
                     <ul>
-                        <li>
+                        <li class="mb-3">
                             <div class="d-flex pay">
                                 <div class="col-8 payLabel">
                                     <span>상품금액</span>
@@ -534,7 +448,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li class="mb-3">
                             <div class="d-flex pay">
                                 <div class="col-8 payLabel">
                                     <span>배송비</span>
@@ -544,7 +458,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li class="mb-3">
                             <div class="d-flex pay">
                                 <div class="col-8 payLabel">
                                     <span>등급할인</span>
@@ -554,7 +468,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li class="mb-3">
                             <div class="d-flex pay">
                                 <div class="col-8 payLabel">
                                     <span>쿠폰할인</span>
@@ -564,7 +478,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li class="mb-3">
                             <div class="d-flex pay">
                                 <div class="col-8 payLabel">
                                     <span>포인트사용</span>
@@ -596,16 +510,34 @@
 <!-- 풋터 시작 -->
 <%@include file="/WEB-INF/includes/footer.jsp" %>
 <!-- 풋터 끝 -->
-<script>
-    $(function(){
-        console.log('${cartList}');
+<script type="text/javascript">
+    <%-- 수령자 별도 클릭 이벤트 --%>
+    $('#orderDif').click(function(){
+        $('#recvInfoList input').val('');
     })
+    $("#orderEq").click(function(){
+        $('input[name=receiver-name]').val('${member.mem_name}');
+        $('input[name=receiver-phone]').val('${member.mem_phone}');
+        $('input[name=receiver-zipcode]').val('${member.mem_zipcode}');
+        $('input[name=receiver-address]').val('${member.mem_address}');
+        $('input[name=receiver-address2]').val('${member.mem_address2}');
+
+    })
+    let tmp = '${cartList}';
+    console.log(tmp);
+
+    //window.onload
+    $(function () {
+        <%-- 주문 상품 토글 숨겨 놓기--%>
+        $("#prdInfo").hide();
+    });
+
     $(".btnFold").click(function (e) {
         e.preventDefault();
         $(".fold").slideToggle(100);
     });
     function deliveryMemo() {
-        let num = $("#delivery-memo option:selected").val();
+        let num = $("#delevertMemo option:selected").val();
         if (num == 5) {
             $("#direct-memo").css("display", "block");
             $("#direct-memo").focus();
@@ -619,6 +551,30 @@
         if (e.target.id === "naverPayBtn") alert("네이버페이 선택");
         else if (e.target.id === "kakaoPayBtn") alert("카카오페이 선택");
     });
+
+
+    <%-- 다음 주소록 API --%>
+    function changeSelectAddress(){
+        new daum.Postcode({
+            oncomplete: function(data) {
+
+                var addr = ''; // 주소 변수
+
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                $('#recvZipcode').val(data.zonecode);
+                $('#recvAddress').val(addr);
+                $('#recvAddress2').val('');
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("recvAddress2").focus();
+            }
+        }).open();
+    }
+
 </script>
 </body>
 </html>
