@@ -115,8 +115,6 @@ public class LoginController {
 	@PostMapping("/login/find/{findValue}")
 	@ResponseBody
 	public Map<String,Object> Postfind(@PathVariable String findValue, @RequestBody FindDto dto, Model model) {
-		log.info(dto);
-		
 		Map<String,Object> map = null;
 		
 		switch (findValue) {

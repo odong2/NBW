@@ -72,7 +72,7 @@
               <label class="pe-2"> 아이디 저장 </label>
               <a
                 class="text-decoration-none border-dark border-start ps-2"
-                href="#"
+                href="/login/find"
                 >아이디/비밀번호 찾기</a
               >
             </div>

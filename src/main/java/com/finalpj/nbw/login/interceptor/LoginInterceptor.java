@@ -39,9 +39,6 @@ public class LoginInterceptor implements HandlerInterceptor{
 		
 		Member member = (Member) modelAndView.getModelMap().get("member");
 		
-		log.info("postHandle-->");
-		log.info(member);
-		
 		if (member != null) {
 			request.getSession().setAttribute("member", member);
 			response.sendRedirect("/home");

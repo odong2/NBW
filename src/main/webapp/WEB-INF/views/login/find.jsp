@@ -44,92 +44,56 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="email"
+                    id="inputEmail"
                     placeholder="name@example.com"
                   />
-                  <label for="floatingInput">가입시 이메일</label>
+                  <label for="floatingInput">가입시 작성한 이메일</label>
                 </div>
                 <div class="form-floating my-1">
                   <input
                     type="text"
                     class="form-control"
-                    id="name"
+                    id="inputName"
                     placeholder="name"
                   />
-                  <label for="floatingPassword">가입시 이름</label>
+                  <label for="floatingPassword">가입시 작성한 이름</label>
                 </div>
-              <div id="btn_summit" class="w-100 btn btn-lg btn-primary">
+              <div id="find_id" class="w-100 btn btn-lg btn-primary">
              	아이디 검색
               </div>
             </div>
           </div>
-
+          
           <div class="tab-pane fade" id="list-order">
-            <form
-              class="d-flex align-items-end mb-3"
-              action="/login"
-              method="post"
-            >
-              <div class="col-8 me-1">
-                <div class="form-floating mb-1">
+            <div class="d-flex flex-column">
+                <div class="form-floating">
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    name="id"
+                    id="inputId"
                     placeholder="name@example.com"
                   />
-                  <label for="floatingInput">주문자명</label>
+                  <label for="floatingInput">가입시 작성한 아이디</label>
                 </div>
-                <div class="form-floating">
+                <div class="form-floating my-1">
                   <input
-                    type="password"
+                    type="text"
                     class="form-control"
-                    id="floatingPassword"
-                    name="password"
+                    id="inputEmail"
                     placeholder="password"
                   />
-                  <label for="floatingPassword">핸드폰번호</label>
-                  <div class="form-floating my-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="floatingInput"
-                      name="id"
-                      placeholder="name@example.com"
-                    />
-                    <label for="floatingInput">비밀번호</label>
-                  </div>
+                  <label for="floatingPassword">가입시 작성한 이메일</label>
                 </div>
+              <div id="find_pw" class="w-100 btn btn-lg btn-primary mb-1">
+                비밀번호 검색
               </div>
-              <button
-                class="w-100 btn btn-lg btn-primary mb-1"
-                type="submit"
-                style="height: 50px"
-              >
-                검색
-              </button>
-            </form>
-            <div class="d-flex justify-content-center" style="height: 50px">
-              <a class="col-3" href="#">
-                <img
-                  src="/images/btnG_축약형.png"
-                  alt=""
-                  style="width: 100%; height: 100%"
-                />
-              </a>
-              <a class="col-3 mx-2" href="#">
-                <img
-                  src="/images/kakao_login_large.png"
-                  alt=""
-                  style="width: 100%; height: 100%"
-                />
-              </a>
-              <a class="col-3 btn btn-lg btn-primary mt-1" href="/member/register">회원가입</a>
             </div>
           </div>
         </div>
       </section>
+      <div id="result" class="col-5 mt-3">
+
+      </div>
     </main>
 <!-- 메인 끝 -->
 
@@ -137,35 +101,8 @@
 <%@include file="/WEB-INF/includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 <script type="text/javascript" >
-	$('#btn_summit').click(function(){
-		let email = $('#email').val();
-		let name = $('#name').val();
-
-		let request = {
-			mem_email:email,
-			mem_name:name
-		}
-		
-		$.ajax({
-			type: "POST", //요청 메소드 방식
-			url:"/login/find/id",
-			dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입
-			data:JSON.stringify(request),
-			contentType: "application/json; charset=UTF-8",
-			success : function(result){
-				console.log(result);
-					
-				if(result.success){
-					
-				}else {
-					
-				}
-			},
-			error : function(a, b, c){
-				//통신 실패시 발생하는 함수(콜백)
-				alert('error');
-			}
-		}); 
+	$('#find_id').click(function(){
+		sumbit('id');
 	})
 	
     let getCdate = function(ntc_cdate) {
@@ -177,6 +114,56 @@
         const minutes = String(date.getMinutes()).padStart(2, "0");
         return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
     }
+	
+	let clear = function(){
+		$('#inputEmail').val('');
+		$('#inputName').val('');
+		$('#inputId').val('');
+	}
+	
+	let sumbit = function(path){
+		let email = $('#inputEmail').val();
+		let name = $('#inputName').val();
+		let id = $('#inputId').val();
+
+		let request = {
+			mem_email:email,
+			mem_name:name,
+			mem_id:id
+		}
+		
+		$.ajax({
+			type: "POST", //요청 메소드 방식
+			url:"/login/find/"+path,
+			dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입
+			data:JSON.stringify(request),
+			contentType: "application/json; charset=UTF-8",
+			success : function(result){
+				console.log(result);
+				if(result.success){
+					addNode(result.dto);
+					clear();
+				}else {
+					clear();
+					alert(result.msg);
+				}
+			},
+			error : function(){
+				//통신 실패시 발생하는 함수(콜백)
+				alert('ERROR: 서버와 연결이 끊어졌습니다.');
+				clear();
+			}
+		});
+	}
+	
+	let addNode = function(object){
+		$('#result').empty();
+		
+		const id = object.mem_id;
+		const date = getCdate(object.mem_cdate);
+		
+		$('#result').append('<ul class="list-group"><li class="list-group-item mx-2">가입일자: '+date+'</li><li class="list-group-item mx-2">가입한 아이디: '+id+'</li></ul>');
+	}
 	
 </script>
 </body>
