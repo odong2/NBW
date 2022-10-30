@@ -94,49 +94,45 @@
               </a>
             </div>
             <label class="text-muted mb-3" style="font-size: 0.7rem;">개인정보 보호를 위해 공용 PC에서 사용 시 SNS계정의 로그아웃 상태를 꼭 확인해 주세요.</label>
+            <a class="col-12 btn btn-lg btn-primary mt-1" href="/member/register">회원가입</a>
           </div>
-          <a class="col-12 btn btn-lg btn-primary mt-1" href="/member/register">회원가입</a>
+
 
           <div class="tab-pane fade" id="list-order">
             <form
-              class="d-flex align-items-end mb-3"
+              class="d-flex flex-column mb-3"
               action="/login"
               method="post"
             >
-              <div class="col-8 me-1">
-                <div class="form-floating mb-1">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="floatingInput"
-                    name="id"
-                    placeholder="name@example.com"
-                  />
-                  <label for="floatingInput">주문자명</label>
-                </div>
-                <div class="form-floating">
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="floatingPassword"
-                    name="password"
-                    placeholder="password"
-                  />
-                  <label for="floatingPassword">핸드폰번호</label>
-                  <div class="form-floating my-1">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="floatingInput"
-                      name="id"
-                      placeholder="name@example.com"
-                    />
-                    <label for="floatingInput">비밀번호</label>
-                  </div>
-                </div>
-              </div>
+              <label>주문자명</label>
+              <input
+              	id="orderName"
+                type="text"
+                class="form-control mb-1"
+                name=""
+                placeholder="주문자명을 입력해 주세요."
+              />
+              <label>휴대폰 번호</label>
+              <input
+              	id="orderPhone"
+                type="text"
+                class="form-control mb-1"
+                id="floatingPassword"
+                name=""
+                placeholder="휴대폰 번호를 입력해 주세요."
+              />
+              <label>주문번호</label>
+              <input
+              	id="orderNo"
+                type="text"
+                class="form-control mb-1"
+                id="floatingInput"
+                name=""
+                placeholder="주문번호를 입력해 주세요."
+              />
+			  <label id="warningLabel2" class="mb-3 text-danger" style="font-size:0.7rem;"></label>
               <button
-                class="w-100 btn btn-lg btn-primary mb-1"
+                class="w-100 btn btn-lg btn-secondary mb-1"
                 type="submit"
                 style="height: 50px"
               >
@@ -160,27 +156,69 @@
 <!-- 풋터 끝 -->
 <script type="text/javascript">
 	$('#inputId').blur(function(){
-		let value = $('#inputId').val();
-		let size = $('#inputId').val().length;
+		let id = $('#inputId').val().length;
+		let pw = $('#inputPw').val().length;
 		
-		if (!value || size == 0){
+		if (id == 0 && pw == 0){
 			$('#warningLabel').empty();
 			$('#warningLabel').append('* 아이디를 입력해주세요.');
-		} else if (size > 0){
+		} else if (id > 0 && pw == 0){
 			$('#warningLabel').empty();
 			$('#warningLabel').append('* 비밀번호를 입력해주세요.');
+		} else if (id == 0 && pw > 0){
+			$('#warningLabel').empty();
+			$('#warningLabel').append('* 아이디를 입력해주세요.');
+		} else if ( id > 0 && pw > 0) {
+			$('#warningLabel').empty();
 		}
 	})
 	
 	$('#inputPw').blur(function(){
-		let value = $('#inputPw').val();
-		let size = $('#inputPw').val().length;
-		
-		if (!value || size == 0){
+		let id = $('#inputId').val().length;
+		let pw = $('#inputPw').val().length;
+
+		if (id == 0 && pw == 0){
+			$('#warningLabel').empty();
+			$('#warningLabel').append('* 아이디를 입력해주세요.');
+		} else if (id > 0 && pw == 0){
 			$('#warningLabel').empty();
 			$('#warningLabel').append('* 비밀번호를 입력해주세요.');
-		}else if (size > 0){
+		} else if (id == 0 && pw > 0){
 			$('#warningLabel').empty();
+			$('#warningLabel').append('* 아이디를 입력해주세요.');
+		} else if ( id > 0 && pw > 0) {
+			$('#warningLabel').empty();
+		}
+		
+	})
+	
+	$('#orderName').blur(function(){
+		let value = $('#orderName').val();
+		let size = $('#orderName').val().length;
+		
+		if (!value || size == 0){
+			$('#warningLabel2').empty();
+			$('#warningLabel2').append('* 주문자명을 입력해주세요.');
+		}
+	})
+	
+	$('#orderPhone').blur(function(){
+		let value = $('#orderPhone').val();
+		let size = $('#orderPhone').val().length;
+		
+		if (!value || size == 0){
+			$('#warningLabel2').empty();
+			$('#warningLabel2').append('* 휴대폰번호를 입력해주세요.');
+		}
+	})
+	
+	$('#orderNo').blur(function(){
+		let value = $('#orderNo').val();
+		let size = $('#orderNo').val().length;
+		
+		if (!value || size == 0){
+			$('#warningLabel2').empty();
+			$('#warningLabel2').append('* 주문번호를 입력해주세요.');
 		}
 	})
 </script>
