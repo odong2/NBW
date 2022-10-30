@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Title</title>
     <%@include file="/WEB-INF/includes/common.jsp" %>
     <title>공지사항 상세페이지</title>
     <style>
