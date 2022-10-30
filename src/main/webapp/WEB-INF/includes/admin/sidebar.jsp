@@ -32,7 +32,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/admin/notice/list">
               <img
                 src="/images/notice.png"
                 alt=""

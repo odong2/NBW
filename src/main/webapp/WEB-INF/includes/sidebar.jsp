@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- sidebar 시작(include) -->
+<%-- loginMember ==> 로그인된 사용자 객체가 전달됨 --%>
 
     <section class="sidebar">
         <div id="userInfo" class="container-fulid wrapper mb-3">
@@ -7,14 +8,14 @@
                 <img src="/images/mypageuser.png" alt="" width="60px" />
             </div>
             <div class="wrapper">
-                <span id="user-name">이유리님</span>
+                <span id="user-name">${loginMember.getMem_name()}님</span>
             </div>
             <div class="wrapper d-flex ms-3">
                 <div>
                     <img src="/images/gold-medal.png" alt="" width="20px" />
                 </div>
                 <div class="mt-1">
-                    <span id="membership">골드회원</span>
+                    <span id="membership">${loginMember.getG_grade()}회원</span>
                 </div>
             </div>
             <div class="wrapper d-flex mt-2">
@@ -94,7 +95,7 @@
                             <a href="#"> 배송지 관리</a>
                         </li>
                         <li class="side-link">
-                            <a href="#"> 개인정보 수정</a>
+                            <a href="/mypage/info"> 개인정보 수정</a>
                         </li>
                         <li class="side-link">
                             <a href="#"> 비밀번호 변경</a>

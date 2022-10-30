@@ -95,22 +95,23 @@
 <%-- ================================= 공지사항 Main 시작 ====================================--%>
 <main>
     <section id="notice-header" class="container">
+        <form method="get" action="/notice/list">
         <div class="text-center">
             <h4 class="title">공지사항</h4>
         </div>
         <%-- ================================= 공지사항 검색 시작 ====================================--%>
         <div class="wrapper d-flex mt-3 justify-content-center">
             <div class="search me-2">
-                <select id="search-mode" class="form-select form-select-sm form-control">
+                <select id="search-mode" name="option" class="form-select form-select-sm form-control">
                     <option value="title" selected>제목</option>
                     <option value="content">내용</option>
                 </select>
             </div>
             <div class="search">
-                <input id="search-input" class="form-control me-2" type="search" placeholder="검색어를 입력하세요"/>
+                <input id="search-input" name="keyword" class="form-control me-2" type="search" value="<c:out value=""/>" placeholder="검색어를 입력하세요"/>
             </div>
             <div class="search ms-1">
-                <button id="searchBtn" type="button" class="btn btn-dark form-control">검색</button>
+                <button id="searchBtn" type="submit" class="btn btn-dark form-control">검색</button>
             </div>
             <div id="search-select" class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -130,6 +131,7 @@
             </div>
         </div>
         <%-- ================================= 공지사항 검색 끝 ====================================--%>
+        </form>
     </section>
     <!-- ====================================== 공지사항 Content 시작 =========================================== -->
     <section id="notice-main" class="container">
@@ -149,7 +151,8 @@
                     </div>
                     <h5 class="notice-title">
                 <%-- ================ 게시글 제목 링크 ===============--%>
-                        <a href="<c:url value='/notice/read?nt_no=${notice.nt_no}&page=${param.page}'/>" class="ms-3 board-content mb-3 text-decoration-none text-dark">
+                        <a href="<c:url value="/notice/read${ph.sc.queryString}&nt_no=${notice.nt_no}"/>" class="ms-3 board-content mb-3 text-decoration-none text-dark">
+
                             <c:out value="${notice.nt_title}"/>
                         </a>
                     </h5>
@@ -164,7 +167,7 @@
                         <div>
                             <img class="header-img ms-1" src="/images/comment.png" alt="댓글 개수 이미지" width="20px"/>
                 <%-- ================= 게시글 댓글수 (commenter controller 작성 후 작성해야함) =================--%>
-                            <span class="comment-count ms-1">10</span>
+                            <span class="comment-count ms-1"><c:out value="${notice.nt_cocnt}"/></span>
                         </div>
                     </div>
                 </div>
@@ -176,10 +179,16 @@
     <%-- ================================= 공지사항 페이지 nav 시작 ====================================--%>
     <nav aria-label="Page navigation ">
         <ul class="pagination d-flex justify-content-center">
+         <%-- ================== 검색 결과가 없는 경우 ================== --%>
+        <c:if test="${ph.totalCnt==null || ph.totalCnt==0}">
+            <div> 게시물이 없습니다. </div>
+        </c:if>
+        <%-- ================== 검색 결과가 존재 하는 경우 ================== --%>
+        <c:if test="${ph.totalCnt!=null || ph.totalCnt!=0}">
             <%-- =================== 이전 페이지 링크 보여줄 지 여부 ================--%>
             <c:if test="${ph.showPrev}">
                 <li class="page-item">
-                    <a class="page-link" href="<c:url value='/notice/list?page=${ph.beginPage-1}'/>">
+                    <a class="page-link" href=""<c:url value="/notice/list${ph.sc.getQueryString(ph.beginPage-1)}"/>">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -188,28 +197,33 @@
             <%-- =================== 총 게시물 개수만큼 페이징 처리 ================--%>
             <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
                 <li class="page-item">
-                    <a class="page-link" href="<c:url value='/notice/list?page=${i}'/>">${i}</a>
+                    <a class="page-link" href="<c:url value="/notice/list${ph.sc.getQueryString(i)}"/>">${i}</a>
                 </li>
             </c:forEach>
             <%-- =================== 다음 페이지 링크 보여줄 지 여부 ================--%>
             <c:if test="${ph.showNext}">
                 <li class="page-item">
-                    <a class="page-link"href="<c:url value='/notice/list?page=${ph.endPage+1}'/>">
+                    <a class="page-link"href="<c:url value="/notice/list${ph.sc.getQueryString(ph.endPage+1)}"/>">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
                 </li>
             </c:if>
+        </c:if>
+        <%-- ================== 검색 결과가 존재 하는 경우 끝 ================== --%>
         </ul>
     </nav>
     <%-- ================================= 공지사항 페이지 nav 끝 ====================================--%>
-    <script>
-        // 검색정렬 버튼 이벤트
-        function keywordSort(keyword) {
-            let search_keyword = $(keyword).text();
-            $("#search-select button").text(search_keyword);
-        }
-    </script>
 </main>
+<!-- 풋터 시작 -->
+<%@include file="/WEB-INF/includes/footer.jsp" %>
+<!-- 풋터 끝 -->
+<script>
+    <%-- 검색정렬 버튼 이벤트 --%>
+    function keywordSort(keyword) {
+        let search_keyword = $(keyword).text();
+        $("#search-select button").text(search_keyword);
+    }
+</script>
 </body>
 </html>

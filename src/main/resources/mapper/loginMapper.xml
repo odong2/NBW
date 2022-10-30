@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.mapper.loginMapper">
+
+	<select id="selectUserId" parameterType="String" resultType="boolean">
+		SELECT COUNT(MEM_ID) 
+		  FROM TB_MEMBER
+		 WHERE MEM_ID = #{value}
+	</select>
+
+	<select id="selectUserPassword" parameterType="String" resultType="String">
+		SELECT MEM_PW FROM TB_MEMBER WHERE MEM_ID = #{value}
+	</select>
+
+	<select id="selectUser" parameterType="String" resultType="member">
+		SELECT * FROM TB_MEMBER WHERE MEM_ID = #{value}
+	</select>
+	 
+	<select id="findId" parameterType="find" resultType="find">
+		SELECT MEM_ID,MEM_CDATE FROM TB_MEMBER 
+		WHERE MEM_NAME = #{mem_name} AND MEM_EMAIL = #{mem_email}
+		AND (MEM_ID NOT LIKE '%NAVER_%' AND MEM_ID NOT LIKE '%KAKAO_%')
+	</select>
+</mapper>
