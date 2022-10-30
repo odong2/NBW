@@ -1,5 +1,6 @@
 package com.finalpj.nbw.notice.controller;
 
+import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.notice.domain.NtComment;
 import com.finalpj.nbw.notice.service.NtCommentService;
 import lombok.extern.log4j.Log4j;
@@ -42,8 +43,10 @@ public class NtCommentController {
     /************************************** 댓글 등록 **************************************/
     @PostMapping("/comments")// noitce/comments?nt_no=1
     public ResponseEntity<String> writeComment(@RequestBody NtComment commentDto, Integer nt_no, HttpSession session){
+        Member member = (Member)session.getAttribute("member");
+        String commenter = member.getMem_id();
         // String commenter = (String)session.getAttribute("mem_id"); --> 이후 세션에서 사용자의 아이디 받아와서 처리하도록 변경할 것
-        String commenter = "admin";
+//        String commenter = "admin";
         commentDto.setNtc_commenter(commenter);
         commentDto.setNt_no(nt_no);
 //        commentDto.setNtc_pcno(0); --> null 값으로 대체
@@ -67,8 +70,9 @@ public class NtCommentController {
     /************************************** 댓글 삭제 **************************************/
     @DeleteMapping("/comments/{ntc_no}") // /comments/19?nt_no=1 (포스트맨에서 요청하여 확인)
     public ResponseEntity<String> removeComment(@PathVariable Integer ntc_no, Integer nt_no, HttpSession session){
+        Member member = (Member)session.getAttribute("member");
+        String commenter = member.getMem_id();
         // String commenter = (String)session.getAttribute("mem_id"); --> 이후 세션에서 사용자의 아이디 받아와서 처리하도록 변경할 것
-        String commenter = "admin";
         try{
             int rowCnt = ntCommentService.removeComment(ntc_no, nt_no, commenter);
             if (rowCnt != 1){
@@ -84,6 +88,9 @@ public class NtCommentController {
     /************************************** 댓글 수정 **************************************/
     @PatchMapping("/comments/{ntc_no}")// noitce/comments?nt_no?1
     public ResponseEntity<String> modifyComment(@PathVariable Integer ntc_no,@RequestBody NtComment commentDto, HttpSession session){
+        Member member = (Member)session.getAttribute("member");
+        String commenter = member.getMem_id();
+        commentDto.setNtc_commenter(commenter);
         // String commenter = (String)session.getAttribute("mem_id"); --> 이후 세션에서 사용자의 아이디 받아와서 처리하도록 변경할 것
         commentDto.setNtc_no(ntc_no);
         log.info(commentDto);

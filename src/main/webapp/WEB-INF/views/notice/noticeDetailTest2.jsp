@@ -317,7 +317,8 @@
 
     <%-- =================  Ajax 결과 json값(댓글)을 태그로 변경하는 함수 ================== --%>
     let toHtml = function (comments) {
-        let commentList = "";
+        let commentList = '';
+        let mem_id = '${member.mem_id}';
         comments.forEach(function (comment) {
             let ntc_cdate = getCdate(comment.ntc_cdate)
             <%-- ===== ntc_no == nt_pcno 일 경우 댓글이다. ===== --%>
@@ -347,15 +348,21 @@
                         </p>
                         <%-- ================ 댓글 수정,삭제 ================= --%>
                         <div class="commentMod d-flex justify-content-start mb-1" data-ntc-no="${'${comment.ntc_no}'}" >
-                            <p style="display:none">${'${comment.ntc_comment}'}</p>
+                            <p style="display:none">${'${comment.ntc_comment}'}</p>`
+                if(mem_id == comment.ntc_commenter){
+                    commentList+=`
                             <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>
                             <button type="button"  class="commentBtn comment-deleteBtn text-muted me-1" onclick="deleteCom(this)">삭제</button>
+                            `;
+                }
+               commentList +=`
                         </div>
                     </div>
                     <div class=" d-flex justify-content-start">
                         <button type="button"  class="reply-btn comment-modifyBtn text-muted" onclick="replyMod(this)">답글 달기</button>
                     </div>
-                   </li>`
+                   </li>`;
+                return;
                 <%-- ===== 답글일 경우 ===== --%>
             }else if(comment.ntc_no != comment.ntc_pcno){
                 commentList +=`
@@ -388,11 +395,17 @@
                         <%-- ================ 댓글 수정,삭제 ================= --%>
                         <div class="commentMod container d-flex justify-content-start mb-2" data-ntc-no="${'${comment.ntc_no}'}" >
                             <p style="display:none">${'${comment.ntc_comment}'}</p>
+                            `
+                if(mem_id == comment.ntc_commenter){
+                    commentList +=`
                             <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>
                             <button type="button"  class="commentBtn comment-deleteBtn text-muted me-1" onclick="deleteCom(this)">삭제</button>
+                            `
+                }
+                commentList += `
+                         </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
                 </div>
                  `
             }
@@ -455,7 +468,7 @@
         let ntc_pcno = $(this).attr("data-pcno");
         let comment= $("#replyInput").val();
         comment = comment.replace(/(?:\r\n|\r|\n)/g, '<br/>');   <%-- 줄바꿈 처리 --%>
-        let ntc_commenter = "admin";                             <%-- !!!!! 이후 세션에서 꺼내서 작성자 삽입되도록 변경 필요 !!!!! --%>
+        let ntc_commenter = '${member.mem_id}';                 <%-- !!!!! 이후 세션에서 꺼내서 작성자 삽입되도록 변경 필요 !!!!! --%>
         $.ajax({
             type: "POST",
             url:'/notice/comments?nt_no=' + nt_no,
