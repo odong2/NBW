@@ -57,19 +57,18 @@
                 로그인
               </button>
               
-             <div class="d-flex justify-content-between">
+             <div class="d-flex justify-content-between mb-3">
 	             <div>
-		             <input type="checkbox" value="remember-me" />
+		             <input id="id_checkbox" name="rememberme" type="checkbox" value="true"/>
 		             <label class="text-muted" style="font-size: 0.7rem;"> 아이디 저장 </label>
 	             </div>
 	              <a
 	              	style="font-size: 0.7rem;"
 	                class="text-decoration-none mt-1 text-muted"
-	                href="/login/find"
-	                >아이디/비밀번호 찾기</a
-	              >
+	                href="/login/find">아이디/비밀번호 찾기</a>
             </div>
             </form>
+            
             <div class="d-flex justify-content-center mb-3" style="height: 45px">
               <a class="" href="${	NaverUrl }">
                 <img
@@ -78,25 +77,31 @@
                   style="width: auto%; height: 100%"
                 />
               </a>
-              <a class="mx-3" href="${ KakaoUrl }">
+              <a class="ms-3" href="${ KakaoUrl }">
                 <img
                   src="/images/kakao_icon.png"
                   alt=""
                   style="width: auto%; height: 100%"
                 />
               </a>
-              <a class="" href="javascript:alert('준비중 입니다.')">
+              <a class="ms-3" href="javascript:alert('준비중 입니다.')">
                 <img
                   src="/images/google_icon.png"
                   alt=""
                   style="width: auto%; height: 100%"
                 />
               </a>
+              <a class="ms-3" href="javascript:alert('준비중 입니다.')">
+                <img
+                  src="/images/github-icon.webp"
+                  alt=""
+                  style="width: auto%; height: 100%"
+                />
+              </a>
             </div>
-            <label class="text-muted mb-3" style="font-size: 0.7rem;">개인정보 보호를 위해 공용 PC에서 사용 시 SNS계정의 로그아웃 상태를 꼭 확인해 주세요.</label>
+            <label class="w-100 text-muted text-center mb-3" style="font-size: 0.7rem;">개인정보 보호를 위해 공용 PC에서 사용 시 SNS계정의 로그아웃 상태를 꼭 확인해 주세요.</label>
             <a class="col-12 btn btn-lg btn-primary mt-1" href="/member/register">회원가입</a>
           </div>
-
 
           <div class="tab-pane fade" id="list-order">
             <form
@@ -143,7 +148,7 @@
         </div>
       </section>
       <c:if test="${!empty LoginFailMsg}" >
-      	<div id="LoginFailMsg" class="col-5 text-center mt-2 list-group-item list-group-item-danger">${LoginFailMsg}</div>
+      	<div id="LoginFailMsg" class="col-4 text-center mt-2 list-group-item list-group-item-danger">${LoginFailMsg}</div>
       </c:if>
       <script>
         $("#LoginFailMsg").delay(1500).fadeOut(500);
@@ -221,6 +226,20 @@
 			$('#warningLabel2').append('* 주문번호를 입력해주세요.');
 		}
 	})
+	
+	$(function(){
+		let cookie = $.cookie('remember_id');
+		console.log(cookie);
+		
+		if(cookie == undefined){
+			$('#inputId').val('');
+			$("#id_checkbox").removeAttr("checked");
+		}else {
+			$('#inputId').val(cookie);
+			$("#id_checkbox").attr("checked", "checked");
+		}
+	});
+
 </script>
 </body>
 </html>

@@ -1,12 +1,15 @@
 package com.finalpj.nbw.login.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +27,6 @@ import com.finalpj.nbw.member.domain.Member;
 import lombok.extern.log4j.Log4j;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Log4j
@@ -56,13 +58,25 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String postLogin(LoginDto logindto, Model model){
+	public String postLogin(LoginDto logindto, Model model, HttpServletResponse response, HttpSession session,
+			@CookieValue(value = "remember_id", required = false) Cookie remembercoockie){
 		String default_url = "/home";
 		
-		Member member = null;
 		try {
-			member = loginService.loginCheck(logindto);
-			model.addAttribute("member", member);
+			Member member = loginService.loginCheck(logindto);
+			session.setAttribute("member", member);
+			
+			if(logindto.getRememberme() != null) {
+				Cookie cookie = new Cookie("remember_id",logindto.getUserId());
+				response.addCookie(cookie);
+			}else {
+				if(remembercoockie != null) {
+					remembercoockie.setValue("");
+					remembercoockie.setMaxAge(0);
+					response.addCookie(remembercoockie);
+				}
+			}
+			
 		} catch (LoginException e) {
 			model.addAttribute("LoginFailMsg", e.getMessage());
 			default_url = "/login/loginpage";

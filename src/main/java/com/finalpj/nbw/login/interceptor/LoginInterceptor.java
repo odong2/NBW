@@ -1,5 +1,6 @@
 package com.finalpj.nbw.login.interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,13 +37,14 @@ public class LoginInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {
+	
 		
 		Member member = (Member) modelAndView.getModelMap().get("member");
 		
 		if (member != null) {
 			request.getSession().setAttribute("member", member);
-			response.sendRedirect("/home");
 		}
 			
 	}
+
 }
