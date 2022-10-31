@@ -32,7 +32,7 @@ public class NtCommentServiceTest {
     @Test
     public void writeComments() throws Exception{
         Integer nt_no = 1;
-        ntCommentDao.deleteAll(nt_no);
+        ntCommentDao.deleteCommentList(nt_no);
         for(int i=1; i<=20;i++){
             NtComment comment = new NtComment(i,nt_no,0,"commentTest","mj");
             ntCommentService.writeComment(comment);
@@ -49,7 +49,7 @@ public class NtCommentServiceTest {
         assertTrue(noticeDao.insertNotice(noticeDto) == 1);
         Integer nt_no = noticeDao.selectNoticeList().get(0).getNt_no();
 
-        ntCommentDao.deleteAll(nt_no);
+        ntCommentDao.deleteCommentList(nt_no);
         NtComment commentDto = new NtComment(1,nt_no,0, "test","admin");
 
         assertTrue(noticeDao.selectNotice(nt_no).getNt_cocnt() == 0);
@@ -58,20 +58,20 @@ public class NtCommentServiceTest {
 
     @Test
     public void removeComment() throws Exception {
-        ntCommentDao.deleteAll(1);
+        ntCommentDao.deleteCommentList(1);
         noticeDao.deleteNoticeAll();
         Notice noticeDto = new Notice(1, "test", "test");
         assertTrue(noticeDao.insertNotice(noticeDto)==1);
         Integer nt_no = noticeDao.selectNoticeList().get(0).getNt_no();
         log.info("nt_no = " + nt_no);
 
-        ntCommentDao.deleteAll(nt_no); // 기존댓글 삭제
+        ntCommentDao.selectCommentList(nt_no); // 기존댓글 삭제
         NtComment commentDto = new NtComment(1,nt_no,0,"test","admin");
 
         assertTrue(noticeDao.selectNotice(nt_no).getNt_cocnt() == 0); // 기존댓글 삭제 성공 유무
         assertTrue(ntCommentService.writeComment(commentDto) == 1);   // 댓글 작성 성공 유무
         assertTrue(noticeDao.selectNotice(nt_no).getNt_cocnt() == 1); // 작성한 댓글 카운트 조회
-        Integer ntc_no = ntCommentDao.selectAll(nt_no).get(0).getNtc_no();
+        Integer ntc_no = ntCommentDao.selectCommentList(nt_no).get(0).getNtc_no();
 
         // 예외 발생시켜 트랜잭션이 걸리는지 확인 해야함
 
