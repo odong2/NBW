@@ -1,19 +1,16 @@
 package com.finalpj.nbw.notice.controller;
 
 import com.finalpj.nbw.notice.domain.Notice;
-import com.finalpj.nbw.notice.domain.NtComment;
 import com.finalpj.nbw.notice.domain.PageHandler;
 import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.notice.service.NoticeService;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 @Log4j
 @Controller
@@ -25,7 +22,12 @@ public class NoticeController {
     public NoticeController(NoticeService noticeService){
         this.noticeService = noticeService;
     }
-    /************************ 공지글 목록 페이지 요청  ***********************/
+
+    /************************ 공지글 목록 페이지 ***********************
+     * param(SearchCondition sc): 사용자로 부터 조건 검색 및 페이징 계산에 필요한 필드값을 받는 Dto
+     * param(Model m) : 공지글의 총 게시물 개수 조회 후 pageHandler의 필드값을 계산하여 model에 저장
+     * return : notice 페이지
+     * **************************************************************/
    @GetMapping("list")
     public String getnoticeList(SearchCondition sc, Model m){
        try {
@@ -43,9 +45,16 @@ public class NoticeController {
        } catch (Exception e) {
            e.printStackTrace();
        }
-        return "/notice/noticePage";
+        return "/notice/notice";
     }
 
+    /************************ 공지글 상세 페이지  ***********************
+     * param(Integer nt_no) : 공지글의 번호 
+     * param(SearchCondition sc): notice 페이지에서 상세페이지 클릭전 page 및 조건검색어를 넘겨 받아 목록으로 가기 처리
+     * param(Model m) : nt_no(공지글 번호)로 조회한 공지글의 정보를 noticeDto에 담아 model에 저장
+     * return : noticeDetail페이지
+     * **************************************************************/
+    
     @GetMapping("read")
     public String readNotice(Integer nt_no, SearchCondition sc, Model m){
         try {
@@ -64,7 +73,7 @@ public class NoticeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "/notice/noticeDetailTest2";
+        return "/notice/noticeDetail";
    }
 
 }
