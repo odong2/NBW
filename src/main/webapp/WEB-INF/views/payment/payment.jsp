@@ -195,6 +195,9 @@
         font-size: 25px;
         font-weight: bold;
     }
+    #naverPay{
+        color:white;
+    }
     #kakaoPayBtn,
     #naverPayBtn {
         padding: 0;
@@ -220,7 +223,7 @@
             <button class="btn btnFold d-flex" type="button">
                 <h6 class="title ms-1 col-5">주문 상품</h6>
                 <div class="col-7 d-flex">
-                    <span id="prdTotallCnt" class="mt-2">총 3개</span>
+                    <span id="prdTotallCnt" class="mt-2">총 <c:out value="${cartSize}"/>개</span>
                 </div>
             </button>
             <%-- ========================== 주문 상품 정보 시작 ==============================--%>
@@ -366,9 +369,13 @@
                     </div>
                     <select id="coupon" name="coupon">
                         <option value="0" selected>쿠폰 선택</option>
-                        <option value="1">골드멤버 정기 쿠폰5%</option>
-                        <option value="2">생일쿠폰10%</option>
-                        <option value="3">새해쿠폰10%</option>
+                        <c:forEach var="coupon" items="${couponList}" varStatus="">
+                        <option value="<c:out value="${coupon.cp_no}"/>">
+                            <c:out value="${coupon.cp_name}"/>(-<c:out value="${coupon.cp_price}"/>원)
+                        </option>
+<%--                        <option value="2">생일쿠폰10%</option>
+                        <option value="3">새해쿠폰10%</option>--%>
+                        </c:forEach>
                     </select>
                 </div>
                 <div class="d-flex ms-2 mt-3">
@@ -412,7 +419,7 @@
                                         height="40px"
                                 />
                             </div>
-                            <span id="naverPay">Naver</span>
+                            <span id="naverPay">Pay</span>
                         </div>
                     </button>
                     <button id="kakaoPayBtn" type="button" class="btn payBtn">
