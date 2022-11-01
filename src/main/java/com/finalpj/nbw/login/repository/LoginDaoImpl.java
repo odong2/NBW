@@ -44,4 +44,9 @@ public class LoginDaoImpl implements LoginDao{
 		return sqlSession.selectOne("selectUserEmail", dto);
 	}
 
+	@Override
+	public int updateUserPassword(FindDto dto) {
+		return sqlSession.update("updateUserPassword", dto);
+	}
+
 }

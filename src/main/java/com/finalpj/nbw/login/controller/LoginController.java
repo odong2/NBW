@@ -148,11 +148,24 @@ public class LoginController {
 				map.put("success", false);
 			}
 			break;
+		case "pw":
+			map = loginService.changePw(dto);
+			break;
 		default:
 			break;
 		}
 		
 		return map;
+	}
+	
+	@GetMapping("/login/change")
+	public String change(Model model, FindDto dto) {
+		System.out.println(dto.getMem_id());
+		System.out.println(dto.getMem_email());
+		
+		model.addAttribute("dto", dto);
+		
+		return "/login/change";
 	}
 }
 

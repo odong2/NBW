@@ -14,4 +14,6 @@ public interface LoginDao {
 	public FindDto findId(FindDto dto);
 
 	public boolean selectUserEmail(FindDto dto);
+
+	public int updateUserPassword(FindDto dto);
 }

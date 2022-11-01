@@ -88,8 +88,15 @@ public class LoginService
 		return responseMap;
 	}
 
-	public Map<String, Object> findPassword(FindDto dto) {
+	public Map<String, Object> changePw(FindDto dto) {
+		HashMap<String,Object> responseMap = new HashMap<>();
 		
-		return null;
+		String newPw = bCryptPasswordEncoder.encode(dto.getMem_pw());
+		dto.setMem_pw(newPw);
+		
+		int result = loginDao.updateUserPassword(dto);
+		System.out.println(result);
+		responseMap.put("success", true);
+		return responseMap;
 	}
 }

@@ -3,21 +3,6 @@
 <head>
 <%@include file="/WEB-INF/includes/common.jsp" %>
     <title>Login</title>
-<!--    	<style type="text/css">
-   	#icon-box{
-		display: flex;
-		justify-content: center;
-		align-items:center;
- 		min-height: 100vh;
- 		min-width: 100%;
-		position:absolute; 
-		z-index:2; 
- 		display:none;
-		left:0;
-		top:0;
-        background-color: rgba( 255, 255, 255, 0.5 );
-	}
-   	</style> -->
 </head>
 <body>
 <!-- 헤더 시작 -->
@@ -27,6 +12,7 @@
 <!-- 메인 시작 -->
 <main
       class="container form-signin d-flex flex-column align-items-center mt-4"
+      style="height: 1000px;"
     >
       <div class="col-10 text-start my-1 fs-5">아이디/비밀번호 찾기</div>
       <hr class="col-10 text-center" />
@@ -101,7 +87,7 @@
 	          		</div>
 	            </div>
 	           
-              	<button id="find_pw" class="w-100 btn btn-outline-secondary mb-1" disabled="disabled">비밀번호 검색</button>
+              	<button id="find_pw" class="w-100 btn btn-outline-secondary mb-1" disabled="disabled">비밀번호 변경하기</button>
             </div>
           </div>
         </div>
@@ -259,10 +245,17 @@
 			successMsg('인증되었습니다.');
 			isPause = true;
 			$('#code-check').attr('disabled','disabled');
+			$('#inputCode').attr('disabled','disabled');
 			$('#find_pw').removeAttr('disabled');
 		}else {
 			errorMsg('인증코드가 다릅니다. 다시 입력해주세요.');
 		}
+	});
+	
+	$('#find_pw').click(function(){
+		const email = $('#inputEmail2').val();
+		const id = $('#inputId').val()
+		window.open("${contextPath}/login/change?mem_email="+email+"&mem_id="+id,"","width=600px, height=400px")
 	});
 	
 	let loding = function(command){
@@ -290,19 +283,32 @@
 	}
 	
 	let errorMsg = function(text){
-		$('#msg').show();
 		$('#msg').removeAttr('class');
 		$('#msg').attr('class','col-4 text-center mt-2 list-group-item list-group-item-danger');
 		$('#msg').text(text);
+		$('#msg').show();
 		$('#msg').delay(1500).fadeOut(500);
 	}
 	
 	let successMsg = function(text){
-		$('#msg').show();
 		$('#msg').removeAttr('class');
 		$('#msg').attr('class','col-4 text-center mt-2 list-group-item list-group-item-success');
 		$('#msg').text(text);
+		$('#msg').show();
 		$('#msg').delay(1500).fadeOut(500);
+	}
+	
+ 	let moveLoginPage = function(){
+		$('#msg').removeAttr('class');
+		$('#msg').attr('class','col-4 text-center mt-2 list-group-item list-group-item-success');
+		$('#msg').text('비밀번호가 성공적으로 변경되었습니다. 3초후 로그인 페이지로 이동합니다.');
+		$('#msg').show();
+		$('#msg').delay(2500).fadeOut(500);
+		
+		
+		setTimeout(() => {
+			window.location.href = "/login";
+		}, 3000);
 	}
 	
 </script>
