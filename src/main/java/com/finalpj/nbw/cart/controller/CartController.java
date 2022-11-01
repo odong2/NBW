@@ -61,8 +61,6 @@ public class CartController {
 			String id = member.getMem_id();
 			List<Map<String,Object>> cartList = cartService.getCartList(id);
 			model.addAttribute("cartList", cartList);
-		} else { // 비회원일 경우
-			
 		}
 		return "/cart/cartPage";
 	}
@@ -93,7 +91,7 @@ public class CartController {
 		return msg;
 	}
 	
-	/* 비회원 장바구니 추가하기 */
+	/***************** [[ 비회원 장바구니에 상품 추가 ]] *****************/
 	@PostMapping("unmemAdd")
 	@ResponseBody
 	public String unmemAdd(@RequestBody String cookie, HttpServletRequest req, HttpServletResponse res) {
@@ -113,10 +111,11 @@ public class CartController {
 					e.printStackTrace();
 				}
 				Cookie cart = new Cookie("cart", enc_cookie);
+				cart.setMaxAge(60*60*24); // 24시간
 				cart.setPath("/"); // 전체 브라우저에 쿠키 설정
 				res.addCookie(cart);
 				msg = "success";
-		    } else { // 쿠키가 없을 때 (비회원 장바구니에 값이 하나도 없을 경우)
+		    } else if(!ck.getName().equals("cart")){ // 쿠키가 없을 때 (비회원 장바구니에 값이 하나도 없을 경우)
 		    	// 가져오는 cookie의 값이 {"cart":[{"pno":"818","title":"여신강림","img":"이미지주소","price":"13000","count":"1"}]}이므로
 		    	// 앞 {"cart": 와 맨뒤 }를 제거해서 cart의 값으로 쿠키 생성한다
 		    	String cartValue = cookie.substring(8, cookie.length() -1);
@@ -130,6 +129,7 @@ public class CartController {
 		    	}
 		    	// 쿠키 생성
 		    	Cookie cart = new Cookie("cart", cartValue);
+		    	cart.setMaxAge(60*60*24); // 24시간
 		    	cart.setPath("/"); // 전체 브라우저에 쿠키 설정
 		    	res.addCookie(cart); 
 		    	msg = "success";
