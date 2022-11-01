@@ -45,6 +45,7 @@
         let mailCheck = false;            // 이메일
         let mailCodeCheck = false;          // 이메일 인증 코드 일치
         let addressCheck = false            // 주소
+        let nicknameCheck = false;
 
         $(function(){
             /* ============================ 수정 요청 전송 ========================== */
@@ -76,16 +77,65 @@
                     addressCheck = true;
                 }
 
-                if(!mailCheck || !mailCodeCheck || !addressCheck){
-                    // alert("입력을 다시 한 번 확인해 주세요.");
+                if(!mailCheck || !mailCodeCheck || !addressCheck || !nicknameCheck){
                     /* 자동 새로고침 방지 */
                     e.preventDefault();
                     return;
                 }else{
-                    $("#updateForm").attr("action", "/mypage/info");
-                    $("#updateForm").attr("method", "post");
-                    $("#updateForm").submit();
+                    let result = confirm("입력한 정보로 수정하시겠습니까?");
+                    if(result){
+                        $("#updateForm").attr("action", "/mypage/info");
+                        $("#updateForm").attr("method", "POST");
+                        $("#updateForm").submit();
+                    }
                 }
+            })
+
+            /* ============================ 닉네임 변경 이벤트 ========================== */
+            $("#upBtn-nickname").click(function(){
+                // 기존 닉네임 숨긴다.
+                $("#lb-nickname").attr("hidden", true);
+                // 변경 버튼을 숨긴다.
+                $("#upBtn-nickname").attr("hidden", true);
+                // 이메일 입력 칸이 나타난다.
+                $("#mem_nickname").attr("hidden", false);
+            });
+
+            $('#mem_nickname').keyup(function (){
+                let nickname = $(this).val();
+
+                /* nickname < 4 */
+                if(nickname.length < 2){
+                    $('#nicknameCheckDiv').removeClass("alert-success");
+                    $('#nicknameCheckDiv').addClass("alert-danger");
+                    $('#nicknameCheckDiv').text("닉네임은 두 글자 이상 입력하셔야 합니다.");
+                    nicknameCheck = false; // 가입 불가
+                    return;
+                }
+                /* id > 20 */
+                if(nickname.length > 20){
+                    $('#nicknameCheckDiv').removeClass("alert-success");
+                    $('#nicknameCheckDiv').addClass("alert-danger");
+                    $('#nicknameCheckDiv').text("닉네임은 20이내로 입력하셔야 합니다.");
+                    nicknameCheck = false; // 가입 불가
+                    return;
+                }
+
+                $("#nicknameCheckDiv").load("/member/nicknameCheck?nickname="+nickname, function(result){
+                    if(result.indexOf("가능한")){
+                        // 중복이 되지 않은 경우
+                        $('#nicknameCheckDiv').addClass("alert-success");
+                        $('#nicknameCheckDiv').removeClass("alert-danger");
+                        // 중복이 되지 않은 경우 가입이 가능하다.
+                        nicknameCheck = true;
+                    } else {
+                        // 중복된 경우
+                        $('#nicknameCheckDiv').removeClass("alert-success");
+                        $('#nicknameCheckDiv').addClass("alert-danger");
+                        // 중복이 된 경우 가입을 막는다.
+                        nicknameCheck = false;
+                    }
+                });
             })
 
             /* ============================ 주소 변경 이벤트 ========================== */
@@ -163,29 +213,25 @@
         <!-- 페이지 컨텐츠 레이아웃 -->
         <%-- =========================== MEMBER 기본 정보 FORM 시작 ========================== --%>
             <form id="updateForm" style="padding: 50px 250px 50px 70px;">
+                <div class="row"><h4> <strong>개인정보 수정</strong> </h4></div><br><br>
                 <div class="row">
-                    <h4> <strong>회원정보 수정</strong> </h4>
-                </div>
-                <br>
-                <br>
-                <div>
-                    <h6> 기본 정보 </h6>
+                    <div class="col-3"><h6> 기본 정보 </h6></div>
+                    <div class="col-3"></div>
+                    <div class="col-6" style="text-align: right;"> <p style="font-size: x-small">마지막 수정일은 <strong>${sessionScope.member.getMem_update()}</strong>입니다.</div>
                 </div>
                 <hr style="border: solid 1px black;">
-
                 <!-- 아이디 정보  -->
                 <div class="row m-4">
                     <div class="col-3">
                         <h6><strong>아이디</strong></h6>
-                        <input type="text" name="mem_id" value="${loginMember.getMem_id()}" hidden/>
+                        <input type="text" name="mem_id" value="${sessionScope.member.getMem_id()}" hidden/>
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label>${loginMember.getMem_id()}</label>
+                            <label>${sessionScope.member.getMem_id()}</label>
                         </div>
                     </div>
                 </div>
-
                 <!-- 이름 정보  -->
                 <div class="row m-4">
                     <div class="col-3">
@@ -193,11 +239,26 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label>${loginMember.getMem_name()}</label>
+                            <label>${sessionScope.member.getMem_name()}</label>
                         </div>
                     </div>
                 </div>
-
+                <hr>
+                <!-- 닉네임 정보  -->
+                <div class="row m-4">
+                    <div class="col-3">
+                        <h6><strong>닉네임</strong></h6>
+                    </div>
+                    <div class="col-8 mb-3">
+                        <div class="input-group mb-3 w-100">
+                            <label id="lb-nickname">${sessionScope.member.getMem_nickname()}</label>
+                            <input name="mem_nickname" type="text" id="mem_nickname" hidden
+                                   autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="닉네임을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
+                            <button class="btn-circle" id="upBtn-nickname" type="button" style="float: right; border-radius: 10px; border: 0; margin-left: 10px;">변경</button>
+                        </div>
+                        <div class = "alert alert-dismissible " id="nicknameCheckDiv"></div>                </div>
+                    </div>
+                </div>
                 <hr>
                 <!-- 생년월일, 성별 정보  -->
                 <div class="row m-4">
@@ -206,11 +267,10 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label> ${loginMember.getMem_birthday()} / ${loginMember.getMem_gender()} </label>
+                            <label> ${sessionScope.member.getMem_birthday()} / ${sessionScope.member.getMem_gender()} </label>
                         </div>
                     </div>
                 </div>
-
                 <!-- 전화번호  -->
                 <div class="row m-4">
                     <div class="col-3">
@@ -218,11 +278,10 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label> ${loginMember.getMem_phone()} </label>
+                            <label> ${sessionScope.member.getMem_phone()} </label>
                         </div>
                     </div>
                 </div>
-
                 <!-- 이메일 입력 ROW입니다. -->
                 <div class="row m-4">
                     <div class="col-3">
@@ -231,7 +290,7 @@
                     </div>
                     <div class="col-8 mb-3">
                         <div class="input-group mb-3 w-100">
-                            <label id="lb-mail"> ${loginMember.getMem_email()}</label>
+                            <label id="lb-mail"> ${sessionScope.member.getMem_email()}</label>
                             <input name="mem_email" type="text" id="mem_email" hidden
                                    autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="이메일을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
                             <button name="btn-email-send" id="btn-email-send" hidden
@@ -240,7 +299,6 @@
                             <span class="mailCode-ck" style="font-size: 5px; color: red" hidden></span>
                         </div>
                         <div class="row"><span id="message"hidden><p style="font-size: small; color: #535759">인증번호가 전송되었습니다. 미전송 시 이메일 주소를 확인해 주세요.</p></span></div>
-
                     </div>
                 </div>
                 <div class="row m-4">
@@ -255,7 +313,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- 주소 ROW : 우편번호  -->
                 <div class="row m-4">
                     <div class="col-3">
@@ -265,30 +322,28 @@
                     <div class="col-8">
                         <div class="input-group mb-3 w-100">
                             <input name="mem_zipcode" type="text" id="address1" readonly
-                                   class="form-control" value="${loginMember.getMem_zipcode()}" aria-describedby="button-addon2">
+                                   class="form-control" value="${sessionScope.member.getMem_zipcode()}" aria-describedby="button-addon2">
                             <button class="btn btn-outline-secondary" id="upBtn-addr" type="button" onclick="exePostCode()" >변경</button>
                         </div>
                     </div>
                 </div>
-
                 <!-- 주소 ROW : 주소 1 -->
                 <div class="row m-4">
                     <div class="col-3"></div>
                     <div class="col-8">
                         <div class="input-group mb-3 w-100">
                             <input name="mem_address" type="text" id="address2" readonly
-                                   autocomplete="off" class="form-control" value="${loginMember.getMem_address()}">
+                                   autocomplete="off" class="form-control" value="${sessionScope.member.getMem_address()}">
                         </div>
                     </div>
                 </div>
-
                 <!-- 주소 ROW : 주소 2 -->
                 <div class="row m-4">
                     <div class="col-3"></div>
                     <div class="col-8">
                         <div class="input-group mb-3 w-100">
                             <input name="mem_address2" type="text" id="address3" readonly
-                                   autocomplete="off" class="form-control" value="${loginMember.getMem_address2()}">
+                                   autocomplete="off" class="form-control" value="${sessionScope.member.getMem_address2()}">
                         </div>
                     </div>
                     <br>
@@ -297,10 +352,14 @@
                 </div>
                 <hr style="border: solid 1px black;">
                 <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-3"></div>
-                    <div class="col-6" style="text-align: right;"> <p style="font-size: x-small">마지막 수정일은 <strong>${loginMember.getMem_update()}</strong>입니다.</div>
+                    <div class="col-2"></div>
+                    <div class="col-2"></div>
+                    <div class="col-8" style="text-align: right;">
+                        <p style="font-size: x-small">∙ 회원탈퇴 후 동일 아이디로 재가입이 불가합니다.</p>
+                        <button style="width: 80px; height: 30px; border: 0; font-size: small"><a href="/mypage/remove" style="text-decoration: none;">회원탈퇴 ‣</a></button>
+                    </div>
                 </div>
+
                 <%-- 버튼 ROW  --%>
                 <div class="row m-auto">
                     <div class="col-4"></div>

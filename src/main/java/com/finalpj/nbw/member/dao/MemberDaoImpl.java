@@ -13,27 +13,40 @@ public class MemberDaoImpl implements MemberDao{
 	@Autowired
     private SqlSession sqlSession;
 
-    /* ============================== 회원가입 ==================================== */
+    /* ======================================= 회원가입 ============================================= */
     @Override
     public int insertMember(Member member) throws Exception {
         log.info("MemberDaoImpl *insertMember* ===============> 회원가입 처리 ");
         return sqlSession.insert("insertMember", member);
     }
 
-    /* ============================== 아이디 중복 체크 ==================================== */
+    /* ======================================= 회원탈퇴 ============================================= */
+    @Override
+    public int deleteMember(Member member) throws Exception {
+        log.info("dao ===> 삭제할 아이디 "+ member.getMem_id());
+        int result = sqlSession.delete("deleteMember", member);
+        log.info("dao ===> 삭제 여부 "+ result);
+        return result;
+    }
+
+    /* ===================================== 아이디 중복 체크 ========================================== */
     @Override
     public String selectIdCheck(String strCheckId) throws Exception {
-//        log.info("MemberDaoImpl *selectIdCheck* ===============> 아이디 중복 체크 처리 ");
         return sqlSession.selectOne("selectIdCheck", strCheckId);
     }
 
-    /* ============================== 내 정보 조회(한 건) ==================================== */
+    @Override
+    public String selectNicknameCheck(String strCheckNickname) throws Exception {
+        return sqlSession.selectOne("selectNicknameCheck", strCheckNickname);
+    }
+
+    /* ====================================== 내 정보 조회 ============================================ */
 	@Override
 	public Member selectMember(String id){
 		return sqlSession.selectOne("selectMemeber",id);
 	}
 
-    /* ============================== 내 정보 수정 ==================================== */
+    /* ====================================== 내 정보 수정 ============================================ */
     @Override
     public int updateMyInfo(Member member) throws Exception {
         log.info("dao ===> 수정할 아이디 "+member.getMem_id());
