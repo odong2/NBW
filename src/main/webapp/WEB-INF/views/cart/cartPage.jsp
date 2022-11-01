@@ -95,6 +95,7 @@
         align-items: center;
       }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   </head>
   <body>
 <c:set var = "c_totalPrice" value = "0" /><!-- 총 주문금액 -->
@@ -192,7 +193,7 @@
                 <tbody>
                   <!-- [[ 장바구니에 담은 상품 목록]] -->
                   <c:choose>
-		          	<c:when test="${cartList != null && cartList.size() > 0}">
+		          	<c:when test="${cartList != null && cartList.size() > 0 && sessionScope.member != null}">
 		                  <c:forEach var="cart" items="${cartList}">
 			                  <tr class="row">
 			                    <td class="col-1 d-flex justify-content-center align-items-center only_chk cart_info">
@@ -259,6 +260,9 @@
 			                  </tr>
 			                  <c:set var= "c_totalPrice" value="${c_totalPrice + cart.P_PRICE*cart.CART_COUNT}"/>
 		                  </c:forEach>
+                  	</c:when>
+                  	<c:when test="${sessionScope.member == null && cookie.cart != null}">
+                  		<div class="cart_cookie"></div>
                   	</c:when>
                   	<c:otherwise>
                   		<div class="emptyCart">장바구니에 담긴 상품이 없어요.</div>
@@ -358,6 +362,87 @@
 				}
 		}); //end of ajax
 	}// end of update_cart()
+	
+	/* 비회원 장바구니 화면 그려주기 시작 */
+	// 배열 형태의 쿠키값 얻어오기
+	if($.cookie('cart') != undefined){
+		
+		let carts = JSON.parse($.cookie('cart'));
+		
+		// 배열에 있는 쿠키 값 꺼내오기
+	 	let cartInfo = function (carts) {
+			let oneRow = '';
+			carts.forEach(function(cart){
+				let pno = cart.pno;
+				let title = cart.title;
+				let img = cart.img;
+				let price = parseInt(cart.price);
+				let count = parseInt(cart.count);
+				console.log(cart);	
+				oneRow +=`<tr class="row">
+				            <td class="col-1 d-flex justify-content-center align-items-center only_chk cart_info">
+				              	<input type="checkbox" class="one_chk" />
+							  	<input type="hidden" class="h_p_price" value="${'${price}'}">
+								<input type="hidden" class="h_cart_count" value="${'${count}'}">
+								<input type="hidden" class="h_totalPrice" value="${'${price*count}'}">
+								<input type="hidden" class="h_p_no" value="${'${pno}'}">								
+				            </td>
+				            <td class="col-2 d-flex prod">
+				              <div class="prod_img">
+				                <img
+				                  class="img-thumbnail"
+				                  src="${'${img}'}"
+				                />
+				              </div>
+				            </td>
+				            <td
+				              class="col-5 d-flex justify-content-center align-items-center product_info"
+				              style="flex-direction: column"
+				            >
+				              <div class="prod_title d-flex">
+				                <b>${'${title}'}</b>
+				              </div>
+				              <div class="mem_discount">
+				                <span class="price">
+				                  <span class="price">권당 가격:</span>
+				                  <span class="price">${'${price}'}</span>
+				                  <span class="price">원</span>
+				                </span>
+				              </div>
+				            </td>
+				            <td
+				              class="col-3 d-flex justify-content-center align-items-center order_info"
+				              style="flex-direction: column"
+				            >
+				              <div class="order_price" style="font-weight: bold">
+				                <span>${'${price*count}'}원</span>
+				              </div>
+				              <div class="product_count mt-3">
+				                <button class="count_btn"><i class="fas fa-minus-circle"></i></button>
+				                <span>${'${count}'}</span>
+				                <button class="count_btn"><i class="fas fa-plus-circle"></i></button>
+				              </div>
+				            </td>
+				            <td
+				              class="col-1 d-flex justify-content-center align-items-center"
+				            >
+				              <input type="hidden" value="${'${pno}'}" name="p_no" >
+				              <button type="submit">
+				                <i class="fas fa-trash-alt" style="color: #e9967a"></i>
+				              </button>
+				            </td>
+				          </tr>
+				          `;
+			}); // end of forEach
+			
+			
+			return oneRow;
+		}// end of cartInfo
+		
+		$(".cart_cookie").html(cartInfo(carts));
+	}// end of if
+		
+	/* 비회원 화면 그려주기 끝 */
 </script>
   </body>
 </html>
