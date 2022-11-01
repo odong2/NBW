@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalpj.nbw.coupon.dao.CouponMapper">
+    <!-- 쿠폰 존재여부 확인. 0보다 크면 쿠폰이 존재함-->
+    <select id="selectIsCoupon" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) from tb_couponzip
+        WHERE mem_id = #{mem_id}
+    </select>
+    <!-- couponzip 조회하여 멤버가 보유한 쿠폰을 조회 -->
+    <select id="selectCouponList" parameterType="String" resultType="couponDto">
+        SELECT * FROM tb_coupon WHERE
+                cp_no in (
+                SELECT cp_no FROM TB_COUPONZIP
+                WHERE mem_id = #{mem_id}
+            )
+    </select>
+</mapper>

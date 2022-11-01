@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.finalpj.nbw.notice.dao.NtCommentMapper">
+<mapper namespace="com.finalpj.nbw.notice.dao.PaymentMapper">
 <!--
     회원일 경우
     SELECT
