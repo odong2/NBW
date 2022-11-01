@@ -149,13 +149,27 @@ public class AdminNoticeController {
         return "redirect:/admin/notice/list";
     }
 
-    /********************************* 공지글 수정 *********************************/
+    /********************************* 공지글 수정  페이지 *********************************/
     @GetMapping("/modify")
-    public String modtifyNotice(@ModelAttribute Notice noticeDto, RedirectAttributes rattr){
+    public String getModifyPage(@ModelAttribute Notice noticeDto, RedirectAttributes rattr){
         log.info("AdminNotice Modify 페이지 호출");
-        log.info("수정하는 공지글 정보 = " + noticeDto);
         return "/admin/notice/noticeModify";
     }
+    /****
+     * ******************************** 공지글 수정  ************************************/
+    @PostMapping("/modify")
+    public String modtifyNotice(@ModelAttribute Notice noticeDto, RedirectAttributes rattr){
+        log.info("수정하는 공지글 정보 = " + noticeDto);
+        try{
+            noticeService.modifyNotice(noticeDto);
+            rattr.addFlashAttribute("msg", "MOD_OK");
+        }catch (Exception e){
+            e.printStackTrace();
+            rattr.addFlashAttribute("msg", "MOD_ERR");
+        }
+        return "redirect:/admin/notice/list";
+    }
+
 
 
     /****************************** 첨부파일 다운로드 ******************************/
