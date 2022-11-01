@@ -69,6 +69,10 @@ public class LoginService
     public boolean idCheck(String userId) {    	
     	return loginDao.selectUserId(userId);
     }
+    
+    public boolean emailCheck(FindDto dto) {    	
+    	return loginDao.selectUserEmail(dto);
+    }
 
 	public Map<String,Object> findId(FindDto dto) {
 		HashMap<String,Object> responseMap = new HashMap<>();
@@ -82,5 +86,10 @@ public class LoginService
 			responseMap.put("msg", "해당 아이디는 존재하지 않는 아이디입니다.");
 		}
 		return responseMap;
+	}
+
+	public Map<String, Object> findPassword(FindDto dto) {
+		
+		return null;
 	}
 }

@@ -22,6 +22,7 @@ import com.finalpj.nbw.login.dto.LoginDto;
 import com.finalpj.nbw.login.exception.LoginException;
 import com.finalpj.nbw.login.service.LoginService;
 import com.finalpj.nbw.login.service.Oauth2LoginService;
+import com.finalpj.nbw.mail.service.MailService;
 import com.finalpj.nbw.member.domain.Member;
 
 import lombok.extern.log4j.Log4j;
@@ -35,13 +36,15 @@ public class LoginController {
 	
 	private Oauth2LoginService oauth2LoginService;
 	private LoginService loginService;
+	private MailService mailService;
 	
 	public LoginController() {}
 	
 	@Autowired
-	public LoginController(Oauth2LoginService oauth2LoginService, LoginService loginService) {
+	public LoginController(Oauth2LoginService oauth2LoginService, LoginService loginService, MailService mailService) {
 		this.oauth2LoginService = oauth2LoginService;
 		this.loginService = loginService;
+		this.mailService = mailService;
 	}
 	
 	@GetMapping("/login")
@@ -135,12 +138,20 @@ public class LoginController {
 		case "id":
 			map = loginService.findId(dto);
 			break;
-		case "password":
+		case "emailcheck":
+			map = new HashMap<String,Object>();
+			if(loginService.emailCheck(dto)) {
+				map.put("code", mailService.sendMail(dto));
+				map.put("success", true);
+			}else {
+				map.put("msg", "존재하지 않는 회원입니다.");
+				map.put("success", false);
+			}
 			break;
 		default:
 			break;
 		}
-	
+		
 		return map;
 	}
 }

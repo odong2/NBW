@@ -53,7 +53,7 @@
                 placeholder="비밀번호를 입력해 주세요."
               />
               <label id="warningLabel" class="mb-3 text-danger" style="font-size:0.7rem;"></label>
-              <button class="w-100 btn btn-lg btn-secondary mb-1" type="submit">
+              <button class="w-100 btn btn-outline-secondary mb-1" type="submit">
                 로그인
               </button>
               
@@ -100,7 +100,7 @@
               </a>
             </div>
             <label class="w-100 text-muted text-center mb-3" style="font-size: 0.7rem;">개인정보 보호를 위해 공용 PC에서 사용 시 SNS계정의 로그아웃 상태를 꼭 확인해 주세요.</label>
-            <a class="col-12 btn btn-lg btn-primary mt-1" href="/member/register">회원가입</a>
+            <a class="col-12 btn btn-outline-primary mt-1" href="/member/register">회원가입</a>
           </div>
 
           <div class="tab-pane fade" id="list-order">

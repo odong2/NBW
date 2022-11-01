@@ -9,6 +9,13 @@
 		  FROM TB_MEMBER
 		 WHERE MEM_ID = #{value}
 	</select>
+	
+	<select id="selectUserEmail" parameterType="find" resultType="boolean">
+		SELECT COUNT(MEM_EMAIL) 
+		  FROM TB_MEMBER
+		 WHERE MEM_ID = #{mem_id}
+		 AND MEM_EMAIL = #{mem_email}
+	</select>
 
 	<select id="selectUserPassword" parameterType="String" resultType="String">
 		SELECT MEM_PW FROM TB_MEMBER WHERE MEM_ID = #{value}

@@ -39,4 +39,9 @@ public class LoginDaoImpl implements LoginDao{
 		return sqlSession.selectOne("findId", dto);
 	}
 
+	@Override
+	public boolean selectUserEmail(FindDto dto) {
+		return sqlSession.selectOne("selectUserEmail", dto);
+	}
+
 }
