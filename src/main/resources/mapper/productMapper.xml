@@ -7,11 +7,44 @@
 	</select>
 
 
-	<!-- ===================================== 제목 검색 ================================================= -->
+	<!-- ===================================== 제목 키워드 검색 ================================================= -->
 	<select id="selectProductByWord" parameterType="java.util.Map" resultType="map">
-		SELECT P_TITLE
+		SELECT DISTINCT P_TITLE
 		FROM TB_PRODUCT
 		WHERE P_TITLE LIKE '%'||#{keyword}||'%'
 		ORDER BY P_TITLE ASC
 	</select>
+
+	<!-- 검색 조건  > 검색 조건은 키워드에 따라 결정이 되므로.. -->
+	<sql id="criteria">
+		<if test="keyword != null">
+			 P_TITLE like '%'||#{keyword}||'%' and
+		</if>
+	</sql>
+
+	<!-- 상품 목록 조회 > 페이징 포함 -->
+	<select id="selectProduct"  resultType="product">
+		<![CDATA[
+		SELECT p_no, p_title, p_author, p_img,  p_pubdate, p_category
+			FROM (
+				  SELECT rownum AS rn, p_no, p_title, p_author, p_img, p_pubdate, p_category
+				  FROM TB_PRODUCT where
+	  	]]>
+				  <include refid="criteria"/>
+			<![CDATA[
+					rownum <= #{pageNum} * #{amount}
+			  	)
+		WHERE  rn >(#{pageNum}-1) * #{amount}
+			]]>
+	</select>
+
+	<!--  게시물 총 개수	-->
+	<select id="selectTotalProduct" resultType="int">
+		SELECT count(*)
+		FROM tb_product
+		WHERE
+				<include refid="criteria"/>
+			    p_no > 0
+	</select>
+
 </mapper>

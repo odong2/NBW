@@ -14,11 +14,10 @@
                     ,data:{keyword:$('#mainSearch').val()} // 검색창에 입력된 키워드가 url 요청에서 파라미터로 전송된다.
                     ,success:function(data){
                         response(
-                            $.map(data, function(item){
-                                // console.log(data[0]);
+                            $.map(data.resultList, function(item){
                                 return{
-                                    label:item.testNm // 목록에 표시되는 값
-                                    ,value:item.testNm // 선택 시 input에 표시되는 값
+                                    label:JSON.stringify(item)// 목록에 표시되는 값
+                                    ,value:JSON.stringify(item) // 선택 시 input에 표시되는 값
                                 };
                             })
                         );// response
@@ -31,11 +30,11 @@
                     }
                 });
             }
-            , minLength:1
+            , minLength:2 // 두 자 이상이 입력될 때 서버로 요청을 보낸다.
             , autoFocus: true
             , select : function(evt, ui){
                 console.log("전체 data: "+ JSON.stringify(ui));
-                console.log("검색 데이터: "+ ui.item.value);
+                console.log("검색 데이터: "+ ui.item);
             }
             ,focus:function(evt, ui){
                 return false;
@@ -44,6 +43,12 @@
 
             }
         });
+
+        $('#button-addon2').click(function(e){
+            $("#searchForm").attr("action", "/product/search");
+            $("#searchForm").attr("method", "get");
+            $("#searchForm").submit();
+        })
     })
 
 </script>
@@ -99,26 +104,29 @@
         <br>
         <div class="col-12 d-flex align-items-center justify-content-start">
           <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
-          <div class="input-group ms-3">
-                <input
-                        type="text"
-                        id="mainSearch"
-                        name="keyword"
-                        class="form-control"
-                        placeholder="검색어를 입력해주세요."
-                        aria-label="Recipient's username"
-                        aria-describedby="button-addon2"
-                        style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
-                />
-                <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        id="button-addon2"
-                        style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
-                >
-                    <i class="fas fa-search"></i>
-                </button>
-          </div>
+            <form id="searchForm">
+                <div class="input-group">
+<%--  ============================      검색창    =============================  --%>
+                    <input
+                            type="text"
+                            id="mainSearch"
+                            name="keyword"
+                            class="form-control"
+                            placeholder="검색어를 입력해주세요."
+                            aria-label="Recipient's username"
+                            aria-describedby="button-addon2"
+                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
+                    />
+                    <button
+                            class="btn btn-outline-secondary"
+                            id="button-addon2"
+                            type="submit"
+                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
+                    >
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
     </nav>
     <div class="col-2"></div>

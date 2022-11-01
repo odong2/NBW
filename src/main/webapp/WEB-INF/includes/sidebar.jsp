@@ -32,7 +32,7 @@
                         <span>포인트</span>
                     </div>
                     <div class="info-detail">
-                        <span>2000</span>
+                        <span>${sessionScope.member.getMem_point()}</span>
                     </div>
                 </div>
             </div>

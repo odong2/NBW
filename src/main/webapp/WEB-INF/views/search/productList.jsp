@@ -177,25 +177,15 @@
             </div>
         <!-- 첫번째 줄 끝 -->
         <br>
-        </div>
         <hr>
         <!-- ---------------------------------------- 상품 미리보기 끝! ---------------------------------------- -->
 
         <!-- ---------------------------------------- 페이지네이션 시작! ----------------------------------------
-        -------------------------------- * 한 페이지 당 20개의 상품을 불러올 예정입니다. -------------------------------->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
+        -------------------------------- * 한 페이지 당 10개의 상품을 불러올 예정입니다. -------------------------------->
+        <%--  서버로부터 전송받은 pagination 속성에 저장된 startPage, endPage 값을 가지고 forEach 태그를 이용해서 페이지 번호를 화면에 출력한다.   --%>
+      <div>
+          ${pagination}
+      </div>
     </main>
 
 </body>
