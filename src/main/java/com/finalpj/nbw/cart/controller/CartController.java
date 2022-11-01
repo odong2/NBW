@@ -160,8 +160,6 @@ public class CartController {
 			// 장바구니 수량 ajax로 전달
 			count = cartService.modifyCart(pMap);
 			log.info(count);
-		} else { // 비회원의 경우
-			
 		}
 		return count;
 	}
@@ -180,9 +178,7 @@ public class CartController {
 			pMap.put("mem_id", id);
 			
 			cartService.removeProduct(pMap);
-		} else { // 비회원의 경우
-			
-		}
+		} 
 		return "redirect:/cart/list";
 	}
 	
