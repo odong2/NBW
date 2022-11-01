@@ -23,7 +23,7 @@ public class CouponDaoImpl implements CouponDao {
         return sqlSession.selectOne(namespace+"selectIsCoupon", mem_id);
     }
 
-    /************************보유쿠폰 정보 가져오기 ***********************/
+    /************************ 보유쿠폰 정보 가져오기 ***********************/
     public List<Coupon> selectCouponList(String mem_id) {
         log.info("OrderDao ===> getCouponList 호출");
         List<Coupon> couponList = null;
