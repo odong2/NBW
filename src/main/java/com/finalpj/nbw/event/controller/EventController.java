@@ -19,17 +19,15 @@ public class EventController {
 
     EventService eventService;
 
-    Logger logger = LoggerFactory.getLogger(EventController.class);
-
     public EventController(EventService eventService){
         this.eventService = eventService;
     }
     /******************************* [[이벤트 리스트 페이지]] *****************************/
     @GetMapping("/list")
-    public String eventList(Model model) throws Exception {
-        logger.info("컨트롤러 이벤트 리스트 호출 성공");
-        model.addAttribute("eventSelectAll", eventService.eventList());
-        logger.info("이벤트 호출 성공"+eventService.eventList().toString());
+    public String eventList(Model m) throws Exception {
+        log.info("컨트롤러 이벤트 리스트 호출 성공");
+        m.addAttribute("eventSelectAll", eventService.eventList());
+        log.info("이벤트 호출 성공"+eventService.eventList().toString());
         return "/event/eventList";
     }
     /***************************** [[이벤트 디테일 페이지]] *******************************/
