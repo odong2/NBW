@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface EventDao {
-    //이벤트 전체 조회
+    /****************************** 이벤트 전체 조회 ***************************/
     List<Event> eventList() throws Exception;
-    //이벤트 한건 조회
-    int insert(Event eventDto) throws Exception; // 이벤트글 등록
+    /****************************** 이벤트 한건 조회 ***************************/
+    Event eventRead(Integer ev_no) throws Exception;
+    /****************************** 이벤트 작성 ******************************/
+    int eventWrite(Event eventDto) throws Exception; // 이벤트글 등록
 
     int update(Event eventDto) throws Exception; // 공지글 수정
 
