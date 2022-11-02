@@ -128,10 +128,6 @@
     	/* 장바구니 총 주문정보 불러오기 */
     	setTotalCart();
     	
-    	
-    	/* insert here */
-    	
-    	/*  */
 	}); // end of ready
   
 	/* 총 주문 정보 세팅(배송비, 총 가격, 총 갯수) */
@@ -272,8 +268,8 @@
 			                  <c:set var= "c_totalPrice" value="${c_totalPrice + cart.P_PRICE*cart.CART_COUNT}"/>
 		                  </c:forEach>
                   	</c:when>
-                  	<c:when test="${sessionScope.member == null}">
-                  		<div class="cart_cookie">장바구니에 담긴 상품이 없어요.</div>
+                  	<c:when test="${sessionScope.member == null && cookie.cart != null}">
+                  		<div class="cart_cookie"></div>
                   	</c:when>
                   	<c:otherwise>
                   		<div class="emptyCart">장바구니에 담긴 상품이 없어요.</div>
@@ -490,8 +486,23 @@
 				carts.splice(carts.findIndex(findCount), 1, JSON.parse(json)); // 해당 인덱스의 요소 삭제하고 그 부분에 바뀐 count가 들어있는 객체 추가
 				console.log(carts);
 			} // end of if
-			document.cookie = "cart=; path=/"; // 쿠키를 빈값으로 만들고
-			document.cookie = "cart=" + encodeURI(JSON.stringify(carts)) + "; path=/;"; // 다시 만들어준다
+			
+			/* ajax 요청보내기 */
+			$.ajax({
+				type : "post",
+				url : "${contextPath}/cart/unmemModify",
+				data : JSON.stringify(carts),
+				dataType:"text",
+				headers : {"content-type": "text/application"},
+				success : function(msg) {
+					
+				},
+				error : function(data, textStatus) {
+					alert("에러가 발생했습니다."+data);
+				},
+				complete : function(data, textStatus) {
+				}
+			}); //end of ajax	
 		});
 	}
 
@@ -509,11 +520,25 @@
 				if(carts.length==0){
 					$.removeCookie('cart' , {path : '/'});// 쿠키를 삭제한다.
 				}
-				document.cookie = "cart=; path=/"; // 쿠키를 빈값으로 만들고
-				document.cookie = "cart=" + encodeURI(JSON.stringify(carts)) + "; path=/;"; // 다시 만들어준다
+
+				/* ajax 요청보내기 */
+				$.ajax({
+					type : "post",
+					url : "${contextPath}/cart/unmemRemove",
+					data : JSON.stringify(carts),
+					dataType:"text",
+					headers : {"content-type": "text/application"},
+					success : function(msg) {
+						location.reload();
+					},
+					error : function(data, textStatus) {
+						alert("에러가 발생했습니다."+data);
+					},
+					complete : function(data, textStatus) {
+					}
+				}); //end of ajax	
 			}
 		});
-		location.reload();
 	}
 	
 	/* 비회원 화면 그려주기 끝 */
