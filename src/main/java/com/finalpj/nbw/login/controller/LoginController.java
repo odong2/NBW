@@ -1,12 +1,15 @@
 package com.finalpj.nbw.login.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +22,12 @@ import com.finalpj.nbw.login.dto.LoginDto;
 import com.finalpj.nbw.login.exception.LoginException;
 import com.finalpj.nbw.login.service.LoginService;
 import com.finalpj.nbw.login.service.Oauth2LoginService;
+import com.finalpj.nbw.mail.service.MailService;
 import com.finalpj.nbw.member.domain.Member;
 
 import lombok.extern.log4j.Log4j;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Log4j
@@ -33,13 +36,15 @@ public class LoginController {
 	
 	private Oauth2LoginService oauth2LoginService;
 	private LoginService loginService;
+	private MailService mailService;
 	
 	public LoginController() {}
 	
 	@Autowired
-	public LoginController(Oauth2LoginService oauth2LoginService, LoginService loginService) {
+	public LoginController(Oauth2LoginService oauth2LoginService, LoginService loginService, MailService mailService) {
 		this.oauth2LoginService = oauth2LoginService;
 		this.loginService = loginService;
+		this.mailService = mailService;
 	}
 	
 	@GetMapping("/login")
@@ -56,13 +61,25 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String postLogin(LoginDto logindto, Model model){
+	public String postLogin(LoginDto logindto, Model model, HttpServletResponse response, HttpSession session,
+			@CookieValue(value = "remember_id", required = false) Cookie remembercoockie){
 		String default_url = "/home";
 		
-		Member member = null;
 		try {
-			member = loginService.loginCheck(logindto);
-			model.addAttribute("member", member);
+			Member member = loginService.loginCheck(logindto);
+			session.setAttribute("member", member);
+			
+			if(logindto.getRememberme() != null) {
+				Cookie cookie = new Cookie("remember_id",logindto.getUserId());
+				response.addCookie(cookie);
+			}else {
+				if(remembercoockie != null) {
+					remembercoockie.setValue("");
+					remembercoockie.setMaxAge(0);
+					response.addCookie(remembercoockie);
+				}
+			}
+			
 		} catch (LoginException e) {
 			model.addAttribute("LoginFailMsg", e.getMessage());
 			default_url = "/login/loginpage";
@@ -115,21 +132,40 @@ public class LoginController {
 	@PostMapping("/login/find/{findValue}")
 	@ResponseBody
 	public Map<String,Object> Postfind(@PathVariable String findValue, @RequestBody FindDto dto, Model model) {
-		log.info(dto);
-		
 		Map<String,Object> map = null;
 		
 		switch (findValue) {
 		case "id":
 			map = loginService.findId(dto);
 			break;
-		case "password":
+		case "emailcheck":
+			map = new HashMap<String,Object>();
+			if(loginService.emailCheck(dto)) {
+				map.put("code", mailService.sendMail(dto));
+				map.put("success", true);
+			}else {
+				map.put("msg", "존재하지 않는 회원입니다.");
+				map.put("success", false);
+			}
+			break;
+		case "pw":
+			map = loginService.changePw(dto);
 			break;
 		default:
 			break;
 		}
-	
+		
 		return map;
+	}
+	
+	@GetMapping("/login/change")
+	public String change(Model model, FindDto dto) {
+		System.out.println(dto.getMem_id());
+		System.out.println(dto.getMem_email());
+		
+		model.addAttribute("dto", dto);
+		
+		return "/login/change";
 	}
 }
 

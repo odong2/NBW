@@ -9,6 +9,13 @@
 		  FROM TB_MEMBER
 		 WHERE MEM_ID = #{value}
 	</select>
+	
+	<select id="selectUserEmail" parameterType="find" resultType="boolean">
+		SELECT COUNT(MEM_EMAIL) 
+		  FROM TB_MEMBER
+		 WHERE MEM_ID = #{mem_id}
+		 AND MEM_EMAIL = #{mem_email}
+	</select>
 
 	<select id="selectUserPassword" parameterType="String" resultType="String">
 		SELECT MEM_PW FROM TB_MEMBER WHERE MEM_ID = #{value}
@@ -23,4 +30,10 @@
 		WHERE MEM_NAME = #{mem_name} AND MEM_EMAIL = #{mem_email}
 		AND (MEM_ID NOT LIKE '%NAVER_%' AND MEM_ID NOT LIKE '%KAKAO_%')
 	</select>
+	
+	<update id="updateUserPassword" parameterType="find">
+		UPDATE TB_MEMBER
+		SET MEM_PW = #{mem_pw}
+		WHERE MEM_ID = #{mem_id} AND MEM_EMAIL = #{mem_email}
+	</update>
 </mapper>

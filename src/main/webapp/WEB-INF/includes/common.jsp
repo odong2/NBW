@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--jquery--%>
 <script src="/jquery-3.6.1.min.js"></script>
+<script src="/jquery.cookie.js"></script>
 <%--jquery UI--%>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
