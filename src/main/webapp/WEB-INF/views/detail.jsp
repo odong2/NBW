@@ -164,6 +164,7 @@ let c_count = '';
 													title : "${product.getP_title()}",
 													img : "${product.getP_img()}",
 													price : "${product.getP_price()}",
+													ctg : "${product.getP_category()}",
 													count : c_count
 													}
 												]
@@ -214,6 +215,7 @@ let c_count = '';
 										title : "${product.getP_title()}",
 										img : "${product.getP_img()}",
 										price : "${product.getP_price()}",
+										ctg : "${product.getP_category()}",
 										count : c_count
 										});
 							$.ajax({
