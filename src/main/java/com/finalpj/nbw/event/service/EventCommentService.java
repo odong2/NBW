@@ -36,10 +36,10 @@ public class EventCommentService {
         log.info("rowCnt = " + rowCnt);
         return rowCnt;
     }
-    // 특정 공지글의 댓글 모두 조회
-    public List<EventComment> getList(Integer ev_no) throws Exception {
-        return eventCommentDao.selectAll(ev_no);
-    }
+//    // 특정 공지글의 댓글 모두 조회
+//    public List<EventComment> getList(Integer ev_no) throws Exception {
+//        return eventCommentDao.selectAll(ev_no);
+//    }
     // 댓글 한 건 조회
     public EventComment read(Integer evc_no) throws Exception {
         return eventCommentDao.select(evc_no);
