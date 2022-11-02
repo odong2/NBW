@@ -5,17 +5,33 @@
 <mapper namespace="com.finalpj.nbw.event.dao.EventMapper">
 
     <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
-    <select id="selectAll" resultType="eventDto">
-            SELECT * FROM tb_event
+    <select id="eventSelectAll" resultType="eventDto">
+            SELECT *
+            FROM tb_event
             ORDER BY ev_cdate DESC, ev_no DESC
     </select>
-<!--    &lt;!&ndash;======================================= [[ 이벤트리스트 한건 조회 ]] ======================================&ndash;&gt;-->
-<!--    <select id="select" parameterType="int" resultType="eventDto">-->
-<!--        Select * FROM tb_event-->
-<!--        WHERE ev_no = #{ev_no}-->
-<!--    </select>-->
-<!--    &lt;!&ndash;======================================= [[ 이벤트리스트 한건 조회 ]] ======================================&ndash;&gt;-->
-<!--    &lt;!&ndash;======================================= [[ 이벤트리스트 전체 조회 ]] ======================================&ndash;&gt;-->
+    <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
+
+    <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
+    <select id="eventSelect" parameterType="int" resultType="eventDto">
+        SELECT *
+        FROM tb_event
+        WHERE ev_no = #{ev_no}
+    </select>
+    <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
+    <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
+    <insert id="eventInsert" parameterType="eventDto">
+        INSERT INTO TB_EVENT(ev_no, ev_title, ev_content, ev_cdate, ev_file
+                            , ev_start, ev_end, ev_people, ev_status, ev_nowpeople
+                            , ev_target, ev_place, ev_img, ev_time, ev_today
+                            , ev_phone, ev_cocnt)
+        VALUES (SEQ_EV_NO.NEXTVAL, #{ev_title}, #{ev_content}, SYSDATE, #{ev_file}
+            , #{ev_start}, #{ev_end}, #{ev_people}, #{ev_status}, #{ev_nowpeople}
+            , #{ev_target}, #{ev_place},  #{ev_img},#{ev_time}, #{ev_today}
+            , #{ev_phone}, #{ev_cocnt})
+
+    </insert>
+    <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
 <!--    <select id="count" resultType="int">-->
 <!--            SELECT count(*) FROM tb_event-->
 <!--    </select>-->
