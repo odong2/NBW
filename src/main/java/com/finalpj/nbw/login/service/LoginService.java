@@ -76,7 +76,7 @@ public class LoginService
 
 	public Map<String,Object> findId(FindDto dto) {
 		HashMap<String,Object> responseMap = new HashMap<>();
-		FindDto ResponseDto = loginDao.findId(dto);
+		List<FindDto> ResponseDto = loginDao.findId(dto);
 		
 		if(ResponseDto != null) {
 			responseMap.put("success", true);

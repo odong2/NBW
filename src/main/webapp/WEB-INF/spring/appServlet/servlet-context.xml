@@ -35,11 +35,19 @@
 	</context:component-scan>
 	
 	<beans:bean id="loginInterceptor" class="com.finalpj.nbw.login.interceptor.LoginInterceptor"/>
+	<beans:bean id="authInterceptor" class="com.finalpj.nbw.login.interceptor.AuthInterceptor"/>
 	
 	<interceptors>
 		<interceptor>
 			<mapping path="/login"/>
 			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+		<interceptors>
+		<interceptor>
+			<mapping path="/mypage/**"/>
+			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 	</interceptors>
 </beans:beans>

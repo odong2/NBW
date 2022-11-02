@@ -159,12 +159,8 @@ public class LoginController {
 	}
 	
 	@GetMapping("/login/change")
-	public String change(Model model, FindDto dto) {
-		System.out.println(dto.getMem_id());
-		System.out.println(dto.getMem_email());
-		
+	public String change(Model model, FindDto dto) {		
 		model.addAttribute("dto", dto);
-		
 		return "/login/change";
 	}
 }

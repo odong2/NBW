@@ -125,6 +125,7 @@
 			data:JSON.stringify(request),
 			contentType: "application/json; charset=UTF-8",
 			success : function(result){
+				console.log(result);
 				if(result.success){
 					clear();
 					resultId(result.dto);
@@ -141,11 +142,14 @@
 		});
 	})
 	
-	let resultId = function(object){
+	let resultId = function(array){
 		$('#result').empty();
-		const id = object.mem_id;
-		const date = getCdate(object.mem_cdate);
-		$('#result').append('<ul class="list-group"><li class="list-group-item mx-2">가입일자: '+date+'</li><li class="list-group-item mx-2">가입한 아이디: '+id+'</li></ul>');
+		$('#result').append('<ul id="resultUl" class="list-group"></ul>');
+		array.forEach((item)=>{
+			const id = item.mem_id;
+			const date = getCdate(item.mem_cdate);
+			$('#resultUl').append('<li class="list-group-item mx-2">가입일자: '+date+'</li><li class="list-group-item mx-2">가입한 아이디: '+id+'</li>')
+		})
 	}
 	
     let getCdate = function(ntc_cdate) {
