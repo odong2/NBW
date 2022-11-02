@@ -150,7 +150,7 @@
             display: flex;
             justify-content: center;
         }
-        #pick-btn {
+        #listBtn {
             height: 38px;
             display: inline-block;
             margin: 0 5px;
@@ -162,7 +162,7 @@
             vertical-align: top;
             text-align: center;
         }
-        #list-btn {
+        #pickBtn {
             display: inline-block;
             height: 40px;
             margin: 0 5px;
@@ -173,15 +173,6 @@
             font-size: 15px;
             line-height: 2.8em;
             vertical-align: top;
-        }
-        .dotted {
-            height: 1px;
-            background: url(https://www.iei.or.kr/resources/images/common/point_bar.png);
-        }
-        #board_reply {
-            background: #f2f5f9;
-            border-top: 1px solid #dae0e9;
-            padding: 30px;
         }
     </style>
 </head>
@@ -204,59 +195,61 @@
         </div>
     </div>
 
+    <ul>
+<%--    <c:forEach var="event" items="${eventSelect}">--%>
     <li class="detailcontents">
         <!-- 왼쪽 그림 시작 -->
         <div class="picturepeople">
             <!-- 이미지 사진 시작 -->
-            <img class="classimg" src="https://lib.seoul.go.kr/apload/temp/20221012/1368702620008870.jpg" />
+            <img
+                    class="classimg"
+                    src="${eventSelect.ev_img}"/>
             <!-- 이미지 사진 끝 -->
             <div class="picking">
                 <span class="receiving">접수중</span>
-                <span class="receivingpeople"><c:out value="${eventDto.ev_people-eventDto.ev_nowpeople}"/></span>
+                <span class="receivingpeople">${eventSelect.ev_people-eventSelect.ev_nowpeople}</span>
             </div>
         </div>
         <!-- 왼쪽 그림 끝 -->
         <!-- 오른쪽 설명 시작 -->
         <div class="detail">
             <div class="bookname">
-                <c:out value="${eventDto.ev_title}"/>
+                ${event.ev_title}
             </div>
             <div class="bodycontent">
                 <div class="playpeople">
                     <div>대상&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_target}"/></div>
+                    <div style="color: #7c7c7c">${eventSelect.ev_target}</div>
                 </div>
                 <br />
                 <div class="playplace">
                     <div>장소&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_place}"/></div>
+                    <div style="color: #7c7c7c">${eventSelect.ev_place}</div>
                 </div>
                 <br />
                 <div class="studyday">
-                    <div>교육기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_today}"/></div>
+                    <div>행사기간&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">${eventSelect.ev_today}</div>
                 </div>
                 <br />
                 <div class="studytime">
                     <div>시간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_time}"/></div>
+                    <div style="color: #7c7c7c">${eventSelect.ev_time}</div>
                 </div>
                 <br />
                 <div class="applicationday">
                     <div>접수기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_start}"/></div>
-                    <div style="color: #7c7c7c">&nbsp;~&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_end}"/></div>
+                    <div style="color: #7c7c7c">${eventSelect.ev_start} ~ ${eventSelect.ev_end}</div>
                 </div>
                 <br />
                 <div class="phone">
                     <div>문의번호&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_phone}"/></div>
+                    <div style="color: #7c7c7c">${eventSelect.ev_phone}</div>
                 </div>
                 <br />
                 <div class="recruitment">
                     <div>모집정원&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"><c:out value="${eventDto.ev_people}"/></div>
+                    <div style="color: #7c7c7c">${eventSelect.ev_people}</div>
                 </div>
                 <br />
                 <div class="recruitment">
@@ -266,100 +259,107 @@
             </div>
         </div>
         <!-- 오른쪽 설명 끝 -->
-    </li>
-    <div>
-        <c:out value="${eventDto.ev_content}"/>
-    </div>
+
+        </li>
+        <div>
+            ${eventSelect.ev_content}
+        </div>
+    </ul>
     <hr />
-    <div class="buttonpick"><button id="pick-btn">목록</button><button id="list-btn">신청하기</button></div>
+    <div class="buttonpick"><button id="listBtn">목록</button><button id="pickBtn">신청하기</button></div>
     <%-- 댓글 시작 --%>
-    <hr />
-    댓글: <input type="text" name="comment"><br>
-    <button id="sendBtn" type="button">SEND</button>
-    <div id="commentList"></div>
+<%--    <hr />--%>
+<%--    댓글: <input type="text" name="comment"><br>--%>
+<%--    <button id="sendBtn" type="button">SEND</button>--%>
+<%--    <div id="commentList"></div>--%>
 
     <%-- 댓글 끝 --%>
 </main>
 <script>
-    /***************** 댓글 시작 ***************/
-    let ev_no = 2
-<%--        ${eventDto.ev_no};--%>
+<%--    /***************** 댓글 시작 ***************/--%>
+<%--    let ev_no = 2--%>
+<%--&lt;%&ndash;        ${eventDto.ev_no};&ndash;%&gt;--%>
 
-    let showList = function (ev_no) {
-        $.ajax({
-            type:'GET',       // 요청 메서드
-            url: '/event/comments?ev_no=' +ev_no,  // 요청 URI
-            success : function(result){
-                 $("#commentList").html(toHtml(result));
-            },
-            error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
-        }); // $.ajax()
-    }
-/***************************** [[댓글 추가]] ****************************/
-    $(document).ready(function(){
-        showList(ev_no);
+<%--    let showList = function (ev_no) {--%>
+<%--        $.ajax({--%>
+<%--            type:'GET',       // 요청 메서드--%>
+<%--            url: '/event/comments?ev_no=' +ev_no,  // 요청 URI--%>
+<%--            success : function(result){--%>
+<%--                 $("#commentList").html(toHtml(result));--%>
+<%--            },--%>
+<%--            error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
+<%--        }); // $.ajax()--%>
+<%--    }--%>
+<%--/***************************** [[댓글 추가]] ****************************/--%>
+<%--    $(document).ready(function(){--%>
+<%--        showList(ev_no);--%>
 
-        $("#sendBtn").click(function() {
-            let comment = $("input[name=comment]").val();
+<%--        $("#sendBtn").click(function() {--%>
+<%--            let comment = $("input[name=comment]").val();--%>
 
-            if(comment.trim()=='') {
-                alert("댓글을 입력해주세요.");
-                $("input[name=comment]").fucus()
-                return;
-            }
+<%--            if(comment.trim()=='') {--%>
+<%--                alert("댓글을 입력해주세요.");--%>
+<%--                $("input[name=comment]").fucus()--%>
+<%--                return;--%>
+<%--            }--%>
 
-            $.ajax({
-                type: 'Post',       // 요청 메서드
-                url: '/event/comments?'+ev_no,  // 요청 URI
-                headers: {"content-type": "application/json"},
-                dataType: 'text', // 전송받을 데이터의 타입
-                data: JSON.stringify({ev_no:ev_no, comment:comment}), // 서버로 전송할 데이터. stringify()로 직렬화 필요.
-                success: function (result) {
-                    alert(result);
-                    showList(ev_no);
-                },
-                error: function () {
-                    alert("error")
-                } // 에러가 발생했을 때, 호출될 함수
-            });
-        });
-/***************************** [[댓글 추가]] ****************************/
-/***************************** [[댓글 삭제]] ****************************/
-        // $(".delbtn").click(function(){
-        $("#commentList").on("click", ".delBtn", function(){
-            let evc_no = $(this).parent().attr("data-evc_no");
-            let ev_no = $(this).parent().attr("data-ev_no");
+<%--            $.ajax({--%>
+<%--                type: 'Post',       // 요청 메서드--%>
+<%--                url: '/event/comments?'+ev_no,  // 요청 URI--%>
+<%--                headers: {"content-type": "application/json"},--%>
+<%--                dataType: 'text', // 전송받을 데이터의 타입--%>
+<%--                data: JSON.stringify({ev_no:ev_no, comment:comment}), // 서버로 전송할 데이터. stringify()로 직렬화 필요.--%>
+<%--                success: function (result) {--%>
+<%--                    alert(result);--%>
+<%--                    showList(ev_no);--%>
+<%--                },--%>
+<%--                error: function () {--%>
+<%--                    alert("error")--%>
+<%--                } // 에러가 발생했을 때, 호출될 함수--%>
+<%--            });--%>
+<%--        });--%>
+<%--/***************************** [[댓글 추가]] ****************************/--%>
+<%--/***************************** [[댓글 삭제]] ****************************/--%>
+<%--        // $(".delbtn").click(function(){--%>
+<%--        $("#commentList").on("click", ".delBtn", function(){--%>
+<%--            let evc_no = $(this).parent().attr("data-evc_no");--%>
+<%--            let ev_no = $(this).parent().attr("data-ev_no");--%>
 
-            $.ajax({
-                type:'DELETE',       // 요청 메서드
-                url: '/event/comments/' +evc_no+ '?ev_no'+ev_no,  // 요청 URI
-                success : function(result){
-                  alert(result);
-                  showList(ev_no);
-                },
-                error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
-            }); // $.ajax()
-        });
-    });
-/***************************** [[댓글 삭제]] ****************************/
+<%--            $.ajax({--%>
+<%--                type:'DELETE',       // 요청 메서드--%>
+<%--                url: '/event/comments/' +evc_no+ '?ev_no'+ev_no,  // 요청 URI--%>
+<%--                success : function(result){--%>
+<%--                  alert(result);--%>
+<%--                  showList(ev_no);--%>
+<%--                },--%>
+<%--                error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
+<%--            }); // $.ajax()--%>
+<%--        });--%>
+<%--    });--%>
+<%--/***************************** [[댓글 삭제]] ****************************/--%>
 
-    let toHtml = function (comments) {
-        let tmp = "<ul>"
+<%--    let toHtml = function (comments) {--%>
+<%--        let tmp = "<ul>"--%>
 
-        comments.forEach(function (evc_comment){
-            tmp += ' <li data-evc_no='+ evc_comment.evc_no
-            tmp += ' data-evc_pcno=' + evc_comment.evc_pcno
-            tmp += ' data-ev_no=' + evc_comment.ev_no + '>'
-            tmp += ' evc_commenter = <span class="commenter">' + evc_comment.evc_commenter + '</span>'
-            tmp += ' evc_comment=<span class="comment">' + evc_comment.evc_comment + '</span>'
-            tmp += ' evc_update' +evc_comment.evc_update
-            tmp += '<button class="delBtn">삭제</button>'
-            tmp += '<button class="modBtn">수정</button>'
-            tmp += '</li>'
-        })
+<%--        comments.forEach(function (evc_comment){--%>
+<%--            tmp += ' <li data-evc_no='+ evc_comment.evc_no--%>
+<%--            tmp += ' data-evc_pcno=' + evc_comment.evc_pcno--%>
+<%--            tmp += ' data-ev_no=' + evc_comment.ev_no + '>'--%>
+<%--            tmp += ' evc_commenter = <span class="commenter">' + evc_comment.evc_commenter + '</span>'--%>
+<%--            tmp += ' evc_comment=<span class="comment">' + evc_comment.evc_comment + '</span>'--%>
+<%--            tmp += ' evc_update' +evc_comment.evc_update--%>
+<%--            tmp += '<button class="delBtn">삭제</button>'--%>
+<%--            tmp += '<button class="modBtn">수정</button>'--%>
+<%--            tmp += '</li>'--%>
+<%--        })--%>
 
-        return tmp + "<ul>";
-    }
+<%--        return tmp + "<ul>";--%>
+<%--    }--%>
+    $(document).ready(function (){
+         $('#listBtn').on("click", function (){
+            location.href = "<c:url value='/event/list'/>";
+         })
+    })
 </script>
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>
