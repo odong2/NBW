@@ -10,7 +10,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <%@include file="../../includes/admin/common.jsp" %>
+    <%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자 메인페이지</title>
     <style>
         .title {
@@ -59,14 +59,14 @@
 <!-- Page Wrapper -->
 <div class="d-flex justify-content-start">
     <!-- Sidebar -->
-    <%@include file="../../includes/admin/sidebar.jsp" %>
+    <%@include file="../../../includes/admin/sidebar.jsp" %>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <!-- [[ 오른쪽 div 시작 ]] -->
     <section class="contentdiv d-flex" style="margin-left: 224px">
         <!-- Topbar -->
-        <%@include file="../../includes/admin/header.jsp" %>
+        <%@include file="../../../includes/admin/header.jsp" %>
         <!-- End of Topbar -->
         <!-- Main Content -->
         <main class="container-fluid">
@@ -76,7 +76,8 @@
             <hr />
             <!-- 버튼[등록, 마감] 시작 -->
             <div class="twobtn">
-                <button class="registerbtn">등록</button>
+                <button class="registerbtn" type="button" id="writeBtn"
+                        onclick="location.href='<c:url value="/admin/event/write"/>'">등록</button>
                 <button class="deadlinebtn">마감</button>
             </div>
             <!-- 버튼[등록, 마감] 끝 -->
@@ -156,7 +157,7 @@
             <!-- 표 끝 -->
         </main>
         <!-- Footer -->
-        <%@include file="../../includes/admin/footer.jsp" %>
+        <%@include file="../../../includes/admin/footer.jsp" %>
         <!-- End of Footer -->
         <!-- End of Content Wrapper -->
     </section>
@@ -168,5 +169,12 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+<script>
+    $(document).ready(function (){
+        $('#listBtn').on("click", function (){
+            location.href = "<c:url value='/event/list'/>";
+        })
+    })
+</script>
 </body>
 </html>
