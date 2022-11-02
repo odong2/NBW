@@ -207,49 +207,67 @@
             <!-- 이미지 사진 끝 -->
             <div class="picking">
                 <span class="receiving">접수중</span>
-                <span class="receivingpeople">${eventSelect.ev_people-eventSelect.ev_nowpeople}</span>
+                <span class="receivingpeople">
+                    ${eventSelect.ev_people-eventSelect.ev_nowpeople}
+                </span>
             </div>
         </div>
         <!-- 왼쪽 그림 끝 -->
         <!-- 오른쪽 설명 시작 -->
         <div class="detail">
             <div class="bookname">
-                ${event.ev_title}
+                ${eventSelect.ev_title}
             </div>
             <div class="bodycontent">
                 <div class="playpeople">
                     <div>대상&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">${eventSelect.ev_target}</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_target}
+                    </div>
                 </div>
                 <br />
                 <div class="playplace">
                     <div>장소&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">${eventSelect.ev_place}</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_place}
+                    </div>
                 </div>
                 <br />
                 <div class="studyday">
                     <div>행사기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">${eventSelect.ev_today}</div>
+                    <div style="color: #7c7c7c">
+                        ${event.ev_today}
+                    </div>
                 </div>
                 <br />
                 <div class="studytime">
                     <div>시간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">${eventSelect.ev_time}</div>
+                    <div style="color: #7c7c7c">
+                        ${event.ev_time}
+                    </div>
                 </div>
                 <br />
                 <div class="applicationday">
                     <div>접수기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">${eventSelect.ev_start} ~ ${eventSelect.ev_end}</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_start}
+                            ~
+                        ${eventSelect.ev_end}
+                    </div>
                 </div>
                 <br />
                 <div class="phone">
                     <div>문의번호&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">${eventSelect.ev_phone}</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_phone}
+                    </div>
                 </div>
                 <br />
                 <div class="recruitment">
                     <div>모집정원&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">${eventSelect.ev_people}</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_people}
+                    </div>
                 </div>
                 <br />
                 <div class="recruitment">
@@ -259,7 +277,6 @@
             </div>
         </div>
         <!-- 오른쪽 설명 끝 -->
-
         </li>
         <div>
             ${eventSelect.ev_content}
@@ -268,7 +285,7 @@
     <hr />
     <div class="buttonpick"><button id="listBtn">목록</button><button id="pickBtn">신청하기</button></div>
     <%-- 댓글 시작 --%>
-<%--    <hr />--%>
+    <%--    <hr />--%>
 <%--    댓글: <input type="text" name="comment"><br>--%>
 <%--    <button id="sendBtn" type="button">SEND</button>--%>
 <%--    <div id="commentList"></div>--%>
