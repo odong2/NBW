@@ -16,7 +16,7 @@
                                , MEM_NAME
                                , MEM_PHONE
                                , MEM_ZIPCODE
-                               , MEM_ADDRESS
+                               , MEM_ADDRESS1
                                , MEM_ADDRESS2
                                , MEM_GENDER
                                , MEM_CDATE
@@ -29,7 +29,7 @@
                 ,#{mem_name}
                 ,#{mem_phone}
                 ,#{mem_zipcode}
-                ,#{mem_address}
+                ,#{mem_address1}
                 ,#{mem_address2}
                 ,#{mem_gender}
                 , sysdate
@@ -47,7 +47,7 @@
     <update id="updateMyInfo" parameterType="member">
         UPDATE tb_member
         SET  mem_zipcode = #{mem_zipcode}
-            ,mem_address = #{mem_address}
+            ,mem_address = #{mem_address1}
             ,mem_address2 = #{mem_address2}
             ,mem_email = #{mem_email}
             ,mem_update = sysdate

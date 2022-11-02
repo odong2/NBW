@@ -30,7 +30,7 @@
         FROM tb_question
         WHERE qn_no = #{qn_no}
     </select>
-    <!--======================================= [[ 이벤트 추가 ]] ======================================-->
+    <!--======================================= [[ Qna 한건 추가 ]] ======================================-->
     <insert id="qnaInsert" parameterType="qnaDto">
         INSERT INTO TB_QUESTION (
                                 QN_NO
