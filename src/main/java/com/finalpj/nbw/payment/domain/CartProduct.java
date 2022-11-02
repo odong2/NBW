@@ -18,6 +18,6 @@ public class CartProduct {
     private String p_price;
     private String p_img;
     private String p_category;
-    private int mcart_count;
+    private int p_count;
 
 }

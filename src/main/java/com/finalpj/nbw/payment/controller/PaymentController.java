@@ -4,6 +4,7 @@ import com.finalpj.nbw.coupon.domain.Coupon;
 import com.finalpj.nbw.coupon.service.CouponService;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.payment.domain.CartList;
+import com.finalpj.nbw.payment.domain.Payment;
 import com.finalpj.nbw.payment.service.PaymentService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;
@@ -60,5 +61,16 @@ public class PaymentController {
     public String getTest(){
         return "/payment/payTest";
     }
-    
+
+    @PostMapping("pay")
+    public String orderPay(@ModelAttribute Payment paymentDto){
+        log.info(paymentDto);
+        return "redirect:/payment/success";
+    }
+
+    @GetMapping("success")
+    public String resultPay(){
+
+        return "/payment/successPayment";
+    }
 }
