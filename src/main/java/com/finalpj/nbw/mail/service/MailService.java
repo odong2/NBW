@@ -7,6 +7,13 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.finalpj.nbw.login.dto.FindDto;
+import com.finalpj.nbw.login.dto.LoginDto;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import javax.mail.internet.MimeMessage;
 
 @Service("mailService")
@@ -43,6 +50,25 @@ public class MailService {
         }catch(Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    @Async
+    public String sendMail(FindDto dto){
+        /* 인증 코드 생성 */
+        Random random = new Random();
+        int ranCode = random.nextInt(888888) + 111111;
+
+        log.info("생성된 코드는 ===>" +ranCode);
+
+        /* 이메일을 보낸다.  -> Service 의 send 에 넘겨줄 값을 변수에 담는다. */
+       	String to = dto.getMem_email();
+        String subject = "NBW 비밀번호 변경 요청입니다.";
+        /* 내용에는 생성한 난수를 담는다. */
+        String body = "인증 코드는 ["+ ranCode + "] 입니다.";
+    	
+        sendMail(to, subject, body);
+        
+        return String.valueOf(ranCode);
     }
 
 }
