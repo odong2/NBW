@@ -19,8 +19,6 @@ public class EventDaoImpl implements EventDao {
 
     private SqlSession sqlSession;
 
-    Logger logger = LoggerFactory.getLogger(EventDaoImpl.class);
-
     public EventDaoImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
     }
@@ -30,16 +28,33 @@ public class EventDaoImpl implements EventDao {
     public List<Event> eventList() throws Exception {
         List<Event> eventList = null;
         eventList = sqlSession.selectList("eventSelectAll");
-        logger.info("EventDao : eventList 호출 성공" + eventList);
+        log.info("EventDao : eventList 호출 성공" + eventList);
         return eventList;
     }
-    /****************************** [[이벤트 전체조회]] **********************************/
     /****************************** [[이벤트 한건 조회]] **********************************/
     @Override
     public Event eventRead(Integer ev_no) throws Exception {
         return sqlSession.selectOne("eventSelect", ev_no);
     }
-    /****************************** [[이벤트 한건 조회]] **********************************/
+    /****************************** [[ 관리자 이벤트 조회]] ****************************/
+    @Override
+    public List<Event> adminEventList() throws Exception {
+        List<Event> adminEventList = null;
+        adminEventList = sqlSession.selectList("eventSelectAll");
+        log.info("EventDao : adminEventList 호출 성공" + adminEventList );
+        return adminEventList;
+    }
+    /******************************* [[ 관리자 이벤트 한건 조회 ]] ************************/
+    @Override
+    public Event adminEventRead(Integer ev_no) throws Exception {
+        return sqlSession.selectOne("eventSelect", ev_no);
+    }
+    /****************************** [[ 관리자 이벤트 삭제]] ***************************/
+    @Override
+    public int  adminEventDelete(Integer ev_no) throws Exception {
+        log.info("다오인폴 event 한건 삭제");
+        return sqlSession.delete("adminEventDelete", ev_no);
+    }
 
     /****************************** [[이벤트 등록]] ***************************/
     @Override
