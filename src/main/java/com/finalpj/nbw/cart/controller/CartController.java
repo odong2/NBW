@@ -139,7 +139,7 @@ public class CartController {
 		return msg;
 	}
 	
-	/***************** [[ 장바구니에 상품 수량변경 ]] *****************/
+	/***************** [[ 회원 장바구니에 상품 수량변경 ]] *****************/
 	@PostMapping("modify")
 	@ResponseBody
 	public int cartModify(HttpSession session, @RequestParam("p_no") String p_no, 
@@ -163,8 +163,32 @@ public class CartController {
 		}
 		return count;
 	}
+	
+	/***************** [[ 비회원 장바구니에 상품 수량변경 ]] *****************/
+	@PostMapping("unmemModify")
+	@ResponseBody
+	public String unmemModify(@RequestBody String carts, HttpServletRequest req, HttpServletResponse res) {
+		String msg = "";
+		Cookie[] cookies = req.getCookies();
+		for(Cookie ck : cookies) {
+			if(ck.getName().equals("cart")) { // 장바구니 쿠키가 있을 때 (비회원 장바구니에 값이 하나라도 있을 경우)
+				String enc_carts = "";
+				try {
+					enc_carts = URLEncoder.encode(carts, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				Cookie cart = new Cookie("cart", enc_carts);
+				cart.setMaxAge(60*60*24); // 24시간
+				cart.setPath("/"); // 전체 브라우저에 쿠키 설정
+				res.addCookie(cart);
+				msg = "success";
+			}
+		}
+		return msg;
+	}
 
-	/***************** [[ 장바구니에 상품 삭제 ]] *****************/
+	/***************** [[ 회원 장바구니에 상품 삭제 ]] *****************/
 	@PostMapping("remove")
 	public String cartRemove(HttpSession session, @RequestParam("p_no") String p_no) {
 		log.info("컨트롤러에서 cartRemove호출");
@@ -180,6 +204,30 @@ public class CartController {
 			cartService.removeProduct(pMap);
 		} 
 		return "redirect:/cart/list";
+	}
+	
+	/***************** [[ 비회원 장바구니에 상품 수량변경 ]] *****************/
+	@PostMapping("unmemRemove")
+	@ResponseBody
+	public String unmemRemove(@RequestBody String carts, HttpServletRequest req, HttpServletResponse res) {
+		String msg = "";
+		Cookie[] cookies = req.getCookies();
+		for(Cookie ck : cookies) {
+			if(ck.getName().equals("cart")) { // 장바구니 쿠키가 있을 때 (비회원 장바구니에 값이 하나라도 있을 경우)
+				String enc_carts = "";
+				try {
+					enc_carts = URLEncoder.encode(carts, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				Cookie cart = new Cookie("cart", enc_carts);
+				cart.setMaxAge(60*60*24); // 24시간
+				cart.setPath("/"); // 전체 브라우저에 쿠키 설정
+				res.addCookie(cart);
+				msg = "success";
+			}
+		}
+		return msg;
 	}
 	
 }
