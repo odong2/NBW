@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Log4j
@@ -30,7 +29,7 @@ public class MypageQnaController {
         model.addAttribute("qnaSelectIngAll", qnaService.qnaIngList());
         model.addAttribute("qnaSelectFinishAll", qnaService.qnaFinishList());
         log.info("컨트롤러 타고 있습니다... 제발22222");
-        return "/mypage/qnaList";
+        return "mypage/Qna/qnaList";
     }
     /***************************** [[QNA 디테일 페이지]] *******************************/
     @GetMapping("qnadetail")
@@ -42,7 +41,7 @@ public class MypageQnaController {
             log.info(qna);
         } catch (Exception e) {
         }
-        return "/mypage/qnaDetail";
+        return "mypage/Qna/qnaDetail";
     }
 
     /************************************ [[QNA 삭제 페이지]] *********************************/
@@ -60,17 +59,11 @@ public class MypageQnaController {
         }
         return "redirect:/mypage/qnalist";
     }
-    /************************************ [[QNA 삭제 페이지]] *********************************/
-    @GetMapping("/qnamodify")
-    public String qnaModtify(@ModelAttribute Event event, RedirectAttributes rattr) {
-        log.info(event);
-        return "/mypage/qnamodify";
-    }
 
     /*********************************** [[Qna 작성]] ***************************************/
     @GetMapping("qnawrite")
     public String qnaWrite(Model m) {
-    return "/mypage/qna";
+    return "mypage/Qna/qna";
     }
     /*********************************** [[Qna 작성]] ***************************************/
     @PostMapping("/qnawrite")
