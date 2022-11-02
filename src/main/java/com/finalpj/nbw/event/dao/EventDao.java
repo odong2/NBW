@@ -11,8 +11,18 @@ public interface EventDao {
     List<Event> eventList() throws Exception;
     /****************************** 이벤트 한건 조회 ***************************/
     Event eventRead(Integer ev_no) throws Exception;
+    /****************************** 관리자 이벤트 조회 *************************/
+    List<Event> adminEventList() throws Exception;
+    /****************************** 관리자 이벤트 한건 조회 *********************/
+    Event adminEventRead(Integer ev_no) throws Exception;
+    /****************************** 관리자 이벤트 삭제 ******************************/
+    int adminEventDelete(Integer ev_no) throws Exception;
+
     /****************************** 이벤트 작성 ******************************/
     int eventWrite(Event eventDto) throws Exception; // 이벤트글 등록
+
+
+
 
     int update(Event eventDto) throws Exception; // 공지글 수정
 
