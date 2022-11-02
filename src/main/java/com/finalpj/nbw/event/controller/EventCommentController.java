@@ -22,19 +22,19 @@ public class EventCommentController {
     public EventCommentController(EventCommentService eventCommentService){
         this.eventCommentService = eventCommentService;
     }
-    // 지정된 게시물의 모든 댓글을 가져오는 메서드
-    @GetMapping("/comments") // /comments?ev_no=2 GET
-    public ResponseEntity<List<EventComment>> getList(Integer ev_no){
-        List<EventComment> list = null;
-
-        try {
-            list = eventCommentService.getList(ev_no);
-            return new ResponseEntity<List<EventComment>>(list, HttpStatus.OK); //200
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<List<EventComment>>(HttpStatus.BAD_REQUEST); //400
-        }
-    }
+//    // 지정된 게시물의 모든 댓글을 가져오는 메서드
+//    @GetMapping("/comments") // /comments?ev_no=2 GET
+//    public ResponseEntity<List<EventComment>> getList(Integer ev_no){
+//        List<EventComment> list = null;
+//
+//        try {
+//            list = eventCommentService.getList(ev_no);
+//            return new ResponseEntity<List<EventComment>>(list, HttpStatus.OK); //200
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<List<EventComment>>(HttpStatus.BAD_REQUEST); //400
+//        }
+//    }
 
 
     // 댓글 등록
