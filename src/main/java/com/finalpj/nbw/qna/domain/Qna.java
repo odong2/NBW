@@ -17,6 +17,7 @@ public class Qna {
     String qn_content;
     String qn_state;
     String qn_title;
+
     public Qna(Integer qn_no, String qn_category, String qn_content,
     String qn_state, String qn_title) {
         this.qn_no = qn_no;
