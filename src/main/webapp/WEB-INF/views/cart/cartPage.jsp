@@ -175,6 +175,9 @@
 		/* 총 주문 정보 세팅(배송비, 총 가격, 총 갯수) */
 		setTotalInfo($(".cart_info"));
 	});
+	
+	
+	
 </script>
   <!-- 헤더 시작 -->
 	<%@include file="/WEB-INF/includes/header.jsp" %>
@@ -209,6 +212,9 @@
 									<input type="hidden" class="h_cart_count" value="${cart.CART_COUNT}">
 									<input type="hidden" class="h_totalPrice" value="${cart.P_PRICE * cart.CART_COUNT}">
 									<input type="hidden" class="h_p_no" value="${cart.P_NO}">								
+									<input type="hidden" class="h_p_title" value="${cart.P_TITLE}">								
+									<input type="hidden" class="h_p_img" value="${cart.P_IMG}">								
+									<input type="hidden" class="h_p_category" value="${cart.P_CATEGORY}">								
 			                    </td>
 			                    <td class="col-2 d-flex prod">
 			                      <div class="prod_img">
@@ -284,6 +290,7 @@
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
         <div
           class="right d-flex"
+          id="paymentDiv"
           style="
             width: 300px;
             height: 270px;
@@ -338,6 +345,13 @@
           </div>
         </div>
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
+        
+        <!-- [[ 결제 정보 담을 form 태그 시작 ]] -->
+        <form class="paymentForm"  action="/payment/list" method="get">
+        	
+        </form>
+        <!-- [[ 결제 정보 담을 form 태그  끝 ]] -->
+        
       </section>
     </main>
 <!-- 풋터 시작 -->
@@ -384,6 +398,7 @@
 				let pno = cart.pno;
 				let title = cart.title;
 				let img = cart.img;
+				let ctg = cart.ctg;
 				let price = parseInt(cart.price);
 				let count = parseInt(cart.count);
 				console.log(cart);	
@@ -393,7 +408,10 @@
 							  	<input type="hidden" class="h_p_price" value="${'${price}'}">
 								<input type="hidden" class="h_cart_count" id="h_count_${'${pno}'}" value="${'${count}'}">
 								<input type="hidden" class="h_totalPrice" id="h_price_${'${pno}'}" value="${'${price*count}'}">
-								<input type="hidden" class="h_p_no" value="${'${pno}'}">								
+								<input type="hidden" class="h_p_no" value="${'${pno}'}">		
+								<input type="hidden" class="h_p_title" value="${'${title}'}">								
+								<input type="hidden" class="h_p_img" value="${'${img}'}">								
+								<input type="hidden" class="h_p_category" value="${'${ctg}'}">	
 				            </td>
 				            <td class="col-2 d-flex prod">
 				              <div class="prod_img">
@@ -426,8 +444,8 @@
 				                <span id="p_${'${pno}'}">${'${price*count}'}원</span>
 				              </div>
 				              <div class="product_count mt-3">
-				                <button class="count_btn" data-btn="m" data-pno="${'${pno}'}" data-price="${'${price}'}" onclick="modifyCart(this)"><i class="fas fa-minus-circle"></i></button>
-				                <input type="text" value="${'${count}'}" class="${'${pno}'} ck_count" data-pno="${'${pno}'}" readonly/>
+				                <button class="count_btn minus_btn" data-btn="m" data-pno="${'${pno}'}" data-price="${'${price}'}" onclick="modifyCart(this)"><i class="fas fa-minus-circle"></i></button>
+				                <span class="${'${pno}'} ck_count">${'${count}'}</span>
 				                <button class="count_btn" data-btn="p" data-pno="${'${pno}'}" data-price="${'${price}'}" onclick="modifyCart(this)"><i class="fas fa-plus-circle"></i></button>
 				              </div>
 				            </td>
@@ -454,13 +472,13 @@
 		let btn = $(button).attr("data-btn");
 		let pno = $(button).attr("data-pno");
 		let price = parseInt($(button).attr("data-price"));
-		let cnt = $("."+pno).val();
+		let cnt = parseInt($("."+pno).text());
 		if(btn == 'm'){ // -버튼 눌렀을 때
 			if(cnt>1){
-				$("."+pno).val(--cnt);
-			}
+				$("."+pno).text(--cnt);
+			} 
 		} else if (btn == 'p'){// +버튼 눌렀을 떄
-			$("."+pno).val(++cnt);
+			$("."+pno).text(++cnt);
 		} // end of if-else
 		$("#p_"+pno).text(price*cnt+"원");
 		$("#h_count_"+pno).val(cnt);
@@ -495,7 +513,7 @@
 				dataType:"text",
 				headers : {"content-type": "text/application"},
 				success : function(msg) {
-					
+					setTotalCart();
 				},
 				error : function(data, textStatus) {
 					alert("에러가 발생했습니다."+data);
@@ -542,6 +560,44 @@
 	}
 	
 	/* 비회원 화면 그려주기 끝 */
+	
+	/** 주문하기 버튼 클릭할 경우 
+		1. form태그에 전송할 값들을 input hidden타입으로 리스트 만들어서 넣어주기
+		2. submit 해주기
+	*/	
+	$("#order_btn").on("click", function(){
+		// 체크된 값만 넣어줄 input 담아줄 변수
+		let input_form ='';
+		// name값에 배열로 전달하기 위해 담아줄 index변수
+		let indexNum = 0;
+		
+		// 체크한 것만 input hidden을 만들어준다
+		$(".cart_info").each(function(index, element){
+			if($(element).find(".one_chk").is(":checked") === true){ //체크여부
+				let p_no = $(element).find(".h_p_no").val();
+				let p_title = $(element).find(".h_p_title").val();
+				let p_price = $(element).find(".h_p_price").val();
+				let p_img = $(element).find(".h_p_img").val();
+				let p_category = $(element).find(".h_p_category").val();
+				let p_count = $(element).find(".h_cart_count").val();
+				
+				// hidden 리스트 만들어주기
+				input_form += `
+							<input type="hidden" name="cartProducts["+indexNum+"].p_no" value="${'${p_no}'}">
+							<input type="hidden" name="cartProducts["+indexNum+"].p_title" value="${'${p_title}'}">
+							<input type="hidden" name="cartProducts["+indexNum+"].p_price" value="${'${p_price}'}">								
+							<input type="hidden" name="cartProducts["+indexNum+"].p_img" value="${'${p_img}'}">								
+							<input type="hidden" name="cartProducts["+indexNum+"].p_category" value="${'${p_category}'}">								
+							<input type="hidden" name="cartProducts["+indexNum+"].p_count" value="${'${p_count}'}">	
+				`;
+				// 인덱스 값을 하나 증가해준다.
+				++indexNum;
+			}
+		});	
+		
+		$(".paymentForm").html(input_form);
+		$(".paymentForm").submit();
+	});
 </script>
   </body>
 </html>
