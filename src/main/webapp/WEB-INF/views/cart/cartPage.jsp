@@ -284,6 +284,7 @@
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
         <div
           class="right d-flex"
+          id="paymentDiv"
           style="
             width: 300px;
             height: 270px;
@@ -495,7 +496,7 @@
 				dataType:"text",
 				headers : {"content-type": "text/application"},
 				success : function(msg) {
-					
+					setTotalCart();
 				},
 				error : function(data, textStatus) {
 					alert("에러가 발생했습니다."+data);
