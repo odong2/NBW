@@ -66,11 +66,6 @@ public class MypageController {
 //            return "redirect:info";
 //        }
 
-    @GetMapping("event")
-    public String mypageEventList() {
-        return "/mypage/event";
-    }
-
 
 
 
