@@ -25,6 +25,23 @@ public class EventService {
         this.eventDao = eventDao;
         this.eventCommentDao = eventCommentDao;
     }
+
+    /******************************** [[ 관리자 이벤트 조회 ]] ********************************/
+    @Transactional(readOnly = true)
+    public List<Event> adminEventList() throws Exception {
+        logger.info("EventService : adminEventList 호출성공");
+        List<Event> adminEventList = null;
+        adminEventList = eventDao.adminEventList();
+        logger.info("EventService : adminEventList 호출성공");
+        return adminEventList;
+    }
+    /******************************* [[ 관리자 이벤트 한건 조회 ]] *******************************/
+    @Transactional(readOnly = true)
+    public Event adminEventRead(Integer ev_no) throws Exception {
+        logger.info("어드민 이벤트 서비스 호출");
+        return eventDao.adminEventRead(ev_no);
+    }
+
     /********************************* [[이벤트 전체 조회]] **************************************/
     @Transactional(readOnly = true)
     public List<Event> eventList() throws Exception {
@@ -35,20 +52,25 @@ public class EventService {
         return eventList;
     }
 
-    /**************************** [[이벤트 전체 조회]]  **************************************/
     /********************************* [[이벤트 한 건 조회]] **************************************/
     @Transactional(readOnly = true)
     public Event eventRead(Integer ev_no) throws Exception {
         logger.info("이벤트 서비스 호출");
         return eventDao.eventRead(ev_no);
     }
-    /********************************* [[이벤트 한 건 조회]] **************************************/
+
     /********************************* [[이벤트 작성]] **************************************/
     @Transactional(rollbackFor = Exception.class)
     public int eventWrite(Event event) throws Exception{
         return eventDao.eventWrite(event);
     }
-    /********************************* [[이벤트 작성]] **************************************/
+
+    /********************************* [[관리자 이벤트 삭제]] **************************************/
+    @Transactional(rollbackFor = Exception.class)
+    public int adminEventDelete (Integer ev_no) throws Exception{
+        log.info("서비스 Event 한건 삭제 호출");
+        return eventDao.adminEventDelete(ev_no);
+    }
 
     // 공지글 수정
     @Transactional(rollbackFor = Exception.class)
