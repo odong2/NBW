@@ -9,6 +9,7 @@
     <title>도서 결제페이지</title>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
     <%@include file="/WEB-INF/includes/common.jsp" %>
 <style>
     * {
@@ -113,8 +114,8 @@
         height: 25px;
         padding: 5px;
     }
-    #delevertMemo,
-    #coupon,
+    #deleveryMemo,
+    #couponSelect,
     #direct-memo {
         font-size: 0.7rem;
     }
@@ -156,12 +157,12 @@
     .discount-label {
         font-weight: bold;
     }
-    #coupon {
+    #couponSelect {
         width: 53%;
         height: 30px;
     }
 
-    #pointInput {
+    #usePoint {
         font-size: 0.9rem;
         border: solid 1px #d8d8d8;
         padding: 5px;
@@ -176,6 +177,7 @@
         color: white;
         margin-left: 50px;
     }
+
     #naverPayBtn .container-pay {
         background-color: #09bb4d;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -207,6 +209,12 @@
     .naver {
         /* background-color: white; */
     }
+    #payErrorMsg{
+        border-radius: 10px;
+        height: 60px;
+        display: none;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
@@ -215,6 +223,7 @@
 <!-- 헤더 끝 -->
 <%-- 결제페이지 메인 시작--%>
 <main>
+    <c:set var="totalPrice" value="0"/>
     <div id="orderBox" class="d-flex mt-5">
         <section class="orderInfo-wrap">
             <h6 class="title">주문/결제</h6>
@@ -243,8 +252,9 @@
                         </div>
                     </td>
                     <td class="delivery col-1"><span>자체배송</span></td>
-                    <td class="col-1"><span class="prdCount"><c:out value="${product.mcart_count}"/>개</span></td>
+                    <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>개</span></td>
                     <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price}" type="number"/>원</span></td>
+                    <c:set var= "totalPrice" value="${totalPrice + product.p_price * product.p_count}"/>
                 </tr>
                 </c:forEach>
                 </tbody>
@@ -295,68 +305,81 @@
                 </div>
                 <!-- 수령자 정보 선택 라디오 끝-->
                 <!-- 수령자 정보 input 시작 -->
-                <ul id="recvInfoList" class="ms-3">
-                    <li>
-                        <label for="recvName" class="receiver-label">수령자 이름</label>
-                        <div class="mt-2 mb-1">
-                            <input type="text" id="recvName"
-                                   name="receiver-name"
-                                   class="form-controller col-7" value=<c:out value="${member.mem_name}"/>>
-                        </div>
-                    </li>
-                    <li>
-                        <label for="recvPhone" class="receiver-label">전화번호</label>
-                        <div class="mt-2 mb-1">
-                            <input type="text" id="recvPhone" name="receiver-phone"
-                                   class="form-controller col-7" value=<c:out value="${member.mem_phone}"/>>
-                        </div>
-                    </li>
-                    <li>
-                        <label for="recvZipcode" class="receiver-label">우편번호</label>
-                        <div class="mt-2 mb-1">
-                            <input type="text" id="recvZipcode" name="receiver-zipcode"
-                                   class="form-controller col-5" value=<c:out value="${member.mem_zipcode}"/>>
-                            <button type="button" id="zipcodeBtn" class="btn" onClick="changeSelectAddress();">우편번호 찾기</button>
-                        </div>
-                    </li>
-                    <li>
-                        <label for="recvAddress" class="receiver-label">주소</label>
-                        <div class="mt-2 mb-1">
-                            <input type="text" id="recvAddress" name="receiver-address"
-                                   class="form-controller col-7" value=<c:out value="${member.mem_address}"/>>
-                        </div>
-                    </li>
-                    <li>
-                        <label for="recvAddress2" class="receiver-label">상세주소</label>
-                        <div class="mt-2 mb-2">
-                            <input type="text" ID="recvAddress2" name="receiver-address2"
-                                   class="form-controller col-7" value=<c:out value="${member.mem_address2}"/>>
-                        </div>
-                    </li>
-                    <li>
-                        <label for="delevertMemo" class="receiver-label">배송메모</label>
-                        <div class="mt-2 col-7">
-                            <select id="delevertMemo"name="delevertMemo"class="form-select"onchange="deliveryMemo()">
-                                <option value="0" selected>
-                                    배송시 요청사항을 선택해주세요
-                                </option>
-                                <option value="1">부재시 경비실에 맡겨주세요</option>
-                                <option value="2">부재시 택배함에 넣어주세요</option>
-                                <option value="3">부재시 문앞에 놔주세요</option>
-                                <option value="4">배송전 연락바랍니다</option>
-                                <option value="5">직접입력</option>
-                                <textarea name="delevertMemo"
-                                        id="direct-memo"
-                                        cols="70"
-                                        rows="2"
-                                        class="mt-2"
-                                        placeholder="메송 메모를 작성해 주세요"
-                                        style="display: none"
-                                ></textarea>
-                            </select>
-                        </div>
-                    </li>
-                </ul>
+                <form name="paymentForm" class="paymentForm" action="/payment/pay" method="POST">
+                    <c:forEach var="product" items="${cartList.cartProducts}">
+                        <input type="hidden" name="p_no" value="${product.p_no}" >
+                        <input type="hidden" name="p_title" value="${product.p_title}">
+                        <input type="hidden" name="p_price" value="${product.p_price}">
+                        <input type="hidden" name="p_img" value="${product.p_img}">
+                        <input type="hidden" name="p_count" value="${product.p_count}">
+                    </c:forEach>
+                    <input name="used_point"  value="0" type="hidden"/>
+                    <input name="total_price" value="${totalPrice- deliveryPrice - gradeDiscount}" type="hidden"/>
+                    <input name="cp_no" value="0" type="hidden"/>
+                    <ul id="recvInfoList" class="ms-3">
+                        <li>
+                            <label for="receiver_name" class="receiver-label">수령자 이름</label>
+                            <div class="mt-2 mb-1">
+                                <input type="text" id="receiver_name"
+                                       name="receiver_name"
+                                       class="form-controller col-7" value=<c:out value="${member.mem_name}"/>>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="receiver_phone" class="receiver-label">전화번호</label>
+                            <div class="mt-2 mb-1">
+                                <input type="text" id="receiver_phone" name="receiver_phone"
+                                       class="form-controller col-7" value=<c:out value="${member.mem_phone}"/>>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="recvZipcode" class="receiver-label">우편번호</label>
+                            <div class="mt-2 mb-1">
+                                <input type="text" id="recvZipcode" name="receiver_zipcode"
+                                       class="form-controller col-5" value=<c:out value="${member.mem_zipcode}"/>>
+                                <button type="button" id="zipcodeBtn" class="btn" onClick="changeSelectAddress();">우편번호 찾기</button>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="recvAddress1" class="receiver-label">주소</label>
+                            <div class="mt-2 mb-1">
+                                <input type="text" id="recvAddress1" name="receiver_address1"
+                                       class="form-controller col-7" value=<c:out value="${member.mem_address1}"/>>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="recvAddress2" class="receiver-label">상세주소</label>
+                            <div class="mt-2 mb-2">
+                                <input type="text" ID="recvAddress2" name="receiver_address2"
+                                       class="form-controller col-7" value=<c:out value="${member.mem_address2}"/>>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="deleveryMemo" class="receiver-label">배송메모</label>
+                            <div class="mt-2 col-7">
+                                <select id="deleveryMemo"name="delevery_memo"class="form-select"onchange="deliveryMemo()">
+                                    <option value="0" selected>
+                                        배송시 요청사항을 선택해주세요
+                                    </option>
+                                    <option value="부재시 경비실에 맡겨주세요">부재시 경비실에 맡겨주세요</option>
+                                    <option value="부재시 택배함에 넣어주세요">부재시 택배함에 넣어주세요</option>
+                                    <option value="부재시 문앞에 놔주세요">부재시 문앞에 놔주세요</option>
+                                    <option value="배송전 연락바랍니다">배송전 연락바랍니다</option>
+                                    <option value="5">직접입력</option>
+                                </select>
+                                    <textarea name="delevery_memo"
+                                            id="direct-memo"
+                                            cols="70"
+                                            rows="2"
+                                            class="mt-2"
+                                            placeholder="메송 메모를 작성해 주세요"
+                                            style="display: none"
+                                            disabled
+                                    ></textarea>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
             </section>
             <%-- ========================== 수령자 정보 끝==============================--%>
             <%-- ========================== 쿠폰 시작 ==============================--%>
@@ -367,15 +390,14 @@
                     <div class="col-4 ms-2">
                         <span class="discount-label">쿠폰적용</span>
                     </div>
-                    <select id="coupon" name="coupon">
+                    <select id="couponSelect" name="coupon" onChange="changeSelectCoupon(this.value);">
                         <option value="0" selected>쿠폰 선택</option>
-                        <c:forEach var="coupon" items="${couponList}" varStatus="">
-                        <option value="<c:out value="${coupon.cp_no}"/>">
-                            <c:out value="${coupon.cp_name}"/>(-<c:out value="${coupon.cp_price}"/>원)
-                        </option>
-<%--                        <option value="2">생일쿠폰10%</option>
-                        <option value="3">새해쿠폰10%</option>--%>
-                        </c:forEach>
+                        <%-- 쿠폰이 존재하는 경우 --%>
+                        <c:if test="${couponList != null}">
+                            <c:forEach var="coupon" items="${couponList}">
+                            <option value="<c:out value="${coupon.cp_no}"/>"><c:out value="${coupon.cp_name}"/>(-<c:out value="${coupon.cp_price}"/>원)</option>
+                            </c:forEach>
+                        </c:if>
                     </select>
                 </div>
                 <div class="d-flex ms-2 mt-3">
@@ -383,12 +405,10 @@
                         <span class="discount-label">보유 포인트</span>
                     </div>
                     <div class="col-4 text-end">
-                        <span style="font-size: 0.9rem">5,000원</span>
+                        <p id="memPoint" style="font-size: 0.9rem"><c:out value="${member.mem_point}"/></p>
                     </div>
                     <div class="col-3 ms-3">
-                        <button id="pointBtn" type="button" class="btn">
-                            모두 사용
-                        </button>
+                        <button id="pointBtn" type="button" class="btn">모두 사용</button>
                     </div>
                 </div>
                 <div class="d-flex ms-2 mt-3">
@@ -396,7 +416,7 @@
                         <span class="discount-label">사용할 포인트</span>
                     </div>
                     <div class="col-8">
-                        <input id="pointInput" type="text" value="2000" readonly />
+                        <input id="usePoint" type="text" value="0"/>
                     </div>
                 </div>
             </section>
@@ -406,37 +426,45 @@
                 <h6 class="title mt-2 ms-1">결제수단</h6>
                 <hr />
                 <div class="wrapper d-flex justify-content-center">
-                    <button id="naverPayBtn" type="button" class="btn payBtn">
-                        <div
-                                class="container-pay d-flex justify-content-center me-5 align-items-center"
-                        >
-                            <div class="naver">
-                                <img
-                                        id="naverPayImg"
-                                        src="/images/nLogo.jpg"
-                                        alt="네이버 로고"
-                                        width="40px"
-                                        height="40px"
-                                />
+                    <div class="flex-column">
+                        <button id="naverPayBtn" type="button" class="btn payBtn">
+                            <div class="container-pay d-flex justify-content-center me-5 align-items-center">
+                                <div class="naver">
+                                    <img
+                                            id="naverPayImg"
+                                            src="/images/nLogo.jpg"
+                                            alt="네이버 로고"
+                                            width="40px"
+                                            height="40px"
+                                    />
+                                </div>
+                                <span id="naverPay">Pay</span>
                             </div>
-                            <span id="naverPay">Pay</span>
-                        </div>
-                    </button>
-                    <button id="kakaoPayBtn" type="button" class="btn payBtn">
-                        <div class="container-pay d-flex justify-content-center align-items-center">
-                            <div class="kakaoPay me-1">
-                                <img
-                                        id="kakaoPayImg"
-                                        src="/images/kakao.png"
-                                        alt="카카오 로고"
-                                        width="30px"
-                                        height="30px"
-                                />
+                        </button>
+                    <div class="d-flex justify-content-center mt-3 ms-2">
+                        <input type="radio" name="paySelect" value="네이버페이" id="naverpaySelect"/>
+                    </div>
+                    </div>
+                    <div class="flex-column">
+                        <button id="kakaoPayBtn" type="button" class="btn payBtn">
+                            <div class="container-pay d-flex justify-content-center align-items-center">
+                                <div class="kakaoPay me-1">
+                                    <img
+                                            id="kakaoPayImg"
+                                            src="/images/kakao.png"
+                                            alt="카카오 로고"
+                                            width="30px"
+                                            height="30px"
+                                    />
+                                </div>
+                                    <span id="kakaoPay">Kakao</span>
+                                </div>
+                            </button>
+                            <div class="d-flex justify-content-center mt-3 ms-2">
+                                <input type="radio" value="카카오페이" name="paySelect" id="kakaopaySelect" />
                             </div>
-                            <span id="kakaoPay">Kakao</span>
                         </div>
-                    </button>
-                </div>
+                    </div>
             </section>
         </section>
         <%-- ======================== 결제수단 끝 ==============================--%>
@@ -444,71 +472,88 @@
         <section class="ms-4">
             <div class="paymentInfo-wrap ms-3 mt-4">
                 <div class="paymentInfo-area">
-                    <ul>
-                        <li class="mb-3">
-                            <div class="d-flex pay">
-                                <div class="col-8 payLabel">
-                                    <span>상품금액</span>
+                        <ul>
+                            <li class="mb-3">
+                                <div class="d-flex pay">
+                                    <div class="col-8 payLabel">
+                                        <span>상품금액</span>
+                                    </div>
+                                    <div class="col-4 text-end px-2">
+                                        <span id="prd-price"><fmt:formatNumber type="number" value="${totalPrice}"/></span>
+                                    </div>
                                 </div>
-                                <div class="col-4 text-end px-2">
-                                    <span id="prd-price">80,000원</span>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex pay">
+                                    <div class="col-8 payLabel">
+                                        <span>배송비</span>
+                                    </div>
+                                    <div class="col-4 text-end px-2">
+                                        <c:choose>
+                                            <%-- 주문 상품이 20000원을 넘을 경우 배송비 무료 --%>
+                                            <c:when test="${totalPrice ge 20000}">
+                                                <c:set  var= "deliveryPrice" value="0"/>
+                                                <span id="delivery-price"><c:out value="0"/>원</span>
+                                            </c:when>
+                                            <c:when test="${totalPrice lt 20000}">
+                                                <c:set  var= "deliveryPrice" value="2500"/>
+                                                <span id="delivery-price"><c:out value="2500"/>원</span>
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="mb-3">
-                            <div class="d-flex pay">
-                                <div class="col-8 payLabel">
-                                    <span>배송비</span>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex pay">
+                                    <div class="col-8 payLabel">
+                                        <span>등급할인</span>
+                                    </div>
+                                    <div class="col-4 text-end px-2">
+                                        <c:set var="gradeDiscount" value="2000"/>
+                                        <span id="gradeDiscount">-2,000원</span>
+                                    </div>
                                 </div>
-                                <div class="col-4 text-end px-2">
-                                    <span id="delivery-price">0원</span>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex pay">
+                                    <div class="col-8 payLabel">
+                                        <span>쿠폰할인</span>
+                                    </div>
+                                    <div class="col-4 text-end px-2">
+                                        <span id="couponDiscount">0원</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="mb-3">
-                            <div class="d-flex pay">
-                                <div class="col-8 payLabel">
-                                    <span>등급할인</span>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex pay">
+                                    <div class="col-8 payLabel">
+                                        <span>포인트사용</span>
+                                    </div>
+                                    <div class="col-4 text-end px-2">
+                                        <span id="pointDiscount">
+                                            <fmt:formatNumber value="0" type="number" />원
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="col-4 text-end px-2">
-                                    <span id="grade-discount">-2,000원</span>
+                            </li>
+                            <hr class="ms-3 me-3" />
+                            <li>
+                                <div class="d-flex pay">
+                                    <div class="col-8 payLabel">
+                                        <span>최종결제금액</span>
+                                    </div>
+                                    <div class="col-4 text-end px-2">
+                                        <span id="paymentPrice">
+                                            <fmt:formatNumber value="${totalPrice- deliveryPrice - gradeDiscount}" type="number" />원
+<%--                                            <input type="hidden" name="totalPrice" value="${totalPrice- deliveryPrice - gradeDiscount}"/>--%>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="mb-3">
-                            <div class="d-flex pay">
-                                <div class="col-8 payLabel">
-                                    <span>쿠폰할인</span>
-                                </div>
-                                <div class="col-4 text-end px-2">
-                                    <span id="coupon-discount">0원</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mb-3">
-                            <div class="d-flex pay">
-                                <div class="col-8 payLabel">
-                                    <span>포인트사용</span>
-                                </div>
-                                <div class="col-4 text-end px-2">
-                                    <span id="use-point">0원</span>
-                                </div>
-                            </div>
-                        </li>
-                        <hr class="ms-3 me-3" />
-                        <li>
-                            <div class="d-flex pay">
-                                <div class="col-8 payLabel">
-                                    <span>최종결제금액</span>
-                                </div>
-                                <div class="col-4 text-end px-2">
-                                    <span id="payment-price">78,000원</span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
                 </div>
                 <button type="button" id="payBtn" class="btn">결제하기</button>
+                <div id="payErrorMsg" class="col-12 mt-2 py-3 text-center alert-danger"></div>
             </div>
         </section>
         <%-- ======================== 결제정보 끝 ==============================--%>
@@ -523,11 +568,11 @@
         $('#recvInfoList input').val('');
     })
     $("#orderEq").click(function(){
-        $('input[name=receiver-name]').val('${member.mem_name}');
-        $('input[name=receiver-phone]').val('${member.mem_phone}');
-        $('input[name=receiver-zipcode]').val('${member.mem_zipcode}');
-        $('input[name=receiver-address]').val('${member.mem_address}');
-        $('input[name=receiver-address2]').val('${member.mem_address2}');
+        $('input[name=receiver_name]').val('${member.mem_name}');
+        $('input[name=receiver_phone]').val('${member.mem_phone}');
+        $('input[name=receiver_zipcode]').val('${member.mem_zipcode}');
+        $('input[name=receiver_address1]').val('${member.mem_address1}');
+        $('input[name=receiver_address2]').val('${member.mem_address2}');
 
     })
     let tmp = '${cartList}';
@@ -543,25 +588,20 @@
         e.preventDefault();
         $(".fold").slideToggle(100);
     });
+
+    /* 메모배송 직접 입력 */
     function deliveryMemo() {
-        let num = $("#delevertMemo option:selected").val();
+        let num = $("#deleveryMemo option:selected").val();
         if (num == 5) {
             $("#direct-memo").css("display", "block");
             $("#direct-memo").focus();
+            $("#direct-memo").prop('disabled', false);
         } else $("#direct-memo").css("display", "none");
     }
-    // $("#kakaoPayBtn").click(function () {
-    //   $("#kakaoPayBtn").css("padding", "3px");
-    // });
-    /* 결제 수단 선택 */
-    $(".payBtn").on("click", function (e) {
-        if (e.target.id === "naverPayBtn") alert("네이버페이 선택");
-        else if (e.target.id === "kakaoPayBtn") alert("카카오페이 선택");
-    });
 
 
     <%-- 다음 주소록 API --%>
-    function changeSelectAddress(){
+    let changeSelectAddress = function (){
         new daum.Postcode({
             oncomplete: function(data) {
 
@@ -574,12 +614,215 @@
                 }
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 $('#recvZipcode').val(data.zonecode);
-                $('#recvAddress').val(addr);
+                $('#recvAddress1').val(addr);
                 $('#recvAddress2').val('');
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("recvAddress2").focus();
             }
         }).open();
+    }
+</script>
+
+<script type="text/javascript">
+
+    // 결제 수단 에서의 point
+    let usePoint = 0;		 // 포인트 사용금액(포인트 입력)
+    let memPoint = parseInt('${member.mem_point}');
+    /* 최종 결제 금액*/
+    let couponDiscount = 0;   // 쿠폰할인금액
+    let pointDiscount = 0;    // 포인트 사용금액
+    let paymentPrice = ${totalPrice - gradeDiscount - deliveryPrice} - couponDiscount - pointDiscount;     // 결제 최종금액
+    let beforePoint = 0;
+    let cp_no = 0 ;
+
+    /* 결제 수단 선택 이벤트 */
+    $("#kakaoPayBtn").click(function(){
+        $('#naverpaySelect').prop('checked', false);
+        $('#kakaopaySelect').prop('checked', true);
+    })
+    $("#naverPayBtn").click(function(){
+        $('#kakaopaySelect').prop('checked', false);
+        $('#naverpaySelect').prop('checked', true);
+    })
+
+    <%-- 포인트 모두 사용 버튼 --%>
+    $('#pointBtn').click(function(){
+        let btnChek = $('#pointBtn').attr('btn');
+        <%-- 모두 사용 누를 때 --%>
+        if(btnChek != 'cancle') {
+            $('#usePoint').val(memPoint);
+            pointDiscount = parseInt('${member.mem_point}');
+            pointDiscountNum  = memPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원"
+            $('#pointDiscount').text('-' + pointDiscountNum);
+            $('#memPoint').text(0);
+            $('#pointBtn').text('사용 취소');
+            $('#pointBtn').css('background-color', '#CC3333');
+            $('#pointBtn').attr('btn', 'cancle');
+            $('#usePoint').prop('readonly', true);
+
+            <%-- 최종 결제 금액 변경 --%>
+            paymentPrice -= memPoint;
+            let paymentPriceNum = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+            $('#paymentPrice').text(paymentPriceNum);
+        }
+        <%-- 사용 취소 누를 때 --%>
+        else{
+            $('#usePoint').val(0);
+            $('#memPoint').text(memPoint);
+            $('#pointDiscount').text('0원');
+            $('#pointBtn').text('모두 사용');
+            $('#pointBtn').css('background-color', '#5055b1');
+            $('#pointBtn').removeAttr('btn');
+            $('#usePoint').prop('readonly', false);
+
+            <%-- 최종 결제 금액 변경 --%>
+            paymentPrice += memPoint;
+            let paymentPriceNum = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+            $('#paymentPrice').text(paymentPriceNum);
+
+        }
+    })
+
+    // 사용가능 포인트 실시간 변경
+    $("#usePoint").keyup(function(){
+        usePoint = $('#usePoint').val();
+        $("#memPoint").text(memPoint - usePoint);
+
+        if(usePoint > memPoint){
+            alert('사용가능 금액을 초과합니다. 다시 입력하세요');
+            $("#usePoint").val(0);
+            $("#memPoint").text(memPoint);
+            return;
+        }
+        if(isNaN(usePoint)){
+            alert('숫자만 입력하세요.');
+            $("#usePoint").val(0);
+            $("#memPoint").text(memPoint);
+        }
+    })
+
+    // point 입력창 벗얼 날 때 . 포인트 null 값 검사
+    $("#usePoint").focusout(function(){
+        if($("#usePoint").val() == "" ||  $("#usePoint").val() == null){
+            $("#usePoint").val(0);
+        }
+        pointDiscount = memPoint;
+        paymentPrice = paymentPrice - pointDiscount + beforePoint;
+        let paymentPriceNum = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+
+        $('#pointDiscount').text('-' + pointDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#paymentPrice').text(paymentPriceNum);
+        beforePoint = pointDiscount;
+
+    })
+
+
+    // 쿠폰 적용
+    let changeSelectCoupon = function (value){
+        let couponDiscountnum = '';
+        cp_no = value;
+        if(value == 0){
+            couponDiscount = 0;
+            $('#couponDiscount').text(couponDiscount + '원');
+        } else{
+            let couponText = $("#couponSelect option:checked").text();
+            let startPoint = couponText.indexOf('(');
+            let endPoint = couponText.indexOf(')');
+
+            couponDiscount = parseInt(couponText.substring(startPoint+2, endPoint-1)); // 쿠폰 가격
+            couponDiscountnum = couponDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+            // 쿠폰할인에 쓰기
+            $('#couponDiscount').text('-'+ couponDiscountnum);
+            paymentPrice -= couponDiscount;
+        }
+            let paymentPriceNum = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+            $('#paymentPrice').text(paymentPriceNum);
+    }
+
+</script>
+<script type="text/javascript">
+
+    <!-- 카카오페이 -->
+    var IMP = window.IMP;
+    IMP.init("imp20253202");
+
+    let errorMsg = "";
+    // 결제하기 버튼 클릭 시
+    $('#payBtn').click(function(){
+        formInputWrt(); // form에 입력값 삽입
+
+        /* 배송메모 직접 입력 했을 경우 */
+        if(!$('#direct-memo').prop('disabled')){
+            $('#deleveryMemo').prop('disabled',true);
+        }
+
+        if(!formCheck()){
+            errorMsg = "(*) 필수값을 입력해 주세요"
+            errorMsgPrint(errorMsg);
+            return;
+        }
+        // 결제 수단(네이버, 카카오페이)
+        let payment = $("input[name=paySelect]:checked").val();
+        console.log(payment);
+        if (payment == undefined){
+            errorMsg = "결제수단을 선택해 주세요";
+            errorMsgPrint(errorMsg);
+        }
+
+        else if(payment == "카카오페이"){
+        // IMP.request_pay(param, callback) 결제창 호출
+            IMP.request_pay({ // param
+                pg: "kakaopay",
+                pay_method: "kakaopay",
+                merchant_uid:  'merchant_' + new Date().getTime(),
+                name: 'NBW',
+                amount: paymentPrice,
+                buyer_name: '${member.mem_name}',
+                buyer_tel: '${member.mem_phone}',
+                buyer_addr: $('#recvAddress1') + " " + $('#recvAddress2').text(),
+                buyer_postcode: $('#recvZipcode').text()
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                    alert("결제성공");
+                    $(".paymentForm").submit();
+                } else {
+                    alert(rsp.error_msg);
+                    /* 배송메모 직접 입력 했을 경우 */
+                    if(!$('#direct-memo').prop('disabled')){
+                        $('#deleveryMemo').prop('disabled',false);
+                    }
+                    // 결제 실패 url 전송
+                }
+            });
+        }
+    });
+
+    // 에러 메시지 출력 함수
+    let errorMsgPrint = function(msg){
+        $('#payErrorMsg').text(msg);
+        $('#payErrorMsg').fadeIn(300);
+        $("#payErrorMsg").delay(1800).fadeOut(500);
+    }
+
+    let formCheck = function(){
+        let isCheck = false;
+        let name = $("#receiver_name").val().trim();
+        let phone = $("#receiver_phone").val().trim();
+        let zipcode = $("#recvZipcode").val().trim();
+        let address1 = $("#recvAddress1").val().trim();
+        let address2 = $("#recvAddress2").val().trim();
+        if(name != '' && phone != '' && zipcode != '' && address1 != '' && address2 != ''){
+            isCheck = true;
+            return isCheck;
+        }else {
+            return isCheck;
+        }
+    }
+    // 결제하기 클릭 시 form의 input 값 채우는 함수
+    let formInputWrt = function(){
+        $('input[name=used_point]').val(pointDiscount);
+        $('input[name=total_price]').val(paymentPrice);
+        $('input[name=cp_no]').val(cp_no);
     }
 
 </script>

@@ -188,7 +188,7 @@
             <%-- =================== 이전 페이지 링크 보여줄 지 여부 ================--%>
             <c:if test="${ph.showPrev}">
                 <li class="page-item">
-                    <a class="page-link" href=""<c:url value="/notice/list${ph.sc.getQueryString(ph.beginPage-1)}"/>">
+                    <a class="page-link" href="<c:url value="/notice/list${ph.sc.getQueryString(ph.beginPage-1)}"/>">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>

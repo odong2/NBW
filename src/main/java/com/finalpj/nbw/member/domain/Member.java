@@ -25,6 +25,7 @@ public class Member {
     private String mem_tprice;
     private String mem_email;
     private String mem_email_domain;
+    private Integer mem_point;
 
 
 //    public Member(String mem_id, String mem_pw, String mem_name, String mem_gender, String mem_birthday, String mem_phone
