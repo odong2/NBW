@@ -95,63 +95,39 @@
                         <th>선택</th>
                     </tr>
                     </thead>
+                <c:forEach var="event" items="${eventSelectAll}">
                     <tbody>
                     <tr>
-                        <td>5</td>
-                        <td>채은이와 함께하는 코딩</td>
-                        <td>2022.10.18</td>
-                        <td>12:00~13:00</td>
-                        <td>2022.10.15 &nbsp;~&nbsp; 2022.10.17</td>
-                        <td>10/30명</td>
+                        <td>
+                            <c:out value="${event.ev_no}"/>
+                        </td>
+                        <td>
+                            <a href="/admin/event/detail?ev_no=${event.ev_no}">
+                            <c:out value="${event.ev_title}"/>
+                            </a>
+                        </td>
+                        <td>
+                            <c:out value="${event.ev_today}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.ev_time}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.ev_start}"/>
+                            &nbsp;~&nbsp;
+                            <c:out value="${event.ev_end}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.ev_people-event.ev_nowpeople}"/>
+                            /
+                            <c:out value="${event.ev_people}"/>
+                        </td>
                         <td>
                             <div class="check"><input type="checkbox" id="vehicle5" name="vehicle5" /></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>유리와 함께하는 코딩</td>
-                        <td>2022.10.18</td>
-                        <td>12:00~13:00</td>
-                        <td>2022.10.15 &nbsp;~&nbsp; 2022.10.17</td>
-                        <td>10/30명</td>
-                        <td>
-                            <div class="check"><input type="checkbox" id="vehicle4" name="vehicle4" /></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>동현이와 함께하는 코딩</td>
-                        <td>2022.10.18</td>
-                        <td>12:00~13:00</td>
-                        <td>2022.10.15 &nbsp;~&nbsp; 2022.10.17</td>
-                        <td>10/30명</td>
-                        <td>
-                            <div class="check"><input type="checkbox" id="vehicle3" name="vehicle3" /></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>민준이와 함께하는 코딩</td>
-                        <td>2022.10.18</td>
-                        <td>12:00~13:00</td>
-                        <td>2022.10.15 &nbsp;~&nbsp; 2022.10.17</td>
-                        <td>10/30명</td>
-                        <td>
-                            <div class="check"><input type="checkbox" id="vehicle2" name="vehicle2" /></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>종국이와 함께하는 코딩</td>
-                        <td>2022.10.18</td>
-                        <td>12:00~13:00</td>
-                        <td>2022.10.15 &nbsp;~&nbsp; 2022.10.17</td>
-                        <td>10/30명</td>
-                        <td>
-                            <div class="check"><input type="checkbox" id="vehicle1" name="vehicle1" /></div>
-                        </td>
-                    </tr>
                     </tbody>
+                </c:forEach>
                 </table>
             </div>
             <!-- 표 끝 -->
