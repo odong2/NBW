@@ -136,6 +136,11 @@
             margin-top: 3px;
             margin-bottom: 3px;
         }
+        .bookname > a {
+            text-decoration: none;
+            font-weight: bold;
+            font-size: large;
+        }
     </style>
 </head>
 <body>
