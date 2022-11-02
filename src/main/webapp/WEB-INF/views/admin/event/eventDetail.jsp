@@ -16,43 +16,136 @@
         .title {
             margin-top: 15px;
         }
-        .twobtn {
-            float: right;
+
+        .detailcontents {
+            list-style: none;
+            padding: 40px 0px 39px;
+            display: flex;
+        }
+
+        .picking {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+        }
+        .picturepeople {
+            margin-left: 30px;
             margin-right: 40px;
-            margin-bottom: 15px;
         }
-        /* 등록버튼 */
-        .registerbtn {
-            background-color: #e0e0e0;
-            color: black;
-            border: 0;
-            outline: 0;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 2.5px;
-            padding-bottom: 2.5px;
+        .classimg {
+            width: 146px;
+            height: 225px;
         }
-        /* 마감버튼 */
-        .deadlinebtn {
-            background-color: #e0e0e0;
-            color: black;
-            border: 0;
-            outline: 0;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 2.5px;
-            padding-bottom: 2.5px;
+        .receiving {
+            width: 62px;
+            padding: 5px 0;
+            color: white;
+            background-color: #fa4b4b;
+            text-align: center;
+            margin-left: 3px;
+            margin-right: 3px;
         }
-        .check {
+        .receivingpeople {
+            width: 62px;
+            text-align: center;
+            border: 1px solid #fa4b4b;
+            padding: 5px 0;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+        .bookname {
+            margin-left: 10px;
+            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff0000;
+        }
+        .bodycontent {
+            margin-left: 10px;
+        }
+        .playpeople {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .playplace {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .studyday {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .studytime {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .applicationday {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .phone {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .recruitment {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .buttonpick {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        #listBtn {
+            /*height: 38px;*/
+            display: inline-block;
+            /*margin: 0 5px;*/
+            padding: 0 40px;
+            /*padding-left: 40px;*/
+            /*pa*/
+            /*border: 1px solid #d9d9d9;*/
+            color: #fff;
+            border: none;
+            background-color: #6C757D;
+            font-size: 15px;
+            line-height: 2.5em;
+            vertical-align: top;
             text-align: center;
         }
-        .check > input {
-            width: 22px;
-            height: 22px;
+        #delBtn {
+            display: inline-block;
+            height: 40px;
+            /*margin: 0 5px;*/
+            padding: 0 40px;
+            background-color: #DC3545;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            line-height: 2.5em;
+            vertical-align: top;
         }
-        tr {
-            text-align: center;
+        .title {
+            margin-bottom: 58px;
         }
+        .title > h4 {
+        float: left;
+        }
+        #updBtn {
+        float: right;
+        }
+        .event_content {
+         margin-left: 30px;
+        }
+
     </style>
 </head>
 <body id="page-top">
@@ -71,62 +164,84 @@
         <!-- Main Content -->
         <main class="container-fluid">
             <div class="title">
-                <h4>프로그램 관리</h4>
+                <h4>${eventSelect.ev_title}</h4>
+                <button id="updBtn" type="button"  class="btn btn-outline-primary">수정하기</button>
             </div>
             <hr />
             <!-- 버튼[등록, 마감] 시작 -->
-            <div class="twobtn">
-                <button class="registerbtn" type="button" id="writeBtn"
-                        onclick="location.href='<c:url value="/admin/event/write"/>'">등록</button>
-                <button class="deadlinebtn">마감</button>
-            </div>
-            <!-- 버튼[등록, 마감] 끝 -->
-            <!-- 표 시작 -->
-            <div class="container">
-                <table class="table table-striped" class="table">
-                    <thead>
-                    <tr>
-                        <th>구분</th>
-                        <th>제목</th>
-                        <th>행사날짜</th>
-                        <th>시간</th>
-                        <th>접수기간</th>
-                        <th>모집정원</th>
-                        <th>선택</th>
-                    </tr>
-                    </thead>
-                <c:forEach var="event" items="${eventSelectAll}">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <c:out value="${event.ev_no}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.ev_title}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.ev_today}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.ev_time}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.ev_start}"/>
-                            &nbsp;~&nbsp;
-                            <c:out value="${event.ev_end}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.ev_people-event.ev_nowpeople}"/>
-                            /
-                            <c:out value="${event.ev_people}"/>
-                        </td>
-                        <td>
-                            <div class="check"><input type="checkbox" id="vehicle5" name="vehicle5" /></div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </c:forEach>
-                </table>
+            <ul>
+                <%--    <c:forEach var="event" items="${eventSelect}">--%>
+                <li class="detailcontents">
+                    <!-- 왼쪽 그림 시작 -->
+                    <div class="picturepeople">
+                        <!-- 이미지 사진 시작 -->
+                        <img
+                                class="classimg"
+                                src="${eventSelect.ev_img}"/>
+                        <!-- 이미지 사진 끝 -->
+                        <div class="picking">
+                            <span class="receiving">접수중</span>
+                            <span class="receivingpeople">${eventSelect.ev_people-eventSelect.ev_nowpeople}</span>
+                        </div>
+                    </div>
+                    <!-- 왼쪽 그림 끝 -->
+                    <!-- 오른쪽 설명 시작 -->
+                    <div class="detail">
+<%--                        <div class="bookname">--%>
+<%--                            ${eventSelect.ev_title}--%>
+<%--                        </div>--%>
+                        <div class="bodycontent">
+                            <div class="playpeople">
+                                <div>대상&nbsp;:&nbsp;</div>
+                                <div style="color: #7c7c7c">${eventSelect.ev_target}</div>
+                            </div>
+                            <br />
+                            <div class="playplace">
+                                <div>장소&nbsp;:&nbsp;</div>
+                                <div style="color: #7c7c7c">${eventSelect.ev_place}</div>
+                            </div>
+                            <br />
+                            <div class="studyday">
+                                <div>행사기간&nbsp;:&nbsp;</div>
+                                <div style="color: #7c7c7c">${eventSelect.ev_today}</div>
+                            </div>
+                            <br />
+                            <div class="studytime">
+                                <div>시간&nbsp;:&nbsp;</div>
+                                <div style="color: #7c7c7c">${eventSelect.ev_time}</div>
+                            </div>
+                            <br />
+                            <div class="applicationday">
+                                <div>접수기간&nbsp;:&nbsp;</div>
+                                <div style="color: #7c7c7c">${eventSelect.ev_start} ~ ${eventSelect.ev_end}</div>
+                            </div>
+                            <br />
+                            <div class="phone">
+                                <div>문의번호&nbsp;:&nbsp;</div>
+                                <div style="color: #7c7c7c">${eventSelect.ev_phone}</div>
+                            </div>
+                            <br />
+                            <div class="recruitment">
+                                <div>모집정원&nbsp;:&nbsp;</div>
+                                <div style="color: #7c7c7c">${eventSelect.ev_people}</div>
+                            </div>
+                            <br />
+                            <div class="recruitment">
+                                <div>첨부파일&nbsp;:&nbsp;</div>
+                                <%--                    <div style="color: #7c7c7c">문화행사.pdf</div>--%>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 오른쪽 설명 끝 -->
+
+                </li>
+                <div class="event_content">
+                    ${eventSelect.ev_content}
+                </div>
+            </ul>
+            <div class="buttonpick">
+                <button id="listBtn">목록</button>
+                <button id="delBtn">삭제</button>
             </div>
             <!-- 표 끝 -->
         </main>
@@ -146,7 +261,11 @@
 <script>
     $(document).ready(function (){
         $('#listBtn').on("click", function (){
-            location.href = "<c:url value='/event/list'/>";
+            location.href = "<c:url value='/admin/event/list'/>";
+        })
+        $("#delBtn").on("click", function (){
+            if(!confirm("정말로 삭제하시겠습니까?")) return;
+            location.href = `/admin/event/delete/${eventSelect.ev_no}`;
         })
     })
 </script>
