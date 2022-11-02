@@ -10,7 +10,7 @@
   />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <%@include file="../../includes/admin/common.jsp" %>
+  <%@include file="../../../includes/admin/common.jsp" %>
   <title>관리자 이벤트 등록</title>
   <style>
     .title {
@@ -27,7 +27,7 @@
       flex-wrap: wrap;
       margin-top: 20px;
     }
-    #rbtn {
+    #writeBtn {
       background-color: #d119fe;
       width: 120px;
       height: 45px;
@@ -45,6 +45,13 @@
     .j_infod_input {
       width: 170px;
     }
+    .contentpart {
+      margin-top: 20px;
+    }
+    #ev_content {
+      width: 80%;
+      height: 150px;
+    }
 
   </style>
 </head>
@@ -52,22 +59,23 @@
 <!-- Page Wrapper -->
 <div class="d-flex justify-content-start">
   <!-- Sidebar -->
-  <%@include file="../../includes/admin/sidebar.jsp" %>
+  <%@include file="../../../includes/admin/sidebar.jsp" %>
   <!-- End of Sidebar -->
 
   <!-- Content Wrapper -->
   <!-- [[ 오른쪽 div 시작 ]] -->
   <section class="contentdiv d-flex" style="margin-left: 224px">
     <!-- Topbar -->
-    <%@include file="../../includes/admin/header.jsp" %>
+    <%@include file="../../../includes/admin/header.jsp" %>
     <!-- End of Topbar -->
     <!-- Main Content -->
     <main class="container-fluid">
       <section id="container">
-        <form role="form" method="post" action="/event/write">
       <div class="title">
         <h4>프로그램 등록</h4>
       </div>
+        <form id="form">
+          <div class="allEventContent">
       <div class="eventcontents">
         <div class="eventimg">
           <img id="previewImg" width="300px" height="300px" />
@@ -132,7 +140,7 @@
             <td class="j_infod_people1">모집정원<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_people" colspan="2">
-              <input type="text" id="emp_people" name="emp_people" class="j_infod_input">
+              <input type="text" id="ev_people" name="ev_people" class="j_infod_input">
             </td>
           </tr>
           <tr>
@@ -146,8 +154,12 @@
           </tbody>
         </table>
       </div>
+        <h6 class="contentpart">이벤트 글</h6>
+        <input type="text" id="ev_status" name="ev_status">
+        <textarea type="text" name="ev_content" id="ev_content"></textarea>
+          </div>
       <div class="sendbtn">
-        <div style="display:inline-block"><button type="submit" class="btn btn-secondary btn-lg" id="rbtn">등록하기</button></div>
+        <div style="display:inline-block"><button type="button" class="btn btn-secondary btn-lg" id="writeBtn">등록하기</button></div>
       </div>
         </form>
       </section>
@@ -169,10 +181,19 @@
 
         fileInput.addEventListener("change", handleFiles);
         /* 이미지 첨부 시작 */
+        $(document).ready(function (){
+          $('#writeBtn').on("click",function (){
+            let form = $('#form');
+            form.attr("action", "<c:url value='/admin/event/write'/>");
+            form.attr("method", "post");
+            form.submit();
+          })
+
+        })
       </script>
     </main>
     <!-- Footer -->
-    <%@include file="../../includes/admin/footer.jsp" %>
+    <%@include file="../../../includes/admin/footer.jsp" %>
     <!-- End of Footer -->
     <!-- End of Content Wrapper -->
   </section>
