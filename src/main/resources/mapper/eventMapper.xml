@@ -10,15 +10,24 @@
             FROM tb_event
             ORDER BY ev_cdate DESC, ev_no DESC
     </select>
-    <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
-
     <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
     <select id="eventSelect" parameterType="int" resultType="eventDto">
         SELECT *
         FROM tb_event
         WHERE ev_no = #{ev_no}
     </select>
-    <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
+    <!--========================================== [[ 마이페이지 신청한 이벤트 조회 ]] ===============================-->
+    <select id="myEventSelectAll" resultType="qnaDto">
+        SELECT *
+        FROM tb_event
+        where ev_no = #{ev_no} ,and mem_id = #{mem_id}
+        ORDER BY ev_cdate DESC, ev_no DESC
+    </select>
+    <!--============================================ [[ 관리자 이벤트 삭제 ]] ==========================================-->
+    <delete id="adminEventDelete" parameterType="int">
+        DELETE FROM tb_event WHERE ev_no = #{ev_no}
+    </delete>
+
     <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
     <insert id="eventInsert" parameterType="eventDto">
         INSERT INTO TB_EVENT(ev_no, ev_title, ev_content, ev_cdate, ev_file
@@ -31,6 +40,7 @@
             , #{ev_phone}, #{ev_cocnt})
 
     </insert>
+
     <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
 <!--    <select id="count" resultType="int">-->
 <!--            SELECT count(*) FROM tb_event-->
