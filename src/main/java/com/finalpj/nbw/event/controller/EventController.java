@@ -1,12 +1,8 @@
 package com.finalpj.nbw.event.controller;
 
 
-import com.finalpj.nbw.event.service.EventService;
 import com.finalpj.nbw.event.domain.Event;
-import com.finalpj.nbw.event.domain.PageHandler;
-import com.finalpj.nbw.event.domain.SearchCondition;
 import com.finalpj.nbw.event.service.EventService;
-import com.finalpj.nbw.member.controller.MemberController;
 import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,35 +24,25 @@ public class EventController {
     public EventController(EventService eventService){
         this.eventService = eventService;
     }
-
-//    @GetMapping("/detail")
-//    public String eventDetail(){
-//        return "/event/eventDetail";
-//    }
-//    @GetMapping("/list")
-//    public String eventList(){
-//        return "/event/eventList";
-//    }
-
+    /******************************* [[이벤트 리스트 페이지]] *****************************/
     @GetMapping("/list")
     public String eventList(Model model) throws Exception {
         logger.info("컨트롤러 이벤트 리스트 호출 성공");
-        model.addAttribute("eventListAll", eventService.eventList());
-//        logger.info("Event컨트롤러");
+        model.addAttribute("eventSelectAll", eventService.eventList());
         logger.info("이벤트 호출 성공"+eventService.eventList().toString());
         return "/event/eventList";
     }
+    /***************************** [[이벤트 디테일 페이지]] *******************************/
+    @GetMapping("/detail")
+    public String eventRead(Integer ev_no, Model m){
+        log.info(ev_no);
+        try {
+            Event event = (Event) eventService.eventRead(ev_no);
+            m.addAttribute("eventSelect",event);
+            log.info(event);
+        } catch (Exception e) {
+        }
+        return "/event/eventDetail";
+    }
 
-//    @GetMapping("/detail")
-//    public String read(Integer ev_no, SearchCondition sc, Model m){
-//        try {
-//            Event eventDto = eventService.selectList(ev_no);
-//            m.addAttribute("eventDto", eventDto);
-////            m.addAttribute("SearchCondition", sc);
-//            log.info("eventDto = " + eventDto);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "/event/eventDetail";
-//    }
 }
