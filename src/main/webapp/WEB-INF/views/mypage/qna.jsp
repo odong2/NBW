@@ -67,6 +67,7 @@
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
             <div class="divTitle">문의접수</div>
             <hr />
+            <form action="" method="post" id="form" class="frm">
             <div>
                 <table class="tbl_row">
                     <tbody>
@@ -115,6 +116,7 @@
                                     <textarea
                                         data-kbbfn-field=""
                                         id="InquiryContent"
+                                        type="text"
                                         class="form_textarea"
                                         title="문의 내용 입력"
                                         placeholder="빠른 답변을 위해 10자 이상의 문의 내용을 입력해 주세요."
@@ -132,8 +134,8 @@
                         <td>
                         <th scope="row">
                             <div class="twobutton">
-                                <button type="button" class="btn btn-secondary btn-lg" id="dbtn">취소</button>
-                                <button type="button" class="btn btn-primary btn-lg" id="sendbtn">문의접수</button>
+                                <button type="button" class="btn btn-secondary btn-lg" id="dbtn">목록</button>
+                                <button type="button" type="submit" class="btn btn-primary btn-lg" id="sendbtn">문의접수</button>
                             </div>
                         </th>
                         </td>
@@ -142,10 +144,26 @@
                     </tbody>
                 </table>
             </div>
+            </form>
     </main>
     <%-- ==================== 메인 끝 ==================--%>
 </section>
 <!-- 마이 페이지 끝 -->
+<script>
+    $(document).ready(function(){
+        // 목록으로 가기
+        $("#dbtn").on("click", function (){
+            location.href = "<c:url value="/mypage/qnalist"/>";
+        })
+        // 문의 접수하기
+        $("#sendbtn").on("click", function (){
+            let form = $("#form");
+            form.attr("action", "<c:url value="/mypage/qnawrite"/> ");
+            form.attr("method", "post");
+            form.submit();
+        })
+    })
+</script>
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
