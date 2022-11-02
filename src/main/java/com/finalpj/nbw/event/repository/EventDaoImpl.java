@@ -4,6 +4,9 @@ import com.finalpj.nbw.event.dao.EventDao;
 import com.finalpj.nbw.event.domain.Event;
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -16,25 +19,35 @@ public class EventDaoImpl implements EventDao {
 
     private SqlSession sqlSession;
 
-    public EventDaoImpl(SqlSession sqlSession){
+    Logger logger = LoggerFactory.getLogger(EventDaoImpl.class);
+
+    public EventDaoImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
     }
+
     /****************************** [[이벤트 전체조회]] **********************************/
-    public List<Event> eventList() {
+    @Override
+    public List<Event> eventList() throws Exception {
         List<Event> eventList = null;
-        eventList = sqlSession.selectList("eventListAll");
+        eventList = sqlSession.selectList("eventSelectAll");
+        logger.info("EventDao : eventList 호출 성공" + eventList);
         return eventList;
     }
     /****************************** [[이벤트 전체조회]] **********************************/
     /****************************** [[이벤트 한건 조회]] **********************************/
+    @Override
+    public Event eventRead(Integer ev_no) throws Exception {
+        return sqlSession.selectOne("eventSelect", ev_no);
+    }
     /****************************** [[이벤트 한건 조회]] **********************************/
 
-    /****************************** [[공지글 등록]] ***************************/
+    /****************************** [[이벤트 등록]] ***************************/
     @Override
-    public int insert(Event eventDto) throws Exception {
-        return sqlSession.insert("insertEvent", eventDto);
+    public int eventWrite(Event eventDto) throws Exception {
+        int result = 0;
+        result = sqlSession.selectOne("eventInsert", eventDto);
+        return result;
     }
-
     /***************************** 공지글 수정 ********************************/
     @Override
     public int update(Event eventDto) throws Exception {
