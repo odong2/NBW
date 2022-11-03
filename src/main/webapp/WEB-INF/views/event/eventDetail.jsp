@@ -284,13 +284,13 @@
     </ul>
     <hr />
     <div class="buttonpick"><button id="listBtn">목록</button><button id="pickBtn">신청하기</button></div>
-    <%-- 댓글 시작 --%>
-    <%--    <hr />--%>
-<%--    댓글: <input type="text" name="comment"><br>--%>
-<%--    <button id="sendBtn" type="button">SEND</button>--%>
-<%--    <div id="commentList"></div>--%>
+     댓글 시작
+        <hr />
+    댓글: <input type="text" name="comment"><br>
+    <button id="sendBtn" type="button">SEND</button>
+    <div id="commentList"></div>
 
-    <%-- 댓글 끝 --%>
+     댓글 끝
 </main>
 <script>
 <%--    /***************** 댓글 시작 ***************/--%>

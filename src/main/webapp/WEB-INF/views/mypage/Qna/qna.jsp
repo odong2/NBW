@@ -78,7 +78,7 @@
                         </th>
                         <td>
                             <div class="typePick">
-                                <select class="" style="width: 600px; height: 45px">
+                                <select class="" name="qn_category" style="width: 600px; height: 45px">
                                     <option selected>선택</option>
                                     <option value="1">제품</option>
                                     <option value="2">교환</option>
@@ -98,9 +98,11 @@
                             <div class="form_col_group w_full">
                                 <div class="inputtitle" >
                                     <%--[[제목입력란]]--%>
+                                        <input type="hidden" name="qn_from" value="${sessionScope.qnfrom}" />
                                     <input
                                             data-kbbfn-field=""
                                             id="InquiryTitle"
+                                            name="qn_title"
                                             type="text"
                                             class="form_ip w_full"
                                             title="제목 입력"
@@ -116,6 +118,7 @@
                                     <textarea
                                         data-kbbfn-field=""
                                         id="InquiryContent"
+                                        name="qn_content"
                                         type="text"
                                         class="form_textarea"
                                         title="문의 내용 입력"

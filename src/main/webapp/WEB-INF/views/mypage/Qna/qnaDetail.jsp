@@ -131,7 +131,7 @@
                         </span>
                         <span class="gap"></span>
                         <span class="cdate">
-                            ${qna.qn_cdate}
+                            <fmt:formatDate pattern="yyyy-MM-dd" value="${qna.qn_cdate}"/>
                         </span>
                     </div>
                 <div class="inquiry_title">

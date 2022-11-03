@@ -114,27 +114,27 @@
                 <!-- 행사 포스터 끝 -->
                 <!-- 행사 설명 시작-->
                 <div class="playcontent">
-                    <div class="titlename">${event.ev_title}</div>
+                    <div class="titlename">${event.getEv_title}</div>
                     <div class="playday">
                         <div>행사기간&nbsp;:&nbsp;</div>
-                        <div>${event.ev_today}</div>
+                        <div>${event.getEv_today}</div>
                     </div>
                     <br />
                     <div class="playspace">
                         <div>장소&nbsp;:&nbsp;</div>
-                        <div>${event.ev_place}</div>
+                        <div>${event.getEv_place}</div>
                     </div>
                     <br />
                     <div class="playtime">
                         <div>시간&nbsp;:&nbsp;</div>
-                        <div>${event.ev_time}</div>
+                        <div>${event.getEv_time}</div>
                     </div>
                 </div>
                 <!-- 행사 설명 끝-->
                 <!-- 상세보기 버튼 시작 -->
                 <div class="playdetail">
                     <button class="pick-btn">
-                        <a href="/event/detail?ev_no=${event.ev_no}">
+                        <a href="/event/detail?ev_no=${event.getEv_no}">
                         상세보기
                         </a>
                     </button>

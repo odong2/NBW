@@ -1,6 +1,7 @@
 package com.finalpj.nbw.mypage.controller;
 
 import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.qna.domain.Qna;
 import com.finalpj.nbw.qna.service.QnaService;
 import lombok.extern.log4j.Log4j;
@@ -68,8 +69,11 @@ public class MypageQnaController {
     /*********************************** [[Qna 작성]] ***************************************/
     @PostMapping("/qnawrite")
     public String qnaWrite(Qna qna, RedirectAttributes rattr, Model m, HttpSession session) {
-//        String qn_writer = (String)session.getAttribute("id");
-//        Event.setWriter(qn_writer);
+//        Member member = (Member)session.getAttribute("member");
+//        String qn_from = member.getMem_id();
+        session.setAttribute("qn_from", "동현");
+        String qn_from = (String) session.getAttribute("qn_from");
+        qna.setQn_from(qn_from);
         log.info("qna 컨트롤러 호출 성공");
 
         try {
