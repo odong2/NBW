@@ -1,8 +1,9 @@
 package com.finalpj.nbw.mypage.controller;
 
 import com.finalpj.nbw.member.domain.Member;
-import com.finalpj.nbw.member.service.MemberService;
 import com.finalpj.nbw.mypage.service.MypageService;
+import com.finalpj.nbw.qna.domain.Qna;
+import com.finalpj.nbw.qna.service.QnaService;
 import lombok.extern.log4j.Log4j;
 
 //import org.springframework.security.core.Authentication;
@@ -12,16 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Log4j
 @RequestMapping("/mypage/*")
 @Controller
 public class MypageController {
+
+
 
         @Autowired
         private MypageService mypageService;
@@ -65,25 +68,6 @@ public class MypageController {
 
 
 
-        @GetMapping("event")
-        public String mypageEventTest() {
-            return "/mypage/mypageEvent";
-        }
-    /***************** [[마이페이지 문의 접수페이지]] ***************/
-        @GetMapping("qna")
-        public String mypageQnaTest() {
-        return "/mypage/mypageQna";
-    }
-    /***************** [[마이페이지 문의 조회페이지]] ***************/
-        @GetMapping("qnalist")
-        public String mypageQnaListTest() {
-        return "/mypage/mypageQnaList";
-    }
-    /***************** [[마이페이지 문의 디테일 조회페이지]] ***************/
-        @GetMapping("qnaDetail")
-        public String mypageQnaDetailTest() {
-        return "/mypage/mypageQnaDetail";
-    }
 
         @GetMapping("test")
         public String test() {

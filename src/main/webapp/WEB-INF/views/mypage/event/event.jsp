@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%@include file="../../includes/common.jsp" %>
+    <%@include file="../../../includes/common.jsp" %>
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <style>
@@ -85,12 +85,12 @@
 </head>
 <body>
 <!-- 헤더 시작 -->
-<%@include file="../../includes/header.jsp" %>
+<%@include file="../../../includes/header.jsp" %>
 <!-- 헤더 끝 -->
 <!-- 마이 페이지 시작 -->
 <section class="mypage wrapper d-flex">
     <!-- 사이드바 시작-->
-    <%@include file="../../includes/sidebar.jsp" %>
+    <%@include file="../../../includes/sidebar.jsp" %>
     <!-- 사이드바 끝-->
     <%-- ==================== 메인 시작==================--%>
     <main>
@@ -101,6 +101,9 @@
         </header>
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
             <%-- 신청한 이벤트 시작--%>
+            <ul>
+                <c:forEach var="event" items="${eventSelectAll}">
+                    <li>
             <div class="divTitle">참여중인 이벤트</div>
             <hr />
             <div class="applylist">
@@ -111,28 +114,30 @@
                 <!-- 행사 포스터 끝 -->
                 <!-- 행사 설명 시작-->
                 <div class="playcontent">
-                    <div class="titlename">책읽는 서울광장</div>
+                    <div class="titlename">${event.getEv_title}</div>
                     <div class="playday">
                         <div>행사기간&nbsp;:&nbsp;</div>
-                        <div>2022/10/12</div>
-                        <div>&nbsp;~&nbsp;</div>
-                        <div>2022/10/20</div>
+                        <div>${event.getEv_today}</div>
                     </div>
                     <br />
                     <div class="playspace">
                         <div>장소&nbsp;:&nbsp;</div>
-                        <div>서울광장</div>
+                        <div>${event.getEv_place}</div>
                     </div>
                     <br />
                     <div class="playtime">
                         <div>시간&nbsp;:&nbsp;</div>
-                        <div>12:00&nbsp;~&nbsp;13:00</div>
+                        <div>${event.getEv_time}</div>
                     </div>
                 </div>
                 <!-- 행사 설명 끝-->
                 <!-- 상세보기 버튼 시작 -->
                 <div class="playdetail">
-                    <button class="pick-btn">상세보기</button>
+                    <button class="pick-btn">
+                        <a href="/event/detail?ev_no=${event.getEv_no}">
+                        상세보기
+                        </a>
+                    </button>
                 </div>
                 <!-- 상세보기 버튼 끝 -->
             </div>
@@ -172,12 +177,15 @@
             </div>
             <hr />
             <%-- 신청한 이벤트 끝 --%>
+                    </li>
+                </c:forEach>
+            </ul>
     </main>
     <%-- ==================== 메인 끝 ==================--%>
 </section>
 <!-- 마이 페이지 끝 -->
 <!-- 풋터 시작 -->
-<%@include file="../../includes/footer.jsp" %>
+<%@include file="../../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 </body>
 </html>
