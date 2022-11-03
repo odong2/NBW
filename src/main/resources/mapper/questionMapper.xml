@@ -5,23 +5,24 @@
 <mapper namespace="com.finalpj.nbw.qna.dao.QnaMapper">
     <!--======================================= [[ Qna 전체 조회 ]] ======================================-->
     <select id="qnaSelectAll" resultType="qnaDto">
-        SELECT *
+        SELECT
+        DECODE(qn_status, 'N', '처리중', 'Y', '답변완료')
         FROM tb_question
-        ORDER BY qn_cdate DESC, qn_no DESC
+--         ORDER BY qn_cdate DESC, qn_no DESC
     </select>
 
     <!--======================================= [[ Qna 처리중 조회 ]] ======================================-->
     <select id="qnaSelectIngAll" resultType="qnaDto">
         SELECT *
         FROM tb_question
-        where qn_state = '처리중'
+        where qn_state = 'N'
         ORDER BY qn_cdate DESC, qn_no DESC
     </select>
     <!--======================================= [[ Qna 답변완료 조회 ]] ======================================-->
     <select id="qnaSelectFinishAll" resultType="qnaDto">
         SELECT *
         FROM tb_question
-        where qn_state = '답변완료'
+        where qn_state = 'Y'
         ORDER BY qn_cdate DESC, qn_no DESC
     </select>
     <!--======================================= [[ Qna 한건 조회 ]] ======================================-->
@@ -38,17 +39,15 @@
                                 , QN_CATEGORY
                                 , QN_CDATE
                                 , QN_CONTENT
-                                , QN_STATE
                                 , QN_TITLE
         )
         VALUES (
                 SQ_QN_NO.NEXTVAL
-               , #{QN_FROM}
-               , #{QN_CATEGORY}
+               , #{qn_from}
+               , #{qn_category}
                , SYSDATE
-               , #{QN_CONTENT}
-               , #{QN_STATE}
-               , #{QN_TITLE}
+               , #{qn_content}
+               , #{qn_title}
                )
     </insert>
     <!--============================================== [[ Qna 한건 삭제 ]] =======================================-->
