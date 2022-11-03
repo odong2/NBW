@@ -10,8 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @Slf4j
@@ -55,5 +59,21 @@ public class MemberController {
 
         /* ajax 를 통해 뷰로 안전도 수준을 반환한다. */
         return result;
+    }
+    
+    @PostMapping("like")
+    @ResponseBody
+    public Map<String,Object> like(HttpSession session, @RequestBody Map<String,Object> map){
+    	Member member = (Member) session.getAttribute("member");
+    	
+    	if (member != null) {
+        	map.put("mem_id", member.getMem_id());
+    		map = memberService.addLkie(map);
+    	}else {
+    		map.put("success",false);
+    		map.put("msg","로그인이 필요합니다.");
+    	}
+    	
+    	return map;
     }
 }

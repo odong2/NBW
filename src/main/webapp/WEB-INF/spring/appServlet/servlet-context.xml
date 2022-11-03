@@ -34,8 +34,8 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
-	<beans:bean id="loginInterceptor" class="com.finalpj.nbw.login.interceptor.LoginInterceptor"/>
-	<beans:bean id="authInterceptor" class="com.finalpj.nbw.login.interceptor.AuthInterceptor"/>
+	<beans:bean id="loginInterceptor" class="com.finalpj.common.exception.interceptor.LoginInterceptor"/>
+	<beans:bean id="authInterceptor" class="com.finalpj.common.exception.interceptor.AuthInterceptor"/>
 	
 	<interceptors>
 		<interceptor>

@@ -11,13 +11,102 @@
     	width : 70%;
     	margin: auto;
     }
+    
+    #header {
+	  position: fixed;
+	  bottom: 0;
+	  width:100%;
+	  z-index: 5;
+	  background-color:white;
+	  height: 100px;
+	}
+
+	    #myform fieldset{
+		    display: inline-block;
+		    direction: rtl;
+		    border:0;
+		}
+		#myform fieldset legend{
+		    text-align: right;
+		}
+		#myform input[type=radio]{
+		    display: none;
+		}
+		#myform label{
+		    font-size: 2em;
+		    color: transparent;
+		    text-shadow: 0 0 0 #f0f0f0;
+		}
+		#myform label:hover{
+			/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+		    text-shadow: 0 0 0 orange;
+		}
+		#myform label:hover ~ label{
+		    /* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+		    text-shadow: 0 0 0 orange;
+		}
+		#myform input[type=radio]:checked ~ label{
+		    /* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+		    text-shadow: 0 0 0 orange;
+		}
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 </head>
 <body>
 <!-- 헤더 시작 -->
 <%@include file="/WEB-INF/includes/header.jsp" %>
 <!-- 헤더 끝 -->
+
+ <form class="mb-3" name="myform" id="myform" method="post">
+	<fieldset>
+		<input type="radio" name="reviewStar" value="5" id="rate1">
+		<label for="rate1" >
+			<i class="fas fa-star"></i>
+		</label>
+		<input type="radio" name="reviewStar" value="4" id="rate2"><label
+			for="rate2">★</label>
+		<input type="radio" name="reviewStar" value="3" id="rate3"><label
+			for="rate3">★</label>
+		<input type="radio" name="reviewStar" value="2" id="rate4"><label
+			for="rate4">★</label>
+		<input type="radio" name="reviewStar" value="1" id="rate5"><label
+			for="rate5">★</label>
+	</fieldset>
+</form>	
+<!-- 고정바 시작 -->
+<div id="header"
+class="border-top border-dark d-flex align-items-center justify-content-evenly">
+	<div class="d-flex">
+		<div class="m-auto">총 상품 금액</div>
+		<div class="fs-3 fw-bold d-flex ms-5">
+			<div id="price">
+				<fmt:formatNumber value="${product.getP_price() }"/>
+			</div>
+			<div>원</div>
+		</div>
+	</div>
+	<div class="d-flex">
+		<div class="input-group input-group-lg me-2" style="width: 160px;">
+		  <button id="minus_btn" class="btn btn-outline-secondary border border-drak border-opacity-75"><i class="fas fa-minus"></i></button>
+		  <input id="inputQuantity" type="text" class="form-control" value="1">
+		  <button id="plus_btn" class="btn btn-outline-secondary border border-drak border-opacity-75"><i class="fas fa-plus"></i></button>
+		</div>
+		
+		<div id="add_like" class="fs-5 btn btn-outline-light border border-drak rounded fs-5 d-flex align-items-center me-2" style="height: 60px;">
+		</div>
+		
+		<div class="fs-5 btn btn-outline-light border border-drak rounded fs-5 d-flex align-items-center me-2" style="height: 60px;">
+			<i class="fas fa-star" style="color:orange;"></i>
+		</div>
+		
+		<button class="fs-5 btn btn-outline-light border border-drak rounded text-muted d-flex align-items-center me-2" style="height: 60px;">
+			<i class="fas fa-share-alt" style="color:skyblue;"></i>
+		</button>
+
+		<button class="btn btn-outline-secondary fs-5 me-2" type="button" style="height: 60px;" onclick="add_cart()">장바구니</button>
+		<button class="btn btn-outline-primary fs-5" type="button" style="height: 60px;">구매하기</button>
+	</div>
+</div>
+<!-- 고정바 끝 -->
 
 <!-- 메인 시작 -->
 <main>
@@ -31,40 +120,29 @@
               alt="..."
             />
           </div>
-          <div class="col-9">
-            <div class="mb-3 fs-4">${product.getP_title()}</div>
+          <div class="col-9 d-flex flex-column justify-content-center">
+            <div class="my-3 fs-4">${product.getP_title()}</div>
             <div class="mb-3 d-flex">
-            	<div class="pe-2">${product.getP_author()} 지음</div>
-            	<div class="px-2 border-primary border-start border-end">${product.getP_publisher()}</div>
-            	<div class="ps-2">${product.getP_pubdate()} 출간</div>
+            	<div class="pe-2">${product.getP_author()}</div>
+            	<div class="px-2 border-dark border-start border-end">${product.getP_publisher()}</div>
+            	<div class="ps-2">${product.getP_pubdate()}</div>
             </div>
             <div class="mb-2 d-flex align-items-center">
             	<div class="pe-2">별점: ${product.getP_avgscore()}</div>
-            	<div class="pe-2">좋아요: ${product.getP_like()}</div>
-            	<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
-            	<button class="btn btn-primary btn-sm">리뷰작성하기</button>
             </div>
-            <div class="mb-2 d-flex">정가: ${product.getP_price()}</div>
+            <div class="mb-2 d-flex align-items-center">
+            	<div class="pe-2">좋아요: ${product.getP_like()}</div>
+            </div>
+            <div class="mb-2 d-flex align-items-center">
+            	<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
+            	<!-- <button class="btn btn-primary btn-sm">리뷰작성하기</button> -->
+            </div>
+            <div class="mb-2 d-flex">정가: <fmt:formatNumber value="${product.getP_price() }"/></div>
           	<div class="mb-5 d-flex align-items-center">
           		<div class="me-1">회원가:</div>
-          		<div class="me-1">${product.getP_price() * 0.9}</div>
-          		<div id="state_ing" class="badge bg-danger rounded-pill">-10%</div>
+          		<div class="me-1"><fmt:formatNumber value="${product.getP_price() * 0.9}"/></div>
+          		<div id="state_ing" class="badge bg-danger rounded-pill">10%</div>
           	</div>
-            <div class="d-flex mb-2">
-              <input
-                class="form-control text-center me-3"
-                id="inputQuantity"
-                type="num"
-                value="1"
-                min="1"
-                style="max-width: 3rem"
-              />
-              <c:set var="c_count" value="1" />
-              <button id="plus_btn" class="btn btn-outline-dark me-1" type="button"><i class="fas fa-plus-circle"></i></button>
-              <button id="minus_btn" class="btn btn-outline-dark me-3" type="button"><i class="fas fa-minus-circle"></i></button>
-            </div>
-            <button class="btn btn-outline-dark me-1 flex-shrink-0" type="button" onclick="add_cart()">장바구니</button>
-            <button class="btn btn-outline-dark" type="button">구매하기</button>
           </div>
         </div>
         <hr/>
@@ -107,24 +185,29 @@
 <!-- 풋터 끝 -->
 <script type="text/javascript">
 let c_count = '';
+let booleanValue = ${empty isLike ?false :isLike};
+
 	$(document).ready(function(){
-	  	c_count = $("#inputQuantity").val();
-	  		console.log(c_count);
+		isLike(booleanValue);
+		
+		let sum = ${product.getP_price() };
+		$('#price').text(insertCommas(sum));
+		
 	  	/* 장바구니에 담을 수량 증가 */
 		$("#plus_btn").on("click", function(){
-			let inputQTY = $("#inputQuantity").val();
-			$("#inputQuantity").val(++inputQTY);
-	  		c_count = inputQTY;
-	  		console.log(c_count);
+			c_count = $("#inputQuantity").val();
+	  		c_count++;
+	  		$("#inputQuantity").val(c_count);
+	  		sum = ${product.getP_price()} * parseInt(c_count);
+	  		$('#price').text(insertCommas(sum));
 	  	});
 	  	/* 장바구니에 담을 수량 감소 */
 	  	$("#minus_btn").on("click", function(){
-	  		let inputQTY = $("#inputQuantity").val();
-	  		if(inputQTY > 1){
-	  			$("#inputQuantity").val(--inputQTY);
-	  		}
-	  		c_count = inputQTY;
-	  		console.log(c_count);
+	  		c_count = $("#inputQuantity").val();
+	  		c_count > 1 ? c_count-- : c_count
+	  		$("#inputQuantity").val(c_count);
+	  		sum = ${product.getP_price()} * parseInt(c_count);
+	  		$('#price').text(insertCommas(sum));
 	  	});
 	});
 	  	
@@ -253,6 +336,54 @@ let c_count = '';
 			} 
 	}
 
+	function insertCommas(n) {
+		  // get stuff before the dot
+		  let s1 = n.toString();
+		  var d = s1.indexOf('.');
+		  var s2 = d === -1 ? s1 : s1.slice(0, d);
+
+		  // insert commas every 3 digits from the right
+		  for (var i = s2.length - 3; i > 0; i -= 3)
+		    s2 = s2.slice(0, i) + ',' + s2.slice(i);
+
+		  // append fractional part
+		  if (d !== -1)
+		    s2 += s1.slice(d);
+
+		  return s2;
+	}
+	
+	$('#add_like').click(function(){
+		$.ajax({
+			type : "POST",
+			url : "/member/like",
+			data : JSON.stringify({p_no:'${ product.getP_no() }'}), 
+			contentType: "application/json; charset=UTF-8", 
+			dataType:"json",
+			success : function(response) {
+				console.log(response);
+				if(response.success){
+					isLike(true);
+				}else{
+					isLike(false);
+				}
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+				console.log(data);
+			}
+		})
+	});
+	
+	let isLike = function(request){
+		if(request){
+			$('#add_like').empty();
+			$('#add_like').append('<i class="fas fa-heart" style="color:red;"></i>');
+		}else{
+			$('#add_like').empty();
+			$('#add_like').append('<i class="far fa-heart" style="color:red;"></i>');
+		}
+	}
 </script>
 </body>
 </html>

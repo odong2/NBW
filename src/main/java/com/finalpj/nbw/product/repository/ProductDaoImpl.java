@@ -10,6 +10,7 @@ import com.finalpj.nbw.product.domain.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ProductDaoImpl implements ProductDao{
@@ -32,5 +33,10 @@ public class ProductDaoImpl implements ProductDao{
 		List<Product> productList = new ArrayList<>();
 		productList = sqlSession.selectList("selectProductByWord", key);
 		return productList;
+	}
+
+	@Override
+	public void updateLike(Map<String, Object> map) {
+		sqlSession.update("updateLike",map);
 	}
 }

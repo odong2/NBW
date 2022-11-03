@@ -54,4 +54,23 @@
         WHERE mem_id = #{mem_id}
     </update>
 
+
+	<select id="existLike" parameterType="map" resultType="boolean">
+		SELECT COUNT(MEM_ID) 
+		FROM TB_PRODUCTLIKE
+		WHERE MEM_ID = #{mem_id}
+		AND P_NO = #{p_no}
+	</select>
+	
+	<insert id="insertLike" parameterType="map">
+		INSERT INTO TB_PRODUCTLIKE (P_NO, MEM_ID)
+		VALUES (#{p_no},#{mem_id})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="map">
+		DELETE FROM TB_PRODUCTLIKE
+		WHERE P_NO = #{p_no}
+		AND MEM_ID = #{mem_id}
+	</delete>
+	
 </mapper>

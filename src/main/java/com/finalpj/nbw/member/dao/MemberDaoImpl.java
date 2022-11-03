@@ -1,6 +1,9 @@
 package com.finalpj.nbw.member.dao;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,4 +45,18 @@ public class MemberDaoImpl implements MemberDao{
         return result;
     }
 
+	@Override
+	public boolean existLike(Map<String, Object> map) {
+		return sqlSession.selectOne("existLike",map);
+	}
+
+	@Override
+	public void insertLike(Map<String, Object> map) {
+		sqlSession.insert("insertLike",map);
+	}
+
+	@Override
+	public void deleteLike(Map<String, Object> map) {
+		sqlSession.delete("deleteLike", map);
+	}
 }
