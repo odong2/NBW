@@ -19,6 +19,8 @@ public class CartDaoImpl implements CartDao {
 
     private SqlSession sqlSession;
 	
+    private final String namespace = "com.finalpj.nbw.cart.dao.CartMapper.";
+    
 	public CartDaoImpl(SqlSession sqlSession){
         this.sqlSession = sqlSession;
     }
@@ -27,7 +29,7 @@ public class CartDaoImpl implements CartDao {
 	public List<Map<String, Object>> selectCartList(String mem_id) {
 		log.info("Dao에서 selectCartList호출");
 		List<Map<String,Object>> cartVO = null;
-		cartVO = sqlSession.selectList("selectCartList", mem_id);
+		cartVO = sqlSession.selectList(namespace+"selectCartList", mem_id);
 		return cartVO;
 	}
 	/* [[ 카트에 상품이 존재하는지 조회 ]] */
@@ -35,7 +37,7 @@ public class CartDaoImpl implements CartDao {
 	public int selectProductList(Map<String,Object> pMap) throws Exception {
 		log.info("Dao에서 selectProductList호출");
 		int result = 0;
-		result = sqlSession.selectOne("selectProductList", pMap);
+		result = sqlSession.selectOne(namespace+"selectProductList", pMap);
 		return result;
 	}
 	/* [[ 카트에 상품 추가 ]] */
@@ -43,7 +45,7 @@ public class CartDaoImpl implements CartDao {
 	public int insertCart(Map<String, Object> pMap) {
 		log.info("Dao에서 insertCart호출");
 		int result = 0;
-		result = sqlSession.insert("insertCart", pMap);
+		result = sqlSession.insert(namespace+"insertCart", pMap);
 		return result;
 	}
 	
@@ -52,7 +54,7 @@ public class CartDaoImpl implements CartDao {
 	public int selectCount(Map<String,Object> pMap) {
 		log.info("Dao에서 selectCount 호출");
 		int cart_count = 0;
-		cart_count = sqlSession.selectOne("selectCount", pMap);
+		cart_count = sqlSession.selectOne(namespace+"selectCount", pMap);
 		return cart_count;
 	}
 	
@@ -62,7 +64,7 @@ public class CartDaoImpl implements CartDao {
 	public int updateCart(Map<String, Object> pMap) {
 		log.info("Dao에서 updateCart호출");
 		int result = 0;
-		result = sqlSession.update("updateCart", pMap);
+		result = sqlSession.update(namespace+"updateCart", pMap);
 		return result;
 	}
 	
@@ -70,7 +72,7 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public void deleteCart(Map<String, Object> pMap) {
 		log.info("Dao에서 deleteCart호출");
-		sqlSession.delete("deleteCart",pMap);
+		sqlSession.delete(namespace+"deleteCart",pMap);
 	}
 	
 	@Override
