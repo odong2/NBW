@@ -41,10 +41,10 @@ public class EventCommentDaoImpl implements EventCommentDao {
         return sqlSession.insert("insert", eventCommentdto);
     } // int insert(String statement, Object parameter)
 
-    @Override
-    public List<EventComment> selectAll(Integer ev_no) throws Exception {
-        return sqlSession.selectList("selectAll", ev_no);
-    } // List<E> selectList(String statement)
+//    @Override
+//    public List<EventComment> selectAll(Integer ev_no) throws Exception {
+//        return sqlSession.selectList("selectAll", ev_no);
+//    } // List<E> selectList(String statement)
 
     @Override
     public EventComment select(Integer evc_no) throws Exception {

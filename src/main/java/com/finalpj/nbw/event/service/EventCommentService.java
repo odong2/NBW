@@ -23,10 +23,12 @@ public class EventCommentService {
     // 댓글 작성
     @Transactional(rollbackFor = Exception.class)
     public int write(EventComment eventCommentDto) throws Exception {
+
         eventDao.updateCommentCnt(eventCommentDto.getEv_no(), 1); // 댓글수 1증가
         //throw new Exception("testException");                     // 실패하면 롤백
         return eventCommentDao.insert(eventCommentDto);
     }
+
     // 댓글 삭제
     @Transactional(rollbackFor = Exception.class)
     public int remove(Integer evc_no, Integer ev_no, String evc_commenter) throws Exception {
@@ -36,10 +38,10 @@ public class EventCommentService {
         log.info("rowCnt = " + rowCnt);
         return rowCnt;
     }
-    // 특정 공지글의 댓글 모두 조회
-    public List<EventComment> getList(Integer ev_no) throws Exception {
-        return eventCommentDao.selectAll(ev_no);
-    }
+//    // 특정 공지글의 댓글 모두 조회
+//    public List<EventComment> getList(Integer ev_no) throws Exception {
+//        return eventCommentDao.selectAll(ev_no);
+//    }
     // 댓글 한 건 조회
     public EventComment read(Integer evc_no) throws Exception {
         return eventCommentDao.select(evc_no);

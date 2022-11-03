@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%@include file="../../includes/common.jsp" %>
+    <%@include file="../../../includes/common.jsp" %>
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <style>
@@ -50,12 +50,12 @@
 </head>
 <body>
 <!-- 헤더 시작 -->
-<%@include file="../../includes/header.jsp" %>
+<%@include file="../../../includes/header.jsp" %>
 <!-- 헤더 끝 -->
 <!-- 마이 페이지 시작 -->
 <section class="mypage wrapper d-flex">
     <!-- 사이드바 시작-->
-    <%@include file="../../includes/sidebar.jsp" %>
+    <%@include file="../../../includes/sidebar.jsp" %>
     <!-- 사이드바 끝-->
     <%-- ==================== 메인 시작==================--%>
     <main>
@@ -67,6 +67,7 @@
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
             <div class="divTitle">문의접수</div>
             <hr />
+            <form action="" method="post" id="form" class="frm">
             <div>
                 <table class="tbl_row">
                     <tbody>
@@ -77,7 +78,7 @@
                         </th>
                         <td>
                             <div class="typePick">
-                                <select class="" style="width: 600px; height: 45px">
+                                <select class="" name="qn_category" style="width: 600px; height: 45px">
                                     <option selected>선택</option>
                                     <option value="1">제품</option>
                                     <option value="2">교환</option>
@@ -97,9 +98,11 @@
                             <div class="form_col_group w_full">
                                 <div class="inputtitle" >
                                     <%--[[제목입력란]]--%>
+                                        <input type="hidden" name="qn_from" value="${sessionScope.qnfrom}" />
                                     <input
                                             data-kbbfn-field=""
                                             id="InquiryTitle"
+                                            name="qn_title"
                                             type="text"
                                             class="form_ip w_full"
                                             title="제목 입력"
@@ -115,6 +118,8 @@
                                     <textarea
                                         data-kbbfn-field=""
                                         id="InquiryContent"
+                                        name="qn_content"
+                                        type="text"
                                         class="form_textarea"
                                         title="문의 내용 입력"
                                         placeholder="빠른 답변을 위해 10자 이상의 문의 내용을 입력해 주세요."
@@ -132,8 +137,8 @@
                         <td>
                         <th scope="row">
                             <div class="twobutton">
-                                <button type="button" class="btn btn-secondary btn-lg" id="dbtn">취소</button>
-                                <button type="button" class="btn btn-primary btn-lg" id="sendbtn">문의접수</button>
+                                <button type="button" class="btn btn-secondary btn-lg" id="dbtn">목록</button>
+                                <button type="button" type="submit" class="btn btn-primary btn-lg" id="sendbtn">문의접수</button>
                             </div>
                         </th>
                         </td>
@@ -142,12 +147,28 @@
                     </tbody>
                 </table>
             </div>
+            </form>
     </main>
     <%-- ==================== 메인 끝 ==================--%>
 </section>
 <!-- 마이 페이지 끝 -->
+<script>
+    $(document).ready(function(){
+        // 목록으로 가기
+        $("#dbtn").on("click", function (){
+            location.href = "<c:url value="/mypage/qnalist"/>";
+        })
+        // 문의 접수하기
+        $("#sendbtn").on("click", function (){
+            let form = $("#form");
+            form.attr("action", "<c:url value="/mypage/qnawrite"/> ");
+            form.attr("method", "post");
+            form.submit();
+        })
+    })
+</script>
 <!-- 풋터 시작 -->
-<%@include file="../../includes/footer.jsp" %>
+<%@include file="../../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 </body>
 </html>

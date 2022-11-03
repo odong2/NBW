@@ -1,5 +1,6 @@
 package com.finalpj.nbw.event.controller;
 
+import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.event.domain.EventComment;
 import com.finalpj.nbw.event.service.EventCommentService;
 import lombok.extern.log4j.Log4j;
@@ -22,28 +23,16 @@ public class EventCommentController {
     public EventCommentController(EventCommentService eventCommentService){
         this.eventCommentService = eventCommentService;
     }
-    // 지정된 게시물의 모든 댓글을 가져오는 메서드
-    @GetMapping("/comments") // /comments?ev_no=2 GET
-    public ResponseEntity<List<EventComment>> getList(Integer ev_no){
-        List<EventComment> list = null;
 
-        try {
-            list = eventCommentService.getList(ev_no);
-            return new ResponseEntity<List<EventComment>>(list, HttpStatus.OK); //200
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<List<EventComment>>(HttpStatus.BAD_REQUEST); //400
-        }
-    }
-
-
-    // 댓글 등록
+    /****************************** [[댓글 등록]] *****************************************/
     @PostMapping("/comments")
-    public ResponseEntity<String> write(@RequestBody EventComment eventCommentDto, Integer ev_no, HttpSession session){
-        String evc_commenter = "asdf";
+    public ResponseEntity<String> evcWrite(@RequestBody EventComment eventCommentDto, Integer ev_no, HttpSession session){
+        Member member = (Member) session.getAttribute("member");
+        String evc_commenter = member.getMem_id();
+
         eventCommentDto.setEvc_commenter(evc_commenter);
         eventCommentDto.setEv_no(ev_no);
-        System.out.println("eventCommentDto = " + eventCommentDto);
+        log.info("eventCommentDto = " + eventCommentDto);
         try {
             if (eventCommentService.write(eventCommentDto) != 1) {
                 throw new Exception("Write comment fail");
@@ -58,9 +47,10 @@ public class EventCommentController {
 
     // 댓글 삭제
     @DeleteMapping("/comments/{evc_no}")
-    public ResponseEntity<String> remove(@PathVariable Integer evc_no, Integer ev_no, HttpSession session){
-        String evc_commenter = "asfd";
-//        String commenter = (String)session.getAttribute("id");
+    public ResponseEntity<String> evcremove(@PathVariable Integer evc_no, Integer ev_no, HttpSession session){
+        Member member = (Member)session.getAttribute("member");
+        String evc_commenter = member.getMem_id();
+        //        String commenter = (String)session.getAttribute("id");
         try{
             int rowCnt = eventCommentService.remove(evc_no, ev_no, evc_commenter);
 
@@ -77,8 +67,10 @@ public class EventCommentController {
     //  댓글 수정
     @PatchMapping("/comments/{evc_no}")
     public ResponseEntity<String> modify(@PathVariable Integer evc_no,@RequestBody EventComment eventCommentDto, HttpSession session){
+        Member member = (Member)session.getAttribute("member");
+        String evc_commenter = member.getMem_id();
+        eventCommentDto.setEvc_commenter(evc_commenter);
         eventCommentDto.setEvc_no(evc_no);
-        log.info(eventCommentDto);
         try {
             if (eventCommentService.modify(eventCommentDto) != 1) {
                 throw new Exception("Write comment fail");

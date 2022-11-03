@@ -14,5 +14,6 @@
             <typeAlias alias="find" type="com.finalpj.nbw.login.dto.FindDto"/>
             <typeAlias alias="eventCommentDto" type="com.finalpj.nbw.event.domain.EventComment"/>
             <typeAlias alias="eventSearchCondition" type="com.finalpj.nbw.event.domain.EventSearchCondition"/>
+            <typeAlias alias="qnaDto" type="com.finalpj.nbw.qna.domain.Qna"/>
         </typeAliases>
 </configuration>
