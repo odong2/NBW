@@ -10,7 +10,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-	<%@include file="../../includes/admin/common.jsp" %>
+	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자-문의사항답변</title>
     <style type="text/css">
      .q_content {
@@ -67,14 +67,14 @@
     <!-- Page Wrapper -->
     <div class="d-flex justify-content-start">
       <!-- Sidebar -->
-	  <%@include file="../../includes/admin/sidebar.jsp" %>
+	  <%@include file="../../../includes/admin/sidebar.jsp" %>
       <!-- End of Sidebar -->
 
       <!-- Content Wrapper -->
       <!-- [[ 오른쪽 div 시작 ]] -->
       <section class="contentdiv d-flex" style="margin-left: 224px">
         <!-- Topbar -->
-	   <%@include file="../../includes/admin/header.jsp" %>
+	   <%@include file="../../../includes/admin/header.jsp" %>
         <!-- End of Topbar -->
         <!-- Main Content -->
 		<main class="container-fluid mb-3 p-3">
@@ -148,7 +148,7 @@
                 <!-- [[ 관리자 답변  끝 ]] -->
             </main>
         <!-- Footer -->
-		<%@include file="../../includes/admin/footer.jsp" %>
+		<%@include file="../../../includes/admin/footer.jsp" %>
         <!-- End of Footer -->
         <!-- End of Content Wrapper -->
       </section>
