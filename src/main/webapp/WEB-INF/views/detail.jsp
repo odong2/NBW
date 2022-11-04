@@ -1,189 +1,221 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <html>
 <head>
-<%@include file="/WEB-INF/includes/common.jsp" %>
-    <title>Login</title>
-  <style>
-    a {
-      color: black;
-    }
-    main {
-    	width : 70%;
-    	margin: auto;
-    }
-    
-    #header {
-	  position: fixed;
-	  bottom: 0;
-	  width:100%;
-	  z-index: 5;
-	  background-color:white;
-	  height: 100px;
-	}
+<%@include file="/WEB-INF/includes/common.jsp"%>
+<title>Login</title>
+<style>
+a {
+	color: black;
+}
 
-	    #myform fieldset{
-		    display: inline-block;
-		    direction: rtl;
-		    border:0;
-		}
-		#myform fieldset legend{
-		    text-align: right;
-		}
-		#myform input[type=radio]{
-		    display: none;
-		}
-		#myform label{
-		    font-size: 2em;
-		    color: transparent;
-		    text-shadow: 0 0 0 #f0f0f0;
-		}
-		#myform label:hover{
-			/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-		    text-shadow: 0 0 0 orange;
-		}
-		#myform label:hover ~ label{
-		    /* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-		    text-shadow: 0 0 0 orange;
-		}
-		#myform input[type=radio]:checked ~ label{
-		    /* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-		    text-shadow: 0 0 0 orange;
-		}
-  </style>
+main {
+	width: 70%;
+	margin: auto;
+}
+
+#header {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 5;
+	background-color: white;
+	height: 80px;
+}
+
+#myform fieldset {
+	display: inline-block;
+	direction: rtl;
+	border: 0;
+}
+
+#myform fieldset legend {
+	text-align: right;
+}
+
+#myform input[type=radio] {
+	display: none;
+}
+
+#myform label {
+	font-size: 2em;
+	color: transparent;
+	text-shadow: 0 0 0 #f0f0f0;
+}
+
+#myform label:hover {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#myform label:hover ~ label {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#myform input[type=radio]:checked ~ label {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+</style>
 </head>
 <body>
-<!-- 헤더 시작 -->
-<%@include file="/WEB-INF/includes/header.jsp" %>
-<!-- 헤더 끝 -->
+	<!-- 헤더 시작 -->
+	<%@include file="/WEB-INF/includes/header.jsp"%>
+	<!-- 헤더 끝 -->
 
- <form class="mb-3" name="myform" id="myform" method="post">
-	<fieldset>
-		<input type="radio" name="reviewStar" value="5" id="rate1">
-		<label for="rate1" >
-			<i class="fas fa-star"></i>
-		</label>
-		<input type="radio" name="reviewStar" value="4" id="rate2"><label
-			for="rate2">★</label>
-		<input type="radio" name="reviewStar" value="3" id="rate3"><label
-			for="rate3">★</label>
-		<input type="radio" name="reviewStar" value="2" id="rate4"><label
-			for="rate4">★</label>
-		<input type="radio" name="reviewStar" value="1" id="rate5"><label
-			for="rate5">★</label>
-	</fieldset>
-</form>	
-<!-- 고정바 시작 -->
-<div id="header"
-class="border-top border-dark d-flex align-items-center justify-content-evenly">
-	<div class="d-flex">
-		<div class="m-auto">총 상품 금액</div>
-		<div class="fs-3 fw-bold d-flex ms-5">
-			<div id="price">
-				<fmt:formatNumber value="${product.getP_price() }"/>
+	<div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content" style="border-radius: 1rem;">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalToggleLabel">리뷰작성</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">border-radius test</div>
 			</div>
-			<div>원</div>
 		</div>
 	</div>
-	<div class="d-flex">
-		<div class="input-group input-group-lg me-2" style="width: 160px;">
-		  <button id="minus_btn" class="btn btn-outline-secondary border border-drak border-opacity-75"><i class="fas fa-minus"></i></button>
-		  <input id="inputQuantity" type="text" class="form-control" value="1">
-		  <button id="plus_btn" class="btn btn-outline-secondary border border-drak border-opacity-75"><i class="fas fa-plus"></i></button>
-		</div>
-		
-		<div id="add_like" class="fs-5 btn btn-outline-light border border-drak rounded fs-5 d-flex align-items-center me-2" style="height: 60px;">
-		</div>
-		
-		<div class="fs-5 btn btn-outline-light border border-drak rounded fs-5 d-flex align-items-center me-2" style="height: 60px;">
-			<i class="fas fa-star" style="color:orange;"></i>
-		</div>
-		
-		<button class="fs-5 btn btn-outline-light border border-drak rounded text-muted d-flex align-items-center me-2" style="height: 60px;">
-			<i class="fas fa-share-alt" style="color:skyblue;"></i>
-		</button>
 
-		<button class="btn btn-outline-secondary fs-5 me-2" type="button" style="height: 60px;" onclick="add_cart()">장바구니</button>
-		<button class="btn btn-outline-primary fs-5" type="button" style="height: 60px;">구매하기</button>
+	<form class="mb-3" name="myform" id="myform" method="post">
+		<fieldset>
+			<input type="radio" name="reviewStar" value="5" id="rate1"> <label
+				for="rate1">★</label> <input type="radio" name="reviewStar"
+				value="4" id="rate2"> <label for="rate2">★</label> <input
+				type="radio" name="reviewStar" value="3" id="rate3"> <label
+				for="rate3">★</label> <input type="radio" name="reviewStar"
+				value="2" id="rate4"> <label for="rate4">★</label> <input
+				type="radio" name="reviewStar" value="1" id="rate5"> <label
+				for="rate5">★</label>
+		</fieldset>
+	</form>
+	<!-- 고정바 시작 -->
+	<div id="header"
+		class="border-top border-dark d-flex align-items-center justify-content-evenly">
+		<div class="d-flex">
+			<div class="m-auto">총 상품 금액</div>
+			<div class="fs-3 fw-bold d-flex ms-5">
+				<div id="price">
+					<fmt:formatNumber value="${product.getP_price() }" />
+				</div>
+				<div>원</div>
+			</div>
+		</div>
+		<div class="d-flex">
+			<div class="input-group input-group-sm me-2" style="width: 100px;">
+				<button id="minus_btn"
+					class="btn btn-outline-secondary border border-drak border-opacity-75">
+					<i class="fas fa-minus"></i>
+				</button>
+				<input id="inputQuantity" type="text" class="form-control" value="1">
+				<button id="plus_btn"
+					class="btn btn-outline-secondary border border-drak border-opacity-75">
+					<i class="fas fa-plus"></i>
+				</button>
+			</div>
+
+			<div id="add_like"
+				class="fs-5 btn btn-outline-light border border-drak rounded fs-5 d-flex align-items-center me-2"
+				style="height: 40px;"></div>
+
+			<button
+				class="btn btn-outline-light border border-drak rounded text-muted d-flex align-items-center me-2"
+				style="height: 40px;">
+				<i class="fas fa-share-alt" style="color: skyblue;"></i>
+			</button>
+
+			<button class="btn btn-outline-warning me-2"
+				style="width: 120px; height: 40px;" data-bs-toggle="modal"
+				data-bs-target="#exampleModalToggle">
+				<i class="fas fa-pen"></i>리뷰작성
+			</button>
+
+			<button class="btn btn-outline-secondary me-2" type="button"
+				style="width: 120px; height: 40px;" onclick="add_cart()">
+				<i class="fas fa-shopping-cart"></i>장바구니
+			</button>
+			<button class="btn btn-outline-primary" type="button"
+				style="width: 120px; height: 40px;">
+				<i class="fas fa-dollar-sign"></i> 구매하기
+			</button>
+		</div>
 	</div>
-</div>
-<!-- 고정바 끝 -->
+	<!-- 고정바 끝 -->
 
-<!-- 메인 시작 -->
-<main>
-    <section class="">
-      <div class="px-4 px-lg-5 my-5">
-        <div class="d-flex">
-          <div class="col-3 me-5">
-            <img
-              class="card-img-top"
-              src="${product.getP_img()}"
-              alt="..."
-            />
-          </div>
-          <div class="col-9 d-flex flex-column justify-content-center">
-            <div class="my-3 fs-4">${product.getP_title()}</div>
-            <div class="mb-3 d-flex">
-            	<div class="pe-2">${product.getP_author()}</div>
-            	<div class="px-2 border-dark border-start border-end">${product.getP_publisher()}</div>
-            	<div class="ps-2">${product.getP_pubdate()}</div>
-            </div>
-            <div class="mb-2 d-flex align-items-center">
-            	<div class="pe-2">별점: ${product.getP_avgscore()}</div>
-            </div>
-            <div class="mb-2 d-flex align-items-center">
-            	<div class="pe-2">좋아요: ${product.getP_like()}</div>
-            </div>
-            <div class="mb-2 d-flex align-items-center">
-            	<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
-            	<!-- <button class="btn btn-primary btn-sm">리뷰작성하기</button> -->
-            </div>
-            <div class="mb-2 d-flex">정가: <fmt:formatNumber value="${product.getP_price() }"/></div>
-          	<div class="mb-5 d-flex align-items-center">
-          		<div class="me-1">회원가:</div>
-          		<div class="me-1"><fmt:formatNumber value="${product.getP_price() * 0.9}"/></div>
-          		<div id="state_ing" class="badge bg-danger rounded-pill">10%</div>
-          	</div>
-          </div>
-        </div>
-        <hr/>
-        <h5>상세내용</h5>
-        <p class="lead">${product.getP_description()}</p>
-        <hr/>
-        <h5>관련상품</h5>
-		<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-						<div class="col-2">
-							<div class="card h-100">
-								<!-- Product image-->
-								<a href="#">
-									<img
-										class="card-img-top"
-										src="${product.getP_img()}"
-										 alt="..."
-									/>
-								</a>
-								<!-- Product details-->
-								<div class="card-body">
-									<div class="text-center">
-										<!-- Product name-->
-										<h5 class="fw-bolder">제목</h5>
-										<!-- Product price-->
-										가격
-									</div>
+	<!-- 메인 시작 -->
+	<main>
+		<section class="">
+			<div class="px-4 px-lg-5 my-5">
+				<div class="d-flex">
+					<div class="col-3 me-5">
+						<img class="card-img-top" src="${product.getP_img()}" alt="..." />
+					</div>
+					<div class="col-9 d-flex flex-column justify-content-center">
+						<div class="my-3 fs-4">${product.getP_title()}</div>
+						<div class="mb-3 d-flex">
+							<div class="pe-2">${product.getP_author()}</div>
+							<div class="px-2 border-dark border-start border-end">${product.getP_publisher()}</div>
+							<div class="ps-2">${product.getP_pubdate()}</div>
+						</div>
+						<div class="mb-2 d-flex align-items-center">
+							<div class="pe-2">별점: ${product.getP_avgscore()}</div>
+						</div>
+						<div class="mb-2 d-flex align-items-center">
+							<div class="pe-2">좋아요: ${product.getP_like()}</div>
+						</div>
+						<div class="mb-2 d-flex align-items-center">
+							<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
+							<!-- <button class="btn btn-primary btn-sm">리뷰작성하기</button> -->
+						</div>
+						<div class="mb-2 d-flex">
+							정가:
+							<fmt:formatNumber value="${product.getP_price() }" />
+						</div>
+						<div class="mb-5 d-flex align-items-center">
+							<div class="me-1">회원가:</div>
+							<div class="me-1">
+								<fmt:formatNumber value="${product.getP_price() * 0.9}" />
+							</div>
+							<div id="state_ing" class="badge bg-danger rounded-pill">10%</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<h5>상세내용</h5>
+				<p class="lead">${product.getP_description()}</p>
+				<hr />
+				<h5>관련상품</h5>
+				<div
+					class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+					<div class="col-2">
+						<div class="card h-100">
+							<!-- Product image-->
+							<a href="#"> <img class="card-img-top"
+								src="${product.getP_img()}" alt="..." />
+							</a>
+							<!-- Product details-->
+							<div class="card-body">
+								<div class="text-center">
+									<!-- Product name-->
+									<h5 class="fw-bolder">제목</h5>
+									<!-- Product price-->
+									가격
 								</div>
 							</div>
 						</div>
-		</div>
-		<hr/>
-		<h5>리뷰보기</h5>
-	  </div>
-    </section>
-</main>
-<!-- 메인 끝 -->
+					</div>
+				</div>
+				<hr />
+				<h5>리뷰보기</h5>
+			</div>
+		</section>
+	</main>
+	<!-- 메인 끝 -->
 
-<!-- 풋터 시작 -->
-<%@include file="/WEB-INF/includes/footer.jsp" %>
-<!-- 풋터 끝 -->
-<script type="text/javascript">
+	<!-- 풋터 시작 -->
+	<%@include file="/WEB-INF/includes/footer.jsp"%>
+	<!-- 풋터 끝 -->
+	<script type="text/javascript">
 let c_count = '';
 let booleanValue = ${empty isLike ?false :isLike};
 
@@ -209,6 +241,12 @@ let booleanValue = ${empty isLike ?false :isLike};
 	  		sum = ${product.getP_price()} * parseInt(c_count);
 	  		$('#price').text(insertCommas(sum));
 	  	});
+	  	
+	  	$('#inputQuantity').blur(function(){
+	  		let value = $('#inputQuantity').val();
+	  		sum = ${product.getP_price()} * value;
+	  		$('#price').text(insertCommas(sum));
+	  	})
 	});
 	  	
   	
@@ -362,14 +400,22 @@ let booleanValue = ${empty isLike ?false :isLike};
 			dataType:"json",
 			success : function(response) {
 				console.log(response);
-				if(response.success){
-					isLike(true);
+				if(response.isLogin){
+					if(response.success){
+						isLike(true);
+						msg(response.msg);
+					}else{
+						isLike(false);
+						msg(response.msg);
+					}
 				}else{
-					isLike(false);
+					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
+						location.href = '/login?pno=${product.getP_no()}';
+					}
 				}
 			},
 			error : function(data, textStatus) {
-				alert("에러가 발생했습니다."+data);
+				msg("에러가 발생했습니다."+data);
 				console.log(data);
 			}
 		})
@@ -383,6 +429,17 @@ let booleanValue = ${empty isLike ?false :isLike};
 			$('#add_like').empty();
 			$('#add_like').append('<i class="far fa-heart" style="color:red;"></i>');
 		}
+	}
+	
+	let msg = function(text){
+		if(!$('#msg-box').length){
+			$('body').append('<div id="msg-box" class="position-fixed top-50 start-50 translate-middle"></div>');
+			$('#msg-box').append('<div id="LoginFailMsg" class="text-center list-group-item list-group-item-danger">'+text+'</div>');
+			$("#LoginFailMsg").delay(500).fadeOut(500);
+		}
+		$("#LoginFailMsg").text(text);
+		$("#LoginFailMsg").show();
+		$("#LoginFailMsg").delay(500).fadeOut(500);
 	}
 </script>
 </body>

@@ -19,12 +19,16 @@ public class LoginInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
+		String pno = request.getParameter("pno");
+		
 		// 1. 로그인 상태인지검사
 		// 1-1. 로그인 상태에서 요청시 에러 페이지로 이동
 		if (request.getSession().getAttribute("member") != null) {
 			response.sendError(403, "이미 로그인한 사용자 입니다. ");
 			return false;
 		}
+		if (pno != null)
+			UriUtils.saveUri("/product/"+pno, request.getSession());
 		
 		// 1-2. 로그인 상태가 아닐시 계속 진행
 		return true;
@@ -34,9 +38,9 @@ public class LoginInterceptor implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {
 		HttpSession session = request.getSession();
-		
 		String uri = (String) session.getAttribute("saveUri");
 		Member member = (Member) session.getAttribute("member");
+		
 		
 		if(member != null) {
 			if (!StringUtils.isEmpty(uri)) {

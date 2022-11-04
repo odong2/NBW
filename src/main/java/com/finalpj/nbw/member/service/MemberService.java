@@ -66,9 +66,8 @@ public class MemberService {
 			map.put("value", -1);
 			memberDao.deleteLike(map);
 			productDao.updateLike(map);
-			
 			rMap.put("success",false);
-			rMap.put("msg","이미 좋아요한 상품입니다.");
+			rMap.put("msg","좋아요 목록에 삭제되었습니다.");
 		}else {
 			//좋아요한 상품이 아니면 -> 좋아요 추가
 			map.put("value", 1);
