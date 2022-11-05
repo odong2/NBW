@@ -29,23 +29,6 @@
 <input type="hidden" name="cartProducts[2].p_category" value="인문학">
 <input type="hidden" name="cartProducts[2].p_count" value="1">
 <button type="submit" id="commentbtn" />같은 name 여러개 테스트</button>
-
 </form>
-<script type="text/javascript">
-  $(function(){
-
-    // $('#commentbtn').on('click', function(){
-    //   //값들의 갯수 -> 배열 길이를 지정
-    //   var grpl = $("input[name=p_no]").length;
-    //   //배열 생성
-    //   var grparr = new Array(grpl);
-    //   //배열에 값 주입
-    //   for(var i=0; i<grpl; i++){
-    //     grparr[i] = $("input[name=p_no]").eq(i).val();
-    //   }
-    //     console.log(grparr);
-    // });
-  });
-</script>
 </body>
 </html>
