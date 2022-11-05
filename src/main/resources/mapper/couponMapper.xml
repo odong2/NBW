@@ -15,4 +15,9 @@
                 WHERE mem_id = #{mem_id}
             )
     </select>
+
+    <!-- 결제 시 쿠폰 사용하였을 경우 id와 쿠폰번호를 조건으로 사용한 쿠폰 삭제-->
+    <delete id="deleteMemCoupon" parameterType="java.util.Map">
+        DELETE FROM tb_couponzip WHERE  cp_no= #{cp_no} and mem_id = #{mem_id}
+    </delete>
 </mapper>

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Log4j
@@ -30,5 +31,10 @@ public class CouponDaoImpl implements CouponDao {
         couponList = sqlSession.selectList(namespace+"selectCouponList", mem_id);
         log.info("조회된 couponList " + couponList);
         return couponList;
+    }
+
+    @Override
+    public int deleteMemCoupon(Map pMap) throws Exception {
+        return sqlSession.delete(namespace + "deleteMemCoupon", pMap);
     }
 }
