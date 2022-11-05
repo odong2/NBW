@@ -40,7 +40,7 @@ public class PaymentController {
      * @param(Model m) : cartSize(총 주문 개수) 및 couponList(멤버의 쿠폰)을 view에 보내기 위해 사용
      * @return : payment view 페이지
      * *******************************************************************/
-    @GetMapping("list")
+    @PostMapping("list")
     public String getPaymentList(@ModelAttribute CartList cartList, HttpSession session, Model m){
         log.info("장바구니에서 넘어온 상품 결제페이지로 넘어온 삼품의 정보 ========> " + cartList);
         Member member = (Member)session.getAttribute("member");

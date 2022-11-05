@@ -347,7 +347,7 @@
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
         
         <!-- [[ 결제 정보 담을 form 태그 시작 ]] -->
-        <form class="paymentForm"  action="/payment/list" method="get">
+        <form class="paymentForm"  action="/payment/list" method="POST">
         	
         </form>
         <!-- [[ 결제 정보 담을 form 태그  끝 ]] -->
