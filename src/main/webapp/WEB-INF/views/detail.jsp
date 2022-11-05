@@ -127,8 +127,8 @@ let c_count = '';
 	  		console.log(c_count);
 	  	});
 	});
-	  	
-  	
+
+
 	function add_cart() {
 		//let promise = new Promise(function )
 		console.log(c_count);
@@ -152,13 +152,13 @@ let c_count = '';
 						},
 						complete : function(data, textStatus) {
 						}
-					}); //end of second ajax	
+					}); //end of second ajax
 				} else if(result == "nonMember"){
 					let c_cart = $.cookie('cart'); // 쿠키의 'cart'에 담긴 value를 문자열로 받아온다
 					if(c_cart == undefined){  // 비회원 장바구니에 담긴 상품이 한 건도 없을 경우
 						// json형식으로 객체 생성
 						let cookie = {
- 										cart : [ 
+ 										cart : [
 													{
 													pno : "${product.getP_no()}",
 													title : "${product.getP_title()}",
@@ -198,16 +198,16 @@ let c_count = '';
 						    // 두 번째 매개 변수 item은 해당 인덱스나 키가 가진 값을 의미합니다.
 						    if(item.pno == ${product.getP_no()}){
 						    	++cnt;
-						    } 
+						    }
 						}); // end of $.each()
 						if(cnt == 0){ // 장바구니에 존재하지 않는 상품
 							text = "not_exist";
 						}else{
 							text = "is_exist";
 						} // end of text값 설정해주는 if-else
-						
-						
-						if(text == "is_exist"){ // 이미 담아둔 상품일 경우 
+
+
+						if(text == "is_exist"){ // 이미 담아둔 상품일 경우
 							alert('이미 장바구니에 담아둔 상품입니다.');
 						} else { // 장바구니에 담겨있지 않은 상품일 경우
 							cookie.push({
