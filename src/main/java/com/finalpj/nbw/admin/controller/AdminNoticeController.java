@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @Log4j
 @Controller
-@RequestMapping("admin/notice")
+@RequestMapping("/admin/notice")
 public class AdminNoticeController {
 
     NoticeService noticeService;
@@ -198,6 +198,4 @@ public class AdminNoticeController {
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 
     }
-
-
 }
