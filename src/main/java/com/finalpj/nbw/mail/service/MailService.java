@@ -2,26 +2,16 @@ package com.finalpj.nbw.mail.service;
 
 import com.finalpj.nbw.payment.domain.Payment;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.mail.EmailAttachment;
-import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import com.finalpj.nbw.login.dto.FindDto;
-import com.finalpj.nbw.login.dto.LoginDto;
-
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 @Service("mailService")
 @Slf4j
