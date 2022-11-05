@@ -1,11 +1,16 @@
 package com.finalpj.nbw.product.domain;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @ToString
-public class Criteria {
+public class Criteria  {
+
     /* 한 페이지 당 10개씩 보여준다고 할 때 rownum 번호는 계속 변화한다.
         따라서 다음과 같이 변수로 치환할 수 있다.
         현재 있는 페이지가 1페이지일 때 rownum 번호 범위 => 1-10
@@ -16,23 +21,24 @@ public class Criteria {
     */
 
     /* 현재 페이지 */
-    private int pageNum;
+    private int pageNum = 1;
 
     /* 한 페이지당 보여질 게시물 갯수 */
-    private int amount;
+    private int amount = 10;
 
     /* 검색 키워드 */
     private String keyword;
 
-    /* 기본 생성자 */
-    public Criteria (int pageNum, int amount){
-        this.pageNum = 1;
-        this.amount = 10;
-    }
+    /* 검색 타입 */
+    /* 사용자가 카테고리버튼을 이용해 검색할 경우 type = 'C' */
+    private String type;
 
-    /* 생성자 => 원하는  pageNum, amount */
-    public Criteria(Integer pageNum, Integer amount){
-        this.pageNum = pageNum;
-        this.amount = amount;
-    }
+    /* 사용자가 요청하는 카테고리 */
+    private String categoryCode;
+
+    /* 카테고리에 속한 상품 수 */
+  //  private int categoryCount;
+
+
+
 }

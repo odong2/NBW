@@ -9,6 +9,8 @@
             <typeAlias alias="member" type="com.finalpj.nbw.member.domain.Member"/>
             <typeAlias alias="eventDto" type="com.finalpj.nbw.event.domain.Event"/>
             <typeAlias alias="product" type="com.finalpj.nbw.product.domain.Product"/>
+            <typeAlias alias="categoryFilter" type="com.finalpj.nbw.product.domain.CategoryFilter"/>
+            <typeAlias alias="criteria" type="com.finalpj.nbw.product.domain.Criteria"/>
             <typeAlias alias="find" type="com.finalpj.nbw.login.dto.FindDto"/>
         </typeAliases>
 </configuration>

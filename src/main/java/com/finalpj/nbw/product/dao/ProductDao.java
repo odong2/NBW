@@ -1,6 +1,6 @@
 package com.finalpj.nbw.product.dao;
 
-import com.finalpj.nbw.notice.domain.SearchCondition;
+import com.finalpj.nbw.product.domain.CategoryFilter;
 import com.finalpj.nbw.product.domain.Criteria;
 import com.finalpj.nbw.product.domain.Product;
 import java.util.List;
@@ -19,5 +19,9 @@ public interface ProductDao {
 	/* 조회된 상품 전체 개수 */
 	int selectSearchCnt(Criteria criteria);
 
+	/* 조회된 상품의 카테고리를 다시 조회 > 첫 번째 기준(Criteria)에 의해서 반환된 카테고리 필터를 반환 */
+	List<CategoryFilter> selectProductCategory(Criteria criteria) throws Exception;
 
+	/* 검색된 카테고리 개수 반환 */
+	List<CategoryFilter> selectProductCateInfo(Criteria criteria) throws Exception;
 }

@@ -1,6 +1,7 @@
 package com.finalpj.nbw.product.controller;
 
 
+import com.finalpj.nbw.product.domain.CategoryFilter;
 import com.finalpj.nbw.product.domain.Criteria;
 import com.finalpj.nbw.product.domain.Pagination;
 import com.finalpj.nbw.product.service.ProductService;
@@ -42,40 +43,40 @@ public class ProductController {
 
 		List<Map<String, Object>> resultList = productService.search(paramMap);
 		paramMap.put("resultList", resultList);
-
-		/* 잘 받아오는지 출력해봄 */
-		ListIterator<Map<String, Object>> iter = resultList.listIterator();
-		while (iter.hasNext()){
-			Integer key = iter.nextIndex()+1;
-			String value = iter.next().toString();
-			System.out.println(key + " : " + value);
-			System.out.println("=================================================");
-		}
 		return paramMap;
 	}
 
+
 	/* =============================== 상품 목록 검색 > 페이징 ================================== */
 	@GetMapping("search")
-	public String getProductList(/*@RequestParam(value = "keyword") String keyword,*/ Model model, Criteria criteria) throws Exception {
-		log.info("list CONTROLLER 진입");
-//		log.info("사용자가 입력한 keyword : "+ keyword);
-//		criteria.setKeyword(keyword);
-//		log.info("criteria.getKeyword() : "+ criteria.getKeyword());
-		log.info("criteria : "+ criteria);
+	public String getProductList(Model model, Criteria criteria) throws Exception {
 
-		List<Product> list = productService.searchProduct(criteria);
+		try{
+				log.info("list CONTROLLER 진입");
+				int totalCount = productService.getTotalCount(criteria);
+				Pagination pagination = new Pagination(criteria, totalCount);
+				//log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
 
-		if(!list.isEmpty()){
-			model.addAttribute("list", list);
-			log.info("list : "+ list);
-		}else {
-			model.addAttribute("empty");
-			return "/search/productList";
+
+				log.info("CRITERIA : "+ criteria);
+				model.addAttribute("criteria", criteria);
+
+				model.addAttribute("pagination", pagination);
+
+				List<Product> list = productService.searchProduct(criteria);
+
+				model.addAttribute("list", list);
+
+				//log.info("LIST : "+ list);
+				//log.info("SERVICE 에서 받아온 getCategoryFilter ====> "+ productService.getCategoryFilter(criteria));
+				log.info("=========================================================");
+				model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
+
+			} catch (Exception e){
+				e.printStackTrace();
 		}
 
-		model.addAttribute("pagination", new Pagination(criteria, productService.getTotalCount(criteria)));
-
-		return "/search/productList";
+		return "/product/productList";
 	}
 }
 

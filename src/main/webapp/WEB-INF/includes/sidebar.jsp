@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- sidebar 시작(include) -->
-<%-- loginMember ==> 로그인된 사용자 객체가 전달됨 --%>
 
     <section class="sidebar">
         <div id="userInfo" class="container-fulid wrapper mb-3">

@@ -7,10 +7,6 @@
     <%@include file="../../includes/common.jsp" %>
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <style>
-        /** {*/
-        /*    border: red solid 1px;*/
-        /*}*/
-
         main {
             width: 100%;
             padding-left: 20px;
@@ -70,49 +66,21 @@
 
     </style>
 </head>
-
 <body>
     <!-- 헤더 시작 -->
     <%@include file="/WEB-INF/includes/header.jsp" %>
     <!-- 헤더 끝 -->
     <section class="product-wrap wrapper d-flex">
     <%--    카테고리 시작    --%>
-    <%@include file="/WEB-INF/views/search/category.jsp" %>
-
-
-<%--            <!-- *상품분류* NAV END. -->--%>
-<%--            <br>--%>
-<%--            <!-- *검색조건* NAV START 입니다. -->--%>
-<%--            <nav>--%>
-<%--                <div class="row justify-content-md-center">--%>
-<%--                    <div class="col"--%>
-<%--                        style="text-align: center;--%>
-<%--                        padding-top:5px;--%>
-<%--                        color: rgb(21, 30, 61);--%>
-<%--                        font-size: larger;--%>
-<%--                        background-color: rgb(242, 242, 242);--%>
-<%--                        height: 40px;--%>
-<%--                        border-radius: 5px;">--%>
-<%--                        <label style="font-size: medium"> 검색/조건 </label>--%>
-<%--                    </div>--%>
-<%--                    <div class="col-4 col-lg-1"><a href="#">할인률</a></div>--%>
-<%--                    <div class="col-4 col-lg-2"><a href="#">높은가격</a></div>--%>
-<%--                    <div class="col-4 col-lg-2"><a href="#">낮은가격</a></div>--%>
-<%--                    <div class="col-4 col-lg-1"><a href="#">평점순</a></div>--%>
-<%--                    <div class="col-4 col-lg-2"><a href="#">발행일순</a></div>--%>
-<%--                    <div class="col-4 col-lg-1"><a href="#">리뷰순</a></div>--%>
-<%--                    <div class="col-4 col-lg-1"><a href="#">판매량</a></div>--%>
-<%--                </div>--%>
-<%--            </nav>--%>
-            <!-- *검색조건* NAV END. -->
+    <%@include file="/WEB-INF/views/product/category.jsp" %>
     <main>
         <br>
-
+<%--        ${list}--%>
         <h6><span style="font-weight: bolder; color: #83b72e;">'${criteria.keyword}'</span> 에 대한 <span style="color: darkgreen"><fmt:formatNumber value="${pagination.totalCount}" type="number"/> </span>개의 검색 결과</h6>
         <div class="product_container">
         <hr>
-            <c:forEach items = "#{list}" var="list">
-<%--                            상품 div --%>
+            <c:forEach items = "${list}" var="list">
+<%-- 상품 div --%>
                 <div class="row" style="padding: 10px 10px;">
                                 <div class="row" id="product_list" >
                                     <div class="col-3">
@@ -132,7 +100,7 @@
                                </div>
                                 <br>
                 </div>
-<%--                            상품 div 끝--%>
+            <%--                            상품 div 끝                            --%>
                 <hr>
             </c:forEach>
             <c:if test="${pagination.totalCount == null || pagination.totalCount == 0}">
