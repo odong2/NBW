@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalpj.nbw.qna.dao.AnswerMapper">
+	<!-- [[ 관리자 답변 등록 및 답변상태 변경 ]] -->
+	<insert id="insertAnswer" parameterType="answerDto">
+		INSERT INTO TB_ANSWER (qn_no, an_content)
+		VALUES (#{qn_no}, #{an_content})
+	</insert>
+	
+	<update id="updateState" parameterType="int">
+		UPDATE TB_QUESTION 
+		   SET QN_STATE = 'Y'
+		 WHERE QN_NO = #{qn_no}
+	</update>
+	<!-- [[ 관리자 답변 조회 ]] -->
+	<select id="selectAnswer" parameterType="int" resultType="answerDto">
+		SELECT qn_no, an_cdate, an_content FROM TB_ANSWER
+		 WHERE qn_no = #{qn_no}
+	</select>
+</mapper>

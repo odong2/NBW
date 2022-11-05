@@ -2,6 +2,7 @@ package com.finalpj.nbw.qna.service;
 
 import com.finalpj.nbw.event.domain.Event;
 import com.finalpj.nbw.qna.dao.QnaDao;
+import com.finalpj.nbw.qna.domain.Answer;
 import com.finalpj.nbw.qna.domain.Qna;
 import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
@@ -74,5 +75,30 @@ public class QnaService {
         log.info("서비스 qna 작성 호출 성공");
         return qnaDao.qnaInsert(qna);
     }
+    
+    /****************************** [[ 관리자 답변 등록 ]] ****************************/
+    @Transactional(rollbackFor = Exception.class)
+    public void writeAnswer(Answer answer, Integer qn_no) throws Exception {
+    	log.info("서비스 관리자 답변등록 호출");
+    	log.info(answer+","+qn_no);
+    	int result = 0;
+    	result = qnaDao.insertAnswer(answer);
+    	log.info(result);
+    	if(result == 1) { // insert에 성공하면
+    		qnaDao.updateState(qn_no); // 답변 상태 업데이트 해주기
+    	}
+    }
+    
+    /****************************** [[ 관리자 답변 한 건 조회 ]] ****************************/
+	public Answer answerRead(Integer qn_no) {
+		log.info("서비스 관리자 답변 조회 호출");
+		Answer an = null;
+		try {
+			an = qnaDao.selectAnswer(qn_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return an;
+	}
 
 }

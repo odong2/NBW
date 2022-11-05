@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class Coupon {
     private String cp_no;
     private String cp_name;
-    private String cp_price;
+    private Integer cp_price;
 }

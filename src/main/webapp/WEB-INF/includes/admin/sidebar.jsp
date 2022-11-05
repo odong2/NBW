@@ -43,7 +43,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/admin/qna/list">
               <img
                 src="/images/qna.png"
                 alt=""

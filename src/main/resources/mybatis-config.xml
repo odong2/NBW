@@ -19,5 +19,6 @@
             <typeAlias alias="eventCommentDto" type="com.finalpj.nbw.event.domain.EventComment"/>
             <typeAlias alias="eventSearchCondition" type="com.finalpj.nbw.event.domain.EventSearchCondition"/>
             <typeAlias alias="qnaDto" type="com.finalpj.nbw.qna.domain.Qna"/>
+            <typeAlias alias="answerDto" type="com.finalpj.nbw.qna.domain.Answer"/>
         </typeAliases>
 </configuration>
