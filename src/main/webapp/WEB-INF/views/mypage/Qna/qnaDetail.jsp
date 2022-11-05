@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%@include file="../../includes/common.jsp" %>
+    <%@include file="../../../includes/common.jsp" %>
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <style>
@@ -87,16 +87,27 @@
             font-size: 13px;
             padding: 15px 60px 15px 10px;
         }
+        .twoBtn {
+            display: flex;
+            justify-content : center;
+            margin-top: 10px;
+        }
+
+        .twoBtn > button {
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
     </style>
 </head>
 <body>
 <!-- 헤더 시작 -->
-<%@include file="../../includes/header.jsp" %>
+<%@include file="../../../includes/header.jsp" %>
 <!-- 헤더 끝 -->
 <!-- 마이 페이지 시작 -->
 <section class="mypage wrapper d-flex">
     <!-- 사이드바 시작-->
-    <%@include file="../../includes/sidebar.jsp" %>
+    <%@include file="../../../includes/sidebar.jsp" %>
     <!-- 사이드바 끝-->
     <%-- ==================== 메인 시작==================--%>
     <main>
@@ -107,46 +118,73 @@
         </header>
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
         <div class="divTitle">문의</div>
-        <hr />
-            <div class="content-box">
-                <div class="inquiry_info">
-                    <span class="text">답변완료</span>
-                    <span class="gap"></span>
-                    <span class="ctg-item">배송</span>
-                    <span class="gap"></span>
-                    <span class="cdate">2022-05-05</span>
-                </div>
+                <hr />
+<%--            <c:if test="${qna}">--%>
+                <div class="content-box">
+                    <div class="inquiry_info">
+                        <span class="text">
+                            ${qna.qn_state}
+                        </span>
+                        <span class="gap"></span>
+                        <span class="ctg-item">
+                            ${qna.qn_category}
+                        </span>
+                        <span class="gap"></span>
+                        <span class="cdate">
+                            <fmt:formatDate pattern="yyyy-MM-dd" value="${qna.qn_cdate}"/>
+                        </span>
+                    </div>
                 <div class="inquiry_title">
                     <div class="inquiry_content">
-                    <div class="d-flex align-items-center">
-                        <div class="title">
-                            책 언제 들어와요?
+                        <div class="d-flex align-items-center">
+                            <div class="title">
+                                ${qna.qn_title}
+                            </div>
                         </div>
-                    </div>
-                    <p>
-                        코딩이란 무엇인가 책을 사고 싶은데 책이 계속 품절이네요ㅠㅠㅠㅠ
-                        빨리 입고 시켜주세요.
-                    </p>
+                        <p>
+                            ${qna.qn_content}
+                        </p>
 
-            </div>
-            <div class="fold_box_contents">
-    <div class="admin_inquiry_info">
-        <span class="text">답변</span>
-        <span class="gap"></span>
-        <span class="cdate">2022-05-05</span>
-    </div>
-                <div class="inquiry_content">
-                    <div class="inquiry_content_area">
-                        <p>고개님의 소리에 관심을 가지고 다가가겠습니다.</p>
+                    </div>
+                <div class="fold_box_contents">
+                    <div class="admin_inquiry_info">
+                        <span class="text">답변</span>
+                        <span class="gap"></span>
+                        <span class="cdate">
+                            등록날짜
+                        </span>
+                    </div>
+                    <div class="inquiry_content">
+                        <div class="inquiry_content_area">
+                            <p>
+                                답변내용
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
+           </div>
+            <div class="twoBtn">
+                <button id="listBtn" type="button"  class="btn btn-outline-secondary">목록으로</button>
+                <button id="deleteBtn" class="btn btn-outline-danger">삭제하기</button>
+            </div>
+        </div>
     </main>
     <%-- ==================== 메인 끝 ==================--%>
 </section>
+<script>
+        $("#listBtn").on("click", function (){
+            location.href = "<c:url value='/mypage/qnalist'/>";
+        })
+
+        $("#deleteBtn").on("click", function (){
+            if(!confirm("정말로 삭제하시겠습니까?")) return;
+            location.href = `/mypage/qnadelete/${qna.qn_no}`;
+        })
+</script>
 <!-- 마이 페이지 끝 -->
 <!-- 풋터 시작 -->
-<%@include file="../../includes/footer.jsp" %>
+<%@include file="../../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 </body>
 </html>
