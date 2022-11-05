@@ -94,7 +94,14 @@
         text-align: center;
         align-items: center;
       }
+      .ck_count{
+      	border: none;
+      	width: 30px;
+      	height: 20px;
+      	text-align: center;
+      }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   </head>
   <body>
 <c:set var = "c_totalPrice" value = "0" /><!-- 총 주문금액 -->
@@ -120,6 +127,7 @@
   		
     	/* 장바구니 총 주문정보 불러오기 */
     	setTotalCart();
+    	
 	}); // end of ready
   
 	/* 총 주문 정보 세팅(배송비, 총 가격, 총 갯수) */
@@ -167,6 +175,9 @@
 		/* 총 주문 정보 세팅(배송비, 총 가격, 총 갯수) */
 		setTotalInfo($(".cart_info"));
 	});
+	
+	
+	
 </script>
   <!-- 헤더 시작 -->
 	<%@include file="/WEB-INF/includes/header.jsp" %>
@@ -192,7 +203,7 @@
                 <tbody>
                   <!-- [[ 장바구니에 담은 상품 목록]] -->
                   <c:choose>
-		          	<c:when test="${cartList != null && cartList.size() > 0}">
+		          	<c:when test="${cartList != null && cartList.size() > 0 && sessionScope.member != null}">
 		                  <c:forEach var="cart" items="${cartList}">
 			                  <tr class="row">
 			                    <td class="col-1 d-flex justify-content-center align-items-center only_chk cart_info">
@@ -201,6 +212,9 @@
 									<input type="hidden" class="h_cart_count" value="${cart.CART_COUNT}">
 									<input type="hidden" class="h_totalPrice" value="${cart.P_PRICE * cart.CART_COUNT}">
 									<input type="hidden" class="h_p_no" value="${cart.P_NO}">								
+									<input type="hidden" class="h_p_title" value="${cart.P_TITLE}">								
+									<input type="hidden" class="h_p_img" value="${cart.P_IMG}">								
+									<input type="hidden" class="h_p_category" value="${cart.P_CATEGORY}">								
 			                    </td>
 			                    <td class="col-2 d-flex prod">
 			                      <div class="prod_img">
@@ -260,6 +274,9 @@
 			                  <c:set var= "c_totalPrice" value="${c_totalPrice + cart.P_PRICE*cart.CART_COUNT}"/>
 		                  </c:forEach>
                   	</c:when>
+                  	<c:when test="${sessionScope.member == null && cookie.cart != null}">
+                  		<div class="cart_cookie"></div>
+                  	</c:when>
                   	<c:otherwise>
                   		<div class="emptyCart">장바구니에 담긴 상품이 없어요.</div>
                   	</c:otherwise>
@@ -273,6 +290,7 @@
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
         <div
           class="right d-flex"
+          id="paymentDiv"
           style="
             width: 300px;
             height: 270px;
@@ -327,6 +345,13 @@
           </div>
         </div>
         <!-- [[ 결제 정보 시작 - 페이지 내에서 고정 ]] -->
+        
+        <!-- [[ 결제 정보 담을 form 태그 시작 ]] -->
+        <form class="paymentForm"  action="/payment/list" method="get">
+        	
+        </form>
+        <!-- [[ 결제 정보 담을 form 태그  끝 ]] -->
+        
       </section>
     </main>
 <!-- 풋터 시작 -->
@@ -358,6 +383,221 @@
 				}
 		}); //end of ajax
 	}// end of update_cart()
+	
+	/* 비회원 장바구니 화면 그려주기 시작 */
+	// 배열 형태의 쿠키값 얻어오기
+	let carts = {};
+	
+	if($.cookie('cart') != undefined){
+		carts = JSON.parse($.cookie('cart'));
+
+		// 배열에 있는 쿠키 값 꺼내오기
+	 	let cartInfo = function (carts) {
+			let oneRow = '';
+			carts.forEach(function(cart){
+				let pno = cart.pno;
+				let title = cart.title;
+				let img = cart.img;
+				let ctg = cart.ctg;
+				let price = parseInt(cart.price);
+				let count = parseInt(cart.count);
+				console.log(cart);	
+				oneRow +=`<tr class="row">
+				            <td class="col-1 d-flex justify-content-center align-items-center only_chk cart_info">
+				              	<input type="checkbox" class="one_chk" />
+							  	<input type="hidden" class="h_p_price" value="${'${price}'}">
+								<input type="hidden" class="h_cart_count" id="h_count_${'${pno}'}" value="${'${count}'}">
+								<input type="hidden" class="h_totalPrice" id="h_price_${'${pno}'}" value="${'${price*count}'}">
+								<input type="hidden" class="h_p_no" value="${'${pno}'}">		
+								<input type="hidden" class="h_p_title" value="${'${title}'}">								
+								<input type="hidden" class="h_p_img" value="${'${img}'}">								
+								<input type="hidden" class="h_p_category" value="${'${ctg}'}">	
+				            </td>
+				            <td class="col-2 d-flex prod">
+				              <div class="prod_img">
+				                <img
+				                  class="img-thumbnail"
+				                  src="${'${img}'}"
+				                />
+				              </div>
+				            </td>
+				            <td
+				              class="col-5 d-flex justify-content-center align-items-center product_info"
+				              style="flex-direction: column"
+				            >
+				              <div class="prod_title d-flex">
+				                <b>${'${title}'}</b>
+				              </div>
+				              <div class="mem_discount">
+				                <span class="price">
+				                  <span class="price">권당 가격:</span>
+				                  <span class="price">${'${price}'}</span>
+				                  <span class="price">원</span>
+				                </span>
+				              </div>
+				            </td>
+				            <td
+				              class="col-3 d-flex justify-content-center align-items-center order_info"
+				              style="flex-direction: column"
+				            >
+				              <div class="order_price" style="font-weight: bold">
+				                <span id="p_${'${pno}'}">${'${price*count}'}원</span>
+				              </div>
+				              <div class="product_count mt-3">
+				                <button class="count_btn minus_btn" data-btn="m" data-pno="${'${pno}'}" data-price="${'${price}'}" onclick="modifyCart(this)"><i class="fas fa-minus-circle"></i></button>
+				                <span class="${'${pno}'} ck_count">${'${count}'}</span>
+				                <button class="count_btn" data-btn="p" data-pno="${'${pno}'}" data-price="${'${price}'}" onclick="modifyCart(this)"><i class="fas fa-plus-circle"></i></button>
+				              </div>
+				            </td>
+				            <td
+				              class="col-1 d-flex justify-content-center align-items-center"
+				            >
+				              <input type="hidden" value="${'${pno}'}" name="p_no" >
+				              <button data-pno="${'${pno}'}" onclick="deleteCookie(this)">
+				                <i class="fas fa-trash-alt" style="color: #e9967a"></i>
+				              </button>
+				            </td>
+				          </tr>
+				          `;
+				          
+			}); // end of forEach
+			return oneRow;
+		}// end of cartInfo
+		
+		$(".cart_cookie").html(cartInfo(carts));
+	}// end of if // 쿠키의 값이 undefined이 아닐때
+	
+	/* 수량 변경시 적용할 함수 */
+	function modifyCart(button){
+		let btn = $(button).attr("data-btn");
+		let pno = $(button).attr("data-pno");
+		let price = parseInt($(button).attr("data-price"));
+		let cnt = parseInt($("."+pno).text());
+		if(btn == 'm'){ // -버튼 눌렀을 때
+			if(cnt>1){
+				$("."+pno).text(--cnt);
+			} 
+		} else if (btn == 'p'){// +버튼 눌렀을 떄
+			$("."+pno).text(++cnt);
+		} // end of if-else
+		$("#p_"+pno).text(price*cnt+"원");
+		$("#h_count_"+pno).val(cnt);
+		$("#h_price_"+pno).val(price*cnt);
+		console.log("carts: "+carts);
+		carts.forEach(function(cart){
+			console.log("cart.pno: "+cart.pno);
+			if(cart.pno == pno){ // 객체의 pno와 클릭한 pno가 같을 때 
+				let s_cnt = ""+cnt;
+				// json이라는 변수에 변경된 값을 가지는 객체를 담아준다
+				let json = JSON.stringify(cart, (key, value) => {
+					return key === 'count' ? s_cnt : value; 
+				})
+				// 변수 json은 {"pno":"818","title":"여신강림","img":"https://image.aladin.co.kr/product/25367/95/cover/k282633715_1.jpg","price":"13000","count":"2"} 을 나타냄
+				console.log("json: "+json + "cart는 다음줄");
+				console.log(cart);
+				
+				/* 내가 선택한 pno가 배열의 몇번째 index인지 찾아보기 */
+				function findCount(element)  {
+					if(element.pno == pno) return true;
+				}
+				console.log("현재 클릭한 배열의 인덱스 값: "+carts.findIndex(findCount));
+				carts.splice(carts.findIndex(findCount), 1, JSON.parse(json)); // 해당 인덱스의 요소 삭제하고 그 부분에 바뀐 count가 들어있는 객체 추가
+				console.log(carts);
+			} // end of if
+			
+			/* ajax 요청보내기 */
+			$.ajax({
+				type : "post",
+				url : "${contextPath}/cart/unmemModify",
+				data : JSON.stringify(carts),
+				dataType:"text",
+				headers : {"content-type": "text/application"},
+				success : function(msg) {
+					setTotalCart();
+				},
+				error : function(data, textStatus) {
+					alert("에러가 발생했습니다."+data);
+				},
+				complete : function(data, textStatus) {
+				}
+			}); //end of ajax	
+		});
+	}
+
+	/* 상품 삭제시 적용할 함수 */
+	function deleteCookie(button){
+		let pno = $(button).attr("data-pno");
+		carts.forEach(function(cart){
+			if(cart.pno == pno){ // 객체의 pno와 클릭한 pno가 같을 때 
+				/* 내가 선택한 pno가 배열의 몇번째 index인지 찾아보기 */
+				function findCount(element)  {
+					if(element.pno == pno) return true;
+				}
+				console.log("현재 클릭한 배열의 인덱스 값: "+carts.findIndex(findCount));
+				carts.splice(carts.findIndex(findCount), 1); // 해당 인덱스의 요소 삭제
+				if(carts.length==0){
+					$.removeCookie('cart' , {path : '/'});// 쿠키를 삭제한다.
+				}
+
+				/* ajax 요청보내기 */
+				$.ajax({
+					type : "post",
+					url : "${contextPath}/cart/unmemRemove",
+					data : JSON.stringify(carts),
+					dataType:"text",
+					headers : {"content-type": "text/application"},
+					success : function(msg) {
+						location.reload();
+					},
+					error : function(data, textStatus) {
+						alert("에러가 발생했습니다."+data);
+					},
+					complete : function(data, textStatus) {
+					}
+				}); //end of ajax	
+			}
+		});
+	}
+	
+	/* 비회원 화면 그려주기 끝 */
+	
+	/** 주문하기 버튼 클릭할 경우 
+		1. form태그에 전송할 값들을 input hidden타입으로 리스트 만들어서 넣어주기
+		2. submit 해주기
+	*/	
+	$("#order_btn").on("click", function(){
+		// 체크된 값만 넣어줄 input 담아줄 변수
+		let input_form ='';
+		// name값에 배열로 전달하기 위해 담아줄 index변수
+		let indexNum = 0;
+		
+		// 체크한 것만 input hidden을 만들어준다
+		$(".cart_info").each(function(index, element){
+			if($(element).find(".one_chk").is(":checked") === true){ //체크여부
+				let p_no = $(element).find(".h_p_no").val();
+				let p_title = $(element).find(".h_p_title").val();
+				let p_price = $(element).find(".h_p_price").val();
+				let p_img = $(element).find(".h_p_img").val();
+				let p_category = $(element).find(".h_p_category").val();
+				let p_count = $(element).find(".h_cart_count").val();
+				
+				// hidden 리스트 만들어주기
+				input_form += `
+							<input type="hidden" name="cartProducts["+indexNum+"].p_no" value="${'${p_no}'}">
+							<input type="hidden" name="cartProducts["+indexNum+"].p_title" value="${'${p_title}'}">
+							<input type="hidden" name="cartProducts["+indexNum+"].p_price" value="${'${p_price}'}">								
+							<input type="hidden" name="cartProducts["+indexNum+"].p_img" value="${'${p_img}'}">								
+							<input type="hidden" name="cartProducts["+indexNum+"].p_category" value="${'${p_category}'}">								
+							<input type="hidden" name="cartProducts["+indexNum+"].p_count" value="${'${p_count}'}">	
+				`;
+				// 인덱스 값을 하나 증가해준다.
+				++indexNum;
+			}
+		});	
+		
+		$(".paymentForm").html(input_form);
+		$(".paymentForm").submit();
+	});
 </script>
   </body>
 </html>

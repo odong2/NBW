@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.finalpj.nbw.qna.dao.QnaMapper">
+    <!--======================================= [[ Qna 전체 조회 ]] ======================================-->
+    <select id="qnaSelectAll" resultType="qnaDto">
+        SELECT
+        DECODE(qn_status, 'N', '처리중', 'Y', '답변완료')
+        FROM tb_question
+--         ORDER BY qn_cdate DESC, qn_no DESC
+    </select>
+
+    <!--======================================= [[ Qna 처리중 조회 ]] ======================================-->
+    <select id="qnaSelectIngAll" resultType="qnaDto">
+        SELECT *
+        FROM tb_question
+        where qn_state = 'N'
+        ORDER BY qn_cdate DESC, qn_no DESC
+    </select>
+    <!--======================================= [[ Qna 답변완료 조회 ]] ======================================-->
+    <select id="qnaSelectFinishAll" resultType="qnaDto">
+        SELECT *
+        FROM tb_question
+        where qn_state = 'Y'
+        ORDER BY qn_cdate DESC, qn_no DESC
+    </select>
+    <!--======================================= [[ Qna 한건 조회 ]] ======================================-->
+    <select id="qnaSelect" parameterType="int" resultType="qnaDto">
+        SELECT *
+        FROM tb_question
+        WHERE qn_no = #{qn_no}
+    </select>
+    <!--======================================= [[ Qna 한건 추가 ]] ======================================-->
+    <insert id="qnaInsert" parameterType="qnaDto">
+        INSERT INTO TB_QUESTION (
+                                QN_NO
+                                , QN_FROM
+                                , QN_CATEGORY
+                                , QN_CDATE
+                                , QN_CONTENT
+                                , QN_TITLE
+        )
+        VALUES (
+                SQ_QN_NO.NEXTVAL
+               , #{qn_from}
+               , #{qn_category}
+               , SYSDATE
+               , #{qn_content}
+               , #{qn_title}
+               )
+    </insert>
+    <!--============================================== [[ Qna 한건 삭제 ]] =======================================-->
+    <delete id="qnaDelete" parameterType="int">
+        DELETE FROM tb_question WHERE qn_no = #{qn_no}
+    </delete>
+
+<!--    &lt;!&ndash;========================================== [[ Qna 전체 삭제 ]] ======================================&ndash;&gt;-->
+<!--    <delete id="qnaDeleteAll" >-->
+<!--        DELETE FROM tb_question-->
+<!--    </delete>-->
+
+<!--    ============================== [[ Qna 전체 수 카운트 ]] ==================================-->
+<!--    <select id="selectQnaCnt" resultType="int">-->
+<!--        SELECT count(*) FROM tb_question-->
+<!--    </select>-->
+<!--    ======================================= [[ Qna 처리중 카운트 ]] ===============================-->
+<!--    <select id="selectQnaIngCnt" resultType="int">-->
+<!--        SELECT count(*)-->
+<!--        FROM tb_question-->
+<!--        where qn_state = '처리중'-->
+<!--    </select>-->
+<!--    ====================================== [[ Qna 답변완료 카운트 ]] =============================-->
+<!--    <select id="selectQnaFinishCnt" resultType="int">-->
+<!--        SELECT count(*)-->
+<!--        FROM tb_question-->
+<!--        where qn_state = '답변완료'-->
+<!--    </select>-->
+</mapper>

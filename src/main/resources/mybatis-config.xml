@@ -5,12 +5,19 @@
         <typeAliases>
             <typeAlias alias="noticeDto" type="com.finalpj.nbw.notice.domain.Notice"/>
             <typeAlias alias="ntCommentDto" type="com.finalpj.nbw.notice.domain.NtComment"/>
+            <typeAlias alias="couponDto" type="com.finalpj.nbw.coupon.domain.Coupon"/>
+            <typeAlias alias="cartProductDto" type="com.finalpj.nbw.payment.domain.CartProduct"/>
+            <typeAlias alias="paymentDto" type="com.finalpj.nbw.payment.domain.Payment"/>
             <typeAlias alias="searchCondition" type="com.finalpj.nbw.notice.domain.SearchCondition"/>
             <typeAlias alias="member" type="com.finalpj.nbw.member.domain.Member"/>
             <typeAlias alias="eventDto" type="com.finalpj.nbw.event.domain.Event"/>
+            <typeAlias alias="eventCommentDto" type="com.finalpj.nbw.event.domain.EventComment"/>
             <typeAlias alias="product" type="com.finalpj.nbw.product.domain.Product"/>
             <typeAlias alias="categoryFilter" type="com.finalpj.nbw.product.domain.CategoryFilter"/>
             <typeAlias alias="criteria" type="com.finalpj.nbw.product.domain.Criteria"/>
             <typeAlias alias="find" type="com.finalpj.nbw.login.dto.FindDto"/>
+            <typeAlias alias="eventCommentDto" type="com.finalpj.nbw.event.domain.EventComment"/>
+            <typeAlias alias="eventSearchCondition" type="com.finalpj.nbw.event.domain.EventSearchCondition"/>
+            <typeAlias alias="qnaDto" type="com.finalpj.nbw.qna.domain.Qna"/>
         </typeAliases>
 </configuration>

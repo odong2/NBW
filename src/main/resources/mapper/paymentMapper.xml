@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalpj.nbw.payment.dao.PaymentMapper">
+    <!-- ============ (1) 결제 성공시 결제테이블에 insert =============== -->
+    <insert id="insertMemPayment" parameterType="paymentDto">
+    INSERT INTO tb_mempayment
+            (
+            order_no, mem_id,receiver_name,
+            receiver_phone, receiver_zipcode,
+            receiver_address1, receiver_address2,
+            delivery_memo, total_price, used_point,
+            cp_no
+            )
+    VALUES
+            (
+            #{order_no}, #{mem_id}, #{receiver_name},
+            #{receiver_phone}, #{receiver_zipcode}, #{receiver_address1},
+            #{receiver_address2}, #{delivery_memo}, #{total_price},
+            #{used_point}, #{cp_no, jdbcType=VARCHAR}
+            )
+    </insert>
+    <!-- ============ (2) 결제 테이블에 insert 후 주문 상품에 관해 다중 insert =============== -->
+    <insert id="insertMemPayDetail" parameterType="java.util.List">
+            INSERT ALL
+            <foreach item="item" collection="list">
+                into TB_MEMPAYMENTDETAIL
+                (
+                    order_no,p_no,
+                    p_count
+                )
+                VALUES
+                (
+                    #{item.order_no},
+                    #{item.p_no},
+                    #{item.p_count}
+                )
+            </foreach>
+            SELECT 1
+            FROM DUAL
+    </insert>
+
+    <!-- ============================= (1) 결제 완료후 주문 완료된 상품 조회 =========================== -->
+    <select id="selectPayAfter" parameterType="java.lang.String" resultType="cartProductDto">
+        SELECT A.p_no, A.p_count, A.order_status, B.p_title, B.p_img, B.p_price, B.p_category
+        FROM(
+                SELECT p_no, p_count, order_status
+                FROM tb_mempaymentdetail
+                where order_no = #{order_no}
+            ) A
+                INNER JOIN tb_product B
+                           ON A.p_no = B.p_no
+    </select>
+    <!-- ============================= (2) 결제 완료후 주문자 정보 및 결제정보 조회  =========================== -->
+    <select id="selectReceiver" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT order_no, order_date, receiver_name, receiver_zipcode, receiver_address1,
+               receiver_address2, receiver_phone, delivery_memo, total_price
+        FROM TB_MEMPAYMENT WHERE order_no = #{order_no}
+    </select>
+
+</mapper>

@@ -150,7 +150,7 @@
             display: flex;
             justify-content: center;
         }
-        #pick-btn {
+        #listBtn {
             height: 38px;
             display: inline-block;
             margin: 0 5px;
@@ -162,7 +162,7 @@
             vertical-align: top;
             text-align: center;
         }
-        #list-btn {
+        #pickBtn {
             display: inline-block;
             height: 40px;
             margin: 0 5px;
@@ -180,9 +180,7 @@
 <!-- 헤더 시작 -->
 <%@include file="../../includes/header.jsp" %>
 <!-- 헤더 끝 -->
-<!-- 사이드바 시작-->
-<%@include file="../../includes/sidebar.jsp" %>
-<!-- 사이드바 끝-->
+
 <main>
     <session id="title" class="container text-center">
         <h2>프로그램 신청</h2>
@@ -197,81 +195,189 @@
         </div>
     </div>
 
+    <ul>
+<%--    <c:forEach var="event" items="${eventSelect}">--%>
     <li class="detailcontents">
         <!-- 왼쪽 그림 시작 -->
         <div class="picturepeople">
             <!-- 이미지 사진 시작 -->
-            <img class="classimg" src="https://lib.seoul.go.kr/apload/temp/20221012/1368702620008870.jpg" />
+            <img
+                    class="classimg"
+                    src="${eventSelect.ev_img}"/>
             <!-- 이미지 사진 끝 -->
             <div class="picking">
                 <span class="receiving">접수중</span>
-                <span class="receivingpeople">7</span>
+                <span class="receivingpeople">
+                    ${eventSelect.ev_people-eventSelect.ev_nowpeople}
+                </span>
             </div>
         </div>
         <!-- 왼쪽 그림 끝 -->
         <!-- 오른쪽 설명 시작 -->
         <div class="detail">
             <div class="bookname">
-                움직이는 책방
+                ${eventSelect.ev_title}
             </div>
             <div class="bodycontent">
                 <div class="playpeople">
                     <div>대상&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">시민 누구나</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_target}
+                    </div>
                 </div>
                 <br />
                 <div class="playplace">
                     <div>장소&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">서울광장</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_place}
+                    </div>
                 </div>
                 <br />
                 <div class="studyday">
-                    <div>교육기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">2022/10/21</div>
+                    <div>행사기간&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">
+                        ${event.ev_today}
+                    </div>
                 </div>
                 <br />
                 <div class="studytime">
                     <div>시간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">12:00~13:00</div>
+                    <div style="color: #7c7c7c">
+                        ${event.ev_time}
+                    </div>
                 </div>
                 <br />
                 <div class="applicationday">
                     <div>접수기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">2022/10/12</div>
-                    <div style="color: #7c7c7c">&nbsp;~&nbsp;</div>
-                    <div style="color: #7c7c7c">2022/10/20</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_start}
+                            ~
+                        ${eventSelect.ev_end}
+                    </div>
                 </div>
                 <br />
                 <div class="phone">
                     <div>문의번호&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">02-1122-3344</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_phone}
+                    </div>
                 </div>
                 <br />
                 <div class="recruitment">
                     <div>모집정원&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">30명</div>
+                    <div style="color: #7c7c7c">
+                        ${eventSelect.ev_people}
+                    </div>
                 </div>
                 <br />
                 <div class="recruitment">
                     <div>첨부파일&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">문화행사.pdf</div>
+<%--                    <div style="color: #7c7c7c">문화행사.pdf</div>--%>
                 </div>
             </div>
         </div>
         <!-- 오른쪽 설명 끝 -->
-    </li>
-    <div>
-        2022 움직이는 책방 📚 9회 ​ ‘책읽는 서울광장’에서 만나는 동네책방! 특별한 한 권을 찾는 그대를 위한 동네책방의 큐레이션 도서 전시·문화 프로그램 운영 ▷ 서
-        점 명 : 미스터리 유니온 ▷ 일 시 : '22. 10. 21.(금) 12:00~13:00 ▷ 장 소 : 서울광장 ▷ 프로그램 [제목] 정탐소설에서 K-스릴러까지 [형식] 북토크 [대담자]
-        김용언(미스터리 전문 격월간지 《미스테리아》 편집장), 박광규(추리소설 평론가) [내용] 미스터리의 지평을 넓히는 김용언 편집장과 한국 추리소설사를 발굴하는
-        박광규 평론가가 추리소설, 특히 한국 추리소설을 주제로 이야기를 나눕니다. 20세기 초 정탐소설에서 21세기 초 K-스릴러에 이르기까지 한국 추리소설이 걸어온
-        길을 돌아보며, 알고 보면 흥미롭고 친숙한 이야깃거리가 넘치는 한국 추리소설의 세계를 작품과 함께 소개합니다. ﻿▷ 참여방법 : 서울도서관 홈페이지(로그인) >
-        신청·참여 > 프로그램 신청 ★프로그램 사전 신청 혜택★ 프로그램 종료 후 설문조사 참여 시 다과패키지 제공(1인 1개, 폴콘 협찬) ※ 우천 등 운영 상황에 따라
-        프로그램이 변경될 수 있습니다!
-    </div>
+        </li>
+        <div>
+            ${eventSelect.ev_content}
+        </div>
+    </ul>
     <hr />
-    <div class="buttonpick"><button id="pick-btn">신청</button><button id="list-btn">목록</button></div>
+    <div class="buttonpick"><button id="listBtn">목록</button><button id="pickBtn">신청하기</button></div>
+     댓글 시작
+        <hr />
+    댓글: <input type="text" name="comment"><br>
+    <button id="sendBtn" type="button">SEND</button>
+    <div id="commentList"></div>
+
+     댓글 끝
 </main>
+<script>
+<%--    /***************** 댓글 시작 ***************/--%>
+<%--    let ev_no = 2--%>
+<%--&lt;%&ndash;        ${eventDto.ev_no};&ndash;%&gt;--%>
+
+<%--    let showList = function (ev_no) {--%>
+<%--        $.ajax({--%>
+<%--            type:'GET',       // 요청 메서드--%>
+<%--            url: '/event/comments?ev_no=' +ev_no,  // 요청 URI--%>
+<%--            success : function(result){--%>
+<%--                 $("#commentList").html(toHtml(result));--%>
+<%--            },--%>
+<%--            error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
+<%--        }); // $.ajax()--%>
+<%--    }--%>
+<%--/***************************** [[댓글 추가]] ****************************/--%>
+<%--    $(document).ready(function(){--%>
+<%--        showList(ev_no);--%>
+
+<%--        $("#sendBtn").click(function() {--%>
+<%--            let comment = $("input[name=comment]").val();--%>
+
+<%--            if(comment.trim()=='') {--%>
+<%--                alert("댓글을 입력해주세요.");--%>
+<%--                $("input[name=comment]").fucus()--%>
+<%--                return;--%>
+<%--            }--%>
+
+<%--            $.ajax({--%>
+<%--                type: 'Post',       // 요청 메서드--%>
+<%--                url: '/event/comments?'+ev_no,  // 요청 URI--%>
+<%--                headers: {"content-type": "application/json"},--%>
+<%--                dataType: 'text', // 전송받을 데이터의 타입--%>
+<%--                data: JSON.stringify({ev_no:ev_no, comment:comment}), // 서버로 전송할 데이터. stringify()로 직렬화 필요.--%>
+<%--                success: function (result) {--%>
+<%--                    alert(result);--%>
+<%--                    showList(ev_no);--%>
+<%--                },--%>
+<%--                error: function () {--%>
+<%--                    alert("error")--%>
+<%--                } // 에러가 발생했을 때, 호출될 함수--%>
+<%--            });--%>
+<%--        });--%>
+<%--/***************************** [[댓글 추가]] ****************************/--%>
+<%--/***************************** [[댓글 삭제]] ****************************/--%>
+<%--        // $(".delbtn").click(function(){--%>
+<%--        $("#commentList").on("click", ".delBtn", function(){--%>
+<%--            let evc_no = $(this).parent().attr("data-evc_no");--%>
+<%--            let ev_no = $(this).parent().attr("data-ev_no");--%>
+
+<%--            $.ajax({--%>
+<%--                type:'DELETE',       // 요청 메서드--%>
+<%--                url: '/event/comments/' +evc_no+ '?ev_no'+ev_no,  // 요청 URI--%>
+<%--                success : function(result){--%>
+<%--                  alert(result);--%>
+<%--                  showList(ev_no);--%>
+<%--                },--%>
+<%--                error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
+<%--            }); // $.ajax()--%>
+<%--        });--%>
+<%--    });--%>
+<%--/***************************** [[댓글 삭제]] ****************************/--%>
+
+<%--    let toHtml = function (comments) {--%>
+<%--        let tmp = "<ul>"--%>
+
+<%--        comments.forEach(function (evc_comment){--%>
+<%--            tmp += ' <li data-evc_no='+ evc_comment.evc_no--%>
+<%--            tmp += ' data-evc_pcno=' + evc_comment.evc_pcno--%>
+<%--            tmp += ' data-ev_no=' + evc_comment.ev_no + '>'--%>
+<%--            tmp += ' evc_commenter = <span class="commenter">' + evc_comment.evc_commenter + '</span>'--%>
+<%--            tmp += ' evc_comment=<span class="comment">' + evc_comment.evc_comment + '</span>'--%>
+<%--            tmp += ' evc_update' +evc_comment.evc_update--%>
+<%--            tmp += '<button class="delBtn">삭제</button>'--%>
+<%--            tmp += '<button class="modBtn">수정</button>'--%>
+<%--            tmp += '</li>'--%>
+<%--        })--%>
+
+<%--        return tmp + "<ul>";--%>
+<%--    }--%>
+    $(document).ready(function (){
+         $('#listBtn').on("click", function (){
+            location.href = "<c:url value='/event/list'/>";
+         })
+    })
+</script>
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->

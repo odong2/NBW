@@ -3,12 +3,14 @@ package com.finalpj.nbw.event.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Event {
     Integer ev_no; //
     String ev_title; // 행사이름
@@ -19,17 +21,22 @@ public class Event {
     String ev_start; // 행사 시작일
     String ev_end; // 행사 종료일
     Integer ev_people; // 모집 정원
+
     String ev_status; // 상태(참여중/참여가능)
+
     Integer ev_nowpeople; // 남은정원
     String ev_target; // 이벤트 대상
+    String ev_time; // 이벤트 시간
     String ev_place; // 이벤트 장소
     String ev_img; // 행사 포스터
     String ev_today; // 교육기간
     String ev_phone; // 문의번호
 
+    Integer ev_cocnt; // 댓글카운트
+
     public Event (Integer ev_no, String ev_title, String ev_content, String ev_file,
                   String ev_start, String ev_end, Integer ev_people, String ev_target,
-                  String ev_place, String ev_img, String ev_today, String ev_phone) {
+                  String ev_place, String ev_img, String ev_today, String ev_phone, String ev_time) {
         this.ev_no = ev_no;
         this.ev_title = ev_title;
         this.ev_content = ev_content;
@@ -42,6 +49,7 @@ public class Event {
         this.ev_img = ev_img;
         this.ev_today = ev_today;
         this.ev_phone = ev_phone;
+        this.ev_time = ev_time;
     }
 
 

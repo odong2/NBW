@@ -54,14 +54,14 @@
           #content{
               height: 50vh;
           }
-          .file_row{
+          .file-row{
               font-size:0.9rem;
           }
-          .file_row a{
+          .file-row a{
               color: black;
               margin-left: 10px;
           }
-          .file_row a:hover{
+          .file-row a:hover{
               color: #4e73df;
               font-weight: bold;
           }
@@ -86,14 +86,14 @@
             <section id="modSection" class="container-fluid main">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4">공지사항 수정</h1>
-                <form action="/admin/notice/write" method="POST" enctype="multipart/form-data">
+                <form action="/admin/notice/modify" method="POST" enctype="multipart/form-data">
                     <h5 class="mt-3 mb-2">제목</h5>
                     <input type="text" name="nt_title" id="inptitle" placeholder="제목을 입력해 주세요" value="${noticeDto.nt_title}"/>
                     <h5 class="mt-3 mb-2">내용</h5>
                     <textarea type="text" class="text-dark" name="nt_content" id="editor">${noticeDto.nt_content}</textarea>
                     <input type="hidden" name="nt_no" value="${noticeDto.nt_no}">
                     <input type="file" name="file" id="fileInput"  value="${noticeDto.nt_filename}"/>
-                    <button id="wrtBtn" type="button"  class="btn btn-primary mt-3">수정</button>
+                    <button id="wrtBtn" type="submit"  class="btn  mt-3">수정</button>
                     <button id="modOutBtn" type="button" class="mt-3 btn btn-danger">취소</button>
                 </form>
             </section>
@@ -137,7 +137,7 @@
                                 <c:choose>
                                     <%-- 한글 파일일 경우 --%>
                                     <c:when test="${fn:contains(file, '.hwp')}">
-                                        <td colspan="3" class="align-middle file_row">
+                                        <td colspan="3" class="align-middle file-row">
                                                 <img src="/images/hwp.png" width="25px"/>
                                                 <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
                                                     <c:out value="${noticeDto.nt_filename}"/>
@@ -146,7 +146,7 @@
                                     </c:when>
                                     <%-- 엑셀일 경우 파일일 경우 --%>
                                     <c:when test="${fn:contains(file, '.xlsx')}">
-                                        <td colspan="3" class="align-middle file_row">
+                                        <td colspan="3" class="align-middle file-row">
                                             <img src="/images/xlsx.png" width="20px"/>
                                             <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
                                                 <c:out value="${noticeDto.nt_filename}"/>
@@ -155,7 +155,7 @@
                                     </c:when>
                                     <%-- pdf일 경우 파일일 경우 --%>
                                     <c:when test="${fn:contains(file, '.pdf')}">
-                                        <td colspan="3" class="align-middle file_row">
+                                        <td colspan="3" class="align-middle file-row">
                                             <img src="/images/pdf.png" width="23px"/>
                                             <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
                                                 <c:out value="${noticeDto.nt_filename}"/>
@@ -163,7 +163,7 @@
                                         </td>
                                     </c:when>
                                     <c:otherwise>
-                                        <td colspan="3" class="align-middle file_row">
+                                        <td colspan="3" class="align-middle file-row">
                                             <a  href="/admin/notice/download?fileName=${noticeDto.nt_file}">
                                                 <c:out value="${noticeDto.nt_filename}"/>
                                             </a>
@@ -206,6 +206,7 @@
             <%--location.href=`/admin/notice/modify?nt_title=${noticeDto.nt_title}&nt_content=${noticeDto.nt_content}`;--%>
             $("#readSection").css('display','none');
             $("#modSection").css('display','block');
+
 
         });
         $("#ntDelBtn").click(function(){

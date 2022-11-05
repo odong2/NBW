@@ -49,8 +49,8 @@ public class NoticeService {
     /******************** 공지글 한 건 조회  + 조회수 증가 + 댓글 조회 *********************/
     @Transactional(readOnly = true)
     public Notice getNotice(Integer nt_no) throws Exception{
-        Notice noticeDto = noticeDao.selectNotice(nt_no);
         noticeDao.updateViewCnt(nt_no); // 조회수 증가
+        Notice noticeDto = noticeDao.selectNotice(nt_no);
         return noticeDto;
     }
     /************************ 공지글 전체 조회 ****************************/

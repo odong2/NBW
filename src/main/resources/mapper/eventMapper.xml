@@ -1,27 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mybatis.mapper.cartMapper">
-    <select id="selectEvent" parameterType="int" resultType="eventDto">
-        select EV_NO,
-               EV_TITLE,
-               EV_CONTENT,
-               EV_CDATE,
-               EV_FILE,
-               EV_HIT,
-               EV_START,
-               EV_END,
-               EV_PEOPLE,
-               EV_STATUS,
-               EV_NOWPEOPLE,
-               EV_TARGET,
-               EV_PLACE,
-               EV_IMG,
-               EV_TIME,
-               EV_TODAY,
-               EV_PHONE
-        from TB_EVENT
-        where EV_NO = #{EV_NO}
+<mapper namespace="com.finalpj.nbw.event.dao.EventMapper">
+
+    <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
+    <select id="eventSelectAll" resultType="eventDto">
+            SELECT *
+            FROM tb_event
+            ORDER BY ev_cdate DESC, ev_no DESC
     </select>
-</mapper>
+    <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
+    <select id="eventSelect" parameterType="int" resultType="eventDto">
+        SELECT *
+        FROM tb_event
+        WHERE ev_no = #{ev_no}
+    </select>
+    <!--========================================== [[ 마이페이지 신청한 이벤트 조회 ]] ===============================-->
+    <select id="myEventSelectAll" resultType="qnaDto">
+        SELECT *
+        FROM tb_event
+        where ev_no = #{ev_no} ,and mem_id = #{mem_id}
+        ORDER BY ev_cdate DESC, ev_no DESC
+    </select>
+    <!--============================================ [[ 관리자 이벤트 삭제 ]] ==========================================-->
+    <delete id="adminEventDelete" parameterType="int">
+        DELETE FROM tb_event WHERE ev_no = #{ev_no}
+    </delete>
+
+    <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
+    <insert id="eventInsert" parameterType="eventDto">
+        INSERT INTO TB_EVENT(ev_no, ev_title, ev_content, ev_cdate, ev_file
+                            , ev_start, ev_end, ev_people, ev_status, ev_nowpeople
+                            , ev_target, ev_place, ev_img, ev_time, ev_today
+                            , ev_phone, ev_cocnt)
+        VALUES (SEQ_EV_NO.NEXTVAL, #{ev_title}, #{ev_content}, SYSDATE, #{ev_file}
+            , #{ev_start}, #{ev_end}, #{ev_people}, #{ev_status}, #{ev_nowpeople}
+            , #{ev_target}, #{ev_place},  #{ev_img},#{ev_time}, #{ev_today}
+            , #{ev_phone}, #{ev_cocnt})
+
+    </insert>
+
+    <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
+<!--    <select id="count" resultType="int">-->
+<!--            SELECT count(*) FROM tb_event-->
+<!--    </select>-->
+
+<!--    <delete id="deleteAll">-->
+<!--            DELETE FROM tb_event-->
+<!--    </delete>-->
+<!--        <select id="select" parameterType="int" resultType="eventDto">-->
+<!--            Select ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start, ev_end, ev_people-->
+<!--                , ev_status, ev_nowpeople, ev_target, ev_place, ev_img, ev_time, ev_today, ev_phone-->
+<!--            FROM tb_event-->
+<!--            WHERE ev_no = #{ev_no}-->
+<!--        </select>-->
+
+<!--        <delete id="delete" parameterType="map">-->
+<!--            DELETE FROM tb_event WHERE ev_no = #{ev_no}-->
+<!--        </delete>-->
+
+<!--        <insert id="insert" parameterType="eventDto">-->
+<!--            INSERT INTO tb_event-->
+<!--                (ev_title, ev_content)-->
+<!--            VALUES-->
+<!--                (#{ev_title}, #{ev_content}-->
+<!--        </insert>-->
+
+<!--        <select id="select" parameterType="int" resultType="eventDto">-->
+<!--            <include refid="selectFromEvent"/>-->
+<!--            WHERE ev_no = #{ev_no}-->
+<!--        </select>-->
+
+<!--        <select id="selectPage" parameterType="map" resultType="eventDto">-->
+<!--            <include refid="selectFromEvent"/>-->
+<!--            ORDER BY ev_cdate DESC, ev_no DESC-->
+<!--            LIMIT #{offset}, #{pageSize}-->
+<!--        </select>-->
+
+<!--        <update id="update" parameterType="eventDto"> /* 수정일 컬럼을 따로 만들어서 해야할까? cdate에 업데이트 하게 해야하나? */-->
+<!--            UPDATE tb_event-->
+<!--            SET   ev_title = #{ev_title}-->
+<!--                , ev_content = #{ev_content}-->
+<!--                , ev_file = #{ev_file}-->
+<!--                , ev_start = #{ev_start}-->
+<!--                , ev_end = #{ev_end}-->
+<!--                , ev_people = #{ev_people}-->
+<!--                , ev_status = #{ev_status}-->
+<!--                , ev_nowpeople = #{ev_nowpeople1}-->
+<!--                , ev_target = #{ev_target}-->
+<!--                , ev_place = #{ev_place}-->
+<!--                , ev_img = #{ev_img}-->
+<!--                , ev_time = #{ev_time}-->
+<!--                , ev_phone = #{ev_phone}-->
+<!--            WHERE ev_no = #{ev_no}-->
+<!--        </update>-->
+
+<!--        <update id="updateCommentCnt" parameterType="map">-->
+<!--            UPDATE board-->
+<!--            SET   ev_cocnt = ev_cocnt + #{cnt}-->
+<!--            WHERE ev_no = #{ev_no}-->
+<!--        </update>-->
+
+<!--        <update id="increaseViewCnt" parameterType="int">-->
+<!--            UPDATE board-->
+<!--            SET   view_cnt = view_cnt + 1-->
+<!--            WHERE bno = #{bno}-->
+<!--        </update>-->
+
+<!--        <sql id="searchCondition">-->
+<!--            <choose>-->
+<!--                <when test='option=="T"'>-->
+<!--                    AND title LIKE concat('%', #{keyword}, '%')-->
+<!--                </when>-->
+<!--                <when test='option=="W"'>-->
+<!--                    AND writer LIKE concat('%', #{keyword}, '%')-->
+<!--                </when>-->
+<!--                <otherwise>-->
+<!--                    AND (title   LIKE concat('%', #{keyword}, '%')-->
+<!--                    OR   content LIKE concat('%', #{keyword}, '%'))-->
+<!--                </otherwise>-->
+<!--            </choose>-->
+<!--        </sql>-->
+
+<!--        <select id="searchSelectPage" parameterType="SearchCondition" resultType="eventDto">-->
+<!--            SELECT ev_no, ev_title, ev_content, evc_cdate-->
+<!--            FROM  tb_event-->
+<!--            WHERE true-->
+<!--            <include refid="SearchCondition"/>-->
+<!--            ORDER BY ev_cdate DESC, ev_no DESC-->
+<!--            LIMIT #{offset}, #{pageSize}-->
+<!--        </select>-->
+
+<!--        <select id="searchResultCnt" parameterType="SearchCondition" resultType="int">-->
+<!--            SELECT count(*)-->
+<!--            FROM  tb_event-->
+<!--            WHERE true-->
+<!--            <include refid="SearchCondition"/>-->
+<!--        </select>-->
+    </mapper>

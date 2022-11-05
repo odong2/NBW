@@ -3,43 +3,48 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.finalpj.nbw.notice.dao.NtCommentMapper">
     <!-- ============================= 공지글 댓글 모두 삭제 ==============================-->
-    <delete id="deleteAll" parameterType="int">
+    <delete id="deleteCommentList" parameterType="int">
         DELETE FROM tb_noticecomment
         WHERE  nt_no = #{nt_no}
     </delete>
     <!-- ============================ 댓글 개수 조회 ===============================-->
-    <select id="count" parameterType="int" resultType="int">
+    <select id="selectCommentCnt" parameterType="int" resultType="int">
         SELECT count(*) FROM tb_noticecomment
         WHERE  nt_no = #{nt_no}
     </select>
 
-    <!-- ====================== 댓글 삭제(일치하는 작성자만) =========================-->
-    <delete id="delete" parameterType="map">
+    <!-- ====================== 댓글 삭제(일치하는 작성자 및 대댓글 있으면 삭제) =========================-->
+    <delete id="deleteComment" parameterType="java.util.Map">
         DELETE FROM tb_noticecomment WHERE ntc_no = #{ntc_no} AND ntc_commenter = #{ntc_commenter}
     </delete>
 
+    <!-- ====================== 답글n개 삭제(댓글 삭제 후 답글이 있을 경우 삭제) =========================-->
+    <delete id="deleteRepComment" parameterType="java.lang.Integer">
+        DELETE FROM tb_noticeComment WHERE ntc_pcno = #{ntc_no}
+    </delete>
+
     <!-- ============================= 댓글 등록 =================================-->
-    <insert id="insert" parameterType="ntCommentDto">
+    <insert id="insertComment" parameterType="ntCommentDto">
         INSERT INTO tb_noticecomment
             (ntc_no, nt_no, ntc_pcno, ntc_comment, ntc_commenter)
         VALUES
             (SEQ_NTC_NO.NEXTVAL,#{nt_no}, #{ntc_pcno, jdbcType=INTEGER}, #{ntc_comment}, #{ntc_commenter})
     </insert>
     <!-- ============================= 대댓글 리스트 조회 =================================-->
-    <select id="selectAll" parameterType="int" resultType="ntCommentDto">
+    <select id="selectCommentList" parameterType="int" resultType="ntCommentDto">
         SELECT ntc_no, nt_no, NVL(ntc_pcno,ntc_no) as ntc_pcno, ntc_comment, ntc_commenter, ntc_cdate, ntc_update
         FROM tb_noticecomment
         WHERE nt_no = #{nt_no}
         ORDER BY  ntc_pcno asc, ntc_no asc
     </select>
     <!-- =========================== 댓글 한 건 조회 ==============================-->
-    <select id="select" parameterType="int" resultType="ntCommentDto">
+    <select id="selectComment" parameterType="int" resultType="ntCommentDto">
         SELECT ntc_no, nt_no, ntc_pcno, ntc_comment, ntc_commenter, ntc_cdate, ntc_update
         FROM tb_noticecomment
         WHERE ntc_no = #{ntc_no}
     </select>
     <!-- ====================== 댓글 수정(일치하는 작성자만) =========================-->
-    <update id="update" parameterType="ntCommentDto">
+    <update id="updateComment" parameterType="ntCommentDto">
         UPDATE tb_noticecomment
         SET ntc_comment = #{ntc_comment}
         , ntc_cdate = sysdate

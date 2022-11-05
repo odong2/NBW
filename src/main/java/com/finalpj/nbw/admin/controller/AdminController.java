@@ -11,7 +11,6 @@ public class AdminController {
 	
 	@GetMapping("test")
 	public String main() {
-		
 		return "admin/test";
 	}
 	
@@ -25,6 +24,5 @@ public class AdminController {
 	public String adminAnswer() {
 		return "admin/answer";
 	}
-	
-	
+
 }

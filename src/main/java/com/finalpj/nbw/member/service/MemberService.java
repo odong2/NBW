@@ -54,4 +54,6 @@ public class MemberService {
         return memberDao.insertMember(member);
     }
 
+    /* 멤버 쿠폰 조회(작성: 민준) */
+
 }
