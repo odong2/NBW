@@ -638,6 +638,7 @@
                                    pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
 		                           autocomplete="off" class="form-control"
                                    <fmt:formatNumber value="${member.getMem_phone()}" pattern="###-####-####"/>
+                            />
 		                </c:otherwise>
 		            </c:choose>
                 </div>
