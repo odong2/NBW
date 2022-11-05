@@ -16,6 +16,7 @@
         /* 유효성 검사 통과유무 변수 > 필수 항목 */
         let idCheck = false;            // 아이디
         let pwCheck = false;            // 비번
+        let nicknameCheck = false;      // 닉네임
         let nameCheck = false;            // 이름
         let mailCheck = false;            // 이메일
         let mailCodeCheck = false;          // 이메일 인증 코드 일치
@@ -24,7 +25,6 @@
         let phoneCheck = false;             // 전화번호 체크
         let addressCheck = false            // 주소
         let privacyCheck = false            // 개인정보 수집 이용 동의 체크
-
 
         $(function(){
             /* ===================================== 회원가입 전처리 =======================================
@@ -36,6 +36,7 @@
                 /* 입력값 변수 */
                 let id = $('#mem_id').val();                 // id 입력란
                 let pw = $('#mem_pw').val();                // 비밀번호 입력란
+                let nickname = $('#mem_nickname').val();
                 let name = $('#mem_name').val();            // 이름 입력란
                 let mail = $('#mem_email_id').val();            // 이메일 입력란
                 let birthday = $('#mem_birthday').val();            // 생년월일 입력란
@@ -55,6 +56,15 @@
                     // 아이디가 정상적으로 입력이 되었다면
                     $('.final_id_ck').attr("hidden", true);
                     idCheck = true;
+                }
+
+                if(nickname == null || nickname.trim() == ""){
+                    $('.final_nickname_ck').attr("hidden", false);
+                    nicknameCheck = false;
+                }else{
+                    // 비밀번호가 정상적으로 입력이 되었다면
+                    $('.final_nickname_ck').attr("hidden", true);
+                    nicknameCheck = true;
                 }
 
                 /* 비밀번호 유효성 검사 */
@@ -150,7 +160,7 @@
 					mailCodeCheck = true;
 				</c:if>
                 /* 최종 유효성 검사 체크 > 모든 것이 참이어야 가입 가능 */
-                if(idCheck&&pwCheck&&nameCheck&&mailCheck&&birthCheck&&genderCheck&&phoneCheck&&addressCheck&&privacyCheck&&mailCodeCheck) {
+                if(idCheck&&pwCheck&&nameCheck&&mailCheck&&birthCheck&&genderCheck&&phoneCheck&&addressCheck&&privacyCheck&&mailCodeCheck&&nicknameCheck) {
                     $("#joinForm").attr("action", "/member/join");
                     $("#joinForm").attr("method", "post");
                     $("#joinForm").submit();
@@ -227,9 +237,46 @@
                             .css('background-color', '#ffffff');
             });
 
+            $('#mem_nickname').keyup(function (){
+                let nickname = $(this).val();
+
+                /* nickname < 4 */
+                if(nickname.length < 2){
+                    $('#nicknameCheckDiv').removeClass("alert-success");
+                    $('#nicknameCheckDiv').addClass("alert-danger");
+                    $('#nicknameCheckDiv').text("닉네임은 두 글자 이상 입력하셔야 합니다.");
+                    nicknameCheck = false; // 가입 불가
+                    return;
+                }
+                /* id > 20 */
+                if(nickname.length > 20){
+                    $('#nicknameCheckDiv').removeClass("alert-success");
+                    $('#nicknameCheckDiv').addClass("alert-danger");
+                    $('#nicknameCheckDiv').text("닉네임은 20이내로 입력하셔야 합니다.");
+                    nicknameCheck = false; // 가입 불가
+                    return;
+                }
+
+                $("#nicknameCheckDiv").load("/member/nicknameCheck?nickname="+nickname, function(result){
+                    if(result.indexOf("가능한")){
+                        // 중복이 되지 않은 경우
+                        $('#nicknameCheckDiv').addClass("alert-success");
+                        $('#nicknameCheckDiv').removeClass("alert-danger");
+                        // 중복이 되지 않은 경우 가입이 가능하다.
+                        nicknameCheck = true;
+                    } else {
+                        // 중복된 경우
+                        $('#nicknameCheckDiv').removeClass("alert-success");
+                        $('#nicknameCheckDiv').addClass("alert-danger");
+                        // 중복이 된 경우 가입을 막는다.
+                        nicknameCheck = false;
+                    }
+                });
+            })
+
             /* ===================================== 비밀번호 유효성 처리(길이, 일치여부) ===================================== */
             // 비밀번호 처리 이벤트
-            $("#mem_pw").keyup(function() {
+            $("#mem_pw").blur(function() {
                 let pw = $("#mem_pw").val();
                 console.log("입력한 비밀번호 ===> "+ pw);
 
@@ -263,13 +310,12 @@
                             $('#pwCheckDiv').addClass("alert-info");
                             $('#pwCheckDiv').text("보안수준 : "+ result);
                         }
-                       /* 비밀번호를 입력했다가 지웠을 때 처리도 해줘야 한다.*/
                     }
                 });
             });
 
-            /* ===================================== 비밀번호 유효성 처리(길이, 일치여부) ===================================== */
-            $('#mem_pw2').keyup(function(){
+            /* ===================================== 비밀번호 유효성 처리(일치여부) ===================================== */
+            $('#mem_pw2').blur(function(){
                 let pw = $('#mem_pw').val();
                 let pw2 = $('#mem_pw2').val();
                 if(pw!=pw2){
@@ -287,20 +333,14 @@
             /* ===================================== 이메일 전송  ===================================== */
             $("[name=btn-email-send]").click(function(e){
                 /* (1) 먼저 이메일 입력 칸에 입력한 이메일이 있는지 확인한다.*/
-                const id = $("#mem_email_id").val(); // 입력한 이메일 ID
-                const domain = $("#email_domain").val(); // 선택한 이메일 DOMAIN
-                // 인증번호 입력란 박스
-                console.log(id);
-                console.log(domain);
+                const email = $("#mem_email_id").val() // 입력한 이메일 ID
 
-                const email = (id+"@"+domain).trim();
-
-                if(id == null || id.trim() =="") {
+                if(email == null || email.trim() =="") {
                     alert("이메일 주소를 입력해 주세요.");
                     e.preventDefault();
                 }
                 else {
-                    alert("id => "+id + "domain => "+domain+"email =>"+email+"로 이메일을 전송하였습니다.");
+                    alert(email+"로 이메일을 전송하였습니다.");
                     console.log("인증번호를 보낼 email ==> "+ email)
                 }
 
@@ -319,20 +359,6 @@
                         console.log("code : "+ code); // 할당이 되었는지 확인
                     }
                 });
-            });
-
-            $("select[name=email_domain_list]").change(function(){
-                /* 도메인 */
-                let selectedDomain = $("select[name=email_domain_list] option:selected").text(); // text값 가져오기
-                console.log("선택된 도메인 ===> "+selectedDomain);
-                if(selectedDomain == "직접 입력"){
-                    $("#email_domain").attr("readonly", false); // readonly 비활성화
-                    $("#email_domain").val(""); // 사용자 지정 도메인을 입력할 수 있도록 value 값을 비운다.
-                    return;
-                } else {
-                    $("#email_domain").attr("readonly", true); // readonly 활성화
-                    $("#email_domain").val(selectedDomain); // 선택한 도메인이 자동으로 입력된다.
-                }
             });
 
             /* ===================================== 발송된 인증번호 비교  ===================================== */
@@ -411,7 +437,6 @@
         <br>
         <br>
         <br>
-
         <!-- 아이디 입력 ROW  -->
         <div class="row">
             <div class="col-md-3">
@@ -433,12 +458,9 @@
                 </div>
                 <div class = "alert alert-dismissible w-75" id="idCheckDiv"></div>                </div>
             </div>
-
         </div>
-
         <hr>
         <br>
-
         <!-- 비밀번호 입력 ROW  -->
         <div class="row">
             <div class="col-3">
@@ -471,6 +493,21 @@
 
         <hr>
         <br>
+
+        <!-- 닉네임 입력 ROW  -->
+        <div class="row">
+            <div class="col-md-3">
+                <h6><span style="color: red; ">*</span> 닉네임 </h6>
+                <span class="final_nickname_ck" style="font-size: 5px; color: red" hidden>닉네임을 입력해 주세요.</span>
+            </div>
+            <div class="col-9">
+                <div class="input-group mb-3 w-75">
+                            <input name="mem_nickname" id="mem_nickname" required="required" pattern="[가-힣]{2,20}" class="form-control"
+                                   autocomplete="off" placeholder="닉네임을 입력해 주세요.">
+                </div>
+                <div class = "alert alert-dismissible w-75" id="nicknameCheckDiv"></div>                </div>
+        </div>
+        </div>
 
         <!-- 이름 입력 ROW  -->
         <div class="row">
@@ -510,17 +547,6 @@
 	                    <div class="col-6 input-group mb-3 w-100">
 	                        <input name="mem_email" id="mem_email_id" placeholder="이메일 입력" required="required"
 	                               autocomplete="off" class="form-control w-50" />
-	                        <p>@</p>
-	
-	                        <input name="email_domain" id="email_domain" required="required"
-	                               autocomplete="off" class="form-control" readonly>
-	
-	                        <select name="email_domain_list" id="email_domain_list" class="form-control w-50" required="required">
-	                            <option value="naver">naver.com</option>
-	                            <option value="gmail">gmail.com</option>
-	                            <option value="daum">hanmail.net</option>
-	                            <option value="self">직접 입력</option>
-	                        </select>
 	                    </div>
 	                </div>
 	                <%-- 메일 인증번호 입력란 --%>
@@ -608,8 +634,10 @@
 		                           autocomplete="off" class="form-control">
 		                </c:when>
 		                <c:otherwise>
-		                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
-		                           autocomplete="off" class="form-control" value="${member.getMem_phone()}">
+		                    <input name="mem_phone" id="mem_phone" type="tel" placeholder="예) 010-1234-5678"
+                                   pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+		                           autocomplete="off" class="form-control"
+                                   <fmt:formatNumber value="${member.getMem_phone()}" pattern="###-####-####"/>
 		                </c:otherwise>
 		            </c:choose>
                 </div>
@@ -638,7 +666,7 @@
             <div class="col-3"></div>
             <div class="col-9">
                 <div class="input-group mb-3">
-                    <input name="mem_address" type="text" id="address2" readonly
+                    <input name="mem_address1" type="text" id="address2" readonly
                            autocomplete="off" class="form-control" placeholder="도로명주소">
                 </div>
             </div>

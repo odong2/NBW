@@ -22,6 +22,7 @@
                                , MEM_CDATE
                                , MEM_BIRTHDAY
                                , MEM_EMAIL
+                               , MEM_NICKNAME
                                )
         VALUES (
                 #{mem_id}
@@ -35,12 +36,18 @@
                 , sysdate
                 ,#{mem_birthday}
                 ,#{mem_email}
+                ,#{mem_nickname}
                 )
     </insert>
 
     <!--  ================== *ID 중복 체크* ==================  -->
     <select id="selectIdCheck" resultType="java.lang.String">
         SELECT mem_id from tb_member WHERE mem_id = #{mem_id}
+    </select>
+
+    <!--  ================== *닉네임 중복 체크* ==================  -->
+    <select id="selectNicknameCheck" resultType="java.lang.String">
+        SELECT mem_nickname from tb_member WHERE mem_nickname = #{mem_nickname}
     </select>
 
     <!--  ================== *회원 정보 수정* ==================  -->
@@ -51,8 +58,15 @@
             ,mem_address2 = #{mem_address2}
             ,mem_email = #{mem_email}
             ,mem_update = sysdate
+            ,mem_nickname = #{mem_nickname}
         WHERE mem_id = #{mem_id}
     </update>
+
+    <!--  ================== *회원 탈퇴* ==================  -->
+    <delete id="deleteMember" parameterType="member">
+        DELETE  FROM tb_member
+        WHERE mem_id = #{mem_id}
+    </delete>
 
     <!-- ================= 결제 시 point 사용하면 point 감소 (writer: 민준)   -->
     <update id="updateMemPoint" parameterType="java.util.Map">

@@ -46,7 +46,8 @@ public class MailService {
                     new MimeMessageHelper(message, true, "UTF-8");
 
             // (5) 보내는 이의 메일 주소가 보여지는 방식을 사용자 정의로 설정할 수 있다.
-            messageHelper.setFrom("wjdcodms@gachon.ac.kr", "NBW");
+            // messageHelper.setFrom("wjdcodms@gachon.ac.kr","NBW");
+
             // 제목
             messageHelper.setSubject(subject);
             // (4) 수신인을 설정한다.--> Controller 에서 넘어온 수신메일 View -> Controller -> *Service*

@@ -22,4 +22,10 @@ public class MypageService {
         log.info("SERVICE ====================> 회원정보 수정 : "+ member.getMem_id());
         return memberDao.updateMyInfo(member);
     }
+
+    /* 회원탈퇴 처리 */
+    public int delMem(Member member) throws Exception{
+        log.info("SERVICE ==================> 회원탈퇴 처리");
+        return memberDao.deleteMember(member);
+    }
 }

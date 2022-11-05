@@ -7,13 +7,14 @@ import static org.junit.Assert.*;
 public class PasswordMeterTest {
     private PasswordMeter passwordMeter = new PasswordMeter();
 
+    /* 패스워드 안전도를 판단해 준다. */
     public void assertPasswordStrength(String password, PasswordStrength expected){
         /* 기대값 : meter 메서드가 파라미터로 받은 비밀번호의 안전도를 판단해서 리턴한 값
-         * 실제값 : PasswordStrength 의 STRONG 수준  */
+         * 실제값 : PasswordStrength 의 STRONG 수준
+         * result 와 expected 가 충돌하면 테스트를 통과할 수 없다. */
         PasswordStrength result = passwordMeter.meter(password);
         assertEquals(result, expected);
     }
-
 
     /* null 값이면 예외 발생 */
     @Test(expected = IllegalArgumentException.class)
