@@ -53,4 +53,9 @@
             ,mem_update = sysdate
         WHERE mem_id = #{mem_id}
     </update>
+
+    <!-- ================= 결제 시 point 사용하면 point 감소 (writer: 민준)   -->
+    <update id="updateMemPoint" parameterType="java.util.Map">
+        UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
+    </update>
 </mapper>
