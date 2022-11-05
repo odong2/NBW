@@ -1,15 +1,14 @@
 package com.finalpj.nbw.payment.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartList {
-    private List<CartProduct> cartProducts;
+public class PayDetail {
+    private String order_no;
+    private Integer p_no;
+    private Integer p_count;
 }

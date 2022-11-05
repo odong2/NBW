@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.finalpj.nbw.member.domain.Member;
 
+import java.util.Map;
+
 @Repository
 @Slf4j
 public class MemberDaoImpl implements MemberDao{
+    private final String namespace="com.finalpj.nbw.member.dao.MemberDao.";
 	@Autowired
     private SqlSession sqlSession;
 
@@ -40,6 +43,11 @@ public class MemberDaoImpl implements MemberDao{
         int result = sqlSession.update("updateMyInfo", member);
         log.info("dao ===> 수정 여부 "+ result);
         return result;
+    }
+
+    @Override
+    public int updateMemPoint(Map pMap) throws Exception {
+        return sqlSession.update(namespace + "updateMemPoint", pMap);
     }
 
 

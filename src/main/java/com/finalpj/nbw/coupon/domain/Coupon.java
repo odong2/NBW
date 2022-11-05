@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Coupon {
-    private Integer cp_no;
+    private String cp_no;
     private String cp_name;
     private String cp_price;
 }

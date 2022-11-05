@@ -1,10 +1,8 @@
 package com.finalpj.nbw.payment.domain;
 
 import com.finalpj.nbw.product.domain.Product;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -12,12 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class CartProduct {
     private String p_no;
     private String p_title;
-    private String p_price;
+    private Integer p_price;
     private String p_img;
     private String p_category;
-    private int p_count;
+    private Integer p_count;
+    @Nullable
+    private String order_status;
 
 }
