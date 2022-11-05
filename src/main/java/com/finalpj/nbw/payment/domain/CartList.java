@@ -1,6 +1,7 @@
 package com.finalpj.nbw.payment.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -30,7 +30,6 @@ public class CouponService {
         }else {
             /* (3) 쿠폰이 존재하지 않을 경우 couponList 빈값 */
             log.info("쿠폰이 존재하지 않음");
-            couponList = new ArrayList();
         }
         return couponList;
     }

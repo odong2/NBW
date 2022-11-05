@@ -23,6 +23,8 @@
                 <prop key="mail.smtp.starttls.enable">true</prop>
                 <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
                 <prop key="mail.debug">true</prop>
+        <!--     구글인 경우 TSL 네이버, 다음의 경우 SSL           -->
+<!--                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>-->
             </props>
         </property>
     </bean>

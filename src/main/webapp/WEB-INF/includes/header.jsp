@@ -1,8 +1,105 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script type="text/javascript">
+    $(function(){
+        let keywordList; // 자동완성 창에 띄울 키워드를 저장할 변수
+        $('#mainSearch').autocomplete({
+            source: function (request, response) { //source 는 자동완성의 대상
+            // ajax 시작
+                $.ajax({
+                    url: "/product/search"
+                    , type: "POST"
+                    , dataType: "json"
+                    , data: {keyword: $('#mainSearch').val()} // 검색창에 입력된 키워드가 url 요청에서 파라미터로 전송된다.
+                    // 통신에 성공하면
+                    , success: function (data) {
+                        /* data.resultList 는 배열임 */
+                        const array = data.resultList;
+                        array.forEach((value) => {
+                            console.log(value["P_TITLE"]); // 출력해야 할 값
+                            keywordList = value["P_TITLE"]; // 전역에 선언해둔 변수에 담는다.
+                        })
+                            response(
+                                $.map(data, function (item) {
+                                    return {
+                                        label: keywordList
+                                        , value: keywordList // 선택 시 input에 표시되는 값
+                                    };
+                                })
+                            );// response
+                    }// success 끝
+                    , minLength: 2 // 두 자 이상이 입력될 때 서버로 요청을 보낸다.
+                    , autoFocus: true
+                    , select: function (evt, ui) {
+                        console.log("전체 data: " + JSON.stringify(ui));
+                        console.log("검색 데이터: " + ui.item);
+                    }
+                    , focus: function (evt, ui) {
+                        return false;
+                    }
+                    , close: function (evt) {}
+                })
+                // ajax 끝
+            }
+        })
+    });
+    /* ================ 검색어 자동 완성 기능 추가 ================== */
+
+</script>
+<style>
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 160px;
+        padding: 10px 0;
+        margin: 5px 0 0;
+        list-style: none;
+        font-size: 14px;
+        text-align: left;
+        background-color: #ffffff;
+        border-radius: 10px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+    }
+
+    .ui-autocomplete > li > div {
+        display: block;
+        padding: 3px 10px;
+        clear: both;
+        font-weight: normal;
+        line-height: 1.42857143;
+        color: #333333;
+        white-space: nowrap;
+    }
+
+    .ui-state-hover,
+    .ui-state-active,
+    .ui-state-focus {
+        text-decoration: none;
+        color: #262626;
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+
+    .ui-helper-hidden-accessible {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+</style>
 
 <div class="d-flex flex-wrap">
     <div class="col-2"></div>
-    <nav class="d-flex align-items-center flex-column mb-3 col-8">
+    <nav class="d-flex align-items-center flex-column col-8">
         <ul
                 class="col-12 nav nav-pills d-flex justify-content-end p-2"
                 style="font-size: 13px;"
@@ -54,27 +151,33 @@
             </li>
         </ul>
         <br>
-        <div class="col-12 d-flex align-items-center justify-content-start">
-          <a href="/home"><img alt="" src="/images/NBW_title.png" style="width: 200px;"></a>
-          <div class="input-group ms-3">
-                <input
-                        type="text"
-                        class="form-control"
-                        placeholder="검색어를 입력해주세요."
-                        aria-label="Recipient's username"
-                        aria-describedby="button-addon2"
-                        style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
-                />
-                <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        id="button-addon2"
-                        style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
-                >
-                    <i class="fas fa-search"></i>
-                </button>
-          </div>
+        <form id="searchForm" action="/product/search" method="get" style="width: 100%;">
+        <div class="col-12 d-flex align-items-center justify-content-start" >
+            <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
+            <div class="input-group ms-3">
+    <%--  ============================      검색창    =============================  --%>
+                        <input
+                                type="text"
+                                id="mainSearch"
+                                name="keyword"
+                                class="form-control"
+                                placeholder="검색어를 입력해주세요."
+                                aria-label="Recipient's username"
+                                aria-describedby="button-addon2"
+                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
+                        />
+                        <button
+                                class="btn btn-outline-secondary"
+                                id="button-addon2"
+                                type="submit"
+                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
+                        >
+                            <i class="fas fa-search"></i>
+                        </button>
+            </div>
         </div>
+        </form>
+        <%@include file="/WEB-INF/views/product/autocomplete.jsp" %>
     </nav>
     <div class="col-2"></div>
 </div>

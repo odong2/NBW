@@ -6,12 +6,93 @@
 		SELECT * FROM tb_PRODUCT WHERE p_no = #{value}
 	</select>
 
+	<!-- ===================================== 공통부분 ===================================== -->
+	<sql id="criteria">
+		<if test="keyword != null">
+			like '%'||#{keyword}||'%'
+		</if>
+	</sql>
 
-	<!-- ===================================== 제목 검색 ================================================= -->
-	<select id="selectProductByWord" parameterType="String" resultType="java.util.List">
-		SELECT P_NO, P_IMG, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE
+	<!-- ===================================== 제목 키워드 검색
+	사용자가 입력한 키워드가 제목, 작가에 포함되어있는 상품의 제목을 반환================================================= -->
+	<select id="selectProductByWord" parameterType="java.util.Map" resultType="map">
+		SELECT DISTINCT P_TITLE
 		FROM TB_PRODUCT
-		WHERE P_TITLE LIKE '%'||#{searchWord}||'%'
+		WHERE
+		    P_TITLE <include refid="criteria"/>
+		OR
+			p_author <include refid="criteria"/>
 		ORDER BY P_TITLE ASC
+	</select>
+
+	<!-- ================================== 상품 목록 조회 > 페이징 포함 ================================== -->
+	<select id="selectProduct"  resultType="product">
+		<![CDATA[
+		SELECT p_no, p_title, p_author, p_img, p_publisher,  p_pubdate , categoryCode as categoryCode, p_description, p_price, p_like
+			FROM (
+				  SELECT rownum AS rn, p_no, p_title, p_author, p_img, p_publisher, p_pubdate, p_category as categoryCode, p_description, p_price, p_like
+				  FROM TB_PRODUCT
+				  where (P_TITLE
+	  	]]>
+				  <include refid="criteria"/>
+					OR
+					P_AUTHOR <include refid="criteria"/>)
+				    <choose>
+						<when test ='type == "C" '>
+							AND P_CATEGORY = #{categoryCode}
+						</when>
+					</choose>
+			<![CDATA[
+					AND
+				      rownum <= #{pageNum} * #{amount}
+			  	)
+		WHERE  rn >(#{pageNum}-1) * #{amount}
+			]]>
+		ORDER BY P_PUBDATE DESC
+	</select>
+
+	<!--  ============================== 검색된 게시물 총 개수 ==================================	-->
+	<select id="selectTotalProduct" resultType="int">
+		SELECT count(*)
+		FROM tb_product
+		WHERE
+			(P_TITLE	<include refid="criteria"/>
+		  	OR
+			P_AUTHOR <include refid="criteria"/>)
+		<choose>
+			<when test ='type == "C" '>
+				AND P_CATEGORY = #{categoryCode}
+			</when>
+		</choose>
+		    AND
+			P_NO > 0
+	</select>
+
+	<!--  ============================== 카테고리로 상품 검색 ==================================	-->
+	<select id="selectProductCategory" resultType="String">
+		SELECT DISTINCT p_category as categoryCode FROM TB_PRODUCT
+		WHERE
+		    P_TITLE <include refid="criteria"/>
+			OR
+		    P_AUTHOR <include refid="criteria"/>
+	</select>
+
+	<!--  ========================== 키워드 검색 결과 조회된 카테고리의 개수 ==============================	-->
+
+	<select id="selectProductCateInfo"  resultType="categoryFilter">
+		SELECT DISTINCT count(*) as categoryCount
+		FROM (
+				  SELECT *
+				  FROM TB_PRODUCT
+				  WHERE
+
+						(
+						    P_TITLE <include refid="criteria"/>
+						OR
+						P_AUTHOR <include refid="criteria"/>
+						    )
+						AND
+					 	P_CATEGORY = #{categoryCode}
+			  		)
 	</select>
 </mapper>

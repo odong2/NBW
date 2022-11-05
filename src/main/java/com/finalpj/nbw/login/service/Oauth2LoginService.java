@@ -49,8 +49,6 @@ public class Oauth2LoginService {
 			default:
 				break;
 			}
-		
 		return member;
 	}
-	
 }
