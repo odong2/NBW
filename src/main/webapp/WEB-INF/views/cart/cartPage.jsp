@@ -583,19 +583,19 @@
 				
 				// hidden 리스트 만들어주기
 				input_form += `
-							<input type="hidden" name="cartProducts["+indexNum+"].p_no" value="${'${p_no}'}">
-							<input type="hidden" name="cartProducts["+indexNum+"].p_title" value="${'${p_title}'}">
-							<input type="hidden" name="cartProducts["+indexNum+"].p_price" value="${'${p_price}'}">								
-							<input type="hidden" name="cartProducts["+indexNum+"].p_img" value="${'${p_img}'}">								
-							<input type="hidden" name="cartProducts["+indexNum+"].p_category" value="${'${p_category}'}">								
-							<input type="hidden" name="cartProducts["+indexNum+"].p_count" value="${'${p_count}'}">	
+							<input type="hidden" name="cartProducts[${'${indexNum}'}].p_no" value="${'${p_no}'}">
+							<input type="hidden" name="cartProducts[${'${indexNum}'}].p_title" value="${'${p_title}'}">
+							<input type="hidden" name="cartProducts[${'${indexNum}'}].p_price" value="${'${p_price}'}">
+							<input type="hidden" name="cartProducts[${'${indexNum}'}].p_img" value="${'${p_img}'}">
+							<input type="hidden" name="cartProducts[${'${indexNum}'}].p_category" value="${'${p_category}'}">
+							<input type="hidden" name="cartProducts[${'${indexNum}'}].p_count" value="${'${p_count}'}">
 				`;
 				// 인덱스 값을 하나 증가해준다.
 				++indexNum;
 			}
 		});	
 		
-		$(".paymentForm").html(input_form);
+		$(".paymentForm").append(input_form);
 		$(".paymentForm").submit();
 	});
 </script>
