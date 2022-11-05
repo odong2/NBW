@@ -11,42 +11,34 @@
             width: 100%;
             padding-left: 20px;
         }
-
         ul {
             list-style: none;
         }
-
         .product_container {
             width: 80%;
             /*margin-bottom: 100px;*/
         }
-
         .product_list {
             margin-bottom: 40px;
             padding:10px 5px;
         }
-
         #product_list>a {
             text-decoration: none;
             text-align: center;
         }
-
         .col-4>a {
             color: rgb(21, 30, 61);
             font-size: smaller;
             text-decoration: none;
         }
-
         a {
             text-decoration: none;
         }
-
         .pagination_info {
             text-align: center;
             margin-top: 50px;
             margin-bottom: 100px;
         }
-
         .pagination_info li {
             width: 30px;
             height: 30px;
@@ -59,48 +51,46 @@
             margin-right: 5px;
             float: left;
         }
-
         .pagination_info li a {
             color: #767474;
         }
-
     </style>
 </head>
 <body>
-    <!-- 헤더 시작 -->
-    <%@include file="/WEB-INF/includes/header.jsp" %>
-    <!-- 헤더 끝 -->
-    <section class="product-wrap wrapper d-flex">
+<!-- 헤더 시작 -->
+<%@include file="/WEB-INF/includes/header.jsp" %>
+<!-- 헤더 끝 -->
+<section class="product-wrap wrapper d-flex">
     <%--    카테고리 시작    --%>
     <%@include file="/WEB-INF/views/product/category.jsp" %>
     <main>
         <br>
-<%--        ${list}--%>
+        <%--        ${list}--%>
         <h6><span style="font-weight: bolder; color: #83b72e;">'${criteria.keyword}'</span> 에 대한 <span style="color: darkgreen"><fmt:formatNumber value="${pagination.totalCount}" type="number"/> </span>개의 검색 결과</h6>
         <div class="product_container">
-        <hr>
+            <hr>
             <c:forEach items = "${list}" var="list">
-<%-- 상품 div --%>
+                <%-- 상품 div --%>
                 <div class="row" style="padding: 10px 10px;">
-                                <div class="row" id="product_list" >
-                                    <div class="col-3">
-                                        <a href="#"><img alt=""  width="150px" src="${list.getP_img()}" style="border-radius: 5px;"/></a>
-                                    </div>
-                                   <div class="col">
-                                       <div class="row"><p style="font-weight: bolder"><a href="#">${list.getP_title()}</a></p></div>
-                                       <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_author()} 저자</p></div>
-                                       <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_publisher()} | ${list.getP_pubdate()} 출간</p></div>
-                                       <div class="row"><p style="font-size: 15px; font-weight: bolder;"><fmt:formatNumber value="${list.getP_price()}" type="number"/>  원</p></div>
-                                       <div class="row"><p style="font-size: small;">♥️ ${list.getP_like()} </p></div>
-                                   </div>
-                                    <div class="col-2" style="padding-top:55px">
-                                        <div class="row-cols-md-auto text-center"><button style="margin-bottom: 5px; color: white; background-color: gray; border-radius: 5px; border: none; width: 100%; height: 40px; ">장바구니</button></div>
-                                        <div class="row-cols-md-auto text-center"><button style="color: white; background-color: midnightblue; border-radius: 5px; border: none; width: 100%; height: 40px; ">바로구매</button></div>
-                                    </div>
-                               </div>
-                                <br>
+                    <div class="row" id="product_list" >
+                        <div class="col-3">
+                            <a href="#"><img alt=""  width="150px" src="${list.getP_img()}" style="border-radius: 5px;"/></a>
+                        </div>
+                        <div class="col">
+                            <div class="row"><p style="font-weight: bolder"><a href="#">${list.getP_title()}</a></p></div>
+                            <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_author()} 저자</p></div>
+                            <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_publisher()} | ${list.getP_pubdate()} 출간</p></div>
+                            <div class="row"><p style="font-size: 15px; font-weight: bolder;"><fmt:formatNumber value="${list.getP_price()}" type="number"/>  원</p></div>
+                            <div class="row"><p style="font-size: small;">♥️ ${list.getP_like()} </p></div>
+                        </div>
+                        <div class="col-2" style="padding-top:55px">
+                            <div class="row-cols-md-auto text-center"><button style="margin-bottom: 5px; color: white; background-color: gray; border-radius: 5px; border: none; width: 100%; height: 40px; ">장바구니</button></div>
+                            <div class="row-cols-md-auto text-center"><button style="color: white; background-color: midnightblue; border-radius: 5px; border: none; width: 100%; height: 40px; ">바로구매</button></div>
+                        </div>
+                    </div>
+                    <br>
                 </div>
-            <%--                            상품 div 끝                            --%>
+                <%--                            상품 div 끝                            --%>
                 <hr>
             </c:forEach>
             <c:if test="${pagination.totalCount == null || pagination.totalCount == 0}">
@@ -137,6 +127,6 @@
         </div>
         <br>
     </main>
-    </section>
+</section>
 </body>
 </html>
