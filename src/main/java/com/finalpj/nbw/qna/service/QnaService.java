@@ -80,7 +80,6 @@ public class QnaService {
     @Transactional(rollbackFor = Exception.class)
     public void writeAnswer(Answer answer, Integer qn_no) throws Exception {
     	log.info("서비스 관리자 답변등록 호출");
-    	log.info(answer+","+qn_no);
     	int result = 0;
     	result = qnaDao.insertAnswer(answer);
     	log.info(result);
@@ -101,4 +100,21 @@ public class QnaService {
 		return an;
 	}
 
+	/****************************** [[ 관리자 답변 수정 ]] ****************************/
+	@Transactional(rollbackFor = Exception.class)
+	public void modifyAnswer(Answer answer) throws Exception {
+		log.info("서비스 관리자 답변 수정 호출");
+			qnaDao.updateAnswer(answer); 
+	}
+	/****************************** [[ 관리자 답변 삭제 ]] ****************************/
+	@Transactional(rollbackFor = Exception.class)
+	public void deleteAnswer(Integer qn_no) throws Exception {
+		log.info("서비스 관리자 답변 삭제 호출");
+    	int result = 0;
+    	result = qnaDao.deleteAnswer(qn_no);
+    	log.info(result);
+    	if(result == 1) { // insert에 성공하면
+    		qnaDao.updateStateN(qn_no); // 답변 상태 업데이트 해주기
+    	}
+	}
 }

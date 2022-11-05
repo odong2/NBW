@@ -91,15 +91,19 @@ public class QnaDaoImpl implements QnaDao {
 		return sqlSession.selectOne(a_namespace+"selectAnswer", qn_no);
 	}
 
+	/**************************** [[ 관리자 답변 삭제 ]] ********************************/
 	@Override
 	public int deleteAnswer(Integer qn_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete(a_namespace+"deleteAnswer", qn_no);
+	}
+	@Override
+	public int updateStateN(Integer qn_no) throws Exception {
+		return sqlSession.update(a_namespace+"updateStateN", qn_no);
 	}
 
+	/**************************** [[ 관리자 답변 수정 ]] ********************************/
 	@Override
-	public int updateAnswer(String qn_content) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateAnswer(Answer answer) throws Exception {
+		return sqlSession.update(a_namespace+"updateAnswer", answer);
 	}
 }

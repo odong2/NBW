@@ -67,7 +67,7 @@ public class AdminQnaController {
 	/***** [[ 관리자 문의사항 답변 등록 ]] *****/
 	@PostMapping("answer")
 	public String writeAnswer(Integer qn_no, Answer answer) {
-		log.info("컨트롤러에서 관리자 문의사항 답변 등록 호풀");
+		log.info("컨트롤러에서 관리자 문의사항 답변 등록 호출");
 		try {
 			qnaService.writeAnswer(answer, qn_no);
 		} catch (Exception e) {
@@ -75,5 +75,26 @@ public class AdminQnaController {
 		}
 		return "redirect:/admin/qna/list";
 	}
-
+	/***** [[ 관리자 문의사항 답변 수정 ]] *****/
+	@PostMapping("modify")
+	public String modifyAnswer(Answer answer) {
+		log.info("컨트롤러에서 관리자 문의사항 답변 수정 호출");
+		try {
+			qnaService.modifyAnswer(answer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/qna/answer?qn_no="+answer.getQn_no();
+	}
+	/***** [[ 관리자 문의사항 답변 삭제 ]] *****/
+	@PostMapping("remove")
+	public String removeAnswer(Integer qn_no) {
+		log.info("컨트롤러에서 관리자 문의사항 답변 삭제 호출");
+		try {
+			qnaService.deleteAnswer(qn_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/qna/list";
+	}
 }

@@ -75,6 +75,13 @@
     </style>
   </head>
   <body id="page-top">
+  <script type="text/javascript">
+  	/* 관리자 답변 삭제하기 */
+  	function delAnswer(){
+		alert('답변이 삭제됩니다.');
+	  	$("#f_memform").submit();
+	}
+  </script>
     <!-- Page Wrapper -->
     <div class="d-flex justify-content-start">
       <!-- Sidebar -->
@@ -154,24 +161,28 @@
                 </c:when>
                 <c:otherwise>
 					<!-- [[ 관리자 답변 확인 ]] -->
+	              <form action="/admin/qna/remove" method="post" id="delForm">
 	                <div class="mem_info">
 	                  <div class="content">
 	                    <h5 class="mem_h5"><b>관리자 답변</b></h5>
 	                    <div
 	                      class="q_content text-black"
+	                      name="an_content"
 	                      style="background-color: rgb(236, 227, 210)"
 	                    >
 	                      <p>${an.an_content}</p>
 	                    </div>
 	                  </div>
 	                  <div class="an_cdate">
-		                  답변 등록: <fmt:formatDate value="${an.an_cdate}" pattern="yyyy-MM-dd"/>
+		                  답변 등록일: <fmt:formatDate value="${an.an_cdate}" pattern="yyyy-MM-dd"/>
 	                  </div>
+	                  <input type="hidden" name="qn_no" value="${qt.qn_no}">
 	                  <div class="register">
 	                    <button class="btn modify"  data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
-	                    <button class="btn delete">삭제</button>
+	                    <button class="btn delete" onclick="delAnswer()">삭제</button>
 	                  </div>
 	                </div>
+	              </form>
 	                <!-- [[ 관리자 답변  확인 ]] -->                
                 </c:otherwise>
                 </c:choose>
@@ -193,7 +204,7 @@
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 		      <div class="modal-body">
-				<form name="modifyForm"  action="" method="post" >
+				<form name="modifyForm"  action="/admin/qna/modify" method="post" >
 				 	<div class="box p-3">
 					 	<h5>수정할 답변을 입력해주세요.</h5>
 					    <hr />
@@ -210,7 +221,7 @@
 	                        "
 	                      />
 	                      <input type="hidden" name="qn_no" value="${qt.qn_no}">
-					        <button class="btn btn-outline-secondary" style="border-radius: 0.5rem" type="submit">수정하기</button>
+					        <button class="btn btn-outline-secondary" style="border-radius: 0.5rem" onsubmit="modifyAnswer()">수정하기</button>
 					    </div>
 				    </div>
 				</form>

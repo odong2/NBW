@@ -28,5 +28,6 @@ public interface QnaDao {
     int updateState(Integer qn_no) throws Exception; // 답변 상태 업데이트
     Answer selectAnswer(Integer qn_no) throws Exception; // 문의에 대한 관리자 답변 한 건 조회
     int deleteAnswer(Integer qn_no) throws Exception; // 문의답변 삭제
-    int updateAnswer(String qn_content) throws Exception; // 문의 내용 수정
+    int updateAnswer(Answer answer) throws Exception; // 문의 내용 수정
+    int updateStateN(Integer qn_no) throws Exception; // 답변 삭제 후 상태 업데이트
 }

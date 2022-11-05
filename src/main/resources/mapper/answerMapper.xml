@@ -18,4 +18,23 @@
 		SELECT qn_no, an_cdate, an_content FROM TB_ANSWER
 		 WHERE qn_no = #{qn_no}
 	</select>
+	
+	<!-- [[ 관리자 답변 수정 ]] -->
+	<update id="updateAnswer" parameterType ="answerDto">
+		UPDATE TB_ANSWER  
+		   SET an_cdate = sysdate
+		      ,an_content = #{an_content}
+		 WHERE QN_NO = #{qn_no} 
+	</update>
+	
+	<!-- [[ 관리자 답변 삭제 ]] -->
+	<delete id="deleteAnswer" parameterType="int">
+		DELETE FROM TB_ANSWER  WHERE qn_no = #{qn_no}
+	</delete>
+	
+	<update id="updateStateN" parameterType="int">
+		UPDATE TB_QUESTION 
+		   SET QN_STATE = 'N'
+		 WHERE QN_NO = #{qn_no}
+	</update>
 </mapper>
