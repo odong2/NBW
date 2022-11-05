@@ -10,12 +10,12 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
+    <%@include file="/WEB-INF/includes/common.jsp" %>
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자-문의사항답변</title>
     <style type="text/css">
      .q_content {
         height: 250px;
-        margin: 16px;
         padding: 16px;
         justify-content: center;
         border-radius: 0.5rem;
@@ -61,6 +61,17 @@
       input {
         font-size: 14px;
       }
+      .modify {
+        background-color: #d3cefb;
+      }
+      .delete {
+        background-color: rgb(251, 198, 198);
+      }
+      .an_cdate{
+      	margin: 5px;
+      	font-size: 14px;
+      	text-align: right;
+      }
     </style>
   </head>
   <body id="page-top">
@@ -84,21 +95,21 @@
                     <div class="row">
                       <div class="col-6">
                         <h5 class="mem_h5"><b>문의유형</b></h5>
-                        <h5 class="text-black">[제품]</h5>
+                        <h5 class="text-black">[${qt.qn_category}]</h5>
                       </div>
                       <div class="col-6">
                         <h5 class="mem_h5"><b>문의 제목</b></h5>
-                        <h5 class="text-black">책 입고 문의</h5>
+                        <h5 class="text-black">${qt.qn_title}</h5>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6">
                         <h5 class="mem_h5"><b>문의한 회원</b></h5>
-                        <h5 class="text-black">유리</h5>
+                        <h5 class="text-black">${qt.qn_from}</h5>
                       </div>
                       <div class="col-6">
                         <h5 class="mem_h5"><b>문의 날짜</b></h5>
-                        <h6 class="text-black">2022-10-14</h6>
+                        <h6 class="text-black"><fmt:formatDate value="${qt.qn_cdate}" pattern="yyyy-MM-dd"/></h6>
                       </div>
                     </div>
                   </div>
@@ -108,44 +119,62 @@
                     style="background-color: rgb(236, 227, 210)"
                   >
                     <p>
-                      책 언제 들어오나요 Lorem ipsum dolor sit amet consectetur
-                      adipisicing elit. Magnam maiores commodi ullam distinctio
-                      sequi aperiam minus consequatur possimus veritatis ratione
-                      quibusdam obcaecati, delectus recusandae hic harum maxime
-                      vel aspernatur quas. Lorem ipsum dolor sit, amet
-                      consectetur adipisicing elit. Enim officiis, in
-                      voluptatibus id tempore eos reiciendis ab ex repudiandae,
-                      est totam quam non ipsa at quo porro assumenda nam
-                      minus?Lorem ipsum dolor sit, amet consectetur adipisicing
-                      elit. Molestiae quod dolores ipsam adipisci placeat
-                      corporis laudantium veniam, ipsum ad in, odio quo sapiente
-                      ducimus voluptates nulla qui vitae, necessitatibus
-                      repellendus!
+                      ${qt.qn_content}
                     </p>
                   </div>
                 </div>
                 <!-- [[ 보낸 회원 정보  끝 ]] -->
-                <!-- [[ 관리자 답변 시작 ]] -->
-                <div class="admin_box">
-                  <div class="content">
-                    <h5 class="admin_h5"><b>답변등록</b></h5>
-                    <div>
-                      <input
-                        class="q_content mb-3"
-                        style="
-                          width: 100%;
-                          margin: 0;
-                          background-color: rgb(244, 255, 249);
-                          border: none;
-                        "
-                      />
-                    </div>
-                  </div>
-                  <div class="register">
-                    <button class="btn btn-success">등록</button>
-                  </div>
-                </div>
-                <!-- [[ 관리자 답변  끝 ]] -->
+                <c:choose>
+                <c:when test="${qt.qn_state eq 'N'}">
+	               <!-- [[ 관리자 답변 시작 ]] -->
+	               <form name="modifyForm"  action="/admin/qna/answer" method="post">
+	                <div class="admin_box">
+	                  <div class="content">
+	                    <h5 class="admin_h5"><b>답변등록</b></h5>
+	                    <div>
+	                      <input
+	                        class="q_content mb-3"
+	                        name="an_content"
+	                        style="
+	                          width: 100%;
+	                          margin: 0;
+	                          background-color: rgb(244, 255, 249);
+	                          border: none;
+	                        "
+	                      />
+	                      <input type="hidden" name="qn_no" value="${qt.qn_no}">
+	                    </div>
+	                  </div>
+	                  <div class="register">
+	                    <button class="btn btn-success" type="submit">등록</button>
+	                  </div>
+	                </div>
+	               </form>
+	               <!-- [[ 관리자 답변  끝 ]] -->
+                </c:when>
+                <c:otherwise>
+					<!-- [[ 관리자 답변 확인 ]] -->
+	                <div class="mem_info">
+	                  <div class="content">
+	                    <h5 class="mem_h5"><b>관리자 답변</b></h5>
+	                    <div
+	                      class="q_content text-black"
+	                      style="background-color: rgb(236, 227, 210)"
+	                    >
+	                      <p>${an.an_content}</p>
+	                    </div>
+	                  </div>
+	                  <div class="an_cdate">
+		                  답변 등록: <fmt:formatDate value="${an.an_cdate}" pattern="yyyy-MM-dd"/>
+	                  </div>
+	                  <div class="register">
+	                    <button class="btn modify"  data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+	                    <button class="btn delete">삭제</button>
+	                  </div>
+	                </div>
+	                <!-- [[ 관리자 답변  확인 ]] -->                
+                </c:otherwise>
+                </c:choose>
             </main>
         <!-- Footer -->
 		<%@include file="../../../includes/admin/footer.jsp" %>
@@ -154,6 +183,45 @@
       </section>
     </div>
     <!-- [[ 오른쪽 div 끝 ]] -->
+    
+    <!-- 관리자 답변 수정 모달 -->
+    	<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg modal-dialog-centered">
+		    <div class="modal-content border border-secondary rounded-3 border-opacity-50">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalToggleLabel">답변수정</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+				<form name="modifyForm"  action="" method="post" >
+				 	<div class="box p-3">
+					 	<h5>수정할 답변을 입력해주세요.</h5>
+					    <hr />
+					    <br />
+					    <div class="input-group">
+					        <input
+	                        class="q_content mb-3"
+	                        name="an_content"
+	                        style="
+	                          width: 100%;
+	                          margin: 0;
+	                          background-color: rgb(244, 255, 249);
+	                          border: none;
+	                        "
+	                      />
+	                      <input type="hidden" name="qn_no" value="${qt.qn_no}">
+					        <button class="btn btn-outline-secondary" style="border-radius: 0.5rem" type="submit">수정하기</button>
+					    </div>
+				    </div>
+				</form>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+    <!-- 관리자 답변 수정 모달 -->
+    
+    
+    
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->

@@ -1,6 +1,7 @@
 package com.finalpj.nbw.qna.dao;
 
 import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.qna.domain.Answer;
 import com.finalpj.nbw.qna.domain.Qna;
 
 import java.util.List;
@@ -21,4 +22,11 @@ public interface QnaDao {
     int qnaRemoveAll() throws Exception;
     /****************************** Qna 등록 *****************************/
     int qnaInsert(Qna qna) throws Exception;
+    
+    /********************** [[ 관리자 답변 ]] **********************/
+    int insertAnswer(Answer answer) throws Exception; // 관리자 답변 등록
+    int updateState(Integer qn_no) throws Exception; // 답변 상태 업데이트
+    Answer selectAnswer(Integer qn_no) throws Exception; // 문의에 대한 관리자 답변 한 건 조회
+    int deleteAnswer(Integer qn_no) throws Exception; // 문의답변 삭제
+    int updateAnswer(String qn_content) throws Exception; // 문의 내용 수정
 }

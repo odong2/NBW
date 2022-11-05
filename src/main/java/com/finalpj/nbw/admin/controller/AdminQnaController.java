@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.finalpj.nbw.qna.domain.Answer;
 import com.finalpj.nbw.qna.domain.Qna;
 import com.finalpj.nbw.qna.service.QnaService;
 
@@ -23,10 +25,10 @@ public class AdminQnaController {
 		this.qnaService = qnaService;
 	}
 
-	/***** [[ 답변하지 않은 질문만 조회하는 페이지 ]] *****/
+	/***** [[ 관리자 문의사항 조회하는 페이지 ]] *****/
 	@GetMapping("list")
 	public String qnaList(Model model) {
-		log.info("답변하지 않은 질문 조회페이지 호출");
+		log.info("관리자 문의사항 조회페이지 호출");
 		List<Qna> questionList = null; // 전체 문의사항 조회
 		List<Qna> questionIngList = null; // 처리해야할 문의사항 조회
 		List<Qna> questionFinishList = null; // 처리한 문의사항 조회
@@ -41,7 +43,37 @@ public class AdminQnaController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "admin/qna/qna";
+		return "/admin/qna/qna";
+	}
+	
+	/***** [[ 관리자 문의사항 디테일 조회하는 페이지 ]] *****/
+	@GetMapping("answer")
+	public String qnaDetailList(Model model, Integer qn_no) {
+		log.info("문의사항 답변 페이지 호출");
+		Qna qt  = null;
+		Answer an = null;
+		try {
+			qt = qnaService.qnaRead(qn_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		an = qnaService.answerRead(qn_no);
+		log.info(an);
+		model.addAttribute("qt",qt);
+		model.addAttribute("an",an);
+		return "/admin/qna/answer";
+	}
+	
+	/***** [[ 관리자 문의사항 답변 등록 ]] *****/
+	@PostMapping("answer")
+	public String writeAnswer(Integer qn_no, Answer answer) {
+		log.info("컨트롤러에서 관리자 문의사항 답변 등록 호풀");
+		try {
+			qnaService.writeAnswer(answer, qn_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/qna/list";
 	}
 
 }

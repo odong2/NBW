@@ -103,6 +103,17 @@
       .nav-link:hover{
       	color: #e6c3f5;
       }
+      .q-state {
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        margin-top: -11px;
+        background: #e23442;
+        border-radius: 0.5rem;
+      }
+      .icon-circle {
+        position: relative;
+      }
     </style>
   </head>
   <body id="page-top">
@@ -176,26 +187,43 @@
 	            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="allask" tabindex="0">
 	                <div class="qna-list-wrap" style="border-top: 1px solid black">
 	                  <ul>
-	                  <c:forEach var="q" items="${questionList}">
+	                  <c:forEach var="qt" items="${questionList}">
 	                    <li>
 	                      <div class="content-box">
 	                        <div class="inquiry_info">
-	                          <span class="writer"><c:out value="${q.qn_from}" /></span>
+	                          <span class="writer"><c:out value="${qt.qn_from}" /></span>
 	                          <span class="gap"></span>
-	                          <span class="ctg-item"><c:out value="${q.qn_category}" /></span>
+	                          <span class="ctg-item"><c:out value="${qt.qn_category}" /></span>
 	                        </div>
 	                        <div class="inquiry_title">
 	                          <div class="d-flex align-items-center">
 	                            <div class="mr-3">
 	                              <div class="icon-circle">
-	                              <i class="fas fa-question text-white"></i>
+	                              <c:choose>
+	                              <c:when test="${qt.qn_category eq '교환'}">
+		                              <i class="circle-icon fas fa-sync-alt text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '반품'}">
+		                              <i class="circle-icon fas fa-times text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '제품'}">
+		                              <i class="circle-icon fas fa-book text-white"></i>
+	                              </c:when>
+	                              <c:otherwise>
+		                              <i class="circle-icon fas fa-question text-white"></i>
+	                              </c:otherwise>
+	                              </c:choose>
 	                              </div>
+	                            <c:choose>
+		                          <c:when test="${qt.qn_state eq '처리중'}"><div class="q-state"></div></c:when>
+		                          <c:otherwise></c:otherwise>
+	                            </c:choose>
 	                            </div>
 	                            <div class="title">
-	                              <a href="/admin/qna/answer?qn_no=${q.qn_no}"><c:out value="${q.qn_title}" /></a>
+	                              <a href="/admin/qna/answer?qn_no=${qt.qn_no}"><c:out value="${qt.qn_title}" /></a>
 	                            </div>
 	                            <div class="cdate">
-	                              <span> <fmt:formatDate value="${q.qn_cdate}" pattern="yyyy-MM-dd"/></span>
+	                              <span> <fmt:formatDate value="${qt.qn_cdate}" pattern="yyyy-MM-dd"/></span>
 	                            </div>
 	                          </div>
 	                        </div>
@@ -210,26 +238,39 @@
             	<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="Processing" tabindex="0">
 	                <div class="qna-list-wrap" style="border-top: 1px solid black">
 	                  <ul>
-	                  <c:forEach var="question" items="${questionIngList}">
+	                  <c:forEach var="qt" items="${questionIngList}">
 	                    <li>
 	                      <div class="content-box">
 	                        <div class="inquiry_info">
-	                          <span class="writer"><c:out value="${question.qn_from}" /></span>
+	                          <span class="writer"><c:out value="${qt.qn_from}" /></span>
 	                          <span class="gap"></span>
-	                          <span class="ctg-item"><c:out value="${question.qn_category}" /></span>
+	                          <span class="ctg-item"><c:out value="${qt.qn_category}" /></span>
 	                        </div>
 	                        <div class="inquiry_title">
 	                          <div class="d-flex align-items-center">
 	                            <div class="mr-3">
 	                              <div class="icon-circle">
-	                              <i class="fas fa-question text-white"></i>
+	                              <c:choose>
+	                              <c:when test="${qt.qn_category eq '교환'}">
+		                              <i class="fas fa-sync-alt text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '반품'}">
+		                              <i class="fas fa-times text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '제품'}">
+		                              <i class="fas fa-book text-white"></i>
+	                              </c:when>
+	                              <c:otherwise>
+		                              <i class="fas fa-question text-white"></i>
+	                              </c:otherwise>
+	                              </c:choose>
 	                              </div>
 	                            </div>
 	                            <div class="title">
-	                              <a href="/admin/qna/answer?qn_no=${question.qn_no}"><c:out value="${question.qn_title}" /></a>
+	                              <a href="/admin/qna/answer?qn_no=${qt.qn_no}"><c:out value="${qt.qn_title}" /></a>
 	                            </div>
 	                            <div class="cdate">
-	                              <span> <fmt:formatDate value="${question.qn_cdate}" pattern="yyyy-MM-dd"/></span>
+	                              <span> <fmt:formatDate value="${qt.qn_cdate}" pattern="yyyy-MM-dd"/></span>
 	                            </div>
 	                          </div>
 	                        </div>
@@ -256,7 +297,20 @@
 	                          <div class="d-flex align-items-center">
 	                            <div class="mr-3">
 	                              <div class="icon-circle">
-	                              <i class="fas fa-question text-white"></i>
+	                              <c:choose>
+	                              <c:when test="${qt.qn_category eq '교환'}">
+		                              <i class="fas fa-sync-alt text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '반품'}">
+		                              <i class="fas fa-times text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '제품'}">
+		                              <i class="fas fa-book text-white"></i>
+	                              </c:when>
+	                              <c:otherwise>
+		                              <i class="fas fa-question text-white"></i>
+	                              </c:otherwise>
+	                              </c:choose>
 	                              </div>
 	                            </div>
 	                            <div class="title">
