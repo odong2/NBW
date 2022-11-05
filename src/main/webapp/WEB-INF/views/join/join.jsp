@@ -26,7 +26,6 @@
         let addressCheck = false            // 주소
         let privacyCheck = false            // 개인정보 수집 이용 동의 체크
 
-
         $(function(){
             /* ===================================== 회원가입 전처리 =======================================
          * 회원가입 데이터가 넘어가기 자바로 넘어가기 전에 검사 되어야 할 리스트
@@ -667,7 +666,7 @@
             <div class="col-3"></div>
             <div class="col-9">
                 <div class="input-group mb-3">
-                    <input name="mem_address" type="text" id="address2" readonly
+                    <input name="mem_address1" type="text" id="address2" readonly
                            autocomplete="off" class="form-control" placeholder="도로명주소">
                 </div>
             </div>

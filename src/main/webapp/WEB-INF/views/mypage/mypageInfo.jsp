@@ -6,12 +6,10 @@
     <%@include file="../../includes/daumPostCode.jsp" %>
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
-
     <style>
         /** {*/
         /*    border: red solid 1px;*/
         /*}*/
-
         main {
             width: 100%;
             padding-left: 30px;
@@ -19,18 +17,6 @@
 
         a {
             color: black;
-        }
-
-        .modal {
-            font-family: "210 Soopilmyungjo";
-            position:absolute;
-            width:30%; height:50%;
-            border-radius: 10px;
-            border: 1px solid black;
-            background: #ffffff;
-            top:50%; left: 40%;
-            display:none;
-            box-shadow: #343a40;
         }
     </style>
     </head>
