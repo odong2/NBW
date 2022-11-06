@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Payment {
+public class Payment implements Pay{
     private Integer[] p_no;             // 주문상품 번호
     private String[] p_title;           // 주문상품 이름
     private Integer[] p_price;          // 주문상품 가격

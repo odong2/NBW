@@ -36,9 +36,12 @@
     ul {
         padding: 0;
     }
-    span,
-    p,
-    th {
+    th,.orderUser-info span{
+        font-size: 0.9rem;
+    }
+    .btnFold,
+    .btnFold h6,
+    #prdInfo{
         font-size: 0.8rem;
     }
 
@@ -144,20 +147,23 @@
         border-radius: 5px;
         margin-bottom: 5px;
     }
-    #prd-price {
-        font-weight: 700;
+    #paymentPrice {
+        font-size: 1rem;
+        color:#5055b1;
+        font-weight: bold;
     }
-    #payment-price {
-        font-size: 0.9rem;
-        font-weight: 700;
+    #paymentPriceLabel{
+        font-size: 1rem;
+        font-weight: bold;
+        color: #5055b1;
     }
     #payBtn {
         width: 100%;
         background-color: #5055b1;
         color: white;
-        font-size: 0.7rem;
+        font-size: 1.1rem;
+        letter-spacing: 0.2em;
         height: 40px;
-        font-weight: 700;
     }
 
     .container input {
@@ -232,7 +238,7 @@
 <!-- 헤더 끝 -->
 <%-- 결제페이지 메인 시작--%>
 <main>
-    <c:set var="totalPrice" value="0"/>
+    <c:set var="productPrice" value="0"/>
     <div id="orderBox" class="d-flex mt-5">
         <section class="orderInfo-wrap">
             <h6 class="title">주문/결제</h6>
@@ -263,7 +269,7 @@
                     <td class="delivery col-1"><span>자체배송</span></td>
                     <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>개</span></td>
                     <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price * product.p_count}" type="number"/>원</span></td>
-                    <c:set var= "totalPrice" value="${totalPrice + product.p_price * product.p_count}"/>
+                    <c:set var= "productPrice" value="${productPrice + product.p_price * product.p_count}"/>
                 </tr>
                 </c:forEach>
                 </tbody>
@@ -274,7 +280,7 @@
                 <h6 class="title mt-2 ms-1">주문자 정보</h6>
                 <hr />
                 <ul class="ms-3">
-                    <li class="d-flex">
+                    <li class="d-flex mt-3">
                         <div class="col-lg-9 col-sm-4">
                             <span class="label">이름</span>
                         </div>
@@ -282,7 +288,7 @@
                             <span><c:out value="${member.mem_name}"/></span>
                         </div>
                     </li>
-                    <li class="d-flex mt-2">
+                    <li class="d-flex mt-3">
                         <div class="col-lg-9 col-sm-4">
                             <span class="label">전화번호</span>
                         </div>
@@ -290,7 +296,7 @@
                             <span><c:out value="${member.mem_phone}"/></span>
                         </div>
                     </li>
-                    <li class="d-flex mt-2">
+                    <li class="d-flex mt-3">
                         <div class="col-lg-9 col-sm-4">
                             <span class="label">회원등급</span>
                         </div>
@@ -327,7 +333,7 @@
                     <input name="mem_name" value="${member.mem_name}" type="hidden"/>
                     <input name="mem_point" value="${member.mem_point}" type="hidden"/>
                     <input name="used_point"  value="0" type="hidden"/>
-                    <input name="total_price" value="${totalPrice- deliveryPrice - gradeDiscount}" type="hidden"/>
+                    <input name="total_price" value="${productPrice + deliveryPrice - gradeDiscount}" type="hidden"/>
                     <input name="cp_no" value="0" type="hidden"/>
                     <ul id="recvInfoList" class="ms-3">
                         <li>
@@ -342,6 +348,10 @@
                             <label for="receiver_phone" class="receiver-label">* 전화번호</label>
                             <div class="mt-2 mb-3">
                                 <input type="text" id="receiver_phone" name="receiver_phone"
+                                       oninput="autoHyphen(this)"
+                                       maxlength="13"
+                                       placeholder="'-'를 제외하고 입력하세요"
+                                       pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
                                        class="form-controller col-7" value=<c:out value="${member.mem_phone}"/>>
                             </div>
                         </li>
@@ -495,7 +505,7 @@
                                         <span>상품금액</span>
                                     </div>
                                     <div class="col-4 text-end px-2">
-                                        <span id="prd-price"><fmt:formatNumber type="number" value="${totalPrice}"/></span>
+                                        <span id="prd-price"><fmt:formatNumber type="number" value="${productPrice}"/></span>
                                     </div>
                                 </div>
                             </li>
@@ -507,11 +517,11 @@
                                     <div class="col-4 text-end px-2">
                                         <c:choose>
                                             <%-- 주문 상품이 20000원을 넘을 경우 배송비 무료 --%>
-                                            <c:when test="${totalPrice ge 20000}">
+                                            <c:when test="${productPrice ge 20000}">
                                                 <c:set  var= "deliveryPrice" value="0"/>
                                                 <span id="delivery-price"><c:out value="0"/>원</span>
                                             </c:when>
-                                            <c:when test="${totalPrice lt 20000}">
+                                            <c:when test="${productPrice lt 20000}">
                                                 <c:set  var= "deliveryPrice" value="2500"/>
                                                 <span id="delivery-price"><c:out value="2500"/>원</span>
                                             </c:when>
@@ -556,12 +566,11 @@
                             <li>
                                 <div class="d-flex pay">
                                     <div class="col-8 payLabel">
-                                        <span>최종결제금액</span>
+                                        <span id="paymentPriceLabel">최종결제금액</span>
                                     </div>
                                     <div class="col-4 text-end px-2">
                                         <span id="paymentPrice">
-                                            <fmt:formatNumber value="${totalPrice- deliveryPrice - gradeDiscount}" type="number" />원
-<%--                                            <input type="hidden" name="totalPrice" value="${totalPrice- deliveryPrice - gradeDiscount}"/>--%>
+                                            <fmt:formatNumber value="${productPrice + deliveryPrice - gradeDiscount}" type="number" />원
                                         </span>
                                     </div>
                                 </div>
@@ -638,18 +647,19 @@
         }).open();
     }
 </script>
-
+<%-- ============================= 결제금액 계산 관련 스크립트 ===========================--%>
 <script type="text/javascript">
-
     // 결제 수단 에서의 point
-    let usePoint = 0;		 // 포인트 사용금액(포인트 입력)
-    let memPoint = parseInt('${member.mem_point}');
+    let usePoint = 0;		                                                // 포인트 사용금액(포인트 입력)
+    let memPoint = parseInt('${member.mem_point}');                         // 멤버 보유 포인트
     /* 최종 결제 금액*/
-    let couponDiscount = 0;   // 쿠폰할인금액
-    let pointDiscount = 0;    // 포인트 사용금액
-    let paymentPrice = ${totalPrice - gradeDiscount - deliveryPrice} - couponDiscount - pointDiscount;     // 결제 최종금액
-    let beforePoint = 0;
-    let cp_no = "" ;
+    let productPrice    = ${productPrice};                                  // 총 상품금액
+    let couponDiscount  = 0;                                                // 쿠폰할인금액
+    let pointDiscount   = 0;                                                // 포인트 사용금액
+    let paymentPrice    = ${productPrice - gradeDiscount + deliveryPrice};  // 최종 경제금액
+    let beforePoint     = 0;                                                // 이전 포인트 사용금액
+    let beforeCoupon     = 0;                                                // 이전 쿠폰 사용금액
+    let cp_no           = "" ;
 
     /* 결제 수단 선택 이벤트 */
     $("#kakaoPayBtn").click(function(){
@@ -717,44 +727,56 @@
         }
     })
 
-    // point 입력창 벗얼 날 때 . 포인트 null 값 검사
+    // point 입력창 벗어 날 때 . 포인트 null 값 검사
     $("#usePoint").focusout(function(){
-        if($("#usePoint").val() == "" ||  $("#usePoint").val() == null){
+        let paymentPriceText = '';
+        pointDiscount = 0;
+        let useInputVal =  $('#usePoint').val();
+        if(useInputVal == null || useInputVal == 0){
             $("#usePoint").val(0);
+            $('#pointDiscount').text(pointDiscount + '원');
         }
-        pointDiscount = parseInt($('#usePoint').val());
-        paymentPrice = paymentPrice - pointDiscount + beforePoint;
-        let paymentPriceNum = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
-
+        else{
+        pointDiscount = parseInt(useInputVal);
         $('#pointDiscount').text('-' + pointDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-        $('#paymentPrice').text(paymentPriceNum);
+        }
+        paymentPrice = paymentPrice - pointDiscount + beforePoint;
+        paymentPriceText = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+        $('#paymentPrice').text(paymentPriceText);
         beforePoint = pointDiscount;
 
     })
 
 
-    // 쿠폰 적용
+    // 쿠폰 할인 적용
     let changeSelectCoupon = function (value){
-        let couponDiscountnum = '';
+        let couponDiscountText = '';
         cp_no = value;
+        /* 쿠폰 가격을 초기화 시킨다(여러번 다시 클릭할 수 있기 때문에) */
+        couponDiscount = 0;
         if(value == "0"){
             couponDiscount = 0;
             $('#couponDiscount').text(couponDiscount + '원');
-        } else{
+        }
+        else{
+            /* (1) 선택된 쿠폰 */
             let couponText = $("#couponSelect option:checked").text();
+            /* (2) 쿠폰의 가격을 들고 오기위해 index 값을 얻어 substring. ex) 브론즈회원 쿠폰(-1000원) */
             let startPoint = couponText.indexOf('(');
             let endPoint = couponText.indexOf(')');
-
+            /* (3) 선택한 쿠폰가격을 couponDiscount(전역변수)에 초기화 */
             couponDiscount = parseInt(couponText.substring(startPoint+2, endPoint-1)); // 쿠폰 가격
-            couponDiscountnum = couponDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
-            // 쿠폰할인에 쓰기
-            $('#couponDiscount').text('-'+ couponDiscountnum);
-            paymentPrice -= couponDiscount;
+            couponDiscountText = couponDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+            /* (4) 쿠폰 할인에 선택한 쿠폰의 할인 금액 쓰기 */
+            $('#couponDiscount').text('-'+ couponDiscountText);
         }
-            let paymentPriceNum = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
-            $('#paymentPrice').text(paymentPriceNum);
+            /* (5) 선택한 쿠폰을 기준으로 최종 금액을 변경한다. */
+            paymentPrice = paymentPrice - couponDiscount + beforeCoupon;
+            let paymentPriceText = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+            $('#paymentPrice').text(paymentPriceText);
+            /* (6) 쿠폰 다시 선택할 경우를 위해 이전에 사용했던 금액을 변수에 초기화 시킨다*/
+            beforeCoupon = couponDiscount;
     }
-
 </script>
 <script type="text/javascript">
 
@@ -862,6 +884,12 @@
         $('input[name=used_point]').val(pointDiscount);
         $('input[name=total_price]').val(paymentPrice);
         $('input[name=cp_no]').val(cp_no);
+    }
+    // 전화번호 자동 하이픈 함수
+    const autoHyphen = function(target){
+        target.value = target.value
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
     }
 
 </script>

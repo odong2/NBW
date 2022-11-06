@@ -19,6 +19,7 @@
       margin: 0;
       padding: 0;
     }
+
 /*    *{
         border:0.8px solid blue;
     }*/
@@ -72,6 +73,10 @@
     #orderBtn{
         background-color: #6DB329;
     }
+    #orderInfoTitle,
+    #deliveryTitle{
+        color: tomato;
+    }
   </style>
 </head>
 <body>
@@ -115,7 +120,29 @@
         </table>
     </secttion>
     <section class="container">
-        <h5 class="mt-5 mb-4">배송정보</h5>
+        <h5 class="mt-5 mb-4" id="orderInfoTitle">주문자 정보</h5>
+        <hr/>
+        <ul id="orderInfo">
+            <li class ="d-flex mb-3">
+                <div class="col-6">
+                    <span>주문자 이름</span>
+                </div>
+                <div class="col-6 text-end">
+                    <span class="me-2"><c:out value="${receiverInfo.ORDER_NAME}"/></span>
+                </div>
+            </li>
+            <li class ="d-flex mb-3">
+                <div class="col-6">
+                    <span>주문자 전화번호</span>
+                </div>
+                <div class="col-6 text-end">
+                    <span class="me-2"><c:out value="${receiverInfo.ORDER_PHONE}"/></span>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section class="container">
+        <h5 class="mt-5 mb-4" id="deliveryTitle">배송정보</h5>
         <hr/>
         <ul id="receiverInfo">
             <li class ="d-flex mb-3">
@@ -165,8 +192,8 @@
         <hr/>
     </section>
     <section class="container">
-        <div class="d-flex mt-5 mb-4 justify-content-center">
-            <h5 class="me-5">총 결제금액</h5>
+        <div class="d-flex mt-5 mb-4 justify-content-center ">
+            <h5 class="me-5" id="totalPriceTitle">총 결제금액</h5>
             <h5 class=""><fmt:formatNumber value="${receiverInfo.TOTAL_PRICE}"  type="number"/>원</h5>
         </div>
     </section>
@@ -174,12 +201,12 @@
         <div class="btn-group d-flex justify-content-center align-items-center mt-5">
             <div class="me-3">
                 <a href="/home">
-                    <button type="button" id="mainBtn" class="btn btn-primary btn-sm">메인페이지 바로가기</button>
+                    <button type="button" id="mainBtn" class="btn btn-primary btn-sm">계속 쇼핑하기</button>
                 </a>
             </div>
             <div>
                 <a href="#">
-                    <button type="button" id="orderBtn" class="btn btn-secondary btn-sm">주문조회 바로가기</button>
+                    <button type="button" id="orderBtn" class="btn btn-secondary btn-sm">비회원 주문조회 바로가기</button>
                 </a>
             </div>
         </div>
