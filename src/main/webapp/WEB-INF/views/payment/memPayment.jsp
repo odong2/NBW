@@ -262,7 +262,7 @@
                     </td>
                     <td class="delivery col-1"><span>자체배송</span></td>
                     <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>개</span></td>
-                    <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price}" type="number"/>원</span></td>
+                    <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price * product.p_count}" type="number"/>원</span></td>
                     <c:set var= "totalPrice" value="${totalPrice + product.p_price * product.p_count}"/>
                 </tr>
                 </c:forEach>
