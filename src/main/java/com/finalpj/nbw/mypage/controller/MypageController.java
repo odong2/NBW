@@ -26,7 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 
 @Log4j
-@RequestMapping("/mypage/*")
+@RequestMapping("/mypage/")
 @Controller
 public class MypageController {
 
