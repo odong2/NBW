@@ -26,10 +26,10 @@ public class EventService {
 
     /******************************** [[ 마이페이지 이벤트 조회 ]] ********************************/
     @Transactional(readOnly = true)
-    public List<Event> mypageEventList() throws Exception {
+    public List<Event> mypageEventList(String id) throws Exception {
         log.info("EventService : mypageEventList 호출성공");
         List<Event> mypageEventList = null;
-        mypageEventList = eventDao.mypageEventList();
+        mypageEventList = eventDao.mypageEventList(id);
         log.info("EventService : mypageEventList 호출성공");
         return mypageEventList;
     }
