@@ -16,10 +16,11 @@
         WHERE ev_no = #{ev_no}
     </select>
     <!--========================================== [[ 마이페이지 신청한 이벤트 조회 ]] ===============================-->
-    <select id="myEventSelectAll" resultType="eventDto">
-        SELECT *
-        FROM tb_event
-        ORDER BY ev_cdate DESC, ev_no DESC
+    <select id="myEventSelectAll" parameterType="String" resultType="eventDto">
+        SELECT * FROM tb_event
+        WHERE ev_no in (
+            SELECT ev_no FROM TB_MEMBEREVENT
+            WHERE mem_id = #{mem_id})
     </select>
 <!--        SELECT * FROM tb_event WHERE     -->
 <!--            ev_no in (-->
