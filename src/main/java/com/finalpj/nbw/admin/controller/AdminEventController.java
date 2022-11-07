@@ -3,8 +3,6 @@ package com.finalpj.nbw.admin.controller;
 import com.finalpj.nbw.event.domain.Event;
 import com.finalpj.nbw.event.service.EventService;
 import lombok.extern.log4j.Log4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @Log4j
-@RequestMapping("/admin/event/*")
+@RequestMapping("/admin/event/")
 public class AdminEventController {
 
     EventService eventService;
@@ -54,13 +52,27 @@ public class AdminEventController {
 
     /***************** [[관리자 이벤트 등록페이지]] ***************/
     @GetMapping("write")
-    public String eventWrite(Model m) {
+    public String adminEventWrite(Model m) {
+    log.info(" GetMapping controller 호출 성공");
+
         return "admin/event/eventRegister";
     }
     @PostMapping("/write")
-    public String eventWrite(Event event) throws Exception {
-        eventService.eventWrite(event);
-        return "redirect:/admin/event/list";
+    public String adminEventWrite(Event event, RedirectAttributes rattr, Model m) throws Exception {
+    log.info(" PostMapping controller 호출 성공");
+        try {
+            if (eventService.adminEventWrite(event) != 1)
+                throw new Exception("Write failed.");
+
+            rattr.addFlashAttribute("msg", "WRT_OK");
+            return "redirect:/admin/event/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(event);
+            m.addAttribute("mode", "new");
+            m.addAttribute("msg", "WRT_ERR");
+            return "/admin/event/write";
+        }
     }
 
 
