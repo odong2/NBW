@@ -19,28 +19,28 @@ public class QnaService {
     }
     /********************************* [[Qna 전체 조회]] **************************************/
     @Transactional(readOnly = true)
-    public List<Qna> qnaList() throws Exception {
+    public List<Qna> qnaList(String id) throws Exception {
         log.info("QnaService : qnaList 호출성공");
         List<Qna> qnaList = null;
-        qnaList = qnaDao.qnaList();
+        qnaList = qnaDao.qnaList(id);
         log.info("QnaService : qnaList 호출성공");
         return qnaList;
     }
     /********************************* [[Qna 처리중 조회]] **************************************/
     @Transactional(readOnly = true)
-    public List<Qna> qnaIngList() throws Exception {
+    public List<Qna> qnaIngList(String id) throws Exception {
         log.info("QnaService : qnaIngList 호출성공");
         List<Qna> qnaIngList = null;
-        qnaIngList = qnaDao.qnaIngList();
+        qnaIngList = qnaDao.qnaIngList(id);
         log.info("QnaService : qnaIngList 호출성공");
         return qnaIngList;
     }
     /********************************* [[Qna 처리중 조회]] **************************************/
     @Transactional(readOnly = true)
-    public List<Qna> qnaFinishList() throws Exception {
+    public List<Qna> qnaFinishList(String id) throws Exception {
         log.info("QnaService : qnaFinishList 호출성공");
         List<Qna> qnaFinishList = null;
-        qnaFinishList = qnaDao.qnaFinishList();
+        qnaFinishList = qnaDao.qnaFinishList(id);
         log.info("QnaService : qnaFinishList 호출성공");
         return qnaFinishList;
     }
