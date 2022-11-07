@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EventDao {
     /****************************** 마이 페이지 이벤트 전체 조회 ***************************/
-    List<Event> mypageEventList() throws Exception;
+    List<Event> mypageEventList(String id) throws Exception;
     /****************************** 이벤트 전체 조회 ***************************/
     List<Event> eventList() throws Exception;
     /****************************** 이벤트 한건 조회 ***************************/
