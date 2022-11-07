@@ -16,12 +16,13 @@
                                , MEM_NAME
                                , MEM_PHONE
                                , MEM_ZIPCODE
-                               , MEM_ADDRESS
+                               , MEM_ADDRESS1
                                , MEM_ADDRESS2
                                , MEM_GENDER
                                , MEM_CDATE
                                , MEM_BIRTHDAY
                                , MEM_EMAIL
+                               , MEM_NICKNAME
                                )
         VALUES (
                 #{mem_id}
@@ -29,12 +30,13 @@
                 ,#{mem_name}
                 ,#{mem_phone}
                 ,#{mem_zipcode}
-                ,#{mem_address}
+                ,#{mem_address1}
                 ,#{mem_address2}
                 ,#{mem_gender}
                 , sysdate
                 ,#{mem_birthday}
                 ,#{mem_email}
+                ,#{mem_nickname}
                 )
     </insert>
 
@@ -43,17 +45,22 @@
         SELECT mem_id from tb_member WHERE mem_id = #{mem_id}
     </select>
 
+    <!--  ================== *닉네임 중복 체크* ==================  -->
+    <select id="selectNicknameCheck" resultType="java.lang.String">
+        SELECT mem_nickname from tb_member WHERE mem_nickname = #{mem_nickname}
+    </select>
+
     <!--  ================== *회원 정보 수정* ==================  -->
     <update id="updateMyInfo" parameterType="member">
         UPDATE tb_member
         SET  mem_zipcode = #{mem_zipcode}
-            ,mem_address = #{mem_address}
+            ,mem_address1 = #{mem_address1}
             ,mem_address2 = #{mem_address2}
             ,mem_email = #{mem_email}
             ,mem_update = sysdate
+            ,mem_nickname = #{mem_nickname}
         WHERE mem_id = #{mem_id}
     </update>
-
 
 	<select id="existLike" parameterType="map" resultType="boolean">
 		SELECT COUNT(MEM_ID) 
@@ -72,5 +79,15 @@
 		WHERE P_NO = #{p_no}
 		AND MEM_ID = #{mem_id}
 	</delete>
-	
+
+    <!--  ================== *회원 탈퇴* ==================  -->
+    <delete id="deleteMember" parameterType="member">
+        DELETE  FROM tb_member
+        WHERE mem_id = #{mem_id}
+    </delete>
+
+    <!-- ================= 결제 시 point 사용하면 point 감소 (writer: 민준)   -->
+    <update id="updateMemPoint" parameterType="java.util.Map">
+        UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
+    </update>
 </mapper>

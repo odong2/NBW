@@ -13,7 +13,7 @@ public interface EventCommentDao {
     ;
     int insert(EventComment eventCommentdto) throws Exception // int insert(String statement, Object parameter)
     ;
-    List<EventComment> selectAll(Integer ev_no) throws Exception // List<E> selectList(String statement)
+//    List<EventComment> selectAll(Integer ev_no) throws Exception // List<E> selectList(String statement)
     ;
     EventComment select(Integer evc_no) throws Exception // T selectOne(String statement, Object parameter)
     ;

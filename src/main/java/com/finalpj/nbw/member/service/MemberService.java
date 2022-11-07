@@ -42,6 +42,13 @@ public class MemberService {
         return memberDao.selectIdCheck(strCheckId);
     }
 
+    /* 닉네임 중복 체크 */
+    public String nicknameCheck(String strCheckNickname) throws Exception{
+        log.info("SERVICE ===================> 닉네임 중복체크 service");
+        System.out.println(memberDao.selectNicknameCheck(strCheckNickname));
+        return memberDao.selectIdCheck(strCheckNickname);
+    }
+
 
     /* 회원가입 처리 */
     public int postMem(Member member) throws Exception{
@@ -83,6 +90,5 @@ public class MemberService {
     public boolean existLike(Map<String, Object> map) {
     	return memberDao.existLike(map);
     }
-    
-   
+
 }

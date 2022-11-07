@@ -2,7 +2,7 @@
 <html>
 <head>
 <%@include file="/WEB-INF/includes/common.jsp"%>
-<title>Login</title>
+<title>ProductDetail</title>
 <style>
 a {
 	color: black;
@@ -72,61 +72,66 @@ main {
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content" style="border-radius: 1rem;">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalToggleLabel">리뷰 작성</h1>
+					<h1 class="modal-title fs-5" id="exampleModalToggleLabel">리뷰
+						작성</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="mb-3 d-flex flex-column" id="review-box">
 						<ul class="py-3 rounded bg-light" style="font-size: 0.7rem">
-							<li class="ms-1 mb-2">
-								리뷰 작성시 
-								<div class="badge bg-primary">200 point</div> 
-								적립
+							<li class="ms-1 mb-2">리뷰 작성시
+								<div class="badge bg-primary">200 point</div> 적립
 							</li>
-							<li class="ms-1">
-								사진 리뷰 작성시로
-								<div class="badge bg-primary">200 point</div> 
-								추가 적립
+							<li class="ms-1">사진 리뷰 작성시로
+								<div class="badge bg-primary">200 point</div> 추가 적립
 							</li>
 						</ul>
 
 						<div class="d-flex align-items-center mb-3">
 							<fieldset>
-								<input type="radio" name="reviewStar" value="5"
-									id="rate1"> <label for="rate1" data-score="5">★</label>
-								<input type="radio" name="reviewStar" value="4"
-									id="rate2"> <label for="rate2" data-score="4">★</label>
-								<input type="radio" name="reviewStar" value="3"
-									id="rate3"> <label for="rate3" data-score="3">★</label>
-								<input type="radio" name="reviewStar" value="2"
-									id="rate4"> <label for="rate4" data-score="2">★</label>
-								<input type="radio" name="reviewStar" value="1"
-									id="rate5"> <label for="rate5" data-score="1">★</label>
+								<input type="radio" name="reviewStar" value="5" id="rate1">
+								<label for="rate1" data-score="5">★</label> <input type="radio"
+									name="reviewStar" value="4" id="rate2"> <label
+									for="rate2" data-score="4">★</label> <input type="radio"
+									name="reviewStar" value="3" id="rate3"> <label
+									for="rate3" data-score="3">★</label> <input type="radio"
+									name="reviewStar" value="2" id="rate4"> <label
+									for="rate4" data-score="2">★</label> <input type="radio"
+									name="reviewStar" value="1" id="rate5"> <label
+									for="rate5" data-score="1">★</label>
 							</fieldset>
 							<div id="reviewPoint" class="ms-2 text-warning">0</div>
 							<div class="text-warning">/5</div>
 						</div>
-					
+
 						<span class="mb-2" style="font-size: 0.9rem">리뷰 작성</span>
-						
+
 						<div class="form-floating mb-3">
-					      <textarea id="reviewContent" class="form-control" placeholder="name@example.com" style="height: 100px;"></textarea>
-					      <label id="floatingValue" class="text-muted" for="reviewContent" style="font-size: 0.9rem">내용을 10자 이상 입력해주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.</label>
-					    </div>
+							<textarea id="reviewContent" class="form-control"
+								placeholder="name@example.com" style="height: 100px;"></textarea>
+							<label id="floatingValue" class="text-muted" for="reviewContent"
+								style="font-size: 0.9rem">내용을 10자 이상 입력해주세요. 주제와 무관한 댓글,
+								악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.</label>
+						</div>
 
 						<div class="d-flex align-items-center mb-2">
 							<div id="fileCount" style="font-size: 0.9rem">사진 첨부(선택) 0/3</div>
-							<div id="imgDelete" class="badge bg-danger rounded-pill ms-3">모두 삭제</div>
+							<div id="imgDelete" class="badge bg-danger rounded-pill ms-3">모두
+								삭제</div>
 						</div>
-						
-						
+
+
 						<div class="mb-5 d-flex">
-							<input type="file" class="" id="input-file" accept="image/jpeg,image/png" onchange="reviewImgUrl(this);" style="display: none;">
-							<label class="fs-1 d-flex align-items-center justify-content-center border border-opacity-25" for="input-file" style="width: 100px; height: 100px;">+</label>
+							<input type="file" class="" id="input-file"
+								accept="image/jpeg,image/png" onchange="reviewImgUrl(this);"
+								style="display: none;"> <label
+								class="fs-1 d-flex align-items-center justify-content-center border border-opacity-25"
+								for="input-file" style="width: 100px; height: 100px;">+</label>
 							<div id="img-box" class="d-flex align-items-center"></div>
 						</div>
-						<button id="reviewSubmmitBtn" class="btn btn-outline-secondary col-3 m-auto">등록</button>
+						<button id="reviewSubmmitBtn"
+							class="btn btn-outline-secondary col-3 m-auto">등록</button>
 					</div>
 				</div>
 			</div>
@@ -168,8 +173,7 @@ main {
 				<i class="fas fa-share-alt" style="color: skyblue;"></i>
 			</button>
 
-			<button id="reviewModal" 
-				class="btn btn-outline-warning me-2"
+			<button id="reviewModal" class="btn btn-outline-warning me-2"
 				style="width: 120px; height: 40px;"
 				data-bs-target="#reviewModalToggle">
 				<i class="fas fa-pen"></i>리뷰작성
@@ -261,7 +265,7 @@ main {
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<!-- 풋터 끝 -->
 	<script type="text/javascript">
-	let c_count = '';
+	let c_count = '1';
 	let booleanValue = ${empty isLike ?false :isLike};
 	let rv_img = [];
 	
@@ -294,8 +298,8 @@ main {
 	  		$('#price').text(insertCommas(sum));
 	  	})
 	});
-	  	
-  	
+
+
 	function add_cart() {
 		//let promise = new Promise(function )
 		console.log(c_count);
@@ -319,18 +323,19 @@ main {
 						},
 						complete : function(data, textStatus) {
 						}
-					}); //end of second ajax	
+					}); //end of second ajax
 				} else if(result == "nonMember"){
 					let c_cart = $.cookie('cart'); // 쿠키의 'cart'에 담긴 value를 문자열로 받아온다
 					if(c_cart == undefined){  // 비회원 장바구니에 담긴 상품이 한 건도 없을 경우
 						// json형식으로 객체 생성
 						let cookie = {
- 										cart : [ 
+ 										cart : [
 													{
 													pno : "${product.getP_no()}",
 													title : "${product.getP_title()}",
 													img : "${product.getP_img()}",
 													price : "${product.getP_price()}",
+													ctg : "${product.getP_category()}",
 													count : c_count
 													}
 												]
@@ -364,16 +369,16 @@ main {
 						    // 두 번째 매개 변수 item은 해당 인덱스나 키가 가진 값을 의미합니다.
 						    if(item.pno == ${product.getP_no()}){
 						    	++cnt;
-						    } 
+						    }
 						}); // end of $.each()
 						if(cnt == 0){ // 장바구니에 존재하지 않는 상품
 							text = "not_exist";
 						}else{
 							text = "is_exist";
 						} // end of text값 설정해주는 if-else
-						
-						
-						if(text == "is_exist"){ // 이미 담아둔 상품일 경우 
+
+
+						if(text == "is_exist"){ // 이미 담아둔 상품일 경우
 							alert('이미 장바구니에 담아둔 상품입니다.');
 						} else { // 장바구니에 담겨있지 않은 상품일 경우
 							cookie.push({
@@ -381,6 +386,7 @@ main {
 										title : "${product.getP_title()}",
 										img : "${product.getP_img()}",
 										price : "${product.getP_price()}",
+										ctg : "${product.getP_category()}",
 										count : c_count
 										});
 							$.ajax({
@@ -409,7 +415,6 @@ main {
 			}
 		}); // end of first ajax
 	}// end of add_cart()
-		
 	function cartAlert(msg){
 			if(msg == 'fail'){
 				alert("장바구니에 추가에 실패하였습니다.");
@@ -599,11 +604,11 @@ main {
 		
 		$.ajax({
 			type : "POST",
-			url : "/review",
+			url : "/product/review",
 			data : formData,
 			processData: false,
 			contentType: false,				
-			success : function(result) {				
+			success : function(result) {
 				console.log(result);
 				if(result.success){
 					review_clear();

@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mybatis.mapper.cartMapper">
+<mapper namespace="com.finalpj.nbw.cart.dao.CartMapper">
 	<!-- [[ 회원의 장바구니 전체조회 ]] -->
 	<select id="selectCartList" parameterType="String" resultType="Map">
-		SELECT P.P_IMG, P.P_TITLE, P.P_PRICE, P.P_NO, C.CART_COUNT
+		SELECT P.P_IMG, P.P_TITLE, P.P_PRICE, P.P_NO, P.P_CATEGORY, C.CART_COUNT
 		  FROM TB_PRODUCT  P , 
 		      (
 		        SELECT P_NO, CART_COUNT FROM TB_MEMCART 

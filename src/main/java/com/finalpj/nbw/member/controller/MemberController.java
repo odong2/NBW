@@ -41,6 +41,12 @@ public class MemberController {
         return "join/idCheck";
     }
 
+    @GetMapping("nicknameCheck")
+    public String nicknameCheck(String nickname, Model model) throws Exception{
+        model.addAttribute("nickname", memberService.nicknameCheck(nickname));
+        return "join/nickCheck";
+    }
+
 
     @RequestMapping(value="join", method= RequestMethod.POST)
     public String joinPageExe(@ModelAttribute Member member) throws Exception {
