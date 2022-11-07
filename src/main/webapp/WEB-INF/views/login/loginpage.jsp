@@ -147,12 +147,6 @@
           </div>
         </div>
       </section>
-      <c:if test="${!empty LoginFailMsg}" >
-      	<div id="LoginFailMsg" class="col-4 text-center mt-2 list-group-item list-group-item-danger">${LoginFailMsg}</div>
-      </c:if>
-      <script>
-        $("#LoginFailMsg").delay(1500).fadeOut(500);
-      </script>
     </main>
 <!-- 메인 끝 -->
 
@@ -160,6 +154,13 @@
 <%@include file="/WEB-INF/includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 <script type="text/javascript">
+	$(function(){
+		  const text = '${LoginFailMsg}';
+		  if(text.length > 0){
+			  msg(text)
+		  }
+	});
+
 	$('#inputId').blur(function(){
 		let id = $('#inputId').val().length;
 		let pw = $('#inputPw').val().length;
@@ -239,7 +240,17 @@
 			$("#id_checkbox").attr("checked", "checked");
 		}
 	});
-
+	
+	let msg = function(text){
+		if(!$('#msg-box').length){
+			$('body').append('<div id="msg-box" class="position-fixed top-50 start-50 translate-middle"></div>');
+			$('#msg-box').append('<div id="LoginFailMsg" class="text-center list-group-item list-group-item-danger">'+text+'</div>');
+			$("#LoginFailMsg").delay(500).fadeOut(500);
+		}
+		$("#LoginFailMsg").text(text);
+		$("#LoginFailMsg").show();
+		$("#LoginFailMsg").delay(500).fadeOut(500);
+	}
 </script>
 </body>
 </html>

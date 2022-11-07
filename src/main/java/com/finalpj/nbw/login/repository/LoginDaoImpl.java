@@ -35,8 +35,8 @@ public class LoginDaoImpl implements LoginDao{
 	}
 
 	@Override
-	public FindDto findId(FindDto dto) {
-		return sqlSession.selectOne("findId", dto);
+	public List<FindDto> findId(FindDto dto) {
+		return sqlSession.selectList("findId", dto);
 	}
 
 	@Override

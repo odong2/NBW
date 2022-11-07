@@ -3,9 +3,10 @@ package com.finalpj.nbw.product.dao;
 import com.finalpj.nbw.product.domain.CategoryFilter;
 import com.finalpj.nbw.product.domain.Criteria;
 import com.finalpj.nbw.product.domain.Product;
+import com.finalpj.nbw.product.domain.Review;
+
 import java.util.List;
 import java.util.Map;
-
 
 public interface ProductDao {
 	Product getProduct(String number);
@@ -24,4 +25,10 @@ public interface ProductDao {
 
 	/* 검색된 카테고리 개수 반환 */
 	List<CategoryFilter> selectProductCateInfo(Criteria criteria) throws Exception;
+
+	void updateLike(Map<String, Object> map);
+
+	void reviewCountUpdate(Review review);
+
+	void reviewInsert(Review review);
 }

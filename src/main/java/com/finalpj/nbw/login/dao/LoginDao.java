@@ -11,7 +11,7 @@ public interface LoginDao {
 	
 	public Member seleteUser(String userId);
 
-	public FindDto findId(FindDto dto);
+	public List<FindDto> findId(FindDto dto);
 
 	public boolean selectUserEmail(FindDto dto);
 
