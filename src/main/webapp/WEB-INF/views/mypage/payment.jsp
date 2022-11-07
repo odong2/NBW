@@ -46,6 +46,9 @@
     #productHeader h5{
         font-size: 1.1rem;
     }
+    .modal-section{
+        border-radius: 5px;
+    }
     .product-img{
         width: 70px;
         margin-left:20px;
@@ -103,6 +106,9 @@
     .modal-body #pImg,
     .modal-body #img{
         width: 60px;
+    }
+    .modal-content .modal-data{
+        padding:10px;
     }
     .modal-footer .close-mBtn{
         background-color: white;
@@ -233,63 +239,63 @@
         </ul>
     </section>
         <!-- Modal -->
-        <section class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+        <section class="modal fade rounded-3" id="staticBackdrop" data-bs-backdrop="static"
                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <section>
+                        <section class="modal-data">
                             <h6 class="title mb-2">상품개별 정보</h6>
                             <hr/>
-                            <div class="d-flex mb-2">
-                                <div class="col-4  align-self-center">상품</div>
-                                <div class="col-5  align-self-center">제목</div>
+                            <div class="d-flex mb-2 px-2">
+                                <div class="col-3  align-self-center">상품</div>
+                                <div class="col-5  ms-5 align-self-center">제목</div>
                                 <div class="col-2  align-self-center">금액</div>
                             </div>
                             <div class="d-flex mb-4">
-                                <div class="col-4  align-self-center"><img src="" id="pImg"></div>
-                                <div class="col-5  align-self-center"><span id="pTitle"></span></div>
+                                <div class="col-3  align-self-center"><img src="" id="pImg"></div>
+                                <div class="col-6  align-self-center"><p id="pTitle" class="me-2 mt-3"></p></div>
                                 <div class="col-2  align-self-center"><span id="pPrice"></span></div>
                             </div>
                         </section>
-                        <section>
+                        <section class="modal-data">
                             <h6 class="title">배송정보</h6>
                             <hr/>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>수령자</span></div>
-                                <div><span id="receiverName"></span></div>
+                                <div class="col-7 ms-5"><span id="receiverName"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>수령자 전화번호</span></div>
-                                <div><span id="receiverPhone"></span></div>
+                                <div class="col-7 ms-5"><span id="receiverPhone"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>수령자 주소</span></div>
-                                <div><span id="receiverAddress"></span></div>
+                                <div class="col-7 ms-5"><span id="receiverAddress"></span></div>
                             </div>
-                            <div class="d-flex mb-4">
+                            <div class="d-flex mb-4 px-2">
                                 <div class="col-7"><span>배송메모</span></div>
-                                <div><span id="deliveryMemo"></span></div>
+                                <div class="col-7 ms-5"><span id="deliveryMemo"></span></div>
                             </div>
                         </section>
-                        <section>
+                        <section class="modal-data">
                             <h6 class="title">결제 정보</h6>
                             <hr/>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>쿠폰</span></div>
-                                <div><span id="cpName"></span></div>
+                                <div class="col-7 ms-5"><span id="cpName"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>쿠폰사용 금액</span></div>
-                                <div><span id="cpPrice"></span></div>
+                                <div class="col-7 ms-5"><span id="cpPrice"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>포인트 사용</span></div>
-                                <div><span id="usedPoint"></span></div>
+                                <div class="col-7 ms-5"><span id="usedPoint"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>총 결제금액</span></div>
-                                <div><span id="totalPrice"></span></div>
+                                <div class="col-7 ms-5"><span id="totalPrice"></span></div>
                             </div>
                         </section>
                     </div>
@@ -301,7 +307,7 @@
         </section>
         <section>
             <!-- 결제 취소 Modal -->
-            <section class="modal fade" id="payBackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <section class="modal fade rounded-3" id="payBackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <section class="modal-header">
