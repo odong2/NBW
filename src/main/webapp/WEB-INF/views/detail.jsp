@@ -1,131 +1,302 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <html>
 <head>
-<%@include file="/WEB-INF/includes/common.jsp" %>
-    <title>Login</title>
-  <style>
-    a {
-      color: black;
-    }
-    main {
-    	width : 70%;
-    	margin: auto;
-    }
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<%@include file="/WEB-INF/includes/common.jsp"%>
+<title>ProductDetail</title>
+<style>
+a {
+	color: black;
+}
+
+main {
+	width: 70%;
+	margin: auto;
+}
+
+#header {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 5;
+	background-color: white;
+	height: 80px;
+}
+
+#review-box fieldset {
+	display: inline-block;
+	direction: rtl;
+	border: 0;
+}
+
+#review-box fieldset legend {
+	text-align: right;
+}
+
+#review-box input[type=radio] {
+	display: none;
+}
+
+#review-box label {
+	font-size: 1.5rem;
+	color: transparent;
+	text-shadow: 0 0 0 #f0f0f0;
+}
+
+#review-box label:hover {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#review-box label:hover ~ label {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#review-box input[type=radio]:checked ~ label {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#imgDelete {
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
-<!-- 헤더 시작 -->
-<%@include file="/WEB-INF/includes/header.jsp" %>
-<!-- 헤더 끝 -->
+	<!-- 헤더 시작 -->
+	<%@include file="/WEB-INF/includes/header.jsp"%>
+	<!-- 헤더 끝 -->
 
-<!-- 메인 시작 -->
-<main>
-    <section class="">
-      <div class="px-4 px-lg-5 my-5">
-        <div class="d-flex">
-          <div class="col-3 me-5">
-            <img
-              class="card-img-top"
-              src="${product.getP_img()}"
-              alt="..."
-            />
-          </div>
-          <div class="col-9">
-            <div class="mb-3 fs-4">${product.getP_title()}</div>
-            <div class="mb-3 d-flex">
-            	<div class="pe-2">${product.getP_author()} 지음</div>
-            	<div class="px-2 border-primary border-start border-end">${product.getP_publisher()}</div>
-            	<div class="ps-2">${product.getP_pubdate()} 출간</div>
-            </div>
-            <div class="mb-2 d-flex align-items-center">
-            	<div class="pe-2">별점: ${product.getP_avgscore()}</div>
-            	<div class="pe-2">좋아요: ${product.getP_like()}</div>
-            	<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
-            	<button class="btn btn-primary btn-sm">리뷰작성하기</button>
-            </div>
-            <div class="mb-2 d-flex">정가: ${product.getP_price()}</div>
-          	<div class="mb-5 d-flex align-items-center">
-          		<div class="me-1">회원가:</div>
-          		<div class="me-1">${product.getP_price() * 0.9}</div>
-          		<div id="state_ing" class="badge bg-danger rounded-pill">-10%</div>
-          	</div>
-            <div class="d-flex mb-2">
-              <input
-                class="form-control text-center me-3"
-                id="inputQuantity"
-                type="num"
-                value="1"
-                min="1"
-                style="max-width: 3rem"
-              />
-              <c:set var="c_count" value="1" />
-              <button id="plus_btn" class="btn btn-outline-dark me-1" type="button"><i class="fas fa-plus-circle"></i></button>
-              <button id="minus_btn" class="btn btn-outline-dark me-3" type="button"><i class="fas fa-minus-circle"></i></button>
-            </div>
-            <button class="btn btn-outline-dark me-1 flex-shrink-0" type="button" onclick="add_cart()">장바구니</button>
-            <button class="btn btn-outline-dark" type="button">구매하기</button>
-          </div>
-        </div>
-        <hr/>
-        <h5>상세내용</h5>
-        <p class="lead">${product.getP_description()}</p>
-        <hr/>
-        <h5>관련상품</h5>
-		<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-						<div class="col-2">
-							<div class="card h-100">
-								<!-- Product image-->
-								<a href="#">
-									<img
-										class="card-img-top"
-										src="${product.getP_img()}"
-										 alt="..."
-									/>
-								</a>
-								<!-- Product details-->
-								<div class="card-body">
-									<div class="text-center">
-										<!-- Product name-->
-										<h5 class="fw-bolder">제목</h5>
-										<!-- Product price-->
-										가격
-									</div>
+	<div class="modal fade" id="reviewModalToggle" aria-hidden="true"
+		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content" style="border-radius: 1rem;">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalToggleLabel">리뷰
+						작성</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3 d-flex flex-column" id="review-box">
+						<ul class="py-3 rounded bg-light" style="font-size: 0.7rem">
+							<li class="ms-1 mb-2">리뷰 작성시
+								<div class="badge bg-primary">200 point</div> 적립
+							</li>
+							<li class="ms-1">사진 리뷰 작성시로
+								<div class="badge bg-primary">200 point</div> 추가 적립
+							</li>
+						</ul>
+
+						<div class="d-flex align-items-center mb-3">
+							<fieldset>
+								<input type="radio" name="reviewStar" value="5" id="rate1">
+								<label for="rate1" data-score="5">★</label> <input type="radio"
+									name="reviewStar" value="4" id="rate2"> <label
+									for="rate2" data-score="4">★</label> <input type="radio"
+									name="reviewStar" value="3" id="rate3"> <label
+									for="rate3" data-score="3">★</label> <input type="radio"
+									name="reviewStar" value="2" id="rate4"> <label
+									for="rate4" data-score="2">★</label> <input type="radio"
+									name="reviewStar" value="1" id="rate5"> <label
+									for="rate5" data-score="1">★</label>
+							</fieldset>
+							<div id="reviewPoint" class="ms-2 text-warning">0</div>
+							<div class="text-warning">/5</div>
+						</div>
+
+						<span class="mb-2" style="font-size: 0.9rem">리뷰 작성</span>
+
+						<div class="form-floating mb-3">
+							<textarea id="reviewContent" class="form-control"
+								placeholder="name@example.com" style="height: 100px;"></textarea>
+							<label id="floatingValue" class="text-muted" for="reviewContent"
+								style="font-size: 0.9rem">내용을 10자 이상 입력해주세요. 주제와 무관한 댓글,
+								악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.</label>
+						</div>
+
+						<div class="d-flex align-items-center mb-2">
+							<div id="fileCount" style="font-size: 0.9rem">사진 첨부(선택) 0/3</div>
+							<div id="imgDelete" class="badge bg-danger rounded-pill ms-3">모두
+								삭제</div>
+						</div>
+
+
+						<div class="mb-5 d-flex">
+							<input type="file" class="" id="input-file"
+								accept="image/jpeg,image/png" onchange="reviewImgUrl(this);"
+								style="display: none;"> <label
+								class="fs-1 d-flex align-items-center justify-content-center border border-opacity-25"
+								for="input-file" style="width: 100px; height: 100px;">+</label>
+							<div id="img-box" class="d-flex align-items-center"></div>
+						</div>
+						<button id="reviewSubmmitBtn"
+							class="btn btn-outline-secondary col-3 m-auto">등록</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 고정바 시작 -->
+	<div id="header"
+		class="border-top border-dark d-flex align-items-center justify-content-evenly">
+		<div class="d-flex">
+			<div class="m-auto">총 상품 금액</div>
+			<div class="fs-3 fw-bold d-flex ms-5">
+				<div id="price">
+					<fmt:formatNumber value="${product.getP_price() }" />
+				</div>
+				<div>원</div>
+			</div>
+		</div>
+		<div class="d-flex">
+			<div class="input-group input-group-sm me-2" style="width: 100px;">
+				<button id="minus_btn"
+					class="btn btn-outline-secondary border border-drak border-opacity-75">
+					<i class="fas fa-minus"></i>
+				</button>
+				<input id="inputQuantity" type="text" class="form-control" value="1">
+				<button id="plus_btn"
+					class="btn btn-outline-secondary border border-drak border-opacity-75">
+					<i class="fas fa-plus"></i>
+				</button>
+			</div>
+
+			<div id="add_like"
+				class="fs-5 btn btn-outline-light border border-drak rounded fs-5 d-flex align-items-center me-2"
+				style="height: 40px;"></div>
+
+			<button
+				class="btn btn-outline-light border border-drak rounded text-muted d-flex align-items-center me-2"
+				style="height: 40px;">
+				<i class="fas fa-share-alt" style="color: skyblue;"></i>
+			</button>
+
+			<button id="reviewModal" class="btn btn-outline-warning me-2"
+				style="width: 120px; height: 40px;"
+				data-bs-target="#reviewModalToggle">
+				<i class="fas fa-pen"></i>리뷰작성
+			</button>
+
+			<button class="btn btn-outline-secondary me-2" type="button"
+				style="width: 120px; height: 40px;" onclick="add_cart()">
+				<i class="fas fa-shopping-cart"></i>장바구니
+			</button>
+			<button class="btn btn-outline-primary" type="button"
+				style="width: 120px; height: 40px;">
+				<i class="fas fa-dollar-sign"></i> 구매하기
+			</button>
+		</div>
+	</div>
+	<!-- 고정바 끝 -->
+
+	<!-- 메인 시작 -->
+	<main>
+		<section class="">
+			<div class="px-4 px-lg-5 my-5">
+				<div class="d-flex">
+					<div class="col-3 me-5">
+						<img class="card-img-top" src="${product.getP_img()}" alt="..." />
+					</div>
+					<div class="col-9 d-flex flex-column justify-content-center">
+						<div class="my-3 fs-4">${product.getP_title()}</div>
+						<div class="mb-3 d-flex">
+							<div class="pe-2">${product.getP_author()}</div>
+							<div class="px-2 border-dark border-start border-end">${product.getP_publisher()}</div>
+							<div class="ps-2">${product.getP_pubdate()}</div>
+						</div>
+						<div class="mb-2 d-flex align-items-center">
+							<div class="pe-2">별점: ${product.getP_avgscore()}</div>
+						</div>
+						<div class="mb-2 d-flex align-items-center">
+							<div class="pe-2">좋아요: ${product.getP_like()}</div>
+						</div>
+						<div class="mb-2 d-flex align-items-center">
+							<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
+							<!-- <button class="btn btn-primary btn-sm">리뷰작성하기</button> -->
+						</div>
+						<div class="mb-2 d-flex">
+							정가:
+							<fmt:formatNumber value="${product.getP_price() }" />
+						</div>
+						<div class="mb-5 d-flex align-items-center">
+							<div class="me-1">회원가:</div>
+							<div class="me-1">
+								<fmt:formatNumber value="${product.getP_price() * 0.9}" />
+							</div>
+							<div id="state_ing" class="badge bg-danger rounded-pill">10%</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<h5>상세내용</h5>
+				<p class="lead">${product.getP_description()}</p>
+				<hr />
+				<h5>관련상품</h5>
+				<div
+					class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+					<div class="col-2">
+						<div class="card h-100">
+							<!-- Product image-->
+							<a href="#"> <img class="card-img-top"
+								src="${product.getP_img()}" alt="..." />
+							</a>
+							<!-- Product details-->
+							<div class="card-body">
+								<div class="text-center">
+									<!-- Product name-->
+									<h5 class="fw-bolder">제목</h5>
+									<!-- Product price-->
+									가격
 								</div>
 							</div>
 						</div>
-		</div>
-		<hr/>
-		<h5>리뷰보기</h5>
-	  </div>
-    </section>
-</main>
-<!-- 메인 끝 -->
+					</div>
+				</div>
+				<hr />
+				<h5>리뷰보기</h5>
+			</div>
+		</section>
+	</main>
+	<!-- 메인 끝 -->
 
-<!-- 풋터 시작 -->
-<%@include file="/WEB-INF/includes/footer.jsp" %>
-<!-- 풋터 끝 -->
-<script type="text/javascript">
-let c_count = '';
+	<!-- 풋터 시작 -->
+	<%@include file="/WEB-INF/includes/footer.jsp"%>
+	<!-- 풋터 끝 -->
+	<script type="text/javascript">
+	let c_count = '1';
+	let booleanValue = ${empty isLike ?false :isLike};
+	let rv_img = [];
+	
 	$(document).ready(function(){
-	  	c_count = $("#inputQuantity").val();
-	  		console.log(c_count);
+		isLike(booleanValue);
+		
+		let sum = ${product.getP_price() };
+		$('#price').text(insertCommas(sum));
+		
 	  	/* 장바구니에 담을 수량 증가 */
 		$("#plus_btn").on("click", function(){
-			let inputQTY = $("#inputQuantity").val();
-			$("#inputQuantity").val(++inputQTY);
-	  		c_count = inputQTY;
-	  		console.log(c_count);
+			c_count = $("#inputQuantity").val();
+	  		c_count++;
+	  		$("#inputQuantity").val(c_count);
+	  		sum = ${product.getP_price()} * parseInt(c_count);
+	  		$('#price').text(insertCommas(sum));
 	  	});
 	  	/* 장바구니에 담을 수량 감소 */
 	  	$("#minus_btn").on("click", function(){
-	  		let inputQTY = $("#inputQuantity").val();
-	  		if(inputQTY > 1){
-	  			$("#inputQuantity").val(--inputQTY);
-	  		}
-	  		c_count = inputQTY;
-	  		console.log(c_count);
+	  		c_count = $("#inputQuantity").val();
+	  		c_count > 1 ? c_count-- : c_count
+	  		$("#inputQuantity").val(c_count);
+	  		sum = ${product.getP_price()} * parseInt(c_count);
+	  		$('#price').text(insertCommas(sum));
 	  	});
+	  	
+	  	$('#inputQuantity').blur(function(){
+	  		let value = $('#inputQuantity').val();
+	  		sum = ${product.getP_price()} * value;
+	  		$('#price').text(insertCommas(sum));
+	  	})
 	});
 
 
@@ -252,6 +423,205 @@ let c_count = '';
 			} else if(msg == 'modifyCart'){
 				alert("장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");
 			} 
+	}
+
+	function insertCommas(n) {
+		  // get stuff before the dot
+		  let s1 = n.toString();
+		  var d = s1.indexOf('.');
+		  var s2 = d === -1 ? s1 : s1.slice(0, d);
+
+		  // insert commas every 3 digits from the right
+		  for (var i = s2.length - 3; i > 0; i -= 3)
+		    s2 = s2.slice(0, i) + ',' + s2.slice(i);
+
+		  // append fractional part
+		  if (d !== -1)
+		    s2 += s1.slice(d);
+
+		  return s2;
+	}
+	
+	$('#add_like').click(function(){
+		$.ajax({
+			type : "POST",
+			url : "/member/like",
+			data : JSON.stringify({p_no:'${ product.getP_no() }'}), 
+			contentType: "application/json; charset=UTF-8", 
+			dataType:"json",
+			success : function(response) {
+				console.log(response);
+				if(response.isLogin){
+					if(response.success){
+						isLike(true);
+						msg(response.msg);
+					}else{
+						isLike(false);
+						msg(response.msg);
+					}
+				}else{
+					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
+						location.href = '/login?pno=${product.getP_no()}';
+					}
+				}
+			},
+			error : function(data, textStatus) {
+				msg("에러가 발생했습니다."+data);
+				console.log(data);
+			}
+		})
+	});
+	
+	let isLike = function(request){
+		if(request){
+			$('#add_like').empty();
+			$('#add_like').append('<i class="fas fa-heart" style="color:red;"></i>');
+		}else{
+			$('#add_like').empty();
+			$('#add_like').append('<i class="far fa-heart" style="color:red;"></i>');
+		}
+	}
+	
+	let msg = function(text){
+		if(!$('#msg-box').length){
+			$('body').append('<div id="msg-box" class="position-fixed top-50 start-50 translate-middle"></div>');
+			$('#msg-box').append('<div id="LoginFailMsg" class="text-center list-group-item list-group-item-danger">'+text+'</div>');
+			$("#LoginFailMsg").delay(500).fadeOut(500);
+		}
+		$("#LoginFailMsg").text(text);
+		$("#LoginFailMsg").show();
+		$("#LoginFailMsg").delay(500).fadeOut(500);
+	}
+	
+	$('#reviewModal').click(function(){
+		$.ajax({
+			type : "POST",
+			url : "/login/exist",
+			dataType:"json",
+			success : function(response) {
+				if(response.isLogin){
+					$('#reviewModalToggle').modal("show");
+				}else{
+					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
+						location.href = '/login?pno=${product.getP_no()}';
+					}
+				}
+			},
+			error : function(data, textStatus) {
+				msg("에러가 발생했습니다."+data);
+				console.log(data);
+			}
+		})
+	})
+	
+	$('label').click(function(e){
+		let text = e.target.dataset.score;
+		$('#reviewPoint').text(text);
+	})
+	
+	$('#reviewContent').focus(function(){
+		const size = $('#reviewContent').val().length;
+		
+		$('#floatingValue').text(size+'/3000');
+	})
+	
+	$('#reviewContent').blur(function(){
+		const size = $('#reviewContent').val().length;
+		
+		if(size <= 0)
+			$('#floatingValue').text('내용을 10자 이상 입력해주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.')
+	})
+	
+	$('#reviewContent').keyup(function(){
+		const size = $('#reviewContent').val().length;
+		
+		if(size > 0)
+			$('#floatingValue').text(size+'/3000');
+	})
+	
+	function reviewImgUrl(input) {
+		if(rv_img.length === 3){
+			return alert('최대 3개까지만 등록 가능합니다.');
+		}
+		
+		let reader = new FileReader();
+		reader.onload = function(e) {
+		 	let src = e.target.result;
+		 	$('#img-box').append('<img class="ms-2 border border-dark" alt="" src="'+src+'" style="width: 100px; height: 100px;">')
+	 	};
+		reader.readAsDataURL(input.files[0]);
+		rv_img.push(input.files[0]);
+		$('#fileCount').text('사진 첨부(선택) '+rv_img.length+'/3');
+	}
+	
+	$('#reviewSubmmitBtn').click(function(){
+		const rv_score = $('#reviewPoint').text();
+		const rv_content = $('#reviewContent').val();
+		
+		if(rv_score <= 0){
+			alert('별점을 입력해주세요.');
+		}else if(!rv_content) {
+			alert('리뷰를 작성해주세요.');
+		}else if(rv_img.length === 0){
+			if(confirm('리뷰사진 없이 등록 하시겠습니까?')){
+				review_submmit();
+			}
+		}else {
+			review_submmit();
+		}
+	})
+	
+	let review_clear = () => {
+		$('#reviewModalToggle').modal("hide");
+		$('#reviewPoint').text('0');
+		$('#reviewContent').val('');
+		$('#img-box').empty();
+		$('#floatingValue').text('0/3000');
+		$('#fileCount').text('사진 첨부(선택) 0/3');
+		rv_img = [];
+	}
+	
+	$('#imgDelete').click(function(){
+		$('#img-box').empty();
+		$('#fileCount').text('사진 첨부(선택) 0/3');
+		rv_img = [];
+	})
+	
+	let review_submmit = () => {
+		const formData = new FormData();
+		
+		const rv_score = $('#reviewPoint').text();
+		const rv_content = $('#reviewContent').val();
+		const p_no = '${ product.getP_no() }';
+		
+		formData.append('p_no',p_no);
+		formData.append('rv_score',rv_score);
+		formData.append('rv_content',rv_content);
+		
+		rv_img.forEach((item)=>{
+			formData.append('files',item);
+		})
+		
+		$.ajax({
+			type : "POST",
+			url : "/product/review",
+			data : formData,
+			processData: false,
+			contentType: false,				
+			success : function(result) {
+				console.log(result);
+				if(result.success){
+					review_clear();
+					msg(result.msg);
+				}else {
+					review_clear();
+					msg(result.msg);
+				}
+		 	},
+		 	error : function(request, status, error) {
+		 		console.log("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+			}
+		});
 	}
 </script>
 </body>
