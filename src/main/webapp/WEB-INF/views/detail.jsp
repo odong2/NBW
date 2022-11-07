@@ -244,7 +244,6 @@ let c_count = '';
 			}
 		}); // end of first ajax
 	}// end of add_cart()
-		
 	function cartAlert(msg){
 			if(msg == 'fail'){
 				alert("장바구니에 추가에 실패하였습니다.");
@@ -254,7 +253,6 @@ let c_count = '';
 				alert("장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");
 			} 
 	}
-
 </script>
 </body>
 </html>

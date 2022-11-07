@@ -26,7 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 
 @Log4j
-@RequestMapping("/mypage/*")
+@RequestMapping("/mypage/")
 @Controller
 public class MypageController {
 
@@ -114,10 +114,5 @@ public class MypageController {
         }
 
 
-        /******************** 결제 조회 페이지 ***********************/
-        @GetMapping("paylist")
-        public String paymentList(){
-            return "/mypage/payment";
 
-        }
 }

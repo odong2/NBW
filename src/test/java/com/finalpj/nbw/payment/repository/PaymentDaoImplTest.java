@@ -64,7 +64,7 @@ public class PaymentDaoImplTest {
             payDetailList.add(pMap);
         }
         assertTrue(result == 1 );
-        assertTrue(paymentDao.insertMemPayDetail(payDetailList) > 0);
+        assertTrue(paymentDao.insertPayDetail(payDetailList) > 0);
 
     }
 }

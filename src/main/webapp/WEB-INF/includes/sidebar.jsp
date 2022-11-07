@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- sidebar 시작(include) -->
-
     <section class="sidebar">
         <div id="userInfo" class="container-fulid wrapper mb-3">
             <div class="mb-3">
