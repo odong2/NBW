@@ -8,6 +8,7 @@
             <typeAlias alias="couponDto" type="com.finalpj.nbw.coupon.domain.Coupon"/>
             <typeAlias alias="cartProductDto" type="com.finalpj.nbw.payment.domain.CartProduct"/>
             <typeAlias alias="paymentDto" type="com.finalpj.nbw.payment.domain.Payment"/>
+            <typeAlias alias="orderListDto" type="com.finalpj.nbw.payment.domain.OrderList"/>
             <typeAlias alias="searchCondition" type="com.finalpj.nbw.notice.domain.SearchCondition"/>
             <typeAlias alias="member" type="com.finalpj.nbw.member.domain.Member"/>
             <typeAlias alias="eventDto" type="com.finalpj.nbw.event.domain.Event"/>

@@ -2,7 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.finalpj.nbw.payment.dao.PaymentMapper">
-    <!-- ============ (1) 결제 성공시 결제테이블에 insert =============== -->
+
+    <!-- (1) 결제 성공시 결제테이블에 등록 (비회원)-->
+    <insert id="insertUnMemPayment">
+        INSERT INTO tb_unmempayment
+        (
+            order_no, receiver_name,
+            receiver_phone, receiver_zipcode,
+            receiver_address1, receiver_address2,
+            delivery_memo,order_name, order_phone, order_pw, total_price
+        )
+        VALUES
+            (
+                #{order_no}, #{receiver_name},
+                #{receiver_phone}, #{receiver_zipcode},
+                #{receiver_address1}, #{receiver_address2},
+                #{delivery_memo},#{order_name}, #{order_phone}, #{order_pw}, #{total_price}
+            )
+    </insert>
+
+    <!--  (1) 결제 성공시 결제테이블에 등록 (회원) -->
     <insert id="insertMemPayment" parameterType="paymentDto">
     INSERT INTO tb_mempayment
             (
@@ -20,14 +39,14 @@
             #{used_point}, #{cp_no, jdbcType=VARCHAR}
             )
     </insert>
-    <!-- ============ (2) 결제 테이블에 insert 후 주문 상품에 관해 다중 insert =============== -->
-    <insert id="insertMemPayDetail" parameterType="java.util.List">
+
+    <!--  (2) 주문 상세내역 등록. 다중 insert (공통)  -->
+    <insert id="insertPayDetail" parameterType="java.util.List">
             INSERT ALL
             <foreach item="item" collection="list">
-                into TB_MEMPAYMENTDETAIL
+                into ${item.table}
                 (
-                    order_no,p_no,
-                    p_count
+                    order_no, p_no, p_count
                 )
                 VALUES
                 (
@@ -40,22 +59,44 @@
             FROM DUAL
     </insert>
 
-    <!-- ============================= (1) 결제 완료후 주문 완료된 상품 조회 =========================== -->
-    <select id="selectPayAfter" parameterType="java.lang.String" resultType="cartProductDto">
+    <!-- (1) 결제 완료후 주문 완료된 상품정보 조회 (공통)  -->
+    <select id="selectPayAfter" parameterType="java.util.Map" resultType="cartProductDto">
         SELECT A.p_no, A.p_count, A.order_status, B.p_title, B.p_img, B.p_price, B.p_category
         FROM(
                 SELECT p_no, p_count, order_status
-                FROM tb_mempaymentdetail
+                FROM ${table}
                 where order_no = #{order_no}
             ) A
                 INNER JOIN tb_product B
                            ON A.p_no = B.p_no
     </select>
-    <!-- ============================= (2) 결제 완료후 주문자 정보 및 결제정보 조회  =========================== -->
+    <!-- (2) 결제 완료후 주문자 정보 및 결제정보 조회(회원)  -->
     <select id="selectReceiver" parameterType="java.lang.String" resultType="java.util.Map">
         SELECT order_no, order_date, receiver_name, receiver_zipcode, receiver_address1,
                receiver_address2, receiver_phone, delivery_memo, total_price
         FROM TB_MEMPAYMENT WHERE order_no = #{order_no}
     </select>
 
+    <select id="selectUnMemReceiver" parameterType="java.lang.String" resultType="java.util.Map" >
+        SELECT order_no, order_date, order_name, order_phone, receiver_name, receiver_zipcode, receiver_address1,
+               receiver_address2, receiver_phone, delivery_memo, total_price
+        FROM tb_unmempayment WHERE order_no = #{order_no}
+    </select>
+
+    <!-- 마이페이지 결제내역 조회(쿠폰, 포인트, 결제금액, 주문상품, 수령자 등등 inner join과 outer join을 활용하여 조회)  -->
+    <select id="selectMemOrderList" parameterType="java.lang.String" resultType="orderListDto">
+        SELECT d.p_title, d.p_category, d.p_img, d.p_price, c.*,
+               NVL(e.cp_name, '쿠폰사용 안함') as cp_name,NVL( e.cp_price,0) as cp_price
+        FROM(
+                SELECT a.order_no, a.order_date,a.total_price,a.used_point,
+                       a.receiver_name, a.receiver_address1, a.receiver_address2, a.delivery_memo, a.receiver_phone,
+                       b.p_count, b.p_no, b.order_status,NVL(a.cp_no,'0') as cp_no
+                FROM tb_mempayment a, tb_mempaymentdetail b
+                where a.mem_id = #{mem_id}
+                  AND a.order_no = b.order_no
+                ORDER BY order_date  DESC
+            ) c , tb_product d, tb_coupon e
+        WHERE c.p_no = d.p_no
+          and c.cp_no = e.cp_no(+)
+    </select>
 </mapper>

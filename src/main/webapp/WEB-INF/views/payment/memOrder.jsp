@@ -72,6 +72,9 @@
     #orderBtn{
         background-color: #6DB329;
     }
+    #deliveryTitle{
+        color: tomato;
+    }
   </style>
 </head>
 <body>
@@ -115,7 +118,7 @@
         </table>
     </secttion>
     <section class="container">
-        <h5 class="mt-5 mb-4">배송정보</h5>
+        <h5 class="mt-5 mb-4" id="deliveryTitle">배송정보</h5>
         <hr/>
         <ul id="receiverInfo">
             <li class ="d-flex mb-3">
@@ -178,7 +181,7 @@
                 </a>
             </div>
             <div>
-                <a href="#">
+                <a href="/mypage/payment/list">
                     <button type="button" id="orderBtn" class="btn btn-secondary btn-sm">주문조회 바로가기</button>
                 </a>
             </div>

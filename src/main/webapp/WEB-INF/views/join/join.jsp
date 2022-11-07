@@ -490,7 +490,6 @@
                 <div class = "alert alert-dismissible w-75" id="pwCheckDiv2"> </div>
             </div>
         </div>
-
         <hr>
         <br>
 

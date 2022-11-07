@@ -120,7 +120,7 @@
                         >
                     </li>
                     <li class="nav-item">
-	                <a href="#" class="text-decoration-none px-3 border-end rounded-0"
+	                <a href="/mypage/payment/list" class="text-decoration-none px-3 border-end rounded-0"
 		                >주문내역</a
 		                >
 		            </li>
