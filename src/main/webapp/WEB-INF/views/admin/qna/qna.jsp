@@ -116,6 +116,23 @@
       }
     </style>
   </head>
+<script type="text/javascript">
+	function loadPage(keyword){
+		let keyword = $(keyword).attr("data-keyword");
+		$.ajax({
+				type : "get",
+				url : "${contextPath}/admin/qna/list?keyword="+keyword,
+				success : function(result) {
+					
+				},
+				error : function(data, textStatus) {
+					alert("에러가 발생했습니다."+data);
+				},
+				complete : function(data, textStatus) {
+				}
+		}); //end of ajax
+	}// end of loadPage()
+</script>
   <body id="page-top">
     <!-- Page Wrapper -->
     <div class="d-flex justify-content-start">
@@ -147,6 +164,8 @@
 			                        role="tab"
 			                        aria-controls="home-tab-pane"
 			                        aria-selected="true"
+			                        data-toggle="tabajax"
+			                        data-keyword=""
 			                >
 			                    <span>전체</span>
 			                </button>
@@ -161,6 +180,9 @@
 			                        role="tab"
 			                        aria-controls="profile-tab-pane"
 			                        aria-selected="false"
+			                        data-toggle="tabajax"
+			                        data-keyword="N"
+			                        onclick="loadPage(this)"
 			                >
 			                    <span>처리중</span>
 			                </button>
@@ -176,6 +198,9 @@
 			                        aria-controls="contact-tab-pane"
 			                        aria-selected="false"
 			                        color="black"
+			                        data-toggle="tabajax"
+			                        data-keyword="Y"
+			                        onclick="loadPage(this)"
 			                >
 			                    <span>답변완료</span>
 			                </button>
@@ -188,6 +213,93 @@
 	                <div class="qna-list-wrap" style="border-top: 1px solid black">
 	                  <ul>
 	                  <c:forEach var="qt" items="${questionList}">
+	                    <li>
+	                      <div class="content-box">
+	                        <div class="inquiry_info">
+	                          <span class="writer"><c:out value="${qt.qn_from}" /></span>
+	                          <span class="gap"></span>
+	                          <span class="ctg-item"><c:out value="${qt.qn_category}" /></span>
+	                        </div>
+	                        <div class="inquiry_title">
+	                          <div class="d-flex align-items-center">
+	                            <div class="mr-3">
+	                              <div class="icon-circle">
+	                              <c:choose>
+	                              <c:when test="${qt.qn_category eq '교환'}">
+		                              <i class="circle-icon fas fa-sync-alt text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '반품'}">
+		                              <i class="circle-icon fas fa-times text-white"></i>
+	                              </c:when>
+	                              <c:when test="${qt.qn_category eq '제품'}">
+		                              <i class="circle-icon fas fa-book text-white"></i>
+	                              </c:when>
+	                              <c:otherwise>
+		                              <i class="circle-icon fas fa-question text-white"></i>
+	                              </c:otherwise>
+	                              </c:choose>
+	                              </div>
+	                            <c:choose>
+		                          <c:when test="${qt.qn_state eq 'N'}"><div class="q-state"></div></c:when>
+		                          <c:otherwise></c:otherwise>
+	                            </c:choose>
+	                            </div>
+	                            <div class="title">
+	                              <a href="/admin/qna/answer?qn_no=${qt.qn_no}"><c:out value="${qt.qn_title}" /></a>
+	                            </div>
+	                            <div class="cdate">
+	                              <span> <fmt:formatDate value="${qt.qn_cdate}" pattern="yyyy-MM-dd"/></span>
+	                            </div>
+	                          </div>
+	                        </div>
+	                      </div>
+	                    </li>
+	                    </c:forEach>
+	                  </ul>
+                	</div>
+                	 <nav aria-label="Page navigation ">
+		                <ul class="pagination d-flex justify-content-center mt-3">
+		                    <%-- ================== 검색 결과가 없는 경우 ================== --%>
+		                    <c:if test="${ph.totalCnt==null || ph.totalCnt==0}">
+		                        <div> 문의사항이 없습니다. </div>
+		                    </c:if>
+		                    <%-- ================== 검색 결과가 존재 하는 경우 ================== --%>
+		                    <c:if test="${ph.totalCnt!=null || ph.totalCnt!=0}">
+		                        <%-- =================== 이전 페이지 링크 보여줄 지 여부 ================--%>
+		                        <c:if test="${ph.showPrev}">
+		                            <li class="page-item">
+		                                <a class="page-link" href="<c:url value='/admin/qna/list${ph.sc.getQueryString(ph.beginPage-1)}'/>">
+		                                <span aria-hidden="true">&laquo;</span>
+		                                <span class="sr-only">Previous</span>
+		                                </a>
+		                            </li>
+		                        </c:if>
+		                        <%-- =================== 총 게시물 개수만큼 페이징 처리 ================--%>
+		                        <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
+		                            <li class="page-item">
+		                                <a class="page-link" href="<c:url value='/admin/qna/list${ph.sc.getQueryString(i)}'/>">${i}</a>
+		                            </li>
+		                        </c:forEach>
+		                        <%-- =================== 다음 페이지 링크 보여줄 지 여부 ================--%>
+		                        <c:if test="${ph.showNext}">
+		                            <li class="page-item">
+		                                <a class="page-link"href="<c:url value='/admin/qna/list${ph.sc.getQueryString(ph.endPage+1)}'/>">
+		                                    <span aria-hidden="true">&raquo;</span>
+		                                    <span class="sr-only">Next</span>
+		                                </a>
+		                            </li>
+		                        </c:if>
+		                    </c:if>
+		                    <%-- ================== 검색 결과가 존재 하는 경우 끝 ================== --%>
+		                </ul>
+		             </nav>
+	            </div>
+	            <%-- 전체 문의 --%>
+                <%-- 처리해야할 문의 --%>
+            	<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="Processing" tabindex="0">
+	                <div class="qna-list-wrap" style="border-top: 1px solid black">
+	                  <ul>
+	                  <c:forEach var="qt" items="${questionIngList}">
 	                    <li>
 	                      <div class="content-box">
 	                        <div class="inquiry_info">
@@ -231,53 +343,6 @@
 	                    </li>
 	                    </c:forEach>
 	                  </ul>
-                	</div>
-	            </div>
-	            <%-- 전체 문의 --%>
-                <%-- 처리해야할 문의 --%>
-            	<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="Processing" tabindex="0">
-	                <div class="qna-list-wrap" style="border-top: 1px solid black">
-	                  <ul>
-	                  <c:forEach var="qt" items="${questionIngList}">
-	                    <li>
-	                      <div class="content-box">
-	                        <div class="inquiry_info">
-	                          <span class="writer"><c:out value="${qt.qn_from}" /></span>
-	                          <span class="gap"></span>
-	                          <span class="ctg-item"><c:out value="${qt.qn_category}" /></span>
-	                        </div>
-	                        <div class="inquiry_title">
-	                          <div class="d-flex align-items-center">
-	                            <div class="mr-3">
-	                              <div class="icon-circle">
-	                              <c:choose>
-	                              <c:when test="${qt.qn_category eq '교환'}">
-		                              <i class="fas fa-sync-alt text-white"></i>
-	                              </c:when>
-	                              <c:when test="${qt.qn_category eq '반품'}">
-		                              <i class="fas fa-times text-white"></i>
-	                              </c:when>
-	                              <c:when test="${qt.qn_category eq '제품'}">
-		                              <i class="fas fa-book text-white"></i>
-	                              </c:when>
-	                              <c:otherwise>
-		                              <i class="fas fa-question text-white"></i>
-	                              </c:otherwise>
-	                              </c:choose>
-	                              </div>
-	                            </div>
-	                            <div class="title">
-	                              <a href="/admin/qna/answer?qn_no=${qt.qn_no}"><c:out value="${qt.qn_title}" /></a>
-	                            </div>
-	                            <div class="cdate">
-	                              <span> <fmt:formatDate value="${qt.qn_cdate}" pattern="yyyy-MM-dd"/></span>
-	                            </div>
-	                          </div>
-	                        </div>
-	                      </div>
-	                    </li>
-	                    </c:forEach>
-	                  </ul>
 	                </div>
 	            </div>
                 <%-- 처리해야할 문의 --%>
@@ -299,19 +364,23 @@
 	                              <div class="icon-circle">
 	                              <c:choose>
 	                              <c:when test="${qt.qn_category eq '교환'}">
-		                              <i class="fas fa-sync-alt text-white"></i>
+		                              <i class="circle-icon fas fa-sync-alt text-white"></i>
 	                              </c:when>
 	                              <c:when test="${qt.qn_category eq '반품'}">
-		                              <i class="fas fa-times text-white"></i>
+		                              <i class="circle-icon fas fa-times text-white"></i>
 	                              </c:when>
 	                              <c:when test="${qt.qn_category eq '제품'}">
-		                              <i class="fas fa-book text-white"></i>
+		                              <i class="circle-icon fas fa-book text-white"></i>
 	                              </c:when>
 	                              <c:otherwise>
-		                              <i class="fas fa-question text-white"></i>
+		                              <i class="circle-icon fas fa-question text-white"></i>
 	                              </c:otherwise>
 	                              </c:choose>
 	                              </div>
+	                            <c:choose>
+		                          <c:when test="${qt.qn_state eq '처리중'}"><div class="q-state"></div></c:when>
+		                          <c:otherwise></c:otherwise>
+	                            </c:choose>
 	                            </div>
 	                            <div class="title">
 	                              <a href="/admin/qna/answer?qn_no=${qt.qn_no}"><c:out value="${qt.qn_title}" /></a>

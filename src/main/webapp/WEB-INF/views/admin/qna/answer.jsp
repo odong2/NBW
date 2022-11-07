@@ -178,8 +178,8 @@
 	                  </div>
 	                  <input type="hidden" name="qn_no" value="${qt.qn_no}">
 	                  <div class="register">
-	                    <button class="btn modify"  data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
-	                    <button class="btn delete" onclick="delAnswer()">삭제</button>
+	                    <button class="btn modify"  data-bs-toggle="modal" data-bs-target="#modifyModal" type="button">수정</button>
+	                    <button class="btn delete" onclick="delAnswer()" type="submit">삭제</button>
 	                  </div>
 	                </div>
 	              </form>

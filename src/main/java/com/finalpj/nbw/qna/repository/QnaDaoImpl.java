@@ -1,6 +1,6 @@
 package com.finalpj.nbw.qna.repository;
 
-import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.qna.dao.QnaDao;
 import com.finalpj.nbw.qna.domain.Answer;
 import com.finalpj.nbw.qna.domain.Qna;
@@ -105,5 +105,29 @@ public class QnaDaoImpl implements QnaDao {
 	@Override
 	public int updateAnswer(Answer answer) throws Exception {
 		return sqlSession.update(a_namespace+"updateAnswer", answer);
+	}
+
+	/**************************** [[ 문의사항 전체 갯수 조회 ]] ********************************/
+	@Override
+	public int selectQuestionCnt() throws Exception {
+		return sqlSession.selectOne(a_namespace+"selectQuestionCnt");
+	}
+
+	/**************************** [[ 문의사항 페이징 조회 ]] ********************************/
+	@Override
+	public List<Qna> selectQuestionPage(Map map) throws Exception {
+		return sqlSession.selectList(a_namespace+"selectQnaPage", map);
+	}
+
+	/**************************** [[ 조건검색 결과 문의 개수 ]] ********************************/
+	@Override
+	public int selectSearchQCnt(SearchCondition sc) throws Exception {
+		return sqlSession.selectOne(a_namespace+"selectSearchQCnt");
+	}
+
+	/**************************** [[ 조건검색 페이징 처리하여 조회 ]] ********************************/
+	@Override
+	public List<Qna> selectSearchQPage(SearchCondition sc) throws Exception {
+		return sqlSession.selectList(a_namespace+"selectSearchQPage", sc);
 	}
 }
