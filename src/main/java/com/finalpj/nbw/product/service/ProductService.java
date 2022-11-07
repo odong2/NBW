@@ -6,41 +6,36 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.finalpj.common.exception.FileUploader;
+import com.finalpj.common.FileUploader;
 import com.finalpj.nbw.product.dao.ProductDao;
 import com.finalpj.nbw.product.domain.Product;
 import com.finalpj.nbw.product.domain.Review;
 
-import com.finalpj.nbw.product.dao.ProductDao;
 import com.finalpj.nbw.product.domain.CategoryFilter;
 import com.finalpj.nbw.product.domain.Criteria;
-import com.finalpj.nbw.product.domain.Product;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
 public class ProductService {
     
 	private ProductDao productDao;
+	private FileUploader fileUploader;
 
 	@Autowired
-	public ProductService(ProductDao productDao) {
+	public ProductService(ProductDao productDao, FileUploader fileUploader) {
 		this.productDao = productDao;
+		this.fileUploader = fileUploader;
 	}
 	
 	public Map<String, Object> reviewRegister(Review review) {
 		
 		if(review.getFiles() != null) {
 			System.out.println("파일존재함!");
-			List<String> fileNames =  FileUploader.fileUpload(review.getFiles());
+			List<String> fileNames =  fileUploader.fileUpload(review.getFiles(),"review");
 			review.setFileNames(fileNames);
 			review.setFileSize(fileNames.size());
 		}

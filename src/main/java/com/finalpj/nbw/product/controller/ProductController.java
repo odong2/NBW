@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.finalpj.common.exception.FileUploader;
+import com.finalpj.common.FileUploader;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.member.service.MemberService;
 
