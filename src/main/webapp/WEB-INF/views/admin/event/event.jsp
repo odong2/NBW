@@ -92,7 +92,7 @@
                         <th>시간</th>
                         <th>접수기간</th>
                         <th>모집정원</th>
-                        <th>선택</th>
+                        <th>신청자보기</th>
                     </tr>
                     </thead>
                 <c:forEach var="event" items="${eventSelectAll}">
@@ -123,7 +123,7 @@
                             <c:out value="${event.ev_people}"/>
                         </td>
                         <td>
-                            <div class="check"><input type="checkbox" id="vehicle5" name="vehicle5" /></div>
+                            <button id="applicationbtn" type="button" class="btn btn-outline-primary">신청자</button>
                         </td>
                     </tr>
                     </tbody>
