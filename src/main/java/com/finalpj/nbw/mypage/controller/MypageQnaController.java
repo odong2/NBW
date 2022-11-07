@@ -1,5 +1,7 @@
 package com.finalpj.nbw.mypage.controller;
 
+import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.qna.domain.Qna;
 import com.finalpj.nbw.qna.service.QnaService;
 import lombok.extern.log4j.Log4j;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Log4j
 @RequestMapping("/mypage/qna/")
@@ -22,11 +25,23 @@ public class MypageQnaController {
 
     /********************************* [[QNA 전체 조회]] **************************************/
     @GetMapping("list")
-    public String qnaList(Model model) throws Exception {
-        log.info("컨트롤러 타고 있습니다... 제발11111");
-        model.addAttribute("qnaSelectAll", qnaService.qnaList());
-        model.addAttribute("qnaSelectIngAll", qnaService.qnaIngList());
-        model.addAttribute("qnaSelectFinishAll", qnaService.qnaFinishList());
+    public String qnaList(Model model, HttpSession session) throws Exception {
+        Member member = (Member) session.getAttribute("member");
+        List<Qna> qnaSelectAll = null;
+        List<Qna> qnaSelectIngAll = null;
+        List<Qna> qnaSelectFinishAll = null;
+        if(member != null) { // 회원일 경우
+            String id = member.getMem_id();
+            qnaSelectAll = qnaService.qnaList(id);
+            qnaSelectIngAll = qnaService.qnaIngList(id);
+            qnaSelectFinishAll = qnaService.qnaFinishList(id);
+        }
+        log.info("컨트롤러 타고 있습니다... qnaSelectAll"+ qnaSelectAll);
+        log.info("컨트롤러 타고 있습니다... qnaSelectIngAll" + qnaSelectIngAll);
+        log.info("컨트롤러 타고 있습니다... qnaSelectFinishAll" + qnaSelectFinishAll);
+        model.addAttribute("qnaSelectAll",qnaSelectAll);
+        model.addAttribute("qnaSelectIngAll", qnaSelectIngAll);
+        model.addAttribute("qnaSelectFinishAll", qnaSelectFinishAll);
         log.info("컨트롤러 타고 있습니다... 제발22222");
         return "mypage/Qna/qnaList";
     }
@@ -67,11 +82,11 @@ public class MypageQnaController {
     /*********************************** [[Qna 작성]] ***************************************/
     @PostMapping("/write")
     public String qnaWrite(Qna qna, RedirectAttributes rattr, Model m, HttpSession session) {
-//        Member member = (Member)session.getAttribute("member");
-//        String qn_from = member.getMem_id();
-        session.setAttribute("qn_from", "동현");
-        String qn_from = (String) session.getAttribute("qn_from");
-        qna.setQn_from(qn_from);
+        Member member = (Member)session.getAttribute("member");
+        String mem_id = member.getMem_id();
+//        session.setAttribute("qn_from", "동현");
+//        String qn_from = (String) session.getAttribute("qn_from");
+        qna.setQn_from(mem_id);
         log.info("qna 컨트롤러 호출 성공");
 
         try {
