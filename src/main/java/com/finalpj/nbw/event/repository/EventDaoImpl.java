@@ -27,11 +27,11 @@ public class EventDaoImpl implements EventDao {
 
     /****************************** [[마이페이지 이벤트 전체조회]] **********************************/
     @Override
-    public List<Event> mypageEventList() throws Exception {
+    public List<Event> mypageEventList(String id) throws Exception {
         log.info("EventDao : 11111111mypageEventList 호출 성공");
         List<Event> mypageEventList = null;
         log.info("EventDao : 22222222mypageEventList 호출 성공");
-        mypageEventList = sqlSession.selectList(namespace+"myEventSelectAll");
+        mypageEventList = sqlSession.selectList(namespace+"myEventSelectAll", id);
         log.info("EventDao : 33333333mypageEventList 호출 성공" + mypageEventList);
         return mypageEventList;
     }
