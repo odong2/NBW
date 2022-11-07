@@ -1,6 +1,6 @@
 package com.finalpj.nbw.qna.service;
 
-import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.qna.dao.QnaDao;
 import com.finalpj.nbw.qna.domain.Answer;
 import com.finalpj.nbw.qna.domain.Qna;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Log4j
 @Service
@@ -104,7 +105,7 @@ public class QnaService {
 	@Transactional(rollbackFor = Exception.class)
 	public void modifyAnswer(Answer answer) throws Exception {
 		log.info("서비스 관리자 답변 수정 호출");
-			qnaDao.updateAnswer(answer); 
+		qnaDao.updateAnswer(answer); 
 	}
 	/****************************** [[ 관리자 답변 삭제 ]] ****************************/
 	@Transactional(rollbackFor = Exception.class)
@@ -117,4 +118,24 @@ public class QnaService {
     		qnaDao.updateStateN(qn_no); // 답변 상태 업데이트 해주기
     	}
 	}
+	
+	/****************************** [[ 문의사항 전체 갯수 조회 ]] ****************************/
+	public int getQuestionTotalCnt() throws Exception {
+		return qnaDao.selectQuestionCnt();
+	}
+	
+	/****************************** [[ 문의사항 조건 검색 총 갯수 ]] ****************************/
+	public int getSearchCnt(SearchCondition sc) throws Exception {
+		return qnaDao.selectSearchQCnt(sc);
+	}
+	
+	/****************************** [[ 조건 검색 페이지 ]] ****************************/
+	public List<Qna> getPageQuestionList(Map map) throws Exception {
+		return qnaDao.selectQuestionPage(map);
+	}
+	
+	public List<Qna> getSearchPage(SearchCondition sc) throws Exception {
+		return qnaDao.selectSearchQPage(sc);
+	}
+	
 }

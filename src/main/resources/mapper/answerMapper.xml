@@ -37,4 +37,56 @@
 		   SET QN_STATE = 'N'
 		 WHERE QN_NO = #{qn_no}
 	</update>
+	
+	<!-- =======================================[[ 페이징 처리 관련 ]]======================================= -->
+	<!-- [[ 문의사항 전체 개수 ]] -->
+    <select id="selectQuestionCnt" resultType="int">
+        SELECT count(*) FROM tb_question
+    </select>
+    <!-- [[ 페이징 처리 조회 ]] -->
+    <select id="selectQnaPage" parameterType="map" resultType="qnaDto">
+    	SELECT rnum, qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title
+		  FROM(
+		       SELECT ROWNUM as rnum, a.*  FROM (
+		                                         SELECT qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title  FROM TB_QUESTION 
+		                                         ORDER BY qn_no
+		                                         ) a
+		       )
+		 WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
+    </select>
+    <!-- ======================= 조건검색 결과 문의글 개수 ====================-->
+    <select id="selectSearchQCnt" parameterType="searchCondition" resultType="int">
+        SELECT count(*)
+        FROM(
+                SELECT ROWNUM as rnum, a.*  FROM (
+                     SELECT qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title  FROM tb_question
+                   <choose>
+					<when test='keyword == null or keyword.equals("")'>
+	                </when>
+					<otherwise>
+		            	WHERE qn_state = '${keyword}'
+	                </otherwise>
+	               </choose>
+                 ) a
+            )
+    </select>
+    <!-- ======================= 조건검색 페이징 처리하여 조회 ====================-->
+    <select id="selectSearchQPage" parameterType="searchCondition" resultType="qnaDto">
+        SELECT rnum, qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title  FROM tb_question
+                        <choose>
+	                    <when test='keyword.equals("")'>
+	                    </when>
+	                    <otherwise>
+		                    WHERE qn_state = '${keyword}'
+	                    </otherwise>
+	                    </choose>
+                        ORDER BY qn_no DESC
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
+    </select>
+    
 </mapper>

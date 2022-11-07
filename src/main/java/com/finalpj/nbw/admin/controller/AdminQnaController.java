@@ -1,13 +1,19 @@
 package com.finalpj.nbw.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.finalpj.nbw.notice.domain.PageHandler;
+//import com.finalpj.common.PageHandler;
+import com.finalpj.nbw.notice.domain.SearchCondition;
 import com.finalpj.nbw.qna.domain.Answer;
 import com.finalpj.nbw.qna.domain.Qna;
 import com.finalpj.nbw.qna.service.QnaService;
@@ -27,14 +33,39 @@ public class AdminQnaController {
 
 	/***** [[ 관리자 문의사항 조회하는 페이지 ]] *****/
 	@GetMapping("list")
-	public String qnaList(Model model) {
+	public String qnaList(@RequestParam(required = false, value = "keyword")String keyword,SearchCondition sc, Model model) {
 		log.info("관리자 문의사항 조회페이지 호출");
 		List<Qna> questionList = null; // 전체 문의사항 조회
 		List<Qna> questionIngList = null; // 처리해야할 문의사항 조회
 		List<Qna> questionFinishList = null; // 처리한 문의사항 조회
+//		if (page == null)page = 1;
 		
 		try {
-			questionList = qnaService.qnaList();
+			// 전체 페이지 게시물 조회
+//			int totalCnt = qnaService.getQuestionTotalCnt();
+			int totalCnt = qnaService.getSearchCnt(sc);
+			// pageHandler에 페이징에 필요한 값들 넘기기
+//			PageHandler pageHandler = new PageHandler(totalCnt, page);
+			PageHandler pageHandler = new PageHandler(totalCnt, sc);
+			log.info("총 게시물 개수는 " + totalCnt + "개");
+			log.info("pageHandler는 " + pageHandler);
+			
+			model.addAttribute("ph", pageHandler);
+//			int pageSize = pageHandler.getPageSize();
+//			int offset = (page-1) * pageSize;
+//			int offsetTo = page == 1 ? 10 : page * pageSize;
+//			log.info("offset: "+offset+", offsetTo: "+offsetTo);
+			
+//			Map map = new HashMap();
+//			map.put("offset", offset);
+//			map.put("offsetTo", offsetTo);
+			
+			questionList = qnaService.getSearchPage(sc);
+//			questionList = qnaService.getPageQuestionList(map);
+//			questionList = qnaService.qnaList();
+//			questionIngList = qnaService.getSearchPage(sc);
+//			log.info("questionIngList는"+questionIngList);
+			
 			questionIngList = qnaService.qnaIngList();
 			questionFinishList = qnaService.qnaFinishList();
 			model.addAttribute("questionList", questionList);
