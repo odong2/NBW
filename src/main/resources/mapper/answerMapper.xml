@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalpj.nbw.qna.dao.AnswerMapper">
+	<!-- [[ 관리자 답변 등록 및 답변상태 변경 ]] -->
+	<insert id="insertAnswer" parameterType="answerDto">
+		INSERT INTO TB_ANSWER (qn_no, an_content)
+		VALUES (#{qn_no}, #{an_content})
+	</insert>
+	
+	<update id="updateState" parameterType="int">
+		UPDATE TB_QUESTION 
+		   SET QN_STATE = 'Y'
+		 WHERE QN_NO = #{qn_no}
+	</update>
+	<!-- [[ 관리자 답변 조회 ]] -->
+	<select id="selectAnswer" parameterType="int" resultType="answerDto">
+		SELECT qn_no, an_cdate, an_content FROM TB_ANSWER
+		 WHERE qn_no = #{qn_no}
+	</select>
+	
+	<!-- [[ 관리자 답변 수정 ]] -->
+	<update id="updateAnswer" parameterType ="answerDto">
+		UPDATE TB_ANSWER  
+		   SET an_cdate = sysdate
+		      ,an_content = #{an_content}
+		 WHERE QN_NO = #{qn_no} 
+	</update>
+	
+	<!-- [[ 관리자 답변 삭제 ]] -->
+	<delete id="deleteAnswer" parameterType="int">
+		DELETE FROM TB_ANSWER  WHERE qn_no = #{qn_no}
+	</delete>
+	
+	<update id="updateStateN" parameterType="int">
+		UPDATE TB_QUESTION 
+		   SET QN_STATE = 'N'
+		 WHERE QN_NO = #{qn_no}
+	</update>
+	
+	<!-- =======================================[[ 페이징 처리 관련 ]]======================================= -->
+	<!-- [[ 문의사항 전체 개수 ]] -->
+    <select id="selectQuestionCnt" resultType="int">
+        SELECT count(*) FROM tb_question
+    </select>
+    <!-- [[ 페이징 처리 조회 ]] -->
+    <select id="selectQnaPage" parameterType="map" resultType="qnaDto">
+    	SELECT rnum, qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title
+		  FROM(
+		       SELECT ROWNUM as rnum, a.*  FROM (
+		                                         SELECT qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title  FROM TB_QUESTION 
+		                                         ORDER BY qn_no
+		                                         ) a
+		       )
+		 WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
+    </select>
+    <!-- ======================= 조건검색 결과 문의글 개수 ====================-->
+    <select id="selectSearchQCnt" parameterType="searchCondition" resultType="int">
+        SELECT count(*)
+        FROM(
+                SELECT ROWNUM as rnum, a.*  FROM (
+                     SELECT qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title  FROM tb_question
+                   <choose>
+					<when test='keyword == null or keyword.equals("")'>
+	                </when>
+					<otherwise>
+		            	WHERE qn_state = '${keyword}'
+	                </otherwise>
+	               </choose>
+                 ) a
+            )
+    </select>
+    <!-- ======================= 조건검색 페이징 처리하여 조회 ====================-->
+    <select id="selectSearchQPage" parameterType="searchCondition" resultType="qnaDto">
+        SELECT rnum, qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title  FROM tb_question
+                        <choose>
+	                    <when test='keyword.equals("")'>
+	                    </when>
+	                    <otherwise>
+		                    WHERE qn_state = '${keyword}'
+	                    </otherwise>
+	                    </choose>
+                        ORDER BY qn_no DESC
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
+    </select>
+    
+</mapper>
