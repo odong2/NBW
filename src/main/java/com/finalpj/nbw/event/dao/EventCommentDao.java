@@ -1,22 +1,33 @@
 package com.finalpj.nbw.event.dao;
 
 import com.finalpj.nbw.event.domain.EventComment;
+import com.finalpj.nbw.notice.domain.NtComment;
 
 import java.util.List;
 
 public interface EventCommentDao {
-    int count(Integer ev_no) throws Exception // T selectOne(String statement)
-    ;
-    int deleteAll(Integer ev_no) // int delete(String statement)
-    ;
-    int delete(Integer evc_no, String evc_commenter) throws Exception // int delete(String statement, Object parameter)
-    ;
-    int insert(EventComment eventCommentdto) throws Exception // int insert(String statement, Object parameter)
-    ;
-//    List<EventComment> selectAll(Integer ev_no) throws Exception // List<E> selectList(String statement)
-    ;
-    EventComment select(Integer evc_no) throws Exception // T selectOne(String statement, Object parameter)
-    ;
-    int update(EventComment eventCommentDto) throws Exception // int update(String statement, Object parameter)
-    ;
+
+    /**************************** [[댓글 모두 조회]] **************************/
+    List<EventComment> selectCommentList(Integer evc_no) throws Exception;
+
+    /**************************** [[댓글 한 건 조회]] **************************/
+    EventComment selectComment(Integer evc_no) throws Exception;
+
+    /**************************** [[특정 댓글 등록]] **************************/
+    int insertComment(EventComment eventComment) throws Exception;
+
+    /*********************** [[특정 공지글 모든 댓글 삭제]] ********************/
+    int deleteCommentList(Integer ev_no) throws Exception;
+
+    /*********************** [[특정 공지글 댓글 개수 조회]] ********************/
+    int selectCommentCnt(Integer ev_no) throws Exception;
+
+    /**************************** [[특정 댓글 삭제]] **************************/
+    int deleteComment(Integer evc_no, String commenter) throws Exception;
+
+    /**************************** [[특정 대댓글 삭제]] **************************/
+    int deleteRepComment(Integer evc_no) throws Exception;
+
+    /**************************** [[댓글 수정]] **************************/
+    int updateComment(EventComment eventComment) throws Exception;
 }

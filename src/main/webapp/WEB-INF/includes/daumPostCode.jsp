@@ -35,7 +35,7 @@
                 console.log(fullRoadAddr);
 
                 $("[name=mem_zipcode]").val(data.zonecode);
-                $("[name=mem_address]").val(fullRoadAddr);
+                $("[name=mem_address1]").val(fullRoadAddr);
 
                 // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.
                 $("#address3").attr("readonly",false);

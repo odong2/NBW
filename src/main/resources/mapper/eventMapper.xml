@@ -3,7 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.finalpj.nbw.event.dao.EventMapper">
-
     <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
     <select id="eventSelectAll" resultType="eventDto">
             SELECT *
@@ -17,28 +16,31 @@
         WHERE ev_no = #{ev_no}
     </select>
     <!--========================================== [[ 마이페이지 신청한 이벤트 조회 ]] ===============================-->
-    <select id="myEventSelectAll" resultType="qnaDto">
+    <select id="myEventSelectAll" resultType="eventDto">
         SELECT *
         FROM tb_event
-        where ev_no = #{ev_no} ,and mem_id = #{mem_id}
         ORDER BY ev_cdate DESC, ev_no DESC
     </select>
+<!--        SELECT * FROM tb_event WHERE     -->
+<!--            ev_no in (-->
+<!--                SELECT ev_no FROM TB_MEMBEREVENT-->
+<!--               WHERE mem_id = #{mem_id}-->
+<!--             )-->
     <!--============================================ [[ 관리자 이벤트 삭제 ]] ==========================================-->
     <delete id="adminEventDelete" parameterType="int">
         DELETE FROM tb_event WHERE ev_no = #{ev_no}
     </delete>
 
-    <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
+    <!--============================================ [[ 관리자 이벤트 등록 ]] ==========================================-->
     <insert id="eventInsert" parameterType="eventDto">
-        INSERT INTO TB_EVENT(ev_no, ev_title, ev_content, ev_cdate, ev_file
-                            , ev_start, ev_end, ev_people, ev_status, ev_nowpeople
-                            , ev_target, ev_place, ev_img, ev_time, ev_today
-                            , ev_phone, ev_cocnt)
-        VALUES (SEQ_EV_NO.NEXTVAL, #{ev_title}, #{ev_content}, SYSDATE, #{ev_file}
-            , #{ev_start}, #{ev_end}, #{ev_people}, #{ev_status}, #{ev_nowpeople}
-            , #{ev_target}, #{ev_place},  #{ev_img},#{ev_time}, #{ev_today}
-            , #{ev_phone}, #{ev_cocnt})
-
+        INSERT INTO TB_EVENT (
+                             ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start
+                           , ev_end, ev_people, ev_status, ev_nowpeople, ev_target
+                           , ev_place, ev_img, ev_time, ev_today, ev_phone
+                            )
+        VALUES (SEQ_EV_NO.NEXTVAL, #{ev_title}, #{ev_content}, SYSDATE, #{ev_file, jdbcType=VARCHAR}, #{ev_start}
+             , #{ev_end}, #{ev_people}, #{ev_status}, #{ev_target}
+             , #{ev_place}, #{ev_img}, #{ev_time}, #{ev_today}, #{ev_phone})
     </insert>
 
     <!--============================================ [[ 이벤트 등록 ]] ==========================================-->

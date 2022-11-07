@@ -174,7 +174,9 @@
             line-height: 2.8em;
             vertical-align: top;
         }
-    </style>
+        /************************* [[댓글]] **************************/
+
+</style>
 </head>
 <body>
 <!-- 헤더 시작 -->
@@ -215,63 +217,63 @@
         <!-- 왼쪽 그림 끝 -->
         <!-- 오른쪽 설명 시작 -->
         <div class="detail">
-            <div class="bookname">
+            <span class="bookname">
                 ${eventSelect.ev_title}
-            </div>
+            </span>
             <div class="bodycontent">
                 <div class="playpeople">
                     <div>대상&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_target}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="playplace">
-                    <div>장소&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>장소&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_place}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="studyday">
-                    <div>행사기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>행사기간&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${event.ev_today}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="studytime">
                     <div>시간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span style="color: #7c7c7c">
                         ${event.ev_time}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="applicationday">
-                    <div>접수기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>접수기간&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_start}
                             ~
                         ${eventSelect.ev_end}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="phone">
-                    <div>문의번호&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>문의번호&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_phone}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="recruitment">
-                    <div>모집정원&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>모집정원&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_people}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="recruitment">
-                    <div>첨부파일&nbsp;:&nbsp;</div>
+                    <span>첨부파일&nbsp;:&nbsp;</span>
 <%--                    <div style="color: #7c7c7c">문화행사.pdf</div>--%>
                 </div>
             </div>
@@ -279,99 +281,48 @@
         <!-- 오른쪽 설명 끝 -->
         </li>
         <div>
-            ${eventSelect.ev_content}
+            <p>${eventSelect.ev_content}</p>
         </div>
     </ul>
     <hr />
-    <div class="buttonpick"><button id="listBtn">목록</button><button id="pickBtn">신청하기</button></div>
-     댓글 시작
-        <hr />
-    댓글: <input type="text" name="comment"><br>
-    <button id="sendBtn" type="button">SEND</button>
-    <div id="commentList"></div>
+    <div class="buttonpick">
+        <button id="listBtn">
+            목록
+        </button>
+        <button id="pickBtn">
+            신청하기
+        </button>
+    </div>
 
-     댓글 끝
+    <%-- ================================ 댓글 입력 시작================================= --%>
+    <section class="comment-input">
+        <div class="comment-wrapper ms-5 d-flex mt-4 mb-4 col-12">
+            <div class="form- col-8 d-flex">
+                <textarea  name="comment" class="form-control col-8 me-2" id="comment-input" placeholder="댓글을 작성해 주세요"></textarea>
+                <button id="comment-inputBtn" type="button" class="btn btn-outline-secondary col-2" data-evc-no="${eventSelect.ev_no}">댓글 쓰기</button>
+            </div>
+        </div>
+    </section>
+    <%-- ================================ 댓글 입력 끝 ================================= --%>
+
 </main>
 <script>
-<%--    /***************** 댓글 시작 ***************/--%>
-<%--    let ev_no = 2--%>
-<%--&lt;%&ndash;        ${eventDto.ev_no};&ndash;%&gt;--%>
+    ClassicEditor
+        .create(document.querySelector("#editor"),
+            {
+                language: "ko",
+            })
+        .then(newEditor => {
+            editor = newEditor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+<script>
+/****************************************************************************************************/
 
-<%--    let showList = function (ev_no) {--%>
-<%--        $.ajax({--%>
-<%--            type:'GET',       // 요청 메서드--%>
-<%--            url: '/event/comments?ev_no=' +ev_no,  // 요청 URI--%>
-<%--            success : function(result){--%>
-<%--                 $("#commentList").html(toHtml(result));--%>
-<%--            },--%>
-<%--            error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
-<%--        }); // $.ajax()--%>
-<%--    }--%>
-<%--/***************************** [[댓글 추가]] ****************************/--%>
-<%--    $(document).ready(function(){--%>
-<%--        showList(ev_no);--%>
-
-<%--        $("#sendBtn").click(function() {--%>
-<%--            let comment = $("input[name=comment]").val();--%>
-
-<%--            if(comment.trim()=='') {--%>
-<%--                alert("댓글을 입력해주세요.");--%>
-<%--                $("input[name=comment]").fucus()--%>
-<%--                return;--%>
-<%--            }--%>
-
-<%--            $.ajax({--%>
-<%--                type: 'Post',       // 요청 메서드--%>
-<%--                url: '/event/comments?'+ev_no,  // 요청 URI--%>
-<%--                headers: {"content-type": "application/json"},--%>
-<%--                dataType: 'text', // 전송받을 데이터의 타입--%>
-<%--                data: JSON.stringify({ev_no:ev_no, comment:comment}), // 서버로 전송할 데이터. stringify()로 직렬화 필요.--%>
-<%--                success: function (result) {--%>
-<%--                    alert(result);--%>
-<%--                    showList(ev_no);--%>
-<%--                },--%>
-<%--                error: function () {--%>
-<%--                    alert("error")--%>
-<%--                } // 에러가 발생했을 때, 호출될 함수--%>
-<%--            });--%>
-<%--        });--%>
-<%--/***************************** [[댓글 추가]] ****************************/--%>
-<%--/***************************** [[댓글 삭제]] ****************************/--%>
-<%--        // $(".delbtn").click(function(){--%>
-<%--        $("#commentList").on("click", ".delBtn", function(){--%>
-<%--            let evc_no = $(this).parent().attr("data-evc_no");--%>
-<%--            let ev_no = $(this).parent().attr("data-ev_no");--%>
-
-<%--            $.ajax({--%>
-<%--                type:'DELETE',       // 요청 메서드--%>
-<%--                url: '/event/comments/' +evc_no+ '?ev_no'+ev_no,  // 요청 URI--%>
-<%--                success : function(result){--%>
-<%--                  alert(result);--%>
-<%--                  showList(ev_no);--%>
-<%--                },--%>
-<%--                error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
-<%--            }); // $.ajax()--%>
-<%--        });--%>
-<%--    });--%>
-<%--/***************************** [[댓글 삭제]] ****************************/--%>
-
-<%--    let toHtml = function (comments) {--%>
-<%--        let tmp = "<ul>"--%>
-
-<%--        comments.forEach(function (evc_comment){--%>
-<%--            tmp += ' <li data-evc_no='+ evc_comment.evc_no--%>
-<%--            tmp += ' data-evc_pcno=' + evc_comment.evc_pcno--%>
-<%--            tmp += ' data-ev_no=' + evc_comment.ev_no + '>'--%>
-<%--            tmp += ' evc_commenter = <span class="commenter">' + evc_comment.evc_commenter + '</span>'--%>
-<%--            tmp += ' evc_comment=<span class="comment">' + evc_comment.evc_comment + '</span>'--%>
-<%--            tmp += ' evc_update' +evc_comment.evc_update--%>
-<%--            tmp += '<button class="delBtn">삭제</button>'--%>
-<%--            tmp += '<button class="modBtn">수정</button>'--%>
-<%--            tmp += '</li>'--%>
-<%--        })--%>
-
-<%--        return tmp + "<ul>";--%>
-<%--    }--%>
+/****************************************************************************************************/
     $(document).ready(function (){
          $('#listBtn').on("click", function (){
             location.href = "<c:url value='/event/list'/>";

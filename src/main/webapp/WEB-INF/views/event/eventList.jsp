@@ -179,7 +179,8 @@
                     <!-- 이미지 사진 시작 -->
                     <img
                             class="classimg"
-                            src="${event.ev_img}"/>
+                            src="${event.ev_img}"
+                    />
                     <!-- 이미지 사진 끝 -->
                     <div class="picking">
                         <span class="receiving">접수중</span>
@@ -218,12 +219,18 @@
                         <br />
                         <div class="applicationday">
                             <div>접수기간&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c"><c:out value="${event.ev_start}"/> ~ <c:out value="${event.ev_end}"/></div>
+                            <div style="color: #7c7c7c">
+                                <c:out value="${event.ev_start}"/>
+                                ~
+                                <c:out value="${event.ev_end}"/>
+                            </div>
                         </div>
                         <br />
                         <div class="recruitment">
                             <div>모집정원&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c"><c:out value="${event.ev_people}"/></div>
+                            <div style="color: #7c7c7c">
+                                <c:out value="${event.ev_people}"/>
+                            </div>
                         </div>
                     </div>
                 </div>

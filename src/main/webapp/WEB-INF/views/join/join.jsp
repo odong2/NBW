@@ -638,7 +638,7 @@
             <div class="col-3"></div>
             <div class="col-9">
                 <div class="input-group mb-3">
-                    <input name="mem_address" type="text" id="address2" readonly
+                    <input name="mem_address1" type="text" id="address2" readonly
                            autocomplete="off" class="form-control" placeholder="도로명주소">
                 </div>
             </div>

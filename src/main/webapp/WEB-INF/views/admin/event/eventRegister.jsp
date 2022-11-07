@@ -10,6 +10,7 @@
   />
   <meta name="description" content="" />
   <meta name="author" content="" />
+  <script src="/ckeditor5-35.2.0/build/ckeditor.js"></script>
   <%@include file="../../../includes/admin/common.jsp" %>
   <title>관리자 이벤트 등록</title>
   <style>
@@ -17,7 +18,7 @@
       margin-top: 15px;
     }
     .eventimg {
-      margin-left: 40px;
+      /*margin-left: 40px;*/
       display: flex;
       flex-direction: column;
       margin-right: 30px;
@@ -52,6 +53,12 @@
       width: 80%;
       height: 150px;
     }
+    .ck-editor__editable {
+      height: 400px;
+    }
+    .ck-content {
+      font-size: 11px;
+    }
 
   </style>
 </head>
@@ -74,12 +81,12 @@
       <div class="title">
         <h4>프로그램 등록</h4>
       </div>
-        <form id="form">
+        <form action="" method="post" id="form" class="frm" enctype="multipart/form-data">
           <div class="allEventContent">
       <div class="eventcontents">
         <div class="eventimg">
           <img id="previewImg" width="300px" height="300px" />
-          <input type="file" id="fileUpload" accept="image/*" />
+          <input type="file" id="fileUpload" accept="image/*" name="ev_img" />
         </div>
         <table id="j_infod_table">
           <tbody id="j_infod_tbody">
@@ -115,7 +122,7 @@
             <td class="j_infod_time">시간<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_time" colspan="2">
-              <input type="text" id="EV_TIME" name="EV_TIME" class="j_infod_input">
+              <input type="text" id="ev_time" name="ev_time" class="j_infod_input">
             </td>
           </tr>
           <tr>
@@ -155,41 +162,57 @@
         </table>
       </div>
         <h6 class="contentpart">이벤트 글</h6>
-        <input type="text" id="ev_status" name="ev_status">
-        <textarea type="text" name="ev_content" id="ev_content"></textarea>
+            <textarea type="text" class="text-dark" name="ev_content" id="editor"></textarea>
           </div>
       <div class="sendbtn">
-        <div style="display:inline-block"><button type="button" class="btn btn-secondary btn-lg" id="writeBtn">등록하기</button></div>
+        <div style="display:inline-block">
+          <button type="button" type="submit" class="btn btn-secondary btn-lg" id="writeBtn">
+            등록하기
+          </button>
+        </div>
       </div>
         </form>
       </section>
         <%--여기에 메인 넣으면 됨--%>
       <script>
-        /* 이미지 첨부 시작 */
-        const fileInput = document.getElementById("fileUpload");
+        /****************************** [[이미지 첨부 시작]] *************************/
+        // const fileInput = document.getElementById("fileUpload");
+        //
+        // const handleFiles = (e) => {
+        //   const selectedFile = [...fileInput.files];
+        //   const fileReader = new FileReader();
+        //
+        //   fileReader.readAsDataURL(selectedFile[0]);
+        //
+        //   fileReader.onload = function () {
+        //     document.getElementById("previewImg").src = fileReader.result;
+        //   };
+        // };
+        // fileInput.addEventListener("change", handleFiles);
+        /****************************** [[이미지 첨부 끝]] *************************/
 
-        const handleFiles = (e) => {
-          const selectedFile = [...fileInput.files];
-          const fileReader = new FileReader();
-
-          fileReader.readAsDataURL(selectedFile[0]);
-
-          fileReader.onload = function () {
-            document.getElementById("previewImg").src = fileReader.result;
-          };
-        };
-
-        fileInput.addEventListener("change", handleFiles);
-        /* 이미지 첨부 시작 */
+/******************************** [[클래식 에디터]] *******************************/
+        ClassicEditor
+                .create(document.querySelector("#editor"),
+                        {
+                          language: "ko",
+                        })
+                .then(newEditor => {
+                  editor = newEditor;
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+        /****************************** [[이벤트 등록하기]] ************************/
         $(document).ready(function (){
           $('#writeBtn').on("click",function (){
             let form = $('#form');
-            form.attr("action", "<c:url value='/admin/event/write'/>");
+            form.attr("action", "<c:url value="/admin/event/write"/>");
             form.attr("method", "post");
             form.submit();
           })
-
         })
+        /****************************** [[이벤트 등록하기]] ************************/
       </script>
     </main>
     <!-- Footer -->

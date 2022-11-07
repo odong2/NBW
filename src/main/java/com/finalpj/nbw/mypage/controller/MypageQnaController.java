@@ -1,7 +1,5 @@
 package com.finalpj.nbw.mypage.controller;
 
-import com.finalpj.nbw.event.domain.Event;
-import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.qna.domain.Qna;
 import com.finalpj.nbw.qna.service.QnaService;
 import lombok.extern.log4j.Log4j;
@@ -13,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 
 @Log4j
-@RequestMapping("/mypage/*")
+@RequestMapping("/mypage/qna/")
 @Controller
 public class MypageQnaController {
     QnaService qnaService;
@@ -23,7 +21,7 @@ public class MypageQnaController {
     }
 
     /********************************* [[QNA 전체 조회]] **************************************/
-    @GetMapping("qnalist")
+    @GetMapping("list")
     public String qnaList(Model model) throws Exception {
         log.info("컨트롤러 타고 있습니다... 제발11111");
         model.addAttribute("qnaSelectAll", qnaService.qnaList());
@@ -33,7 +31,7 @@ public class MypageQnaController {
         return "mypage/Qna/qnaList";
     }
     /***************************** [[QNA 디테일 페이지]] *******************************/
-    @GetMapping("qnadetail")
+    @GetMapping("detail")
     public String qnaRead(Integer qn_no, Model m){
         log.info(qn_no);
         try {
@@ -46,7 +44,7 @@ public class MypageQnaController {
     }
 
     /************************************ [[QNA 삭제 페이지]] *********************************/
-    @GetMapping("/qnadelete/{qn_no}")
+    @GetMapping("/delete/{qn_no}")
     public String qnaDelete (@PathVariable Integer qn_no, RedirectAttributes rattr, HttpSession session) {
         log.info("qnaRemove 컨트롤러 호출");
         try {
@@ -58,16 +56,16 @@ public class MypageQnaController {
             e.printStackTrace();
             rattr.addFlashAttribute("msg", "DEL_ERR");
         }
-        return "redirect:/mypage/qnalist";
+        return "redirect:/mypage/qna/list";
     }
 
     /*********************************** [[Qna 작성]] ***************************************/
-    @GetMapping("qnawrite")
+    @GetMapping("write")
     public String qnaWrite(Model m) {
     return "mypage/Qna/qna";
     }
     /*********************************** [[Qna 작성]] ***************************************/
-    @PostMapping("/qnawrite")
+    @PostMapping("/write")
     public String qnaWrite(Qna qna, RedirectAttributes rattr, Model m, HttpSession session) {
 //        Member member = (Member)session.getAttribute("member");
 //        String qn_from = member.getMem_id();
@@ -81,13 +79,13 @@ public class MypageQnaController {
                 throw new Exception("Write failed.");
 
             rattr.addFlashAttribute("msg", "WRT_OK");
-            return "redirect:/mypage/qnalist";
+            return "redirect:/mypage/qna/list";
         } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute(qna);
             m.addAttribute("mode", "new");
             m.addAttribute("msg", "WRT_ERR");
-            return "/mypage/qnawrite";
+            return "/mypage/qna/write";
         }
     }
 }
