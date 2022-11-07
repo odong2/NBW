@@ -2,6 +2,7 @@ package com.finalpj.nbw.payment.repository;
 
 import com.finalpj.nbw.payment.dao.PaymentDao;
 import com.finalpj.nbw.payment.domain.CartProduct;
+import com.finalpj.nbw.payment.domain.OrderList;
 import com.finalpj.nbw.payment.domain.Payment;
 import com.finalpj.nbw.payment.domain.UnMemPayment;
 import lombok.extern.log4j.Log4j;
@@ -58,5 +59,10 @@ public class PaymentDaoImpl implements PaymentDao {
     @Override
     public Map<String, Object> selectUnMemReceiver(String order_no) throws Exception {
         return sqlSession.selectOne(namespace + "selectUnMemReceiver", order_no);
+    }
+
+    @Override
+    public List<OrderList> selectMemOrderList(String mem_id) throws Exception {
+        return sqlSession.selectList(namespace + "selectMemOrderList" , mem_id);
     }
 }

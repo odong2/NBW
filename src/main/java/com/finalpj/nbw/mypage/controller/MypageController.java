@@ -114,10 +114,5 @@ public class MypageController {
         }
 
 
-        /******************** 결제 조회 페이지 ***********************/
-        @GetMapping("paylist")
-        public String paymentList(){
-            return "/mypage/payment";
 
-        }
 }

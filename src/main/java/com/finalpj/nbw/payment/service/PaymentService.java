@@ -134,4 +134,8 @@ public class PaymentService {
         return payDetailList;
     }
 
+    public List<OrderList> getMemOrderList(String mem_id) throws Exception{
+        return paymentDao.selectMemOrderList(mem_id);
+    }
+
 }

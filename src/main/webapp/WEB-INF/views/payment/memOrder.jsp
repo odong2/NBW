@@ -181,7 +181,7 @@
                 </a>
             </div>
             <div>
-                <a href="#">
+                <a href="/mypage/payment/list">
                     <button type="button" id="orderBtn" class="btn btn-secondary btn-sm">주문조회 바로가기</button>
                 </a>
             </div>

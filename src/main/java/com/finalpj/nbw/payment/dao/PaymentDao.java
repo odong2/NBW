@@ -1,6 +1,7 @@
 package com.finalpj.nbw.payment.dao;
 
 import com.finalpj.nbw.payment.domain.CartProduct;
+import com.finalpj.nbw.payment.domain.OrderList;
 import com.finalpj.nbw.payment.domain.Payment;
 import com.finalpj.nbw.payment.domain.UnMemPayment;
 
@@ -20,4 +21,6 @@ public interface PaymentDao {
     Map<String,Object> selectReceiver (String order_no) throws Exception;             // 회원 : 결제 후 주문 수령자 정보 및 결제정보 조회
 
     Map<String,Object> selectUnMemReceiver(String order_no) throws Exception;
+
+    List<OrderList> selectMemOrderList(String mem_id) throws Exception;
 }

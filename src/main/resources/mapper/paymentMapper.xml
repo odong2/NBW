@@ -83,4 +83,20 @@
         FROM tb_unmempayment WHERE order_no = #{order_no}
     </select>
 
+    <!-- 마이페이지 결제내역 조회(쿠폰, 포인트, 결제금액, 주문상품, 수령자 등등 inner join과 outer join을 활용하여 조회)  -->
+    <select id="selectMemOrderList" parameterType="java.lang.String" resultType="orderListDto">
+        SELECT d.p_title, d.p_category, d.p_img, d.p_price, c.*,
+               NVL(e.cp_name, '쿠폰사용 안함') as cp_name,NVL( e.cp_price,0) as cp_price
+        FROM(
+                SELECT a.order_no, a.order_date,a.total_price,a.used_point,
+                       a.receiver_name, a.receiver_address1, a.receiver_address2, a.delivery_memo, a.receiver_phone,
+                       b.p_count, b.p_no, b.order_status,NVL(a.cp_no,'0') as cp_no
+                FROM tb_mempayment a, tb_mempaymentdetail b
+                where a.mem_id = #{mem_id}
+                  AND a.order_no = b.order_no
+                ORDER BY order_date  DESC
+            ) c , tb_product d, tb_coupon e
+        WHERE c.p_no = d.p_no
+          and c.cp_no = e.cp_no(+)
+    </select>
 </mapper>
