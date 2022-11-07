@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mybatis.mapper.productMapper">
+<mapper namespace="com.finalpj.nbw.product.dao.ProductMapper">
 
 	<select id="getProduct" parameterType="String" resultType="com.finalpj.nbw.product.domain.Product">
 		SELECT * FROM tb_PRODUCT WHERE p_no = #{value}
 	</select>
-
 
 	<!-- ===================================== 제목 검색 ================================================= -->
 	<select id="selectProductByWord" parameterType="String" resultType="java.util.List">
@@ -20,4 +19,48 @@
 		SET P_LIKE = P_LIKE + #{value}
 		WHERE P_NO = #{p_no}
 	</update>
+	
+	<update id="reviewCountUpdate" parameterType="review">
+		UPDATE TB_PRODUCT
+		SET P_REVIEW = P_REVIEW + 1
+		WHERE P_NO = #{p_no}
+	</update>
+	
+	<insert id="reviewInsert" parameterType="review">
+<!-- 		<choose>
+		    <when test="fileSize != null">
+		    	INSERT INTO TB_REVIEW
+				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
+				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img} )
+		    </when>
+		    <otherwise>
+		    	INSERT INTO TB_REVIEW
+				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO)
+				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no})
+		    </otherwise>
+		</choose> -->
+  		<choose>
+		    <when test="fileSize == 1">
+		    	INSERT INTO TB_REVIEW
+				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG)
+				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img} )
+		    </when>
+		    <when test="fileSize == 2">
+		    	INSERT INTO TB_REVIEW
+				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2)
+				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2} )
+		    </when>
+		    <when test="fileSize == 3">
+		    	INSERT INTO TB_REVIEW
+				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
+				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2}, #{rv_img3} )
+		    </when>
+		    <otherwise>
+		    	INSERT INTO TB_REVIEW
+				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO)
+				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no})
+		    </otherwise>
+		</choose>
+	</insert>
+	
 </mapper>

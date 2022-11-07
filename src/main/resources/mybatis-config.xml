@@ -13,5 +13,6 @@
             <typeAlias alias="find" type="com.finalpj.nbw.login.dto.FindDto"/>
             <typeAlias alias="eventCommentDto" type="com.finalpj.nbw.event.domain.EventComment"/>
             <typeAlias alias="eventSearchCondition" type="com.finalpj.nbw.event.domain.EventSearchCondition"/>
+            <typeAlias alias="review" type="com.finalpj.nbw.product.domain.Review"/>
         </typeAliases>
 </configuration>

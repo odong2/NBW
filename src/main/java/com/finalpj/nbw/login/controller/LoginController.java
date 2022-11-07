@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.finalpj.nbw.login.dto.FindDto;
 import com.finalpj.nbw.login.dto.LoginDto;
@@ -27,69 +28,71 @@ import com.finalpj.nbw.member.domain.Member;
 
 import lombok.extern.log4j.Log4j;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Log4j
 @Controller
 public class LoginController {
-	
+
 	private Oauth2LoginService oauth2LoginService;
 	private LoginService loginService;
 	private MailService mailService;
-	
-	public LoginController() {}
-	
+
+	public LoginController() {
+	}
+
 	@Autowired
 	public LoginController(Oauth2LoginService oauth2LoginService, LoginService loginService, MailService mailService) {
 		this.oauth2LoginService = oauth2LoginService;
 		this.loginService = loginService;
 		this.mailService = mailService;
 	}
-	
+
 	@GetMapping("/login")
 	public String getLogin(Model model) {
 		String naverUrl = oauth2LoginService.getAuthorizationUrl("naver");
 		String kakaoUrl = oauth2LoginService.getAuthorizationUrl("kakao");
-		
-		HashMap<String,String> urlMap = new HashMap<>();
+
+		HashMap<String, String> urlMap = new HashMap<>();
 		urlMap.put("NaverUrl", naverUrl);
 		urlMap.put("KakaoUrl", kakaoUrl);
-		
+
 		model.addAllAttributes(urlMap);
 		return "/login/loginpage";
 	}
-	
+
 	@PostMapping("/login")
 	public String postLogin(LoginDto logindto, Model model, HttpServletResponse response, HttpSession session,
-			@CookieValue(value = "remember_id", required = false) Cookie remembercoockie){
-		String default_url = "/home";
-		
+			@CookieValue(value = "remember_id", required = false) Cookie remembercoockie,
+			RedirectAttributes rattr) throws IOException {
+
 		try {
 			Member member = loginService.loginCheck(logindto);
 			session.setAttribute("member", member);
-			
-			if(logindto.getRememberme() != null) {
-				Cookie cookie = new Cookie("remember_id",logindto.getUserId());
+
+			if (logindto.getRememberme() != null) {
+				Cookie cookie = new Cookie("remember_id", logindto.getUserId());
 				response.addCookie(cookie);
-			}else {
-				if(remembercoockie != null) {
+			} else {
+				if (remembercoockie != null) {
 					remembercoockie.setValue("");
 					remembercoockie.setMaxAge(0);
 					response.addCookie(remembercoockie);
 				}
 			}
-			
+
 		} catch (LoginException e) {
+//			rattr.addFlashAttribute("LoginFailMsg", e.getMessage());
 			model.addAttribute("LoginFailMsg", e.getMessage());
-			default_url = "/login/loginpage";
 		}
 		
-		return default_url;
+		return "/login/loginpage";
 	}
-	
+
 	@GetMapping("/logout")
-	public void logout(HttpSession session, HttpServletResponse response) throws Exception{
+	public void logout(HttpSession session, HttpServletResponse response) throws Exception {
 		if (session.getAttribute("member") == null) {
 			response.sendError(403, "로그인 상태가 아닙니다.");
 		} else {
@@ -98,52 +101,52 @@ public class LoginController {
 			response.sendRedirect("/login");
 		}
 	}
-	
+
 	@GetMapping("login/oauth2/code/{platform}")
-	public String snsLoginCallback(@PathVariable String platform,
-			Model model, @RequestParam String code, HttpSession session) throws Exception {
+	public String snsLoginCallback(@PathVariable String platform, Model model, @RequestParam String code,
+			HttpSession session) throws Exception {
 		String nextURL = "/home";
-		
+
 		System.out.println(platform);
 		System.out.println(code);
-		
+
 		// access_token을 이용해서 사용자 profile 정보 가져오기
 		Member member = oauth2LoginService.getUserProfile(code, platform);
-		
+
 		// DB 해당 유저가 존재하는 체크
 		if (!loginService.idCheck(member.getMem_id())) {
 			// 미존재시 가입페이지로!!
-			model.addAttribute("member",member);
+			model.addAttribute("member", member);
 			nextURL = "/join/join";
 		} else {
 			// 존재시 가입된 아이디 불러오기!!
 			Member resultMember = loginService.loginCheck(member.getMem_id());
 			session.setAttribute("member", resultMember);
 		}
-		
+
 		return nextURL;
 	}
-	
+
 	@GetMapping("/login/find")
 	public String Getfind() {
 		return "/login/find";
 	}
-	
+
 	@PostMapping("/login/find/{findValue}")
 	@ResponseBody
-	public Map<String,Object> Postfind(@PathVariable String findValue, @RequestBody FindDto dto, Model model) {
-		Map<String,Object> map = null;
-		
+	public Map<String, Object> Postfind(@PathVariable String findValue, @RequestBody FindDto dto, Model model) {
+		Map<String, Object> map = null;
+
 		switch (findValue) {
 		case "id":
 			map = loginService.findId(dto);
 			break;
 		case "emailcheck":
-			map = new HashMap<String,Object>();
-			if(loginService.emailCheck(dto)) {
+			map = new HashMap<String, Object>();
+			if (loginService.emailCheck(dto)) {
 				map.put("code", mailService.sendMail(dto));
 				map.put("success", true);
-			}else {
+			} else {
 				map.put("msg", "존재하지 않는 회원입니다.");
 				map.put("success", false);
 			}
@@ -154,15 +157,26 @@ public class LoginController {
 		default:
 			break;
 		}
-		
+
 		return map;
 	}
-	
+
 	@GetMapping("/login/change")
-	public String change(Model model, FindDto dto) {		
+	public String change(Model model, FindDto dto) {
 		model.addAttribute("dto", dto);
 		return "/login/change";
 	}
+
+	@PostMapping("/login/exist")
+	@ResponseBody
+	public Map<String, Object> isLogin(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (session.getAttribute("member") == null) {
+			map.put("isLogin", false);
+		} else {
+			map.put("isLogin", true);
+		}
+		return map;
+	}
 }
-
-

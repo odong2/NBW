@@ -67,12 +67,12 @@ public class MemberController {
     	Member member = (Member) session.getAttribute("member");
     	
     	if (member != null) {
-    		map.put("isLogin",true);
         	map.put("mem_id", member.getMem_id());
     		map = memberService.addLkie(map);
+    		map.put("isLogin",true);
     	}else {
-    		map.put("isLogin",false);
     		map.put("msg","로그인이 필요합니다.");
+    		map.put("isLogin",false);
     	}
     	
     	return map;

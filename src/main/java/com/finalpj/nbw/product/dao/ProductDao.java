@@ -1,6 +1,8 @@
 package com.finalpj.nbw.product.dao;
 
 import com.finalpj.nbw.product.domain.Product;
+import com.finalpj.nbw.product.domain.Review;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,4 +14,8 @@ public interface ProductDao {
 	public List<Product> selectProductByWord(String key) throws Exception;
 
 	void updateLike(Map<String, Object> map);
+
+	void reviewCountUpdate(Review review);
+
+	void reviewInsert(Review review);
 }

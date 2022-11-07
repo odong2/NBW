@@ -22,39 +22,43 @@ main {
 	height: 80px;
 }
 
-#myform fieldset {
+#review-box fieldset {
 	display: inline-block;
 	direction: rtl;
 	border: 0;
 }
 
-#myform fieldset legend {
+#review-box fieldset legend {
 	text-align: right;
 }
 
-#myform input[type=radio] {
+#review-box input[type=radio] {
 	display: none;
 }
 
-#myform label {
-	font-size: 2em;
+#review-box label {
+	font-size: 1.5rem;
 	color: transparent;
 	text-shadow: 0 0 0 #f0f0f0;
 }
 
-#myform label:hover {
+#review-box label:hover {
 	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
 	text-shadow: 0 0 0 orange;
 }
 
-#myform label:hover ~ label {
+#review-box label:hover ~ label {
 	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
 	text-shadow: 0 0 0 orange;
 }
 
-#myform input[type=radio]:checked ~ label {
+#review-box input[type=radio]:checked ~ label {
 	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
 	text-shadow: 0 0 0 orange;
+}
+
+#imgDelete {
+	cursor: pointer;
 }
 </style>
 </head>
@@ -63,32 +67,72 @@ main {
 	<%@include file="/WEB-INF/includes/header.jsp"%>
 	<!-- 헤더 끝 -->
 
-	<div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+	<div class="modal fade" id="reviewModalToggle" aria-hidden="true"
 		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content" style="border-radius: 1rem;">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalToggleLabel">리뷰작성</h1>
+					<h1 class="modal-title fs-5" id="exampleModalToggleLabel">리뷰 작성</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">border-radius test</div>
+				<div class="modal-body">
+					<div class="mb-3 d-flex flex-column" id="review-box">
+						<ul class="py-3 rounded bg-light" style="font-size: 0.7rem">
+							<li class="ms-1 mb-2">
+								리뷰 작성시 
+								<div class="badge bg-primary">200 point</div> 
+								적립
+							</li>
+							<li class="ms-1">
+								사진 리뷰 작성시로
+								<div class="badge bg-primary">200 point</div> 
+								추가 적립
+							</li>
+						</ul>
+
+						<div class="d-flex align-items-center mb-3">
+							<fieldset>
+								<input type="radio" name="reviewStar" value="5"
+									id="rate1"> <label for="rate1" data-score="5">★</label>
+								<input type="radio" name="reviewStar" value="4"
+									id="rate2"> <label for="rate2" data-score="4">★</label>
+								<input type="radio" name="reviewStar" value="3"
+									id="rate3"> <label for="rate3" data-score="3">★</label>
+								<input type="radio" name="reviewStar" value="2"
+									id="rate4"> <label for="rate4" data-score="2">★</label>
+								<input type="radio" name="reviewStar" value="1"
+									id="rate5"> <label for="rate5" data-score="1">★</label>
+							</fieldset>
+							<div id="reviewPoint" class="ms-2 text-warning">0</div>
+							<div class="text-warning">/5</div>
+						</div>
+					
+						<span class="mb-2" style="font-size: 0.9rem">리뷰 작성</span>
+						
+						<div class="form-floating mb-3">
+					      <textarea id="reviewContent" class="form-control" placeholder="name@example.com" style="height: 100px;"></textarea>
+					      <label id="floatingValue" class="text-muted" for="reviewContent" style="font-size: 0.9rem">내용을 10자 이상 입력해주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.</label>
+					    </div>
+
+						<div class="d-flex align-items-center mb-2">
+							<div id="fileCount" style="font-size: 0.9rem">사진 첨부(선택) 0/3</div>
+							<div id="imgDelete" class="badge bg-danger rounded-pill ms-3">모두 삭제</div>
+						</div>
+						
+						
+						<div class="mb-5 d-flex">
+							<input type="file" class="" id="input-file" accept="image/jpeg,image/png" onchange="reviewImgUrl(this);" style="display: none;">
+							<label class="fs-1 d-flex align-items-center justify-content-center border border-opacity-25" for="input-file" style="width: 100px; height: 100px;">+</label>
+							<div id="img-box" class="d-flex align-items-center"></div>
+						</div>
+						<button id="reviewSubmmitBtn" class="btn btn-outline-secondary col-3 m-auto">등록</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<form class="mb-3" name="myform" id="myform" method="post">
-		<fieldset>
-			<input type="radio" name="reviewStar" value="5" id="rate1"> <label
-				for="rate1">★</label> <input type="radio" name="reviewStar"
-				value="4" id="rate2"> <label for="rate2">★</label> <input
-				type="radio" name="reviewStar" value="3" id="rate3"> <label
-				for="rate3">★</label> <input type="radio" name="reviewStar"
-				value="2" id="rate4"> <label for="rate4">★</label> <input
-				type="radio" name="reviewStar" value="1" id="rate5"> <label
-				for="rate5">★</label>
-		</fieldset>
-	</form>
 	<!-- 고정바 시작 -->
 	<div id="header"
 		class="border-top border-dark d-flex align-items-center justify-content-evenly">
@@ -124,9 +168,10 @@ main {
 				<i class="fas fa-share-alt" style="color: skyblue;"></i>
 			</button>
 
-			<button class="btn btn-outline-warning me-2"
-				style="width: 120px; height: 40px;" data-bs-toggle="modal"
-				data-bs-target="#exampleModalToggle">
+			<button id="reviewModal" 
+				class="btn btn-outline-warning me-2"
+				style="width: 120px; height: 40px;"
+				data-bs-target="#reviewModalToggle">
 				<i class="fas fa-pen"></i>리뷰작성
 			</button>
 
@@ -216,9 +261,10 @@ main {
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<!-- 풋터 끝 -->
 	<script type="text/javascript">
-let c_count = '';
-let booleanValue = ${empty isLike ?false :isLike};
-
+	let c_count = '';
+	let booleanValue = ${empty isLike ?false :isLike};
+	let rv_img = [];
+	
 	$(document).ready(function(){
 		isLike(booleanValue);
 		
@@ -440,6 +486,137 @@ let booleanValue = ${empty isLike ?false :isLike};
 		$("#LoginFailMsg").text(text);
 		$("#LoginFailMsg").show();
 		$("#LoginFailMsg").delay(500).fadeOut(500);
+	}
+	
+	$('#reviewModal').click(function(){
+		$.ajax({
+			type : "POST",
+			url : "/login/exist",
+			dataType:"json",
+			success : function(response) {
+				if(response.isLogin){
+					$('#reviewModalToggle').modal("show");
+				}else{
+					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
+						location.href = '/login?pno=${product.getP_no()}';
+					}
+				}
+			},
+			error : function(data, textStatus) {
+				msg("에러가 발생했습니다."+data);
+				console.log(data);
+			}
+		})
+	})
+	
+	$('label').click(function(e){
+		let text = e.target.dataset.score;
+		$('#reviewPoint').text(text);
+	})
+	
+	$('#reviewContent').focus(function(){
+		const size = $('#reviewContent').val().length;
+		
+		$('#floatingValue').text(size+'/3000');
+	})
+	
+	$('#reviewContent').blur(function(){
+		const size = $('#reviewContent').val().length;
+		
+		if(size <= 0)
+			$('#floatingValue').text('내용을 10자 이상 입력해주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.')
+	})
+	
+	$('#reviewContent').keyup(function(){
+		const size = $('#reviewContent').val().length;
+		
+		if(size > 0)
+			$('#floatingValue').text(size+'/3000');
+	})
+	
+	function reviewImgUrl(input) {
+		if(rv_img.length === 3){
+			return alert('최대 3개까지만 등록 가능합니다.');
+		}
+		
+		let reader = new FileReader();
+		reader.onload = function(e) {
+		 	let src = e.target.result;
+		 	$('#img-box').append('<img class="ms-2 border border-dark" alt="" src="'+src+'" style="width: 100px; height: 100px;">')
+	 	};
+		reader.readAsDataURL(input.files[0]);
+		rv_img.push(input.files[0]);
+		$('#fileCount').text('사진 첨부(선택) '+rv_img.length+'/3');
+	}
+	
+	$('#reviewSubmmitBtn').click(function(){
+		const rv_score = $('#reviewPoint').text();
+		const rv_content = $('#reviewContent').val();
+		
+		if(rv_score <= 0){
+			alert('별점을 입력해주세요.');
+		}else if(!rv_content) {
+			alert('리뷰를 작성해주세요.');
+		}else if(rv_img.length === 0){
+			if(confirm('리뷰사진 없이 등록 하시겠습니까?')){
+				review_submmit();
+			}
+		}else {
+			review_submmit();
+		}
+	})
+	
+	let review_clear = () => {
+		$('#reviewModalToggle').modal("hide");
+		$('#reviewPoint').text('0');
+		$('#reviewContent').val('');
+		$('#img-box').empty();
+		$('#floatingValue').text('0/3000');
+		$('#fileCount').text('사진 첨부(선택) 0/3');
+		rv_img = [];
+	}
+	
+	$('#imgDelete').click(function(){
+		$('#img-box').empty();
+		$('#fileCount').text('사진 첨부(선택) 0/3');
+		rv_img = [];
+	})
+	
+	let review_submmit = () => {
+		const formData = new FormData();
+		
+		const rv_score = $('#reviewPoint').text();
+		const rv_content = $('#reviewContent').val();
+		const p_no = '${ product.getP_no() }';
+		
+		formData.append('p_no',p_no);
+		formData.append('rv_score',rv_score);
+		formData.append('rv_content',rv_content);
+		
+		rv_img.forEach((item)=>{
+			formData.append('files',item);
+		})
+		
+		$.ajax({
+			type : "POST",
+			url : "/review",
+			data : formData,
+			processData: false,
+			contentType: false,				
+			success : function(result) {				
+				console.log(result);
+				if(result.success){
+					review_clear();
+					msg(result.msg);
+				}else {
+					review_clear();
+					msg(result.msg);
+				}
+		 	},
+		 	error : function(request, status, error) {
+		 		console.log("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+			}
+		});
 	}
 </script>
 </body>

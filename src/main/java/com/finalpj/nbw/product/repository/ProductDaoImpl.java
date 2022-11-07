@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.finalpj.nbw.product.dao.ProductDao;
 import com.finalpj.nbw.product.domain.Product;
+import com.finalpj.nbw.product.domain.Review;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +16,15 @@ import java.util.Map;
 @Repository
 public class ProductDaoImpl implements ProductDao{
 
-	@Autowired
-	SqlSessionTemplate sqlSessionTemplate;
-
-	@Autowired
 	private SqlSession sqlSession;
+	
+    public ProductDaoImpl(SqlSession sqlSession){
+        this.sqlSession = sqlSession;
+    }
 	
 	@Override
 	public Product getProduct(String number) {
-		Product product = null;
-		product = sqlSessionTemplate.selectOne("getProduct",number);
-		return product;
+		return sqlSession.selectOne("getProduct",number);
 	}
 
 	@Override
@@ -38,5 +37,15 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public void updateLike(Map<String, Object> map) {
 		sqlSession.update("updateLike",map);
+	}
+
+	@Override
+	public void reviewCountUpdate(Review review) {
+		sqlSession.update("reviewCountUpdate", review);
+	}
+
+	@Override
+	public void reviewInsert(Review review) {
+		sqlSession.insert("reviewInsert", review);
 	}
 }

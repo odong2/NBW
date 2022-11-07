@@ -46,6 +46,8 @@ public class LoginInterceptor implements HandlerInterceptor{
 			if (!StringUtils.isEmpty(uri)) {
 				session.removeAttribute(uri);
 				response.sendRedirect(uri);
+			}else {
+				response.sendRedirect("/home");
 			}
 		}
 	}
