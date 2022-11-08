@@ -88,7 +88,7 @@ public class PaymentService {
             memberDao.updateMemPoint(pMap);
             // session의 mem_point 업데이트
             Member member = (Member)session.getAttribute("member");
-//            member.setMem_point(mem_point);
+            member.setMem_point(mem_point);
             session.setAttribute("member", member);
         }
 
