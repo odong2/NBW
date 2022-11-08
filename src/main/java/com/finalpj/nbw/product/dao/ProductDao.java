@@ -34,3 +34,4 @@ public interface ProductDao {
 
 	List<Review> SelectReviewList(String p_no);
 }
+

@@ -130,28 +130,28 @@ public class ProductController {
 	public String getProductList(Model model, Criteria criteria) throws Exception {
 
 		try{
-				log.info("list CONTROLLER 진입");
-				int totalCount = productService.getTotalCount(criteria);
-				Pagination pagination = new Pagination(criteria, totalCount);
-				//log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
+			log.info("list CONTROLLER 진입");
+			int totalCount = productService.getTotalCount(criteria);
+			Pagination pagination = new Pagination(criteria, totalCount);
+			//log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
 
 
-				log.info("CRITERIA : "+ criteria);
-				model.addAttribute("criteria", criteria);
+			log.info("CRITERIA : "+ criteria);
+			model.addAttribute("criteria", criteria);
 
-				model.addAttribute("pagination", pagination);
+			model.addAttribute("pagination", pagination);
 
-				List<Product> list = productService.searchProduct(criteria);
+			List<Product> list = productService.searchProduct(criteria);
 
-				model.addAttribute("list", list);
+			model.addAttribute("list", list);
 
-				//log.info("LIST : "+ list);
-				//log.info("SERVICE 에서 받아온 getCategoryFilter ====> "+ productService.getCategoryFilter(criteria));
-				log.info("=========================================================");
-				model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
+			//log.info("LIST : "+ list);
+			//log.info("SERVICE 에서 받아온 getCategoryFilter ====> "+ productService.getCategoryFilter(criteria));
+			log.info("=========================================================");
+			model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
 
-			} catch (Exception e){
-				e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 
 		return "/product/productList";
