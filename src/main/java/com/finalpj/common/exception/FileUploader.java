@@ -54,7 +54,7 @@ public class FileUploader {
 			// 첨부파일이 있을 경우
 			if (originalFileName != null && originalFileName != "") {
 				String uploadPath = Paths.get(System.getProperty("user.home")).resolve("upload/review").toString();
-				
+				System.out.println("uploadPath = " + uploadPath);
 				UUID uuid = UUID.randomUUID();
 
 				// 파일이름 중복을 피하기위해 uuid를 덧붙여 파일이름 저장
