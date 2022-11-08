@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class MemberService {
 
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private MemberDao memberDao;
@@ -28,12 +28,12 @@ public class MemberService {
     private ProductDao productDao;
     
     public MemberService() {}
-    
+
     @Autowired
-	public MemberService(BCryptPasswordEncoder bCryptPasswordEncoder, MemberDao memberDao) {
-    	this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    	this.memberDao = memberDao;
-	}
+    public MemberService(BCryptPasswordEncoder bCryptPasswordEncoder, MemberDao memberDao) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.memberDao = memberDao;
+    }
 
     /* 아이디 중복 체크 */
     public String idCheck(String strCheckId) throws Exception{

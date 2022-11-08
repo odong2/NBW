@@ -475,20 +475,6 @@
                     <input name= "mem_pw" id="mem_pw" required="required" pattern=".{8,20} "
                            class="form-control" placeholder="비밀번호를 입력해 주세요." type="password">
                 </div>
-<%--                <div class="row">--%>
-<%--                    <div class="col-4" style="margin:0">--%>
-<%--                        <hr style="width:120px; border: 5px solid red">--%>
-<%--                        <p></p>--%>
-<%--                    </div>--%>
-<%--                    <div class="col-4" style="margin:0">--%>
-<%--                        <hr style="width:120px; border: 5px solid green">--%>
-<%--                        <p></p>--%>
-<%--                    </div>--%>
-<%--                    <div class="col-4" style="margin:0">--%>
-<%--                        <hr style="width:120px; border: 5px solid blue">--%>
-<%--                        <p></p>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
                 <div class = "alert alert-dismissible w-75" id="pwCheckDiv"> </div>
             </div>
         </div>
@@ -651,7 +637,9 @@
                                    pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
 		                           autocomplete="off" class="form-control"
                                    <fmt:formatNumber value="${member.getMem_phone()}" pattern="###-####-####"/>
+
                             />
+
 		                </c:otherwise>
 		            </c:choose>
                 </div>
