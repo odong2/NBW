@@ -263,26 +263,26 @@
                             <%-- 한글 파일일 경우 --%>
                             <c:when test="${fn:contains(file, '.hwp')}">
                                 <img src="/images/hwp.png" width="25px"/>
-                                <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <a href="/admin/notice/download?fileName=${eventSelect.ev_file}">
                                     <c:out value="${eventSelect.ev_filename}"/>
                                 </a>
                             </c:when>
                             <%-- 엑셀일 경우 파일일 경우 --%>
                             <c:when test="${fn:contains(file, '.xlsx')}">
                                 <img src="/images/xlsx.png" width="20px"/>
-                                <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
                                     <c:out value="${eventSelect.ev_filename}"/>
                                 </a>
                             </c:when>
                             <%-- pdf일 경우 파일일 경우 --%>
                             <c:when test="${fn:contains(file, '.pdf')}">
                                 <img src="/images/pdf.png" width="23px"/>
-                                <a href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
                                     <c:out value="${eventSelect.ev_filename}"/>
                                 </a>
                             </c:when>
                             <c:otherwise>
-                                <a  href="/admin/notice/download?fileName=${noticeDto.nt_file}">
+                                <a  href="/admin/event/download?fileName=${eventSelect.ev_file}">
                                     <c:out value="${eventSelect.ev_filename}"/>
                                 </a>
                             </c:otherwise>
