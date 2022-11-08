@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.finalpj.nbw.login.dto.FindDto;
-import com.finalpj.nbw.login.dto.LoginDto;
+import com.finalpj.nbw.login.domain.Find;
+import com.finalpj.nbw.login.domain.Login;
 import com.finalpj.nbw.login.exception.LoginException;
 import com.finalpj.nbw.login.service.LoginService;
 import com.finalpj.nbw.login.service.Oauth2LoginService;
@@ -64,7 +64,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/login")
-	public String postLogin(LoginDto logindto, Model model, HttpServletResponse response, HttpSession session,
+	public String postLogin(Login logindto, Model model, HttpServletResponse response, HttpSession session,
 			@CookieValue(value = "remember_id", required = false) Cookie remembercoockie,
 			RedirectAttributes rattr) throws IOException {
 
@@ -134,7 +134,7 @@ public class LoginController {
 
 	@PostMapping("/login/find/{findValue}")
 	@ResponseBody
-	public Map<String, Object> Postfind(@PathVariable String findValue, @RequestBody FindDto dto, Model model) {
+	public Map<String, Object> Postfind(@PathVariable String findValue, @RequestBody Find dto, Model model) {
 		Map<String, Object> map = null;
 
 		switch (findValue) {
@@ -162,7 +162,7 @@ public class LoginController {
 	}
 
 	@GetMapping("/login/change")
-	public String change(Model model, FindDto dto) {
+	public String change(Model model, Find dto) {
 		model.addAttribute("dto", dto);
 		return "/login/change";
 	}

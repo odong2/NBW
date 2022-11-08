@@ -92,7 +92,10 @@
       <!-- [[ 오른쪽 div 시작 ]] -->
       <section class="contentdiv d-flex" style="margin-left: 224px">
         <!-- Topbar -->
-	   <%@include file="../../../includes/admin/header.jsp" %>
+	   <jsp:include page="/WEB-INF/includes/admin/header.jsp" >
+	   		<jsp:param value="${ingCnt}" name="ingCnt"/>
+	   		<jsp:param value="${questionIngList}" name="questionIngList"/>
+	   </jsp:include>
         <!-- End of Topbar -->
         <!-- Main Content -->
 		<main class="container-fluid mb-3 p-3">

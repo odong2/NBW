@@ -12,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.finalpj.nbw.login.dao.LoginDao;
-import com.finalpj.nbw.login.dto.FindDto;
-import com.finalpj.nbw.login.dto.LoginDto;
+import com.finalpj.nbw.login.domain.Find;
+import com.finalpj.nbw.login.domain.Login;
 import com.finalpj.nbw.login.exception.LoginException;
 import com.finalpj.nbw.login.exception.WrongIdException;
 import com.finalpj.nbw.login.exception.WrongPasswordException;
@@ -35,7 +35,7 @@ public class LoginService
     	this.loginDao = loginDao;
 	}
 
-    public Member loginCheck(LoginDto logindto) throws LoginException {
+    public Member loginCheck(Login logindto) throws LoginException {
     	Member member;
     	
     	String userId = logindto.getUserId();
@@ -70,13 +70,13 @@ public class LoginService
     	return loginDao.selectUserId(userId);
     }
     
-    public boolean emailCheck(FindDto dto) {    	
+    public boolean emailCheck(Find dto) {    	
     	return loginDao.selectUserEmail(dto);
     }
 
-	public Map<String,Object> findId(FindDto dto) {
+	public Map<String,Object> findId(Find dto) {
 		HashMap<String,Object> responseMap = new HashMap<>();
-		List<FindDto> ResponseDto = loginDao.findId(dto);
+		List<Find> ResponseDto = loginDao.findId(dto);
 		
 		if(ResponseDto != null) {
 			responseMap.put("success", true);
@@ -88,7 +88,7 @@ public class LoginService
 		return responseMap;
 	}
 
-	public Map<String, Object> changePw(FindDto dto) {
+	public Map<String, Object> changePw(Find dto) {
 		HashMap<String,Object> responseMap = new HashMap<>();
 		
 		String newPw = bCryptPasswordEncoder.encode(dto.getMem_pw());

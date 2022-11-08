@@ -1,5 +1,6 @@
 package com.finalpj.nbw.mail.service;
 
+import com.finalpj.nbw.login.domain.Find;
 import com.finalpj.nbw.payment.domain.Payment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.finalpj.nbw.login.dto.FindDto;
+
 import java.util.Random;
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
@@ -51,7 +52,7 @@ public class MailService {
     }
 
     @Async
-    public String sendMail(FindDto dto) {
+    public String sendMail(Find dto) {
         /* 인증 코드 생성 */
         Random random = new Random();
         int ranCode = random.nextInt(888888) + 111111;

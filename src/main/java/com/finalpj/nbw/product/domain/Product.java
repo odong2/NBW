@@ -27,5 +27,5 @@ public class Product {
 	private Integer p_count;
 	private Integer p_avgscore;
 
-
+	private List<Review> reviewList;
 }

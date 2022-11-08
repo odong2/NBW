@@ -1,5 +1,6 @@
 package com.finalpj.nbw.product.domain;
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,21 +13,31 @@ import lombok.Setter;
 @Setter
 public class Review {
 	private String mem_id;
+	private String mem_nickname;
+	private Integer mem_point;
 	private String p_no;
-	private String rv_score;
+	private Integer rv_score;
 	private String rv_content;
+	private String rv_img;
+	private String rv_img2;
+	private String rv_img3;
+	private Date rv_date;
 	private List<MultipartFile> files;
 	private List<String> fileNames;
 	private Integer fileSize;
 	
-	public String getRv_img() {
-		return fileNames.get(0);
+	public String getStar() {
+		String star = "★"; 
+		return star.repeat(this.rv_score)+"("+rv_score+")";
 	}
 	
-	public String getRv_img2() {
+	public String getRv_image() {
+		return fileNames.get(0);
+	}
+	public String getRv_image2() {
 		return fileNames.get(1);
 	}
-	public String getRv_img3() {
+	public String getRv_image3() {
 		return fileNames.get(2);
 	}
 

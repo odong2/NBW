@@ -11,7 +11,13 @@ import java.util.Map;
 public interface ProductDao {
 	Product getProduct(String number);
 
+	/* 상품 등록 */
+	int insertProduct(Product product) throws Exception;
+
 	/* 뷰에서 얻은 키워드를 넘겨서 키워드가 포함된 책 제목을 반환한다. */
+	List<Product> selectProductByWord(String keyword) throws Exception;
+
+	/* 추천 검색어 조회 */
 	List<Map<String, Object>> selectProductByWord(Map<String, Object> paramMap) throws Exception;
 
 	/* 상품 목록 검색 > 페이징 포함 */
@@ -31,4 +37,9 @@ public interface ProductDao {
 	void reviewCountUpdate(Review review);
 
 	void reviewInsert(Review review);
+	
+	List<Review> SelectReviewList(String p_no);
+
+
 }
+

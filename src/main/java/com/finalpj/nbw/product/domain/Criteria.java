@@ -33,8 +33,18 @@ public class Criteria  {
     /* 사용자가 카테고리버튼을 이용해 검색할 경우 type = 'C' */
     private String type;
 
+    /* 졍렬 타입 */
+    /* recent = 최신순
+    *  sell = 핀매순
+    *  lowerprice = 낮은가격순
+    *  higherprice = 높은가격순
+    *  review = 리뷰순
+    *  like = 좋아요순
+    *  score = 평점순 */
+    private String sort;
+
     /* 사용자가 요청하는 카테고리 */
-    private String categoryCode;
+    private String p_category;
 
     /* 카테고리에 속한 상품 수 */
   //  private int categoryCount;

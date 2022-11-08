@@ -1,25 +1,30 @@
-package com.finalpj.common.exception;
+package com.finalpj.common;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+@Component
 public class FileUploader {
+	
+	private final String uploadRoot = System.getProperty("user.home");
 
-	public static String fileUpload(MultipartFile file) {
+	public String fileUpload(MultipartFile file, String path) {
 
 		String originalFileName = file.getOriginalFilename();
 		String saveFileName = "";
 
 		// 첨부파일이 있을 경우
 		if (originalFileName != null && originalFileName != "") {
-			String uploadPath = Paths.get(System.getProperty("user.home")).resolve("upload/review").toString();
-
+			String uploadPath = uploadRoot+"/Desktop/upload/"+path;
+			System.out.println(uploadPath);
+			
 			UUID uuid = UUID.randomUUID();
 
 			// 파일이름 중복을 피하기위해 uuid를 덧붙여 파일이름 저장
@@ -43,7 +48,7 @@ public class FileUploader {
 		return saveFileName;
 	}
 
-	public static List<String> fileUpload(List<MultipartFile> files) {
+	public List<String> fileUpload(List<MultipartFile> files, String path) {
 		List<String> fileNames = new ArrayList<String>();
 
 		for (MultipartFile file : files) {
@@ -53,8 +58,8 @@ public class FileUploader {
 
 			// 첨부파일이 있을 경우
 			if (originalFileName != null && originalFileName != "") {
-				String uploadPath = Paths.get(System.getProperty("user.home")).resolve("upload/review").toString();
-				
+				String uploadPath = uploadRoot+"/Desktop/upload/"+path;
+				System.out.println(uploadPath);
 				UUID uuid = UUID.randomUUID();
 
 				// 파일이름 중복을 피하기위해 uuid를 덧붙여 파일이름 저장
@@ -65,6 +70,7 @@ public class FileUploader {
 				if (!folder.isDirectory()) {
 					folder.mkdirs();
 				}
+			
 
 				try {
 					file.transferTo(folder);
@@ -80,5 +86,4 @@ public class FileUploader {
 
 		return fileNames;
 	}
-
 }
