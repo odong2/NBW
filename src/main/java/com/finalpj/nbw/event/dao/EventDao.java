@@ -27,5 +27,6 @@ public interface EventDao {
     int updateCommentCnt(Integer ev_no, int cnt) throws Exception;
     /***************************** 이벤트 신청 ***************************/
     int eventAdd(EventMember eventMember) throws Exception;
+    int updateEvPeople(EventMember eventMember) throws Exception;
 
 }
