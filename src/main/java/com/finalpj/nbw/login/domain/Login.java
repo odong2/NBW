@@ -1,11 +1,11 @@
-package com.finalpj.nbw.login.dto;
+package com.finalpj.nbw.login.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginDto {
+public class Login {
 	
 	private String userId;
 	private String userPassword;

@@ -1,7 +1,7 @@
 package com.finalpj.nbw.dao;
 
 import com.finalpj.nbw.login.dao.LoginDao;
-import com.finalpj.nbw.login.dto.LoginDto;
+import com.finalpj.nbw.login.domain.Login;
 import com.finalpj.nbw.notice.dao.NoticeDao;
 import com.finalpj.nbw.notice.domain.Notice;
 import com.finalpj.nbw.notice.domain.SearchCondition;

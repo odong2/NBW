@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.finalpj.nbw.login.dao.LoginDao;
-import com.finalpj.nbw.login.dto.FindDto;
+import com.finalpj.nbw.login.domain.Find;
 import com.finalpj.nbw.member.domain.Member;
 
 @Repository
@@ -35,17 +35,17 @@ public class LoginDaoImpl implements LoginDao{
 	}
 
 	@Override
-	public List<FindDto> findId(FindDto dto) {
+	public List<Find> findId(Find dto) {
 		return sqlSession.selectList("findId", dto);
 	}
 
 	@Override
-	public boolean selectUserEmail(FindDto dto) {
+	public boolean selectUserEmail(Find dto) {
 		return sqlSession.selectOne("selectUserEmail", dto);
 	}
 
 	@Override
-	public int updateUserPassword(FindDto dto) {
+	public int updateUserPassword(Find dto) {
 		return sqlSession.update("updateUserPassword", dto);
 	}
 
