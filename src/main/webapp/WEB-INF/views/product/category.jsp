@@ -65,7 +65,7 @@
                         </ul>
                         </li>
                     </ul>
-<<<<<<< HEAD
+
                 </li>
             </ul>
 <%--            카테고리 검색을 요청할 form 을 숨김으로 해놓은 뒤 사용자가 위의 a 태그를 클릭하면 그에 해당하는 카테고리 이름을 input 의 value 로 넘긴다.--%>
@@ -76,15 +76,4 @@
             </form>
         </section>
         <!-- 사이드바 메뉴 끝 -->
-=======
-                        <%--            카테고리 검색을 요청할 form 을 숨김으로 해놓은 뒤 사용자가 위의 a 태그를 클릭하면 그에 해당하는 카테고리 이름을 input 의 value 로 넘긴다.--%>
-                    <form class="category_search_form" method="get" action="/product/search" hidden>
-                        <input type="text" name="p_category"/>
-                        <input type="text" name="keyword"/>
-                        <input type="text" name="type"/>
-                    </form>
-                </section>
-                <!-- 사이드바 메뉴 끝 -->
-            </c:if>
->>>>>>> cong
     </section>

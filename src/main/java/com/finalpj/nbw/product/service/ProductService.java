@@ -75,7 +75,7 @@ public class ProductService {
 		product.setReviewList(rewivewList);
 		return product;
 	}
-	
+
     /* 상품 등록 */
     public int insertProduct(Product product) throws Exception{
         return productDao.insertProduct(product);
