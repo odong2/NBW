@@ -2,11 +2,9 @@ package com.finalpj.nbw.event.repository;
 
 import com.finalpj.nbw.event.dao.EventDao;
 import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.event.domain.EventMember;
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -19,91 +17,88 @@ public class EventDaoImpl implements EventDao {
 
     private SqlSession sqlSession;
 
+    private final String namespace = "com.finalpj.nbw.event.dao.EventMapper.";
+
     public EventDaoImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
+    }
+
+    /****************************** [[마이페이지 이벤트 전체조회]] **********************************/
+    @Override
+    public List<Event> mypageEventList(String id) throws Exception {
+        log.info("EventDao : 11111111mypageEventList 호출 성공");
+        List<Event> mypageEventList = null;
+        log.info("EventDao : 22222222mypageEventList 호출 성공");
+        mypageEventList = sqlSession.selectList(namespace+"myEventSelectAll",id);
+        log.info("EventDao : 33333333mypageEventList 호출 성공" + mypageEventList);
+        return mypageEventList;
     }
 
     /****************************** [[이벤트 전체조회]] **********************************/
     @Override
     public List<Event> eventList() throws Exception {
+        log.info("EventDao : 11111111eventList 호출 성공");
         List<Event> eventList = null;
-        eventList = sqlSession.selectList("eventSelectAll");
-        log.info("EventDao : eventList 호출 성공" + eventList);
+        log.info("EventDao : 22222222eventList 호출 성공");
+        eventList = sqlSession.selectList(namespace+"eventSelectAll");
+        log.info("EventDao : 33333333eventList 호출 성공" + eventList);
         return eventList;
     }
     /****************************** [[이벤트 한건 조회]] **********************************/
     @Override
     public Event eventRead(Integer ev_no) throws Exception {
-        return sqlSession.selectOne("eventSelect", ev_no);
+        return sqlSession.selectOne(namespace+"eventSelect", ev_no);
     }
     /****************************** [[ 관리자 이벤트 조회]] ****************************/
     @Override
     public List<Event> adminEventList() throws Exception {
         List<Event> adminEventList = null;
-        adminEventList = sqlSession.selectList("eventSelectAll");
+        adminEventList = sqlSession.selectList(namespace+"eventSelectAll");
         log.info("EventDao : adminEventList 호출 성공" + adminEventList );
         return adminEventList;
     }
     /******************************* [[ 관리자 이벤트 한건 조회 ]] ************************/
     @Override
     public Event adminEventRead(Integer ev_no) throws Exception {
-        return sqlSession.selectOne("eventSelect", ev_no);
+        return sqlSession.selectOne(namespace+"eventSelect", ev_no);
     }
+    /******************************* [[ 관리자 이벤트 신청자 조회 ]] ************************/
+    @Override
+    public EventMember adminEventApplicant(Integer ev_no) throws Exception {
+        return sqlSession.selectOne(namespace+"adminEventApplicant", ev_no);
+    }
+    /******************************* [[ 이벤트 신청 ]] *******************************/
+    @Override
+    public int eventAdd(EventMember eventMember) throws Exception {
+        log.info("event 다오인플 신청 호출 성공");
+        return sqlSession.insert(namespace+"eventAdd", eventMember);
+    }
+
+    @Override
+    public int updateEvPeople(EventMember eventMember) throws Exception {
+        return sqlSession.update(namespace+"updatePeople", eventMember.getEv_no());
+    }
+
     /****************************** [[ 관리자 이벤트 삭제]] ***************************/
     @Override
     public int  adminEventDelete(Integer ev_no) throws Exception {
         log.info("다오인폴 event 한건 삭제");
-        return sqlSession.delete("adminEventDelete", ev_no);
+        return sqlSession.delete(namespace+"adminEventDelete", ev_no);
     }
 
     /****************************** [[이벤트 등록]] ***************************/
     @Override
-    public int eventWrite(Event eventDto) throws Exception {
-        int result = 0;
-        result = sqlSession.selectOne("eventInsert", eventDto);
-        return result;
-    }
-    /***************************** 공지글 수정 ********************************/
-    @Override
-    public int update(Event eventDto) throws Exception {
-        return sqlSession.update("updateEvent", eventDto);
+    public int adminEventWrite(Event event) throws Exception {
+        log.info("event 다오인플 호출 성공");
+        return sqlSession.insert(namespace+"eventInsert", event);
     }
 
-    // 공지글 한 건 삭제
+    /************************** [[조건검색 결과 게시물 개수]] ****************************/
     @Override
-    public int delete(Integer ev_no) throws Exception {
-        return sqlSession.delete("deleteEvent", ev_no);
-    }
-
-    // 공지글 전체 삭제
-    @Override
-    public int deleteAll() throws Exception {
-        return sqlSession.delete("deleteEventAll");
-    }
-
-    // 공지글 조회수 증가
-    @Override
-    public int updateViewCnt(Integer ev_no) throws Exception{
-        return sqlSession.update("updateViewCnt",ev_no);
-    }
-
-    // 공지글 전체 개수
-    @Override
-    public int selectCnt() throws Exception{
-        return sqlSession.selectOne("selectEventCnt");
-    }
-    // 페이지 게시물 조회
-    @Override
-    public List<Event> selectPage(Map map) throws Exception{
-        return sqlSession.selectList("selectEventPage", map);
-    }
-    // 조건검색 결과 게시물 개수
-
-    @Override
-    public int updateCommentCnt (Integer ev_no, int ev_cocnt) throws Exception{
+    public int updateCommentCnt (Integer ev_no, int cnt) throws Exception{
         Map map = new HashMap();
         map.put("ev_no",ev_no);
-        map.put("ev_cocnt", ev_cocnt);
-        return sqlSession.update("updateCommentCnt", map);
+        map.put("cnt", cnt);
+        return sqlSession.update(namespace+"updateCommentCnt", map);
     }
 }

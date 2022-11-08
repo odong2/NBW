@@ -135,7 +135,7 @@
                 </div>
                 <!-- [[ 보낸 회원 정보  끝 ]] -->
                 <c:choose>
-                <c:when test="${qt.qn_state eq 'N'}">
+                <c:when test="${qt.qn_state eq '처리중'}">
 	               <!-- [[ 관리자 답변 시작 ]] -->
 	               <form name="modifyForm"  action="/admin/qna/answer" method="post">
 	                <div class="admin_box">

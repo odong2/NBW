@@ -1,146 +1,41 @@
 package com.finalpj.nbw.event.domain;
+
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.web.util.*;
 
 @Data
 @ToString
 public class EventPageHandler {
-    private EventSearchCondition sc;
-    //    private int pageSize = 10; // 한 페이지당 게시물 갯수
-//    private int page; // 현재 페이지
-//    private String  option;
-//    private String  keyword;
-    private int naviSize = 10; // page navigation size
-    private int pageSize = 5;
-    private int totalCnt; // 게시물의 총 갯수
-    private int totalPage; // 전체 페이지의 갯수
+    private int totalCnt;          // 총 게시물 개수
+    private int pageSize = 10;     // 한페이지의 크기
+    private int naviSize = 5;      // 페이지 내비게이션의 크기
+    private int totalPage;         // 전체 페이지 개수
+    private int page;              // 현재페이지
+    private int beginPage;         // 내비게이션의 첫번째 페이지
+    private int endPage;           // 내비게이션의 첫번째 페이지
+    private boolean showPrev;      // 이전 페이지 이동 링크 여부
+    private boolean showNext;      // 다음 페이지 이동 링크 여부
 
-    private int page; //현재 페이지
-    private int beginPage; // 화면에 보여줄 첫 페이지
-    private int endPage; // 화면에 보여줄 마지막 페이지
-    private boolean showNext = false; // 이후를 보여줄지의 여부. endPage==totalPage이면, showNext는 false
-    private boolean showPrev = false; // 이전을 보여줄지의 여부. beginPage==1이 아니면 showPrev는 false
-
-    public EventPageHandler(int totalCnt, Integer page) {
-        this(totalCnt, new EventSearchCondition(page, 10));
-    }
-
-    public EventPageHandler(int totalCnt, Integer page, Integer pageSize) {
-        this(totalCnt, new EventSearchCondition(page, pageSize));
-    }
-
-    public EventPageHandler(int totalCnt, EventSearchCondition sc) {
+    public EventPageHandler(int totalCnt, int page){
         this.totalCnt = totalCnt;
-        this.sc = sc;
+        this.page = page;
 
-        doPaging(totalCnt, sc);
+        totalPage = (int)Math.ceil(totalCnt / (float)pageSize); // 나머지 값 있을 경우 페이지 하나 추가
+        beginPage = (page-1) / naviSize * naviSize + 1;
+        endPage =  Math.min(beginPage + naviSize-1 , totalPage);
+        showPrev = beginPage != 1;
+        showNext = endPage != totalPage;
     }
 
-    private void doPaging(int totalCnt, EventSearchCondition sc) {
-        this.totalPage = totalCnt / sc.getPageSize() + (totalCnt % sc.getPageSize()==0? 0:1);
-        this.sc.setPage(Math.min(sc.getPage(), totalPage));  // page가 totalPage보다 크지 않게
-        this.beginPage = (this.sc.getPage() -1) / naviSize * naviSize + 1; // 11 -> 11, 10 -> 1, 15->11. 따로 떼어내서 테스트
-        this.endPage = Math.min(beginPage + naviSize - 1, totalPage);
-        this.showPrev = beginPage!=1;
-        this.showNext = endPage!=totalPage;
-    }
 
-    public String getQueryString() {
-        return getQueryString(this.sc.getPage());
-    }
-
-    public String getQueryString(Integer page) {
-        // ?page=10&pageSize=10&option=A&keyword=title
-        return UriComponentsBuilder.newInstance()
-                .queryParam("page",     page)
-                .queryParam("pageSize", sc.getPageSize())
-                .queryParam("option",   sc.getOption())
-                .queryParam("keyword",  sc.getKeyword())
-                .build().toString();
-    }
-
-    void print() {
-        System.out.println("page="+ sc.getPage());
-        System.out.print(showPrev? "PREV " : "");
-
-        for(int i=beginPage;i<=endPage;i++) {
-            System.out.print(i+" ");
+    public void print(){
+        System.out.println("현재 페이지는 = " + page + "page");
+        System.out.print(showPrev ? "[PREV]" : "");
+        for (int i = beginPage; i <= endPage; i++) {
+            System.out.print(i+ " ");
         }
-        System.out.println(showNext? " NEXT" : "");
+        System.out.println(showNext ? "[Next]" : "");
     }
 
-    public EventSearchCondition getSc() {
-        return sc;
-    }
 
-    public void setSc(EventSearchCondition sc) {
-        this.sc = sc;
-    }
-
-    public int getTotalCnt() {
-        return totalCnt;
-    }
-
-    public void setTotalCnt(int totalCnt) {
-        this.totalCnt = totalCnt;
-    }
-
-    public boolean isShowNext() {
-        return showNext;
-    }
-
-    public void setShowNext(boolean showNext) {
-        this.showNext = showNext;
-    }
-
-    public int getBeginPage() {
-        return beginPage;
-    }
-
-    public void setBeginPage(int beginPage) {
-        this.beginPage = beginPage;
-    }
-
-    public int getNAV_SIZE() {
-        return naviSize;
-    }
-
-    public int getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public int getEndPage() {
-        return endPage;
-    }
-
-    public void setEndPage(int endPage) {
-        this.endPage = endPage;
-    }
-
-    public boolean isShowPrev() {
-        return showPrev;
-    }
-
-    public void setShowPrev(boolean showPrev) {
-        this.showPrev = showPrev;
-    }
-
-    @Override
-    public String toString() {
-        return "PageHandler{" +
-                "sc=" + sc +
-                ", totalCnt=" + totalCnt +
-                ", showNext=" + showNext +
-                ", beginPage=" + beginPage +
-                ", NAV_SIZE=" + naviSize +
-                ", totalPage=" + totalPage +
-                ", endPage=" + endPage +
-                ", showPrev=" + showPrev +
-                '}';
-    }
 }

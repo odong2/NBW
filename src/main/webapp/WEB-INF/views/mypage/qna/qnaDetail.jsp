@@ -174,12 +174,12 @@
 </section>
 <script>
         $("#listBtn").on("click", function (){
-            location.href = "<c:url value='/mypage/qnalist'/>";
+            location.href = "<c:url value='/mypage/qna/list'/>";
         })
 
         $("#deleteBtn").on("click", function (){
             if(!confirm("정말로 삭제하시겠습니까?")) return;
-            location.href = `/mypage/qnadelete/${qna.qn_no}`;
+            location.href = `/mypage/qna/delete/${qna.qn_no}`;
         })
 </script>
 <!-- 마이 페이지 끝 -->

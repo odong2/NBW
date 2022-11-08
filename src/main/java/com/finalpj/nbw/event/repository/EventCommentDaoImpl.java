@@ -3,6 +3,7 @@ package com.finalpj.nbw.event.repository;
 
 import com.finalpj.nbw.event.dao.EventCommentDao;
 import com.finalpj.nbw.event.domain.EventComment;
+import com.finalpj.nbw.notice.domain.NtComment;
 import org.apache.ibatis.session.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -14,45 +15,58 @@ public class EventCommentDaoImpl implements EventCommentDao {
 
     private SqlSession sqlSession;
 
+    private final String namespace = "com.finalpj.nbw.event.dao.EventCommentMapper.";
+
     public EventCommentDaoImpl(SqlSession sqlSession){
         this.sqlSession = sqlSession;
     }
 
+    /************************* [[디테일 페이지에서 댓글 조회]] *******************/
     @Override
-    public int count(Integer ev_no) throws Exception {
-        return sqlSession.selectOne("count", ev_no);
-    } // T selectOne(String statement)
+    public List<EventComment> selectCommentList(Integer evc_no) throws Exception{
+        return sqlSession.selectList(namespace+"selectCommentList", evc_no);
+    }
 
+    /************************* [[디테일 페이지에서 댓글 조회]] *******************/
     @Override
-    public int deleteAll(Integer ev_no) {
-        return sqlSession.delete("deleteAll", ev_no);
-    } // int delete(String statement)
+    public EventComment selectComment(Integer evc_no) throws Exception{
+        return sqlSession.selectOne(namespace+"selectComment",evc_no);
 
+    }
+
+    /************************* [[디테일 페이지에서 댓글 등록]] *******************/
     @Override
-    public int delete(Integer evc_no, String evc_commenter) throws Exception {
-        Map map = new HashMap();
+    public int insertComment(EventComment eventComment) throws Exception{
+        return sqlSession.insert(namespace+"insertComment", eventComment);
+    }
+    /************************* [[디테일 페이지에서 댓글 모두 삭제]] *******************/
+    @Override
+    public int deleteCommentList(Integer ev_no) throws Exception{
+        return sqlSession.delete(namespace+"deleteCommentList",ev_no);
+    }
+    /************************* [[디테일 페이지에서 댓글 갯수 조회]] *******************/
+    @Override
+    public int selectCommentCnt(Integer ev_no) throws Exception{
+        return sqlSession.selectOne(namespace+"selectCommentCnt", ev_no);
+    }
+    /************************* [[디테일 페이지에서 댓글 한 건 삭제]] *******************/
+    @Override
+    public int deleteComment(Integer evc_no, String evc_commenter) throws Exception{
+        HashMap map = new HashMap();
         map.put("evc_no", evc_no);
         map.put("evc_commenter", evc_commenter);
-        return sqlSession.delete("delete", map);
-    } // int delete(String statement, Object parameter)
-
+        return sqlSession.delete(namespace+"deleteComment", map);
+    }
+    /************************* [[디테일 페이지에서 대댓글 있을 경우 삭제]] *******************/
     @Override
-    public int insert(EventComment eventCommentdto) throws Exception {
-        return sqlSession.insert("insert", eventCommentdto);
-    } // int insert(String statement, Object parameter)
-
-//    @Override
-//    public List<EventComment> selectAll(Integer ev_no) throws Exception {
-//        return sqlSession.selectList("selectAll", ev_no);
-//    } // List<E> selectList(String statement)
-
+    public int deleteRepComment(Integer evc_no) throws Exception{
+        HashMap map = new HashMap();
+        return sqlSession.delete(namespace+"deleteRepComment", evc_no);
+    }
+    /************************* [[디테일 페이지에서 댓글 수정]] *******************/
     @Override
-    public EventComment select(Integer evc_no) throws Exception {
-        return sqlSession.selectOne("select", evc_no);
-    } // T selectOne(String statement, Object parameter)
+    public int updateComment(EventComment eventComment) throws Exception{
+        return sqlSession.update(namespace+"updateComment",eventComment);
+    }
 
-    @Override
-    public int update(EventComment eventCommentDto) throws Exception {
-        return sqlSession.update("update", eventCommentDto);
-    } // int update(String statement, Object parameter)
 }

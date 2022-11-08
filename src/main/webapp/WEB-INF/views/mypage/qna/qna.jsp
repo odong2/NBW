@@ -80,10 +80,10 @@
                             <div class="typePick">
                                 <select class="" name="qn_category" style="width: 600px; height: 45px">
                                     <option selected>선택</option>
-                                    <option value="1">제품</option>
-                                    <option value="2">교환</option>
-                                    <option value="3">반품</option>
-                                    <option value="4">기타</option>
+                                    <option value="제품">제품</option>
+                                    <option value="교환">교환</option>
+                                    <option value="반품">반품</option>
+                                    <option value="기타">기타</option>
                                 </select>
                             </div>
                         </td>
@@ -156,12 +156,12 @@
     $(document).ready(function(){
         // 목록으로 가기
         $("#dbtn").on("click", function (){
-            location.href = "<c:url value="/mypage/qnalist"/>";
+            location.href = "<c:url value="/mypage/qna/list"/>";
         })
         // 문의 접수하기
         $("#sendbtn").on("click", function (){
             let form = $("#form");
-            form.attr("action", "<c:url value="/mypage/qnawrite"/> ");
+            form.attr("action", "<c:url value="/mypage/qna/write"/> ");
             form.attr("method", "post");
             form.submit();
         })
