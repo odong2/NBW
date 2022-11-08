@@ -88,12 +88,12 @@ public class PaymentService {
             memberDao.updateMemPoint(pMap);
             // session의 mem_point 업데이트
             Member member = (Member)session.getAttribute("member");
-            member.setMem_point(mem_point);
+//            member.setMem_point(mem_point);
             session.setAttribute("member", member);
         }
 
         // *(해야할 것)주문한 상품의 재고 감소
-        
+
     }
     /**************************** 결제 후 주문 상품 상세내역 조회 ************************************/
     public List<CartProduct> afterPaySearchOrder(Map pMap) throws Exception{
@@ -108,7 +108,7 @@ public class PaymentService {
         rMap = paymentDao.selectReceiver(order_no);
         return rMap;
     }
-
+    
     /**************************** 결제 후 수령인 상세내역 및 결제금액 조회 (비회원) ************************************/
     public Map<String, Object> selectUnMemReceiver(String order_no) throws Exception{
         Map<String, Object> rMap= null;
@@ -139,3 +139,4 @@ public class PaymentService {
     }
 
 }
+

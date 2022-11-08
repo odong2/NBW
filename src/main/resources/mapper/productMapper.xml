@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.finalpj.nbw.product.dao.ProductMapper">
 
@@ -6,12 +6,53 @@
 		SELECT P_NO, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE, P_IMG,P_DESCRIPTION, P_CATEGORY, P_LIKE, P_REVIEW, P_AVGSCORE 
 		FROM TB_PRODUCT WHERE p_no = #{value}
 	</select>
+<<<<<<< HEAD
 	
  	<select id="SelectReviewList" parameterType="String" resultType="review">
 		SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME FROM TB_REVIEW
 	</select>
+<<<<<<< HEAD
 	
 	<!-- ===================================== 공통부분 ===================================== -->
+=======
+
+=======
+>>>>>>> cong
+	<!-- ===================================== 상품 등록 ===================================== -->
+	<insert id="insertProduct" parameterType="product">
+		INSERT INTO TB_PRODUCT (
+								 P_NO
+							   , P_TITLE
+							   , P_AUTHOR
+							   , P_IMG
+							   , P_PUBLISHER
+							   , P_PUBDATE
+							   , P_PRICE
+							   , P_DESCRIPTION
+							   , P_CATEGORY
+							   , P_COUNT
+		)
+		VALUES (
+				   SEQ_P_NO.nextval
+				   , #{p_title}
+				   , #{p_author}
+				   , #{p_img}
+				   , #{p_publisher}
+				   , sysdate
+				   , #{p_price}
+				   , #{p_description}
+				   , #{p_category}
+				   , #{p_count}
+				   )
+	</insert>
+
+<<<<<<< HEAD
+
+	<!-- ===================================== 검색 공통부분 ===================================== -->
+>>>>>>> 26aa3b4 (Feat: 검색창 수정, 상품분류 완료)
+=======
+	<!-- ===================================== 검색 공통부분 ===================================== -->
+>>>>>>> cong
 	<sql id="criteria">
 		<if test="keyword != null">
 			like '%'||#{keyword}||'%'
@@ -20,13 +61,13 @@
 	
 	<!-- ===================================== 제목 키워드 검색
 	사용자가 입력한 키워드가 제목, 작가에 포함되어있는 상품의 제목을 반환================================================= -->
-	<select id="selectProductByWord" parameterType="java.util.Map" resultType="map">
-		SELECT DISTINCT P_TITLE
+	<select id="selectProductByWord"  resultType="java.util.List">
+		SELECT DISTINCT *
 		FROM TB_PRODUCT
 		WHERE
-		    P_TITLE <include refid="criteria"/>
+		P_TITLE <include refid="criteria"/>
 		OR
-			p_author <include refid="criteria"/>
+		p_author <include refid="criteria"/>
 		ORDER BY P_TITLE ASC
 	</select>
 
@@ -71,73 +112,98 @@
 	
 	<!-- ================================== 상품 목록 조회 > 페이징 포함 ================================== -->
 	<select id="selectProduct"  resultType="product">
-		<![CDATA[
-		SELECT p_no, p_title, p_author, p_img, p_publisher,  p_pubdate ,P_CATEGORY, p_description, p_price, p_like
-			FROM (
-				  SELECT rownum AS rn, p_no, p_title, p_author, p_img, p_publisher, p_pubdate, p_category , p_description, p_price, p_like
-				  FROM TB_PRODUCT
-				  where (P_TITLE
-	  	]]>
-				  <include refid="criteria"/>
+		SELECT last.*
+			FROM
+				  (SELECT rownum AS rn, od.*
+				  FROM (
+				  				select * from tb_product
+				                 <choose>
+									<when test ='sort == "recent" '>ORDER BY P_PUBDATE DESC</when>
+									<when test ='sort == "sell" '>ORDER BY P_TSELL DESC</when>
+									<when test ='sort == "lowerprice" '>ORDER BY Cast(P_PRICE AS INTEGER) ASC</when>
+									<when test ='sort == "higherprice" '>ORDER BY Cast(P_PRICE AS INTEGER) DESC</when>
+									<when test ='sort == "review" '>ORDER BY P_REVIEW DESC</when>
+									<when test ='sort == "like" '>ORDER BY P_LIKE DESC</when>
+									<when test ='sort == "score" '>ORDER BY P_AVGSCORE DESC</when>
+								</choose>
+				                 )od
+		<choose>
+			<when test="keyword !=null and !keyword.equals('')">
+					WHERE (
+					P_TITLE <include refid="criteria"/>
 					OR
-					P_AUTHOR <include refid="criteria"/>)
-				    <choose>
-						<when test ='type == "C" '>
-							AND P_CATEGORY = #{p_category}
-						</when>
-					</choose>
-			<![CDATA[
-					AND
-				      rownum <= #{pageNum} * #{amount}
-			  	)
-		WHERE  rn >(#{pageNum}-1) * #{amount}
+					P_AUTHOR <include refid="criteria"/>
+					)
+				<if test ='type == "C" '>
+					AND P_CATEGORY = #{p_category}
+				</if>
+			</when>
+			<when test ='type == "C" '>
+				WHERE P_CATEGORY = #{p_category}
+			</when>
+		</choose>
+			  	) last
+		<![CDATA[
+		WHERE  rn >(#{pageNum}-1) * #{amount} and rn <= #{pageNum}*#{amount}
 			]]>
-		ORDER BY P_PUBDATE DESC
 	</select>
 
 	<!--  ============================== 검색된 게시물 총 개수 ==================================	-->
 	<select id="selectTotalProduct" resultType="int">
 		SELECT count(*)
 		FROM tb_product
-		WHERE
-			(P_TITLE	<include refid="criteria"/>
-		  	OR
-			P_AUTHOR <include refid="criteria"/>)
 		<choose>
-			<when test ='type == "C" '>
-				AND P_CATEGORY = #{p_category}
+			<when test=' keyword !=null and !keyword.equals("")'>  --키워드로만 검색할 경우
+				WHERE
+				(P_TITLE	<include refid="criteria"/>
+				OR
+				P_AUTHOR <include refid="criteria"/>)
+				<if test ='type == "C" '>
+					AND P_CATEGORY = #{p_category}
+				</if>
+			</when>
+			<when test ='type == "C" '> -- 타입으로만 검색할 경우
+				WHERE P_CATEGORY = #{p_category}
 			</when>
 		</choose>
-		    AND
-			P_NO > 0
 	</select>
 
 	<!--  ============================== 카테고리로 상품 검색 ==================================	-->
 	<select id="selectProductCategory" resultType="String">
 		SELECT DISTINCT p_category as categoryCode FROM TB_PRODUCT
-		WHERE
-		    P_TITLE <include refid="criteria"/>
-			OR
-		    P_AUTHOR <include refid="criteria"/>
+		    <choose>
+				<when test="keyword !=null and !keyword.equals('')">
+					WHERE
+					P_TITLE <include refid="criteria"/>
+					OR
+					P_AUTHOR <include refid="criteria"/>
+				</when>
+				<when test='type="C"'>
+					WHERE P_CATEGORY =#{p_category}
+				</when>
+			</choose>
+
+
 	</select>
 
 	<!--  ========================== 키워드 검색 결과 조회된 카테고리의 개수 ==============================	-->
-
 	<select id="selectProductCateInfo"  resultType="categoryFilter">
 		SELECT DISTINCT count(*) as categoryCount
 		FROM (
-				  SELECT *
-				  FROM TB_PRODUCT
-				  WHERE
-
-						(
-						    P_TITLE <include refid="criteria"/>
+				SELECT *
+				FROM TB_PRODUCT
+				<choose>
+					<when test="keyword !=null and !keyword.equals('')">
+						WHERE
+						P_TITLE <include refid="criteria"/>
 						OR
 						P_AUTHOR <include refid="criteria"/>
-						    )
-						AND
-					 	P_CATEGORY = #{categoryCode}
-			  		)
+					</when>
+					<when test='type="C"'>
+						WHERE P_CATEGORY =#{p_category}
+					</when>
+				</choose>
+				)
 	</select>
 	
 </mapper>

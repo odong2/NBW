@@ -5,8 +5,6 @@ import com.finalpj.nbw.product.domain.CategoryFilter;
 import com.finalpj.nbw.product.domain.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.finalpj.nbw.product.dao.ProductDao;
@@ -27,10 +25,23 @@ public class ProductDaoImpl implements ProductDao {
     public ProductDaoImpl(SqlSession sqlSession){
         this.sqlSession = sqlSession;
     }
+	
 
 	@Override
 	public Product getProduct(String number) {
+
 		return sqlSession.selectOne(namespace+"getProduct", number);
+	}
+
+	/* 상품 등록 */
+	@Override
+	public int insertProduct(Product product) throws Exception {
+		return sqlSession.insert(namespace+"insertProduct", product);
+	}
+
+	@Override
+	public List<Product> selectProductByWord(String keyword) throws Exception {
+		return null;
 	}
 
 	/* 추천 검색어 조회 */
