@@ -32,8 +32,19 @@ public class AdminQnaController {
 	public String qnaList(SearchCondition sc, Model model) {
 		log.info("관리자 문의사항 조회페이지 호출");
 		List<Qna> questionList = null; // 문의사항 조회
+		List<Qna> questionIngList = null; // 답변하지 않은 문의사항
+		int ingCnt = 0; // 답변하지 않은 문의글 갯수
 		
 		try {
+			// 문의하지 않은 개수 가져오기
+			ingCnt = qnaService.getQuestionIngCnt();
+			log.info("ingCnt: "+ingCnt);
+			model.addAttribute("ingCnt", ingCnt);
+			// 답변하지 않은 문의 가져오기
+			questionIngList = qnaService.qnaIngList();
+			log.info("questionIngList: "+questionIngList);
+			model.addAttribute("questionIngList", questionIngList);
+			
 			log.info("키워드 가져와보기"+sc.getKeyword());
 			// 전체 페이지 게시물 조회
 			int totalCnt = qnaService.getSearchCnt(sc);

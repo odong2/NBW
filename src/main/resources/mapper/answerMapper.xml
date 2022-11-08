@@ -94,4 +94,10 @@
         WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
     </select>
     
+    <!-- [[ 답변하지 않은 문의사항 갯수 ]] -->
+    <select id="selectIngCnt" resultType="int">
+    	SELECT COUNT(*) FROM TB_QUESTION 
+		 WHERE qn_state = 'N'
+    </select>
+    
 </mapper>

@@ -130,4 +130,10 @@ public class QnaDaoImpl implements QnaDao {
 	public List<Qna> selectSearchQPage(SearchCondition sc) throws Exception {
 		return sqlSession.selectList(a_namespace+"selectSearchQPage", sc);
 	}
+
+	/**************************** [[ 답변하지 않은 문의사항 갯수 가져오기 ]] ********************************/
+	@Override
+	public int selectIngCnt() throws Exception {
+		return sqlSession.selectOne(a_namespace+"selectIngCnt");
+	}
 }

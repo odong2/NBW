@@ -138,4 +138,8 @@ public class QnaService {
 		return qnaDao.selectSearchQPage(sc);
 	}
 	
+	/****************************** [[ 답변하지 않은 문의사항 갯수 가져오기 ]] ****************************/
+	public int getQuestionIngCnt() throws Exception {
+		return qnaDao.selectIngCnt();
+	}
 }
