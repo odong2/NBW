@@ -4,7 +4,11 @@
         let keywordList; // 자동완성 창에 띄울 키워드를 저장할 변수
         $('#mainSearch').autocomplete({
             source: function (request, response) { //source 는 자동완성의 대상
+<<<<<<< HEAD
                 // ajax 시작
+=======
+            // ajax 시작
+>>>>>>> 8cb07cf (Feat: 상품 검색(~ 카테고리 필터링 검색까지))
                 $.ajax({
                     url: "/product/search"
                     , type: "POST"
@@ -18,6 +22,7 @@
                             console.log(value["P_TITLE"]); // 출력해야 할 값
                             keywordList = value["P_TITLE"]; // 전역에 선언해둔 변수에 담는다.
                         })
+<<<<<<< HEAD
                         response(
                             $.map(data, function (item) {
                                 return {
@@ -26,6 +31,16 @@
                                 };
                             })
                         );// response
+=======
+                            response(
+                                $.map(data, function (item) {
+                                    return {
+                                        label: keywordList
+                                        , value: keywordList // 선택 시 input에 표시되는 값
+                                    };
+                                })
+                            );// response
+>>>>>>> 8cb07cf (Feat: 상품 검색(~ 카테고리 필터링 검색까지))
                     }// success 끝
                     , minLength: 2 // 두 자 이상이 입력될 때 서버로 요청을 보낸다.
                     , autoFocus: true
@@ -43,6 +58,10 @@
         })
     });
     /* ================ 검색어 자동 완성 기능 추가 ================== */
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cb07cf (Feat: 상품 검색(~ 카테고리 필터링 검색까지))
 </script>
 <style>
     .ui-autocomplete {
@@ -64,6 +83,10 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
         background-clip: padding-box;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cb07cf (Feat: 상품 검색(~ 카테고리 필터링 검색까지))
     .ui-autocomplete > li > div {
         display: block;
         padding: 3px 10px;
@@ -73,6 +96,10 @@
         color: #333333;
         white-space: nowrap;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cb07cf (Feat: 상품 검색(~ 카테고리 필터링 검색까지))
     .ui-state-hover,
     .ui-state-active,
     .ui-state-focus {
@@ -81,6 +108,10 @@
         background-color: #f5f5f5;
         cursor: pointer;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cb07cf (Feat: 상품 검색(~ 카테고리 필터링 검색까지))
     .ui-helper-hidden-accessible {
         border: 0;
         clip: rect(0 0 0 0);
@@ -148,6 +179,7 @@
         </ul>
         <br>
         <form id="searchForm" action="/product/search" method="get" style="width: 100%;">
+<<<<<<< HEAD
             <div class="col-12 d-flex align-items-center justify-content-start" >
                 <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
                 <div class="input-group ms-3">
@@ -172,6 +204,32 @@
                     </button>
                 </div>
             </div>
+=======
+        <div class="col-12 d-flex align-items-center justify-content-start" >
+            <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
+            <div class="input-group ms-3">
+    <%--  ============================      검색창    =============================  --%>
+                        <input
+                                type="text"
+                                id="mainSearch"
+                                name="keyword"
+                                class="form-control"
+                                placeholder="검색어를 입력해주세요."
+                                aria-label="Recipient's username"
+                                aria-describedby="button-addon2"
+                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
+                        />
+                        <button
+                                class="btn btn-outline-secondary"
+                                id="button-addon2"
+                                type="submit"
+                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
+                        >
+                            <i class="fas fa-search"></i>
+                        </button>
+            </div>
+        </div>
+>>>>>>> 8cb07cf (Feat: 상품 검색(~ 카테고리 필터링 검색까지))
         </form>
         <%@include file="/WEB-INF/views/product/autocomplete.jsp" %>
     </nav>

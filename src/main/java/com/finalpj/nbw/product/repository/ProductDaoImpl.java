@@ -83,4 +83,6 @@ public class ProductDaoImpl implements ProductDao {
 	public void reviewInsert(Review review) {
 		sqlSession.insert(namespace+"reviewInsert", review);
 	}
+
 }
+
