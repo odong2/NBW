@@ -263,7 +263,7 @@
                             <%-- 한글 파일일 경우 --%>
                             <c:when test="${fn:contains(file, '.hwp')}">
                                 <img src="/images/hwp.png" width="25px"/>
-                                <a href="/admin/notice/download?fileName=${eventSelect.ev_file}">
+                                <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
                                     <c:out value="${eventSelect.ev_filename}"/>
                                 </a>
                             </c:when>
