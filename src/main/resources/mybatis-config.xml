@@ -16,7 +16,7 @@
             <typeAlias alias="product" type="com.finalpj.nbw.product.domain.Product"/>
             <typeAlias alias="categoryFilter" type="com.finalpj.nbw.product.domain.CategoryFilter"/>
             <typeAlias alias="criteria" type="com.finalpj.nbw.product.domain.Criteria"/>
-            <typeAlias alias="find" type="com.finalpj.nbw.login.dto.FindDto"/>
+            <typeAlias alias="find" type="com.finalpj.nbw.login.domain.Find"/>
             <typeAlias alias="eventSearchCondition" type="com.finalpj.nbw.event.domain.EventSearchCondition"/>
             <typeAlias alias="review" type="com.finalpj.nbw.product.domain.Review"/>
             <typeAlias alias="qnaDto" type="com.finalpj.nbw.qna.domain.Qna"/>

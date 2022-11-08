@@ -48,22 +48,22 @@
   		<choose>
 		    <when test="fileSize == 1">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NCIKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG)
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG)
 				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img} )
 		    </when>
 		    <when test="fileSize == 2">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NCIKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2)
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2)
 				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2} )
 		    </when>
 		    <when test="fileSize == 3">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NCIKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
 				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2}, #{rv_img3} )
 		    </when>
 		    <otherwise>
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NCIKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO)
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO)
 				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no})
 		    </otherwise>
 		</choose>
