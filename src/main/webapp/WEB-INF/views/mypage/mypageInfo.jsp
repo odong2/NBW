@@ -36,6 +36,7 @@
             $("#btn-update").click(function(e){
 
                 /* 입력칸 변수 */
+                let nick = $("#mem_nickname").val();
                 let mail = $("#mem_email").val();        // 메일주소 입력란
                 let addr1 = $('#address1').val();        // 우편번호 입력란
                 let addr2 = $('#address2').val();        // 주소 입력란
@@ -68,6 +69,13 @@
                 }else{
                     let result = confirm("입력한 정보로 수정하시겠습니까?");
                     if(result){
+                        $("input[name=mem_nickname]").val(nick);
+                        $("input[name=mem_email]").val(mail);
+                        $("input[name=mem_zipcode]").val(addr1);
+                        $("input[name=mem_address1]").val(addr2);
+                        $("input[name=mem_address2]").val(addr3);
+                        alert("수정할 내용 > " + nick + mail + addr1 + addr2 + addr3);
+
                         $("#updateForm").attr("action", "/mypage/info");
                         $("#updateForm").attr("method", "POST");
                         $("#updateForm").submit();
@@ -201,7 +209,13 @@
                 <div class="row">
                     <div class="col-3"><h6> 기본 정보 </h6></div>
                     <div class="col-3"></div>
-                    <div class="col-6" style="text-align: right;"> <p style="font-size: x-small">마지막 수정일은 <strong>${sessionScope.member.getMem_update()}</strong>입니다.</div>
+                    <div class="col-6" style="text-align: right;"> <p style="font-size: x-small">마지막 수정일은
+                        <strong>
+                            <fmt:parseDate value="${sessionScope.member.getMem_update()}" var="dateType" pattern="yyyy-MM-dd"/>
+                            <fmt:formatDate value="${dateType}"  pattern="yyyy-MM-dd"/>
+                        </strong>
+                        입니다.
+                    </div>
                 </div>
                 <hr style="border: solid 1px black;">
                 <!-- 아이디 정보  -->

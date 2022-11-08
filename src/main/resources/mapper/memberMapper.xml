@@ -51,9 +51,10 @@
     </select>
 
     <!--  ================== *회원 정보 수정* ==================  -->
-    <update id="updateMyInfo" parameterType="member">
+    <update id="updateMyInfo" parameterType="member" >
         UPDATE tb_member
-        SET  mem_zipcode = #{mem_zipcode}
+        SET
+            mem_zipcode = #{mem_zipcode}
             ,mem_address1 = #{mem_address1}
             ,mem_address2 = #{mem_address2}
             ,mem_email = #{mem_email}

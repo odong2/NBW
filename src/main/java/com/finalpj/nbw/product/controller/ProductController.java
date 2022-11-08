@@ -29,6 +29,7 @@ import com.finalpj.nbw.product.domain.Criteria;
 import com.finalpj.nbw.product.domain.Pagination;
 import com.finalpj.nbw.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 import com.finalpj.nbw.product.domain.Product;
 import com.finalpj.nbw.product.domain.Review;
 import com.finalpj.nbw.product.repository.ProductDaoImpl;
+
 
 import com.finalpj.nbw.product.service.ProductService;
 
@@ -48,6 +50,10 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 
 
@@ -115,14 +121,31 @@ public class ProductController {
 	}
 	
 	/* =============================== 추천 검색어 조회 ================================== */
-	@PostMapping("search")
-	@ResponseBody
-	public Map<String, Object> search(@RequestParam Map<String, Object> paramMap) throws Exception{
+//	@PostMapping("search")
+//	@ResponseBody
+//	public Map<String, Object> search(@RequestParam Map<String, Object> paramMap) throws Exception{
+//
+//		List<Map<String, Object>> resultList = productService.search(paramMap);
+//		paramMap.put("resultList", resultList);
+//		log.info(resultList.toString());
+//		return paramMap;
+//	}
 
-		List<Map<String, Object>> resultList = productService.search(paramMap);
-		paramMap.put("resultList", resultList);
-		log.info(resultList.toString());
-		return paramMap;
+	@PostMapping(value="autocomplete",  produces = "application/text; charset=UTF-8")
+	public @ResponseBody String keywordSearch(Criteria criteria, String keyword, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8");
+
+		criteria.setAmount(3);
+		criteria.setKeyword(keyword);
+		List<Product> keywordList = productService.searchProduct(criteria);
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("autocProduct", keywordList);
+
+		String jsonInfo = jsonObject.toString();
+		log.info(jsonInfo);
+		return jsonInfo;
 	}
 
 
@@ -136,7 +159,6 @@ public class ProductController {
 			Pagination pagination = new Pagination(criteria, totalCount);
 			//log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
 
-
 			log.info("CRITERIA : "+ criteria);
 			model.addAttribute("criteria", criteria);
 
@@ -146,9 +168,7 @@ public class ProductController {
 
 			model.addAttribute("list", list);
 
-			//log.info("LIST : "+ list);
-			//log.info("SERVICE 에서 받아온 getCategoryFilter ====> "+ productService.getCategoryFilter(criteria));
-			log.info("=========================================================");
+			log.info(productService.getCategoryFilter(criteria).toString());
 			model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
 
 		} catch (Exception e){

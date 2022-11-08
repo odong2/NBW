@@ -20,7 +20,7 @@ public class Product {
 	private String p_price;
 	private String p_img;
 	private String p_description;
-	private String categoryCode;
+	private String p_category;
 	private Integer p_like;
 	private Integer p_review;
 	private Integer p_tsell;
