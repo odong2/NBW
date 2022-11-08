@@ -2,6 +2,7 @@ package com.finalpj.nbw.event.repository;
 
 import com.finalpj.nbw.event.dao.EventDao;
 import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.event.domain.EventMember;
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class EventDaoImpl implements EventDao {
         log.info("EventDao : 11111111mypageEventList 호출 성공");
         List<Event> mypageEventList = null;
         log.info("EventDao : 22222222mypageEventList 호출 성공");
-        mypageEventList = sqlSession.selectList(namespace+"myEventSelectAll", id);
+        mypageEventList = sqlSession.selectList(namespace+"myEventSelectAll",id);
         log.info("EventDao : 33333333mypageEventList 호출 성공" + mypageEventList);
         return mypageEventList;
     }
@@ -63,6 +64,17 @@ public class EventDaoImpl implements EventDao {
     @Override
     public Event adminEventRead(Integer ev_no) throws Exception {
         return sqlSession.selectOne(namespace+"eventSelect", ev_no);
+    }
+    /******************************* [[ 관리자 이벤트 신청자 조회 ]] ************************/
+    @Override
+    public EventMember adminEventApplicant(Integer ev_no) throws Exception {
+        return sqlSession.selectOne(namespace+"adminEventApplicant", ev_no);
+    }
+    /******************************* [[ 이벤트 신청 ]] *******************************/
+    @Override
+    public int eventAdd(EventMember eventMember) throws Exception {
+        log.info("event 다오인플 신청 호출 성공");
+        return sqlSession.insert(namespace+"eventAdd", eventMember);
     }
     /****************************** [[ 관리자 이벤트 삭제]] ***************************/
     @Override

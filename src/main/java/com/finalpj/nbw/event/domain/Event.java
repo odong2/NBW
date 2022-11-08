@@ -17,6 +17,7 @@ public class Event {
     private String ev_content; // 행사설명(글)
     private Date ev_cdate; // 게시글 등록날짜
     private String ev_file; // 첨부파일
+    private String ev_filename; // 첨부파일 이름
     private Integer ev_hit; // 조회수
     private String ev_start; // 행사 시작일
     private String ev_end; // 행사 종료일
@@ -34,13 +35,12 @@ public class Event {
 
     private Integer ev_cocnt; // 댓글카운트
 
-    public Event (Integer ev_no, String ev_title, String ev_content, String ev_file,
+    public Event (Integer ev_no, String ev_title, String ev_content,
                   String ev_start, String ev_end, Integer ev_people, String ev_target,
                   String ev_place, String ev_img, String ev_today, String ev_phone, String ev_time) {
         this.ev_no = ev_no;
         this.ev_title = ev_title;
         this.ev_content = ev_content;
-        this.ev_file = ev_file;
         this.ev_start = ev_start;
         this.ev_end = ev_end;
         this.ev_people = ev_people;

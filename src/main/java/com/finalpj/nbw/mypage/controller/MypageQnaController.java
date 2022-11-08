@@ -1,6 +1,5 @@
 package com.finalpj.nbw.mypage.controller;
 
-import com.finalpj.nbw.event.domain.Event;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.qna.domain.Qna;
 import com.finalpj.nbw.qna.service.QnaService;

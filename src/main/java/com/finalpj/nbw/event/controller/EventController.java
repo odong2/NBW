@@ -1,12 +1,18 @@
 package com.finalpj.nbw.event.controller;
 
+import com.finalpj.nbw.event.domain.EventMember;
 import com.finalpj.nbw.event.service.EventService;
 import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.member.domain.Member;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Log4j
 @RequestMapping("/event/*")
@@ -45,4 +51,28 @@ public class EventController {
         return "/event/eventDetail";
     }
 
+    /***************************** [[이벤트 신청 ]] *******************************/
+    @GetMapping("/add")
+    public String eventAdd(Model m) {
+        return "/event/add";
+    }
+    @PostMapping("/add")
+    public String eventAdd(EventMember eventMember, RedirectAttributes rattr, Model m, HttpSession session) {
+        log.info("이벤트 신청 controller 호출 성공");
+        Member member = (Member)session.getAttribute("member");
+        String mem_id = member.getMem_id();
+        eventMember.setMem_id(mem_id);
+        log.info("mem_id 가져오기 성공"+mem_id);
+        try{
+            if(eventService.eventAdd(eventMember) != 1)
+                throw new Exception ("Write failed.");
+
+            return "redirect:/event/list";
+        }catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(eventMember);
+            return "/event/add";
+        }
+
+    }
 }

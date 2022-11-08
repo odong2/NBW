@@ -78,7 +78,7 @@
             <div class="twobtn">
                 <button class="registerbtn" type="button" id="writeBtn"
                         onclick="location.href='<c:url value="/admin/event/write"/>'">등록</button>
-                <button class="deadlinebtn">마감</button>
+<%--                <button class="deadlinebtn">마감</button>--%>
             </div>
             <!-- 버튼[등록, 마감] 끝 -->
             <!-- 표 시작 -->
@@ -123,7 +123,11 @@
                             <c:out value="${event.ev_people}"/>
                         </td>
                         <td>
-                            <button id="applicationbtn" type="button" class="btn btn-outline-primary">신청자</button>
+                            <button id="applicationbtn" type="button" class="btn btn-outline-primary btn-sm">
+                                <a href="/admin/event/applicant?ev_no=${event.ev_no}">
+                                    신청자
+                                </a>
+                            </button>
                         </td>
                     </tr>
                     </tbody>
@@ -147,10 +151,12 @@
 </a>
 <script>
     $(document).ready(function (){
-        $('#listBtn').on("click", function (){
-            location.href = "<c:url value='/event/list'/>";
-        })
+        <%--$('#applicationbtn').on("click", function (){--%>
+        <%--    location.href = "<c:url value='/admin/event/applicant?ev_no=${event.ev_no}'/>";--%>
+        <%--    &lt;%&ndash;<a href="/admin/event/detail?ev_no=${event.ev_no}">;&ndash;%&gt;--%>
+        <%--})--%>
     })
+
 </script>
 </body>
 </html>

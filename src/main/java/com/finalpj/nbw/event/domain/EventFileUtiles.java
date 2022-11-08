@@ -1,6 +1,5 @@
-package com.finalpj.nbw.event.dao;
+package com.finalpj.nbw.event.domain;
 
-import com.finalpj.nbw.notice.domain.Notice;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -10,9 +9,9 @@ import java.util.*;
 
 @Component
 public class EventFileUtiles {
-    private static final String filePath = "C:\\mp\\file\\"; // 파일이 저장될 위치
+    private static final String filePath = "C:\\dong\\file\\"; // 파일이 저장될 위치
 
-    public List<Map<String, Object>> parseInsertFileInfo(Notice noticeDto,
+    public List<Map<String, Object>> parseInsertFileInfo(Event event,
                                                          MultipartHttpServletRequest mpRequest) throws Exception{
 
 		/*
@@ -31,7 +30,7 @@ public class EventFileUtiles {
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
         Map<String, Object> listMap = null;
 
-        int nt_no = noticeDto.getNt_no();
+        int ev_no = event.getEv_no();
 
         File file = new File(filePath);
         if(file.exists() == false) {
@@ -48,7 +47,7 @@ public class EventFileUtiles {
                 file = new File(filePath + storedFileName);
                 multipartFile.transferTo(file);
                 listMap = new HashMap<String, Object>();
-                listMap.put("BNO", nt_no);
+                listMap.put("BNO", ev_no);
                 listMap.put("ORG_FILE_NAME", originalFileName);
                 listMap.put("STORED_FILE_NAME", storedFileName);
                 listMap.put("FILE_SIZE", multipartFile.getSize());

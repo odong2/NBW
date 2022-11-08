@@ -4,6 +4,7 @@ package com.finalpj.nbw.event.service;
 import com.finalpj.nbw.event.dao.EventCommentDao;
 import com.finalpj.nbw.event.dao.EventDao;
 import com.finalpj.nbw.event.domain.Event;
+import com.finalpj.nbw.event.domain.EventMember;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +50,12 @@ public class EventService {
         log.info("어드민 이벤트 서비스 호출");
         return eventDao.adminEventRead(ev_no);
     }
+    /******************************* [[ 관리자 이벤트 신청자 조회 ]] *******************************/
+    @Transactional(readOnly = true)
+    public EventMember adminEventApplicant(Integer ev_no) throws Exception {
+        log.info("어드민 이벤트 신청자 서비스 호출");
+        return eventDao.adminEventApplicant(ev_no);
+    }
 
     /********************************* [[이벤트 전체 조회]] **************************************/
     @Transactional(readOnly = true)
@@ -73,6 +80,12 @@ public class EventService {
     public int adminEventWrite(Event event) throws Exception{
         log.info("서비스 event 작성 호출 성공");
         return eventDao.adminEventWrite(event);
+    }
+    /********************************* [[회원 이벤트 신청]] **************************************/
+    @Transactional(rollbackFor = Exception.class)
+    public int eventAdd(EventMember eventMember) throws Exception{
+        log.info("서비스 event 작성 호출 성공");
+        return eventDao.eventAdd(eventMember);
     }
 
     /********************************* [[관리자 이벤트 삭제]] **************************************/
