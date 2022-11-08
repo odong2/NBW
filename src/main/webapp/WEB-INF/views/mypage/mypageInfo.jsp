@@ -7,9 +7,7 @@
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <style>
-        /** {*/
-        /*    border: red solid 1px;*/
-        /*}*/
+
         main {
             width: 100%;
             padding-left: 30px;
@@ -44,7 +42,7 @@
                 let addr3 = $('#address3').val();        // 상세주소 입력란
 
                 /* 메일 유효성 검사 */
-                if(mail == null || mail.trim() == ""){
+                if(mail == null || mail ==""){
                     // 메일이 입력이 되지 않은 경우 숨김처리 되었던 span 태그를 활성화 시킨다.
                     $('.final_mail_ck').attr("hidden", false);
                 }else{
@@ -149,7 +147,7 @@
             $("#btn-email-send").click(function(){
                 let email = $("#mem_email").val();
                 // 메일이 입력되지 않으면 경고창이 뜬다.
-                if(email == null || email.trim() =="") alert("이메일 주소를 입력해 주세요.");
+                if(email == null || email === "") alert("이메일 주소를 입력해 주세요.");
                 else {
                     alert(email + "로 이메일을 전송하였습니다.");
                         /* (2) ajax 코드를 추가한다 > controller 에 요청할 때 화면이 전환되는 것을 방지 */
@@ -174,7 +172,7 @@
             $("#mem_email_num").blur(function (){
                 let inputCode = $("#mem_email_num").val(); // 입력한 코드
                 let checkResult = $("#mail_check_input_box_warn"); // 비교 결과
-                if(inputCode != code){
+                if(inputCode !== code){
                     checkResult.addClass("alert-danger");
                     checkResult.text("인증번호가 일치하지 않습니다.");
                 } else{
@@ -284,7 +282,7 @@
                             <button class="btn-circle" id="upBtn-mail" type="button" style="float: right; border-radius: 10px; border: 0; margin-left: 10px;">변경</button>
                             <span class="mailCode-ck" style="font-size: 5px; color: red" hidden></span>
                         </div>
-                        <div class="row"><span id="message"hidden><p style="font-size: small; color: #535759">인증번호가 전송되었습니다. 미전송 시 이메일 주소를 확인해 주세요.</p></span></div>
+                        <div class="row"><span id="message" hidden><p style="font-size: small; color: #535759">인증번호가 전송되었습니다. 미전송 시 이메일 주소를 확인해 주세요.</p></span></div>
                     </div>
                 </div>
                 <div class="row m-4">
@@ -318,8 +316,8 @@
                     <div class="col-3"></div>
                     <div class="col-8">
                         <div class="input-group mb-3 w-100">
-                            <input name="mem_address" type="text" id="address2" readonly
-                                   autocomplete="off" class="form-control" value="${sessionScope.member.getMem_address()}">
+                            <input name="mem_address1" type="text" id="address2" readonly
+                                   autocomplete="off" class="form-control" value="${sessionScope.member.getMem_address1()}">
                         </div>
                     </div>
                 </div>

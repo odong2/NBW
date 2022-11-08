@@ -25,7 +25,7 @@ public interface ProductDao {
 
 	/* 검색된 카테고리 개수 반환 */
 	List<CategoryFilter> selectProductCateInfo(Criteria criteria) throws Exception;
-	
+
 	void updateLike(Map<String, Object> map);
 
 	void reviewCountUpdate(Review review);

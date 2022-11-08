@@ -79,7 +79,6 @@ public class ProductService {
 
     /* 추천 검색어 조회 */
     public List<Map<String, Object>> search(Map<String, Object> paramMap) throws Exception {
-        // log.info("service ==> productDao의 List<Map<String, Object>> 반환값 " + productDao.selectProductByWord(paramMap));
         return  productDao.selectProductByWord(paramMap);
     }
 
@@ -100,19 +99,6 @@ public class ProductService {
 
         List<CategoryFilter> categoryFilterList = new ArrayList<>();
         categoryFilterList = productDao.selectProductCategory(criteria);
-        /*  */
-//        for(String code : category){
-//            criteria.setCategoryCode(category); // 반환받은 코드를 하나씩 뽑아서 criteria의 카테고리 변수에 넣어줌
-//            System.out.println(category + "가 set 된 criteria 의 결과 ==> "+ criteria);
-//
-//            productDao.selectProductCateInfo(criteria); // categoryCode 가 포함된 검색조건으로 재검색 후 List<Object> 타입으로 반환 > Casting 에러때문
-//            log.info("categoryCode 가 포함된 검색조건으로 재검색 후 List<Object> 타입으로 반환 ==> "+ productDao.selectProductCateInfo(criteria));
-//
-//            categoryView.add(criteria);
-//        }
-//        criteria.setCategoryCode(tempCode);
-//        log.info(categoryFilterList.toString());
-
         return categoryFilterList;
     }
 }

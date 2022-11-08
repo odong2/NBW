@@ -18,7 +18,6 @@ import java.util.Map;
 
 @Repository
 @Slf4j
-
 public class ProductDaoImpl implements ProductDao {
 	
 	private final String namespace = "com.finalpj.nbw.product.dao.ProductMapper.";
@@ -28,9 +27,11 @@ public class ProductDaoImpl implements ProductDao {
     public ProductDaoImpl(SqlSession sqlSession){
         this.sqlSession = sqlSession;
     }
+	
 
 	@Override
 	public Product getProduct(String number) {
+
 		return sqlSession.selectOne(namespace+"getProduct", number);
 	}
 

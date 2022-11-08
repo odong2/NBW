@@ -121,6 +121,7 @@ public class ProductController {
 
 		List<Map<String, Object>> resultList = productService.search(paramMap);
 		paramMap.put("resultList", resultList);
+		log.info(resultList.toString());
 		return paramMap;
 	}
 
