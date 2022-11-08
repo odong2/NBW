@@ -24,8 +24,10 @@ public class Member {
     private String mem_update;
     private String mem_tprice;
     private String mem_email;
-    private String mem_point;
     private String mem_nickname;
+    private String mem_email_domain;
+    private Integer mem_point;
+
     private Integer coupon_count;
     private Integer g_discount;
 }
