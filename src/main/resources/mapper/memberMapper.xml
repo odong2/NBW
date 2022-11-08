@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.finalpj.nbw.member.dao.MemberDao">
+<mapper namespace="com.finalpj.nbw.member.dao.MemberMapper">
 
 	<select id="selectMemeber" parameterType="String" resultType="member">
 		SELECT * FROM tb_MEMBER WHERE MEM_ID = #{value}
@@ -84,6 +84,7 @@
     <!--  ================== *회원 탈퇴* ==================  -->
     <delete id="deleteMember" parameterType="member">
         DELETE  FROM tb_member
+<<<<<<< HEAD
 =======
 >>>>>>> a955537 (Fix: 충돌수정)
         WHERE mem_id = #{mem_id}
@@ -99,5 +100,6 @@
 <!--        DELETE  FROM tb_member-->
 <!--        WHERE mem_id = #{mem_id}-->
 <!--    </delete>-->
+
 
 </mapper>
