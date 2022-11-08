@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 public class Review {
 	private String mem_id;
+	private String mem_nickname;
+	private Integer mem_point;
 	private String p_no;
 	private String rv_score;
 	private String rv_content;
@@ -22,7 +24,6 @@ public class Review {
 	public String getRv_img() {
 		return fileNames.get(0);
 	}
-	
 	public String getRv_img2() {
 		return fileNames.get(1);
 	}

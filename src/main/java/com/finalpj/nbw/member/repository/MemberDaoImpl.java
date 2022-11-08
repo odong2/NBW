@@ -1,4 +1,4 @@
-package com.finalpj.nbw.member.dao;
+package com.finalpj.nbw.member.repository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;
 
 import java.util.Map;

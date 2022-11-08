@@ -31,4 +31,6 @@ public interface ProductDao {
 	void reviewCountUpdate(Review review);
 
 	void reviewInsert(Review review);
+
+	List<Review> SelectReviewList(String p_no);
 }

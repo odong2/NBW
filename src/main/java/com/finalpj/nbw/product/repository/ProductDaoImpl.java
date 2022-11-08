@@ -1,3 +1,4 @@
+
 package com.finalpj.nbw.product.repository;
 
 import com.finalpj.nbw.product.domain.CategoryFilter;
@@ -81,5 +82,10 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public void reviewInsert(Review review) {
 		sqlSession.insert(namespace+"reviewInsert", review);
+	}
+
+	@Override
+	public List<Review> SelectReviewList(String p_no) {
+		return sqlSession.selectList(namespace+"SelectReviewList",p_no);
 	}
 }

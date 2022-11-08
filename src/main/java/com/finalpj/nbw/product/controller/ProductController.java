@@ -57,10 +57,8 @@ public class ProductController {
 
 	@GetMapping("{id}")
 	public String detail(@PathVariable("id") String p_no, Model model, HttpSession session) {
-		System.out.println("number: "+p_no);
 		Product product = productService.getProduct(p_no);
-		System.out.println("product: "+product.toString());
-		model.addAttribute("product",product);
+		model.addAttribute("product", product);
 		
 		Member member = (Member) session.getAttribute("member");
 		
@@ -83,7 +81,14 @@ public class ProductController {
 		
 		if(member != null) {
 			review.setMem_id(member.getMem_id());
-			map = productService.reviewRegister(review);
+			review.setMem_point(member.getMem_point());
+			review.setMem_nickname(member.getMem_nickname());
+			try {
+				map = productService.reviewRegister(review, session);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}else {
 			map = new HashMap<>();
 			map.put("success", false);

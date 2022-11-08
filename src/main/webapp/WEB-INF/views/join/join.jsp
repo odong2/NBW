@@ -634,10 +634,10 @@
 		                </c:when>
 		                <c:otherwise>
 		                    <input name="mem_phone" id="mem_phone" type="tel" placeholder="예) 010-1234-5678"
-                                   pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
 		                           autocomplete="off" class="form-control"
-                                   <fmt:formatNumber value="${member.getMem_phone()}" pattern="###-####-####"/>
-                            />
+		                           value="${member.getMem_phone()}"/>
+		                           <!-- pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" -->
+                                   <%-- <fmt:formatNumber value="${member.getMem_phone()}" pattern="###-####-####"/> --%>
 		                </c:otherwise>
 		            </c:choose>
                 </div>

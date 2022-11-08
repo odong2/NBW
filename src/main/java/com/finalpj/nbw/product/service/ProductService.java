@@ -4,10 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.finalpj.common.FileUploader;
+import com.finalpj.nbw.member.dao.MemberDao;
+import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.product.dao.ProductDao;
 import com.finalpj.nbw.product.domain.Product;
 import com.finalpj.nbw.product.domain.Review;
@@ -23,26 +28,39 @@ import java.util.ArrayList;
 public class ProductService {
     
 	private ProductDao productDao;
+	private MemberDao memberDao;
 	private FileUploader fileUploader;
 
 	@Autowired
-	public ProductService(ProductDao productDao, FileUploader fileUploader) {
+	public ProductService(ProductDao productDao,  MemberDao memberDao, FileUploader fileUploader) {
 		this.productDao = productDao;
+		this.memberDao = memberDao;
 		this.fileUploader = fileUploader;
 	}
 	
-	public Map<String, Object> reviewRegister(Review review) {
+	@Transactional
+	public Map<String, Object> reviewRegister(Review review, HttpSession session) throws Exception {
+		
+		Map<String,Object> pointMap = new HashMap<>();
+		pointMap.put("mem_id", review.getMem_id());
+		pointMap.put("mem_point", review.getMem_point()+200);
 		
 		if(review.getFiles() != null) {
 			System.out.println("파일존재함!");
 			List<String> fileNames =  fileUploader.fileUpload(review.getFiles(),"review");
 			review.setFileNames(fileNames);
 			review.setFileSize(fileNames.size());
+			pointMap.put("mem_point", review.getMem_point()+400);
 		}
 		
-		productDao.reviewCountUpdate(review);
 		productDao.reviewInsert(review);
+		productDao.reviewCountUpdate(review);
+		memberDao.updateMemPoint(pointMap);
 		
+		Member member = (Member) session.getAttribute("member");
+		int mem_point = (Integer) pointMap.get("mem_point");
+		member.setMem_point(mem_point);
+		session.setAttribute("member", member);
 		
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("success", true);
@@ -50,8 +68,12 @@ public class ProductService {
 		return map;
 	}
 
+	@Transactional
 	public Product getProduct(String p_no) {
-		return productDao.getProduct(p_no);
+		Product product = productDao.getProduct(p_no);
+		List<Review> rewivewList = productDao.SelectReviewList(p_no);
+		product.setReviewList(rewivewList);
+		return product;
 	}
     
 

@@ -255,7 +255,7 @@ main {
 					</div>
 				</div>
 				<hr />
-				<h5>리뷰보기</h5>
+				<h5>리뷰보기(${ product.getP_review()})</h5>
 			</div>
 		</section>
 	</main>
