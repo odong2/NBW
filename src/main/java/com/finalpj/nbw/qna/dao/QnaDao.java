@@ -36,4 +36,5 @@ public interface QnaDao {
     List<Qna> selectQuestionPage(Map map) throws Exception; // 문의 페이지 조회
     int selectSearchQCnt(SearchCondition sc) throws Exception; // 조건검색 결과 문의 개수
     List<Qna> selectSearchQPage(SearchCondition sc) throws Exception; // 조건 검색 페이징 처리하여 조회
+    int selectIngCnt() throws Exception; // 답변하지 않은 문의 갯수
 }

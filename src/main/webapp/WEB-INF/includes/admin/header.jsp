@@ -1,4 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- jstl formating tags--%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- jstl core tags--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <c:set var = "questionIngList" value = "${questionIngList}"/>
+        <c:set var = "ingCnt" value = "${ingCnt}"/>
         <!-- Topbar -->
         <nav
           class="navbar navbar-expand navbar-light bg-white topbar shadow p-0"
@@ -27,7 +33,7 @@
               >
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- 문의 온 갯수 -->
-                <span class="badge badge-danger badge-counter">4+</span>
+                <span class="badge badge-danger badge-counter">${ingCnt}</span>
               </a>
               <!-- 문의사항 목록 -->
               <div
@@ -36,59 +42,47 @@
               >
                 <h6 class="dropdown-header">문의사항 알림</h6>
                 <!-- [[ 목록 리스트  시작 ]] -->
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <c:forEach var="ingList" items="${questionIngList}" varStatus="status"  begin="0" end="4">
+                <a class="dropdown-item d-flex align-items-center" href="/admin/qna/answer?qn_no=${ingList.qn_no}">
                   <div class="mr-3">
                     <!-- 문의사항 카테고리-[제품: primary] -->
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-book text-white"></i>
-                    </div>
+                    <c:choose>
+                    <c:when test="${ingList.qn_category eq '제품'}">
+                    	<div class="icon-circle bg-primary">
+                      		<i class="fas fa-book text-white"></i>
+                    	</div>
+                    </c:when>
+                    <c:when test="${ingList.qn_category eq '교환'}">
+                     	<!-- 문의사항 카테고리-[교환: success] -->
+	                    <div class="icon-circle bg-success">
+	                      <i class="fas fa-sync-alt text-white"></i>
+	                    </div>
+                    </c:when>
+                    <c:when test="${ingList.qn_category eq '반품'}">
+                    	<!-- 문의사항 카테고리-[반품: warning] -->
+	                    <div class="icon-circle bg-warning">
+	                      <i class="fas fa-times text-white"></i>
+	                    </div>
+                    </c:when>
+                    <c:otherwise>
+                    	<!-- 문의사항 카테고리-[기타: secondary] -->
+	                    <div class="icon-circle bg-secondary">
+	                      <i class="fas fa-question text-white"></i>
+	                    </div>
+                    </c:otherwise>
+                    </c:choose>
                   </div>
                   <div>
                     <!-- 문의 온 시간 -->
-                    <div class="small text-gray-500">2022-10-19</div>
-                    책 언제 들어와요?
+                    <div class="small text-gray-500"><fmt:formatDate value="${ingList.qn_cdate}" pattern="yyyy-MM-dd"/></div>
+                    ${ingList.qn_title}
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <!-- 문의사항 카테고리-[교환: success] -->
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-sync-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">2020-11-15</div>
-                    교환 해줘
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <!-- 문의사항 카테고리-[반품: warning] -->
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-times text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">2019-02-21</div>
-                    책 상태가 이상해요 반품해주세요
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <!-- 문의사항 카테고리-[기타: secondary] -->
-                    <div class="icon-circle bg-secondary">
-                      <i class="fas fa-question text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">2019-02-21</div>
-                    배송 언제와요????????
-                  </div>
-                </a>
+                </c:forEach>
                 <!-- [[ 목록 리스트  끝  ]] -->
                 <a
                   class="dropdown-item text-center small text-gray-500"
-                  href="#"
+                  href="/admin/qna/list"
                   >문의사항 모두 보기</a
                 >
               </div>
