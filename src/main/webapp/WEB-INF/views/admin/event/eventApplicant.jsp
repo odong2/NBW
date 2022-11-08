@@ -63,7 +63,7 @@
         <!-- Main Content -->
         <main class="container-fluid">
             <div class="title">
-                <h4>신청자 관리&nbsp;<span class="eventname">(해당 행사이름)</span></h4>
+                <h4>신청자 관리&nbsp;<span class="eventname"><c: value="${event.ev_no}"/></span></h4>
             </div>
             <!-- 표 시작 -->
             <div class="container">
@@ -79,53 +79,31 @@
                         <th>선택</th>
                     </tr>
                     </thead>
+                    <c:forEach var="event" items="${adminEventPerson}">
                     <tbody>
                     <tr>
-                        <td>5</td>
-                        <td>김동현</td>
-                        <td>dong@naver.com</td>
-                        <td>1996.06.14</td>
-                        <td>남</td>
-                        <td>010-1111-2222</td>
-                        <td><button class="okbtn">승인</button><button class="delbtn">삭제</button></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>이유리</td>
-                        <td>yuri@naver.com</td>
-                        <td>1998.08.11</td>
-                        <td>여</td>
-                        <td>010-1111-2222</td>
-                        <td><button class="okbtn">승인</button><button class="delbtn">삭제</button></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>백종국</td>
-                        <td>back@naver.com</td>
-                        <td>1994.01.01</td>
-                        <td>남</td>
-                        <td>010-1111-2222</td>
-                        <td><button class="okbtn">승인</button><button class="delbtn">삭제</button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>정채은</td>
-                        <td>coong@naver.com</td>
-                        <td>1993.01.01</td>
-                        <td>여</td>
-                        <td>010-1111-2222</td>
-                        <td><button class="okbtn">승인</button><button class="delbtn">삭제</button></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>김민준</td>
-                        <td>minj@naver.com</td>
-                        <td>1993.06.01</td>
-                        <td>남</td>
-                        <td>010-1111-2222</td>
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            <c:out value="${event.mem_name}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.mem_email}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.mem_birthday}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.mem_gender}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.mem_phone}"/>
+                        </td>
                         <td><button class="okbtn">승인</button><button class="delbtn">삭제</button></td>
                     </tr>
                     </tbody>
+                    </c:forEach>
                 </table>
             </div>
             <!-- 표 끝 -->

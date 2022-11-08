@@ -228,7 +228,40 @@
                             <br />
                             <div class="recruitment">
                                 <div>첨부파일&nbsp;:&nbsp;</div>
-                                <%--                    <div style="color: #7c7c7c">문화행사.pdf</div>--%>
+                                <c:set var="file" value="${eventSelect.ev_file}"/>
+                                <c:if test="${not empty file}">
+                                    <c:choose>
+                                        <%-- 한글 파일일 경우 --%>
+                                        <c:when test="${fn:contains(file, '.hwp')}">
+                                            <img src="/images/hwp.png" width="25px"/>
+                                            <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                                <c:out value="${eventSelect.ev_filename}"/>
+                                            </a>
+                                        </c:when>
+                                        <%-- 엑셀일 경우 파일일 경우 --%>
+                                        <c:when test="${fn:contains(file, '.xlsx')}">
+                                            <img src="/images/xlsx.png" width="20px"/>
+                                            <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                                <c:out value="${eventSelect.ev_filename}"/>
+                                            </a>
+                                        </c:when>
+                                        <%-- pdf일 경우 파일일 경우 --%>
+                                        <c:when test="${fn:contains(file, '.pdf')}">
+                                            <img src="/images/pdf.png" width="23px"/>
+                                            <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                                <c:out value="${eventSelect.ev_filename}"/>
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a  href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                                <c:out value="${eventSelect.ev_filename}"/>
+                                            </a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                                <c:if test="${empty eventSelect.ev_file}">
+                                    <span>첨부파일 없음</span>
+                                </c:if>
                             </div>
                         </div>
                     </div>

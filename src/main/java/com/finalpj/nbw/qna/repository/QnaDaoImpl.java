@@ -27,25 +27,26 @@ public class QnaDaoImpl implements QnaDao {
 
     /****************************** [[이벤트 전체조회]] **********************************/
     @Override
-    public List<Qna> qnaList() throws Exception {
+    public List<Qna> qnaList(String id) throws Exception {
         List<Qna> qnaList = null;
-        qnaList = sqlSession.selectList(q_namespace+"qnaSelectAll");
+
+        qnaList = sqlSession.selectList(q_namespace+"qnaSelectAll", id);
         log.info("QnaDao : eventList 호출 성공" + qnaList);
         return qnaList;
     }
     /****************************** [[Qna 처리중 조회]] **********************************/
     @Override
-    public List<Qna> qnaIngList() throws Exception {
+    public List<Qna> qnaIngList(String id) throws Exception {
         List<Qna> qnaIngList = null;
-        qnaIngList = sqlSession.selectList(q_namespace+"qnaSelectIngAll");
+        qnaIngList = sqlSession.selectList(q_namespace+"qnaSelectIngAll", id);
         log.info("QnaDao : eventList 호출 성공" + qnaIngList);
         return qnaIngList;
     }
     /****************************** [[Qna 답변완료 조회]] **********************************/
     @Override
-    public List<Qna> qnaFinishList() throws Exception {
+    public List<Qna> qnaFinishList(String id) throws Exception {
         List<Qna> qnaFinishList = null;
-        qnaFinishList = sqlSession.selectList(q_namespace+"qnaSelectFinishAll");
+        qnaFinishList = sqlSession.selectList(q_namespace+"qnaSelectFinishAll", id);
         log.info("QnaDao : eventList 호출 성공" + qnaFinishList);
         return qnaFinishList;
     }

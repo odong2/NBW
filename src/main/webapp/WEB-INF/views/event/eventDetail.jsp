@@ -151,30 +151,15 @@
             justify-content: center;
         }
         #listBtn {
-            height: 38px;
-            display: inline-block;
             margin: 0 5px;
             padding: 0 19px;
-            border: 1px solid #d9d9d9;
-            color: #505050;
-            font-size: 15px;
-            line-height: 2.5em;
-            vertical-align: top;
-            text-align: center;
         }
-        #pickBtn {
-            display: inline-block;
-            height: 40px;
+        #addBtn {
             margin: 0 5px;
-            padding: 0 40px;
-            background-color: #006eaf;
-            border: none;
-            color: #fff;
-            font-size: 15px;
-            line-height: 2.8em;
-            vertical-align: top;
         }
-    </style>
+        /************************* [[댓글]] **************************/
+
+</style>
 </head>
 <body>
 <!-- 헤더 시작 -->
@@ -215,169 +200,326 @@
         <!-- 왼쪽 그림 끝 -->
         <!-- 오른쪽 설명 시작 -->
         <div class="detail">
-            <div class="bookname">
+            <span class="bookname">
                 ${eventSelect.ev_title}
-            </div>
+            </span>
             <div class="bodycontent">
                 <div class="playpeople">
                     <div>대상&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_target}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="playplace">
-                    <div>장소&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>장소&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_place}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="studyday">
-                    <div>행사기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>행사기간&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${event.ev_today}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="studytime">
                     <div>시간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span style="color: #7c7c7c">
                         ${event.ev_time}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="applicationday">
-                    <div>접수기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>접수기간&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_start}
                             ~
                         ${eventSelect.ev_end}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="phone">
-                    <div>문의번호&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>문의번호&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_phone}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="recruitment">
-                    <div>모집정원&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c">
+                    <span>모집정원&nbsp;:&nbsp;</span>
+                    <span style="color: #7c7c7c">
                         ${eventSelect.ev_people}
-                    </div>
+                    </span>
                 </div>
                 <br />
                 <div class="recruitment">
-                    <div>첨부파일&nbsp;:&nbsp;</div>
-<%--                    <div style="color: #7c7c7c">문화행사.pdf</div>--%>
+                    <span>첨부파일&nbsp;:&nbsp;</span>
+                    <c:set var="file" value="${eventSelect.ev_file}"/>
+                    <c:if test="${not empty file}">
+                        <c:choose>
+                            <%-- 한글 파일일 경우 --%>
+                            <c:when test="${fn:contains(file, '.hwp')}">
+                                <img src="/images/hwp.png" width="25px"/>
+                                <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                    <c:out value="${eventSelect.ev_filename}"/>
+                                </a>
+                            </c:when>
+                            <%-- 엑셀일 경우 파일일 경우 --%>
+                            <c:when test="${fn:contains(file, '.xlsx')}">
+                                <img src="/images/xlsx.png" width="20px"/>
+                                <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                    <c:out value="${eventSelect.ev_filename}"/>
+                                </a>
+                            </c:when>
+                            <%-- pdf일 경우 파일일 경우 --%>
+                            <c:when test="${fn:contains(file, '.pdf')}">
+                                <img src="/images/pdf.png" width="23px"/>
+                                <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                    <c:out value="${eventSelect.ev_filename}"/>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a  href="/admin/event/download?fileName=${eventSelect.ev_file}">
+                                    <c:out value="${eventSelect.ev_filename}"/>
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
+                    <c:if test="${empty eventSelect.ev_file}">
+                        <span>첨부파일 없음</span>
+                    </c:if>
                 </div>
             </div>
         </div>
         <!-- 오른쪽 설명 끝 -->
         </li>
         <div>
-            ${eventSelect.ev_content}
+            <p>${eventSelect.ev_content}</p>
         </div>
     </ul>
     <hr />
-    <div class="buttonpick"><button id="listBtn">목록</button><button id="pickBtn">신청하기</button></div>
-     댓글 시작
-        <hr />
-    댓글: <input type="text" name="comment"><br>
-    <button id="sendBtn" type="button">SEND</button>
-    <div id="commentList"></div>
+    <div class="buttonpick">
+        <button type="button" class="btn btn-secondary btn-lg" id="listBtn">
+            목록
+        </button>
+        <form action="/event/add" method="post">
+            <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
+        <button type="submit" id="addBtn"  class="btn btn-primary btn-lg">
+            신청하기
+        </button>
+        </form>
+    </div>
 
-     댓글 끝
+<%--    &lt;%&ndash; ================================ 댓글 입력 시작================================= &ndash;%&gt;--%>
+<%--    <section class="comment-input">--%>
+<%--        <div class="comment-wrapper ms-5 d-flex mt-4 mb-4 col-12">--%>
+<%--            <div class="form- col-8 d-flex">--%>
+<%--                <textarea  name="comment" class="form-control col-8 me-2" id="comment-input" placeholder="댓글을 작성해 주세요"></textarea>--%>
+<%--                <button id="comment-inputBtn" type="button" class="btn btn-outline-secondary col-2" data-evc-no="${eventSelect.ev_no}">댓글 쓰기</button>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </section>--%>
+<%--    &lt;%&ndash; ================================ 댓글 입력 끝 ================================= &ndash;%&gt;--%>
+<%--    &lt;%&ndash; ================================ 댓글 보기 시작 ================================= &ndash;%&gt;--%>
+<%--    <section class="container" id="commentList">--%>
+<%--        <ul id="comment-display" class="mt-5">--%>
+<%--            &lt;%&ndash; ====================== Ajax에 의해 댓글이 삽입되는 곳 ======================== &ndash;%&gt;--%>
+<%--        </ul>--%>
+<%--    </section>--%>
+<%--    &lt;%&ndash; ================================ 댓글 보기 끝 ================================= &ndash;%&gt;--%>
+<%--    &lt;%&ndash; ================================ 댓글 수정 입력 폼 시작 =============================== &ndash;%&gt;--%>
+<%--    <section id="modifyForm" style="display: none" >--%>
+<%--        <textarea  id="modifyInput" placeholder="대댓글을 입력해 주세요." class="col-8" rows="2"></textarea>--%>
+<%--        <button    id="wrtBtn" type="button" class="modBtn btn-primary ms-2">수정 </button>--%>
+<%--        <button    id="modOutBtn" type="button" class="modBtn btn-danger ms-2" onclick="modifyOut(this)">취소</button>--%>
+<%--    </section>--%>
+<%--    &lt;%&ndash; ================================ 댓글 수정 입력 폼 끝 =============================== &ndash;%&gt;--%>
+<%--    &lt;%&ndash; ================================ 답글 입력 폼 시작 =============================== &ndash;%&gt;--%>
+<%--    <section id="replyForm" style="display: none" >--%>
+<%--        <textarea  id="replyInput" placeholder="대댓글을 입력해 주세요." class="col-8" rows="2"></textarea>--%>
+<%--        <button    id="repWrtBtn" type="button" class="repBtn btn-primary ms-2">등록</button>--%>
+<%--        <button    id="repModOutBtn" type="button" class="repBtn btn-danger ms-2" onclick="repModOut(this)">취소</button>--%>
+<%--    </section>--%>
+<%--    &lt;%&ndash; ================================ 답글 입력 폼 끝 =============================== &ndash;%&gt;--%>
+
 </main>
+
 <script>
-<%--    /***************** 댓글 시작 ***************/--%>
-<%--    let ev_no = 2--%>
-<%--&lt;%&ndash;        ${eventDto.ev_no};&ndash;%&gt;--%>
-
-<%--    let showList = function (ev_no) {--%>
-<%--        $.ajax({--%>
-<%--            type:'GET',       // 요청 메서드--%>
-<%--            url: '/event/comments?ev_no=' +ev_no,  // 요청 URI--%>
-<%--            success : function(result){--%>
-<%--                 $("#commentList").html(toHtml(result));--%>
-<%--            },--%>
-<%--            error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
-<%--        }); // $.ajax()--%>
-<%--    }--%>
-<%--/***************************** [[댓글 추가]] ****************************/--%>
-<%--    $(document).ready(function(){--%>
-<%--        showList(ev_no);--%>
-
-<%--        $("#sendBtn").click(function() {--%>
-<%--            let comment = $("input[name=comment]").val();--%>
-
-<%--            if(comment.trim()=='') {--%>
-<%--                alert("댓글을 입력해주세요.");--%>
-<%--                $("input[name=comment]").fucus()--%>
-<%--                return;--%>
-<%--            }--%>
-
-<%--            $.ajax({--%>
-<%--                type: 'Post',       // 요청 메서드--%>
-<%--                url: '/event/comments?'+ev_no,  // 요청 URI--%>
-<%--                headers: {"content-type": "application/json"},--%>
-<%--                dataType: 'text', // 전송받을 데이터의 타입--%>
-<%--                data: JSON.stringify({ev_no:ev_no, comment:comment}), // 서버로 전송할 데이터. stringify()로 직렬화 필요.--%>
-<%--                success: function (result) {--%>
-<%--                    alert(result);--%>
-<%--                    showList(ev_no);--%>
-<%--                },--%>
-<%--                error: function () {--%>
-<%--                    alert("error")--%>
-<%--                } // 에러가 발생했을 때, 호출될 함수--%>
-<%--            });--%>
-<%--        });--%>
-<%--/***************************** [[댓글 추가]] ****************************/--%>
-<%--/***************************** [[댓글 삭제]] ****************************/--%>
-<%--        // $(".delbtn").click(function(){--%>
-<%--        $("#commentList").on("click", ".delBtn", function(){--%>
-<%--            let evc_no = $(this).parent().attr("data-evc_no");--%>
-<%--            let ev_no = $(this).parent().attr("data-ev_no");--%>
-
-<%--            $.ajax({--%>
-<%--                type:'DELETE',       // 요청 메서드--%>
-<%--                url: '/event/comments/' +evc_no+ '?ev_no'+ev_no,  // 요청 URI--%>
-<%--                success : function(result){--%>
-<%--                  alert(result);--%>
-<%--                  showList(ev_no);--%>
-<%--                },--%>
-<%--                error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수--%>
-<%--            }); // $.ajax()--%>
-<%--        });--%>
-<%--    });--%>
-<%--/***************************** [[댓글 삭제]] ****************************/--%>
-
-<%--    let toHtml = function (comments) {--%>
-<%--        let tmp = "<ul>"--%>
-
-<%--        comments.forEach(function (evc_comment){--%>
-<%--            tmp += ' <li data-evc_no='+ evc_comment.evc_no--%>
-<%--            tmp += ' data-evc_pcno=' + evc_comment.evc_pcno--%>
-<%--            tmp += ' data-ev_no=' + evc_comment.ev_no + '>'--%>
-<%--            tmp += ' evc_commenter = <span class="commenter">' + evc_comment.evc_commenter + '</span>'--%>
-<%--            tmp += ' evc_comment=<span class="comment">' + evc_comment.evc_comment + '</span>'--%>
-<%--            tmp += ' evc_update' +evc_comment.evc_update--%>
-<%--            tmp += '<button class="delBtn">삭제</button>'--%>
-<%--            tmp += '<button class="modBtn">수정</button>'--%>
-<%--            tmp += '</li>'--%>
-<%--        })--%>
-
-<%--        return tmp + "<ul>";--%>
-<%--    }--%>
+/****************************************************************************************************/
     $(document).ready(function (){
          $('#listBtn').on("click", function (){
             location.href = "<c:url value='/event/list'/>";
          })
+        $('#addbtn').on("click", function (){
+            alert("이벤트 신청 완료");
+            <%--location.href = "<c:url value='/event/add'/>";--%>
+            <%--attr("action", "<c:url value="/event/add"/>");--%>
+            <%--attr("method", "post");--%>
+            <%--submit();--%>
+        })
     })
 </script>
+<%--<script>--%>
+<%--    &lt;%&ndash; ============================ 댓글 작성일 날짜 변환함수  ============================== &ndash;%&gt;--%>
+<%--    let getCdate = function(evc_cdate){--%>
+<%--        let date = new Date(evc_cdate);--%>
+<%--        let year = date.getFullYear();--%>
+<%--        let month = String(date.getMonth()).padStart(2, "0");--%>
+<%--        let day = String(date.getDay()).padStart(2,"0");--%>
+<%--        const hours = String(date.getHours()).padStart(2, "0");--%>
+<%--        const minutes = String(date.getMinutes()).padStart(2, "0");--%>
+<%--        return year + "-" + month + "-" + day + " " + hours + ":" + minutes;--%>
+<%--    }--%>
+<%--</script>--%>
+<%--<script>--%>
+<%--    &lt;%&ndash; ============================ 댓글 수정모드 ============================== &ndash;%&gt;--%>
+<%--    let modifyMode = function(modifyBtn){--%>
+<%--        let evc_no= $(modifyBtn).parent().attr('data-evc-no');--%>
+<%--        $(".reply-commentBtn").show();--%>
+<%--        $(modifyBtn).parent().prev().css("display", "none");--%>
+<%--        $(modifyBtn).parent().css("display", "none");--%>
+<%--        $("#modifyForm").prependTo($(modifyBtn).parent().parent());--%>
+<%--        $("#modifyForm").addClass("d-flex col-12");--%>
+<%--        $("#modifyForm").css("display", "block");--%>
+<%--        $("#modifyInput").attr('data-evc-no',evc_no);--%>
+<%--        $("#modifyInput").focus();--%>
+<%--        // 댓글쓰기 버튼 안보이도록--%>
+<%--        $(modifyBtn).css("display", "none");--%>
+<%--        $(modifyBtn).next().css("display","none");--%>
+<%--        // 기존 댓글 내용--%>
+<%--        let oldComment = $(modifyBtn).prev().html();--%>
+<%--        oldComment = oldComment.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');--%>
+<%--        $("#modifyInput").val(oldComment);--%>
+<%--        &lt;%&ndash; ============================ 댓글 수정모드 나가기 ============================== &ndash;%&gt;--%>
+<%--        let modifyOut = function(outBtn) {--%>
+<%--            $(outBtn).parent().next().css("display","block");--%>
+<%--            $(".commentBtn").css("display", "block");--%>
+<%--            $("#modifyForm").appendTo("main");--%>
+<%--            $("#modifyForm").removeClass("d-flex col-12");--%>
+<%--            $("#modifyForm").css("display", "none");--%>
+<%--        }--%>
+<%--        &lt;%&ndash; ============================= 답글 입력모드 ============================== &ndash;%&gt;--%>
+<%--        let replyMod = function(replyBtn){--%>
+<%--            let pcno = $(replyBtn).parent().parent().attr('value');--%>
+<%--            $("#repWrtBtn").attr('data-pcno', pcno);--%>
+<%--            $(replyBtn).css("display", "none");--%>
+<%--            $("#replyForm").appendTo($(replyBtn).parent());--%>
+<%--            $("#replyForm").attr('data-pcno',pcno);--%>
+<%--            $("#replyForm").addClass("d-flex col-12");--%>
+<%--            $("#replyForm").css("display", "block");--%>
+<%--            $("#replyInput").focus();--%>
+<%--        }--%>
+
+<%--        &lt;%&ndash; ============================= 답글 입력모드 나가기 ============================== &ndash;%&gt;--%>
+<%--        let repModOut = function(replyBtn){--%>
+<%--            $("#replyInput").val('');--%>
+<%--            $(replyBtn).parent().prev().css("display", "block");--%>
+<%--            $("#replyForm").appendTo("main");--%>
+<%--            $("#replyForm").removeClass("d-flex col-12");--%>
+<%--            $("#replyForm").css("display", "none");--%>
+<%--        }--%>
+<%--    }--%>
+<%--    &lt;%&ndash; =================  Ajax 결과 json값(댓글)을 태그로 변경하는 함수 ================== &ndash;%&gt;--%>
+<%--    let toHtml = function (comments) {--%>
+<%--        let commentList = '';--%>
+<%--        let mem_id = '${member.mem_id}';--%>
+<%--        comments.forEach(function (comment) {--%>
+<%--            let evc_cdate = getCdate(comment.evc_cdate)--%>
+<%--            &lt;%&ndash; ===== ntc_no == nt_pcno 일 경우 댓글이다. ===== &ndash;%&gt;--%>
+<%--            if(comment.evc_no == comment.evc_pcno){--%>
+<%--                commentList +=`--%>
+<%--                  <li class="commentList mt-5" value="${'${comment.evc_no}'}">--%>
+<%--                    <div class="notice-commenter me-2 d-flex align-items-center">--%>
+<%--                        <div class="user-icon">--%>
+<%--                            <img src="/images/blueuser.png" alt="유저기본이미지" style="width: 40px"/>--%>
+<%--                        </div>--%>
+<%--                        <div class="flex-column ms-3">--%>
+<%--                            <div class="event-commenter">--%>
+<%--                                <span><c:out value="${'${comment.evc_commenter}'}"/></span>--%>
+<%--                            </div>--%>
+<%--                            <div class="commenter-cdate">--%>
+<%--                                <span class="text-muted" style="font-size: 0.8rem">--%>
+<%--                                &lt;%&ndash; ============ 댓글 작성 날짜 =============== &ndash;%&gt;--%>
+<%--                                    <c:out value="${'${evc_cdate}'}"/>--%>
+<%--                                </span>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <div class="comment-content mt-3">--%>
+<%--                        <p class="col-12">--%>
+<%--                        &lt;%&ndash; ============ 댓글 내용 =============== &ndash;%&gt;--%>
+<%--                           <c:out value="${'${comment.evc_comment}'}"/>--%>
+<%--                        </p>--%>
+<%--                        &lt;%&ndash; ================ 댓글 수정,삭제 ================= &ndash;%&gt;--%>
+<%--                        <div class="commentMod d-flex justify-content-start mb-1" data-ntc-no="${'${comment.evc_no}'}" >--%>
+<%--                            <p style="display:none">${'${comment.evc_comment}'}</p>`--%>
+<%--                if(mem_id == comment.evc_commenter){--%>
+<%--                    commentList+=`--%>
+<%--                            <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>--%>
+<%--                            <button type="button"  class="commentBtn comment-deleteBtn text-muted me-1" onclick="deleteCom(this)">삭제</button>--%>
+<%--                            `;--%>
+<%--                }--%>
+<%--                commentList +=`--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <div class=" d-flex justify-content-start">--%>
+<%--                        <button type="button"  class="reply-btn comment-modifyBtn text-muted" onclick="replyMod(this)">답글 달기</button>--%>
+<%--                    </div>--%>
+<%--                   </li>`;--%>
+<%--                return;--%>
+<%--                &lt;%&ndash; ===== 답글일 경우 ===== &ndash;%&gt;--%>
+<%--            }else if(comment.evc_no != comment.evc_pcno){--%>
+<%--                commentList +=`--%>
+<%--                <div>--%>
+<%--                    <li class="reply-container ms-4 mt-1" value="${'${comment.evc_no}'}">--%>
+<%--                    <div class="notice-commenter me-2 d-flex align-items-center">--%>
+<%--                        <div class="me-2">--%>
+<%--                           <img src="/images/reply-message.png" style="width:27px">--%>
+<%--                        </div>--%>
+<%--                        <div class="user-icon">--%>
+<%--                            <img src="/images/blueuser.png" alt="유저기본이미지" style="width: 30px"/>--%>
+<%--                        </div>--%>
+<%--                        <div class="flex-column ms-1">--%>
+<%--                            <div class="reply-commenter">--%>
+<%--                                <span><c:out value="${'${comment.evc_commenter}'}"/></span>--%>
+<%--                            </div>--%>
+<%--                            <div class="reply-cdate">--%>
+<%--                                <span class="text-muted" style="font-size: 0.8rem">--%>
+<%--                                &lt;%&ndash; ============ 댓글 작성 날짜 =============== &ndash;%&gt;--%>
+<%--                                    <c:out value="${'${evc_cdate}'}"/>--%>
+<%--                                </span>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <div class="comment-content mt-3 ms-5">--%>
+<%--                        <p class="col-12">--%>
+<%--                        &lt;%&ndash; ============ 댓글 내용 =============== &ndash;%&gt;--%>
+<%--                           <c:out value="${'${comment.evc_comment}'}"/>--%>
+<%--                        </p>--%>
+<%--                        &lt;%&ndash; ================ 댓글 수정,삭제 ================= &ndash;%&gt;--%>
+<%--                        <div class="commentMod container d-flex justify-content-start mb-2" data-ntc-no="${'${comment.evc_no}'}" >--%>
+<%--                            <p style="display:none">${'${comment.evc_comment}'}</p>--%>
+<%--                            `--%>
+<%--                if(mem_id == comment.evc_commenter){--%>
+<%--                    commentList +=`--%>
+<%--                            <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>--%>
+<%--                            <button type="button"  class="commentBtn comment-deleteBtn text-muted me-1" onclick="deleteCom(this)">삭제</button>--%>
+<%--                            `--%>
+<%--                }--%>
+<%--                commentList += `--%>
+<%--                         </div>--%>
+<%--                        </div>--%>
+<%--                    </li>--%>
+<%--                </div>--%>
+<%--                 `--%>
+<%--            }--%>
+<%--        });--%>
+<%--        return commentList;--%>
+<%--    }--%>
+<%--</script>--%>
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
