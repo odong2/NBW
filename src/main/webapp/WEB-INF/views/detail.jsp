@@ -255,7 +255,26 @@ main {
 					</div>
 				</div>
 				<hr />
-				<h5>리뷰보기(${ product.getP_review()})</h5>
+				<h5 class="mb-5">리뷰보기(${ product.getP_review()})</h5>
+				<ul style="list-style: none; margin: 0px; padding: 0px;">
+				<c:forEach var="review" items="${ product.getReviewList() }">
+					<li class="">
+						<div class="mb-3 d-flex justify-content-between" >
+							<div>
+								<span class="pe-2 border-end border-opacity-50" style="font-size:0.8rem;"><c:out value="${review.mem_nickname}"/></span>
+								<span class="px-2 border-end border-opacity-50" style="font-size:0.8rem;"><c:out value="${review.rv_date}"/></span>
+								<span class="ps-2" style="font-size:0.8rem;">신고</span>
+							</div>
+							<span class="ps-2 text-warning" style="font-size:0.8rem;"><c:out value="${ review.star }"/></span>
+						</div>
+						<div class="d-flex align-items-start justify-content-between">
+							<span style="font-size: 1rem;"><c:out value="${review.rv_content}"/></span>
+							<img alt="" src="/product/images/${ review.rv_img }" style="width: 70px; height: 70px;">
+						</div>
+						<hr/>
+					</li>
+				</c:forEach>
+				</ul>
 			</div>
 		</section>
 	</main>
@@ -268,6 +287,11 @@ main {
 	let c_count = '1';
 	let booleanValue = ${empty isLike ?false :isLike};
 	let rv_img = [];
+	
+	const score = (number) => {
+		let star = '★';
+		return star.repeat(number);;
+	}
 	
 	$(document).ready(function(){
 		isLike(booleanValue);
