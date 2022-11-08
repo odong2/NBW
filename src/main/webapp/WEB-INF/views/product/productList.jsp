@@ -131,10 +131,6 @@
                             <div class="row"><p style="font-weight: bolder"><a href="#">${list.getP_title()}</a></p></div>
                             <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_author()} 저자</p></div>
                             <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_publisher()} |
-                                                                            <%--    [[String > Date 타입으로 변경할 때]]
-                                                                            * parseDate 로 String > Date
-                                                                            * formatDate 로 Date > String
-                                                                              이  두 과정을 거쳐야 한다. --%>
                                                                             <fmt:parseDate value="${list.getP_pubdate()}" var="date1" pattern="yyyy-MM-dd"/>
                                                                             <fmt:formatDate value="${date1}" pattern="yyyy-MM-dd"/>
                                                                             출간</p>
