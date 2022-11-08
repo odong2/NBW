@@ -61,10 +61,15 @@
                 SELECT ROWNUM as rnum, a.*  FROM (
                      SELECT qn_from, qn_category, qn_content, qn_cdate, qn_no, qn_state, qn_title  FROM tb_question
                    <choose>
-					<when test='keyword == null or keyword.equals("")'>
+					<when test='keyword eq null or keyword eq ""'>
+	                </when>
+					<when test='keyword == "N"'>
+		            	WHERE qn_state = #{keyword}
+	                </when>
+					<when test='keyword == "Y"'>
+		            	WHERE qn_state = '${keyword}'
 	                </when>
 					<otherwise>
-		            	WHERE qn_state = '${keyword}'
 	                </otherwise>
 	               </choose>
                  ) a

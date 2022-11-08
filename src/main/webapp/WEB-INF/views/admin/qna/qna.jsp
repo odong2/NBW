@@ -114,24 +114,88 @@
       .icon-circle {
         position: relative;
       }
+      form{
+      	width: fit-content;
+      }
+      .btn-keyword{
+      	display: flex;
+      	flex-direction: row;
+      }
+      .btn-kw {
+      	border: none;
+        flex: 1 1 auto;
+        margin: 10px;
+        padding: 8px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
+        box-shadow: 0 0 20px #eee;
+        border-radius: 10px;
+      }
+      .btn:hover {
+        background-position: right center; /* change the direction of the change here */
+      }
+      .btn-2 {
+        background-image: linear-gradient(
+          to right,
+          #fbc2eb 0%,
+          #a6c1ee 51%,
+          #fbc2eb 100%
+        );
+      }
+      .menu-active{
+      	background-color: #a6c1ee;
+      }
     </style>
   </head>
 <script type="text/javascript">
-	function loadPage(keyword){
-		let keyword = $(keyword).attr("data-keyword");
-		$.ajax({
-				type : "get",
-				url : "${contextPath}/admin/qna/list?keyword="+keyword,
-				success : function(result) {
-					
-				},
-				error : function(data, textStatus) {
-					alert("에러가 발생했습니다."+data);
-				},
-				complete : function(data, textStatus) {
-				}
-		}); //end of ajax
-	}// end of loadPage()
+$(document).ready(function(){
+	$("#finish").click(function(){
+		$(".qna-title").text("답변완료한 문의내역");
+		$("#Yform").submit();
+    });
+	$("#Processing").click(function(){
+		$(".qna-title").text("처리중인 문의내역");
+		$("#Nform").submit();
+    });
+	$("#allask").click(function(){
+		$(".qna-title").text("전체 문의내역");
+		$("#form").submit();
+    });
+	
+	/*============= 페이징 엑티브 코드 ============= */   
+	let params = new URLSearchParams(document.location.search);
+	/* 현재 페이지 */
+	let nowPage = params.get("page");
+	console.log(nowPage);
+	$(function(){
+		$('.page-list').each(function(index, item){
+			let page =$(item).children('.page-num').text();
+			console.log(page);
+		    if(nowPage == page){
+				$(item).addClass('active');
+			}
+		})
+	});
+	/* 키워드가 가져오기 */
+	let nowKeyword = params.get("keyword");
+	console.log(nowKeyword);
+	$(function(){
+		if(nowKeyword==null){
+			$(".qna-title").text("전체 문의내역");
+			document.querySelector('#allask').style.color = 'black';
+		} else if(nowKeyword=="N"){
+			$(".qna-title").text("처리중인 문의내역");
+			document.querySelector('#Processing').style.color = 'black';
+		} else{
+			$(".qna-title").text("답변완료한 문의내역");
+			document.querySelector('#finish').style.color = 'black';
+		}
+	})
+});
 </script>
   <body id="page-top">
     <!-- Page Wrapper -->
@@ -148,68 +212,30 @@
         <!-- End of Topbar -->
             <main class="container-fluid mb-3 p-3">
             	<div class="title mb-3">
-                  <h5 class="qna-title">문의내역</h5>
+                  <h5 class="qna-title">전체 문의내역</h5>
                 </div>
                 <br />
                 <!-- 카테고리 목록 -->
-                <div class="category mb-3">
-                  	<ul class="nav nav-tabs" id="myTab" role="tablist">
-			            <li class="nav-item" role="presentation">
-			                <button
-			                        class="nav-link active"
-			                        id="allask"
-			                        data-bs-toggle="tab"
-			                        data-bs-target="#home-tab-pane"
-			                        type="button"
-			                        role="tab"
-			                        aria-controls="home-tab-pane"
-			                        aria-selected="true"
-			                        data-toggle="tabajax"
-			                        data-keyword=""
-			                >
-			                    <span>전체</span>
-			                </button>
-			            </li>
-			            <li class="nav-item" role="presentation">
-			                <button
-			                        class="nav-link"
-			                        id="Processing"
-			                        data-bs-toggle="tab"
-			                        data-bs-target="#profile-tab-pane"
-			                        type="button"
-			                        role="tab"
-			                        aria-controls="profile-tab-pane"
-			                        aria-selected="false"
-			                        data-toggle="tabajax"
-			                        data-keyword="N"
-			                        onclick="loadPage(this)"
-			                >
-			                    <span>처리중</span>
-			                </button>
-			            </li>
-			            <li class="nav-item" role="presentation">
-			                <button
-			                        class="nav-link"
-			                        id="finish"
-			                        data-bs-toggle="tab"
-			                        data-bs-target="#contact-tab-pane"
-			                        type="button"
-			                        role="tab"
-			                        aria-controls="contact-tab-pane"
-			                        aria-selected="false"
-			                        color="black"
-			                        data-toggle="tabajax"
-			                        data-keyword="Y"
-			                        onclick="loadPage(this)"
-			                >
-			                    <span>답변완료</span>
-			                </button>
-			            </li>
-			        </ul>
+                <div class="category mb-3" style="display: flex">
+                	<div class="btn-keyword">
+						<form action="/admin/qna/list" method="get" id="form">
+				            <button class="btn-kw btn-2" id="allask" type="button"><span>전체</span></button>
+				        </form>
+                	</div>
+                	<div class="btn-keyword">
+			        	<form action="/admin/qna/list" method="get" id="Nform">
+							<input type="hidden" value="N" name="keyword" />
+			    	        <button class="btn-kw btn-2" id="Processing" type="button"><span>처리중</span></button>
+						</form>
+                	</div>
+                	<div class="btn-keyword">
+				        <form action="/admin/qna/list" method="get" id="Yform">
+							<input type="hidden" value="Y" name="keyword" />
+				            <button class="btn-kw btn-2" id="finish" type="button"><span>답변완료</span></button>
+			        </form>
+                	</div>
                 </div>
-                <div class="tab-content" id="myTabContent">
                 <%-- 전체 문의 --%>
-	            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="allask" tabindex="0">
 	                <div class="qna-list-wrap" style="border-top: 1px solid black">
 	                  <ul>
 	                  <c:forEach var="qt" items="${questionList}">
@@ -276,8 +302,8 @@
 		                        </c:if>
 		                        <%-- =================== 총 게시물 개수만큼 페이징 처리 ================--%>
 		                        <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-		                            <li class="page-item">
-		                                <a class="page-link" href="<c:url value='/admin/qna/list${ph.sc.getQueryString(i)}'/>">${i}</a>
+		                            <li class="page-item page-list">
+		                                <a class="page-link page-num" href="<c:url value='/admin/qna/list${ph.sc.getQueryString(i)}'/>">${i}</a>
 		                            </li>
 		                        </c:forEach>
 		                        <%-- =================== 다음 페이지 링크 보여줄 지 여부 ================--%>
@@ -293,111 +319,7 @@
 		                    <%-- ================== 검색 결과가 존재 하는 경우 끝 ================== --%>
 		                </ul>
 		             </nav>
-	            </div>
 	            <%-- 전체 문의 --%>
-                <%-- 처리해야할 문의 --%>
-            	<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="Processing" tabindex="0">
-	                <div class="qna-list-wrap" style="border-top: 1px solid black">
-	                  <ul>
-	                  <c:forEach var="qt" items="${questionIngList}">
-	                    <li>
-	                      <div class="content-box">
-	                        <div class="inquiry_info">
-	                          <span class="writer"><c:out value="${qt.qn_from}" /></span>
-	                          <span class="gap"></span>
-	                          <span class="ctg-item"><c:out value="${qt.qn_category}" /></span>
-	                        </div>
-	                        <div class="inquiry_title">
-	                          <div class="d-flex align-items-center">
-	                            <div class="mr-3">
-	                              <div class="icon-circle">
-	                              <c:choose>
-	                              <c:when test="${qt.qn_category eq '교환'}">
-		                              <i class="circle-icon fas fa-sync-alt text-white"></i>
-	                              </c:when>
-	                              <c:when test="${qt.qn_category eq '반품'}">
-		                              <i class="circle-icon fas fa-times text-white"></i>
-	                              </c:when>
-	                              <c:when test="${qt.qn_category eq '제품'}">
-		                              <i class="circle-icon fas fa-book text-white"></i>
-	                              </c:when>
-	                              <c:otherwise>
-		                              <i class="circle-icon fas fa-question text-white"></i>
-	                              </c:otherwise>
-	                              </c:choose>
-	                              </div>
-	                            <c:choose>
-		                          <c:when test="${qt.qn_state eq '처리중'}"><div class="q-state"></div></c:when>
-		                          <c:otherwise></c:otherwise>
-	                            </c:choose>
-	                            </div>
-	                            <div class="title">
-	                              <a href="/admin/qna/answer?qn_no=${qt.qn_no}"><c:out value="${qt.qn_title}" /></a>
-	                            </div>
-	                            <div class="cdate">
-	                              <span> <fmt:formatDate value="${qt.qn_cdate}" pattern="yyyy-MM-dd"/></span>
-	                            </div>
-	                          </div>
-	                        </div>
-	                      </div>
-	                    </li>
-	                    </c:forEach>
-	                  </ul>
-	                </div>
-	            </div>
-                <%-- 처리해야할 문의 --%>
-                <%-- 처리한 문의 --%>
-            	<div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="finish" tabindex="0">
-	                <div class="qna-list-wrap" style="border-top: 1px solid black">
-	                  <ul>
-	                  <c:forEach var="qt" items="${questionFinishList}">
-	                    <li>
-	                      <div class="content-box">
-	                        <div class="inquiry_info">
-	                          <span class="writer"><c:out value="${qt.qn_from}" /></span>
-	                          <span class="gap"></span>
-	                          <span class="ctg-item"><c:out value="${qt.qn_category}" /></span>
-	                        </div>
-	                        <div class="inquiry_title">
-	                          <div class="d-flex align-items-center">
-	                            <div class="mr-3">
-	                              <div class="icon-circle">
-	                              <c:choose>
-	                              <c:when test="${qt.qn_category eq '교환'}">
-		                              <i class="circle-icon fas fa-sync-alt text-white"></i>
-	                              </c:when>
-	                              <c:when test="${qt.qn_category eq '반품'}">
-		                              <i class="circle-icon fas fa-times text-white"></i>
-	                              </c:when>
-	                              <c:when test="${qt.qn_category eq '제품'}">
-		                              <i class="circle-icon fas fa-book text-white"></i>
-	                              </c:when>
-	                              <c:otherwise>
-		                              <i class="circle-icon fas fa-question text-white"></i>
-	                              </c:otherwise>
-	                              </c:choose>
-	                              </div>
-	                            <c:choose>
-		                          <c:when test="${qt.qn_state eq '처리중'}"><div class="q-state"></div></c:when>
-		                          <c:otherwise></c:otherwise>
-	                            </c:choose>
-	                            </div>
-	                            <div class="title">
-	                              <a href="/admin/qna/answer?qn_no=${qt.qn_no}"><c:out value="${qt.qn_title}" /></a>
-	                            </div>
-	                            <div class="cdate">
-	                              <span> <fmt:formatDate value="${qt.qn_cdate}" pattern="yyyy-MM-dd"/></span>
-	                            </div>
-	                          </div>
-	                        </div>
-	                      </div>
-	                    </li>
-	                    </c:forEach>
-	                  </ul>
-	                </div>
-	            </div>
-                <%-- 처리한 문의 --%>
-	           </div>
             </main>
         <!-- Footer -->
 		<%@include file="../../../includes/admin/footer.jsp" %>

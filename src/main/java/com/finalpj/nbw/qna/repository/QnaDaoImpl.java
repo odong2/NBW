@@ -122,7 +122,7 @@ public class QnaDaoImpl implements QnaDao {
 	/**************************** [[ 조건검색 결과 문의 개수 ]] ********************************/
 	@Override
 	public int selectSearchQCnt(SearchCondition sc) throws Exception {
-		return sqlSession.selectOne(a_namespace+"selectSearchQCnt");
+		return sqlSession.selectOne(a_namespace+"selectSearchQCnt",sc);
 	}
 
 	/**************************** [[ 조건검색 페이징 처리하여 조회 ]] ********************************/
