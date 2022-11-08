@@ -98,20 +98,20 @@
                 <i class="fas fa-bars"></i>
             </a>
             <ul class="dropdown-menu" style="width: 800px; margin-top: 11p; border-radius: 10px;">
-                <div class="d-flex justify-content-between py-3">
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="total"><h5>전체</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="철학"><h5>철학</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="종교"><h5>종교</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="사회과학"><h5>사회과학</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="자연과학"><h5>자연과학</h5></a></ul>
+                <div class="d-flex justify-content-between py-2">
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="total"><h6>∙ 전체</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="철학"><h6>∙ 철학</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="종교"><h6>∙ 종교</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="사회과학"><h6>∙ 사회과학</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="자연과학"><h6>∙ 자연과학</h6></a></ul>
                 </div>
                 <hr />
                 <div class="d-flex justify-content-between py-2">
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="기술과학"><h5>기술과학</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="예술"><h5>예술</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="언어"><h5>언어</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="문학"><h5>문학</h5></a></ul>
-                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="역사"><h5>역사</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="기술과학"><h6>∙ 기술과학</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="예술"><h6>∙ 예술</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="언어"><h6>∙ 언어</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="문학"><h6>∙ 문학</h6></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="역사"><h6>∙ 역사</h6></a></ul>
                 </div>
             </ul>
         </li>
@@ -160,3 +160,19 @@
     })
     /* ----------------------------------- [[ 검색>네비게이션 카테고리]] ----------------------------------*/
 </script>
+<style>
+    @font-face {
+        font-family: 'NeoDunggeunmo';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .px-5>a {
+        text-decoration: none;
+        font-family: 'NeoDunggeunmo';
+    }
+    a>h6:hover {
+        background-color: #dfeafa;
+        border-radius: 50px;
+    }
+</style>

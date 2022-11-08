@@ -42,6 +42,9 @@
                 let addr2 = $('#address2').val();        // 주소 입력란
                 let addr3 = $('#address3').val();        // 상세주소 입력란
 
+                alert("수정할 내용 > " + nick + mail + addr1 + addr2 + addr3);
+
+
                 /* 메일 유효성 검사 */
                 if(mail == null || mail ==""){
                     // 메일이 입력이 되지 않은 경우 숨김처리 되었던 span 태그를 활성화 시킨다.
@@ -89,7 +92,8 @@
                 $("#lb-nickname").attr("hidden", true);
                 // 변경 버튼을 숨긴다.
                 $("#upBtn-nickname").attr("hidden", true);
-                // 이메일 입력 칸이 나타난다.
+                // 닉네임 입력 칸이 나타난다.
+                $("#mem_nickname").val("");
                 $("#mem_nickname").attr("hidden", false);
             });
 
@@ -145,7 +149,8 @@
                 $("#lb-mail").attr("hidden", true);
                 // 변경 버튼을 숨긴다.
                 $("#upBtn-mail").attr("hidden", true);
-                // 이메일 입력 칸이 나타난다.
+                // 이메일 입력 칸이 나타나고 기존 이메일을 비운다.
+                $("#mem_email").val("");
                 $("#mem_email").attr("hidden", false);
                 // 인증코드 전송 버튼이 나타난다.
                 $("#btn-email-send").attr("hidden", false);
@@ -251,7 +256,9 @@
                         <div class="input-group mb-3 w-100">
                             <label id="lb-nickname">${sessionScope.member.getMem_nickname()}</label>
                             <input name="mem_nickname" type="text" id="mem_nickname" hidden
-                                   autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="닉네임을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
+                                   autocomplete="off" class="form-control" aria-describedby="button-addon2"
+                                   value="${sessionScope.member.getMem_nickname()}"
+                                   placeholder="닉네임을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
                             <button class="btn-circle" id="upBtn-nickname" type="button" style="float: right; border-radius: 10px; border: 0; margin-left: 10px;">변경</button>
                         </div>
                         <div class = "alert alert-dismissible " id="nicknameCheckDiv"></div>                </div>
@@ -290,7 +297,9 @@
                         <div class="input-group mb-3 w-100">
                             <label id="lb-mail"> ${sessionScope.member.getMem_email()}</label>
                             <input name="mem_email" type="text" id="mem_email" hidden
-                                   autocomplete="off" class="form-control" aria-describedby="button-addon2" placeholder="이메일을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
+                                   autocomplete="off" class="form-control" aria-describedby="button-addon2"
+                                   value="${sessionScope.member.getMem_email()}"
+                                   placeholder="이메일을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
                             <button name="btn-email-send" id="btn-email-send" hidden
                                     class="btn btn-outline-secondary" type="button" style="border-radius: 2px" >인증번호 전송</button>
                             <button class="btn-circle" id="upBtn-mail" type="button" style="float: right; border-radius: 10px; border: 0; margin-left: 10px;">변경</button>
