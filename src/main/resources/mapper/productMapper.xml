@@ -5,11 +5,6 @@
 	<select id="getProduct" parameterType="String" resultType="com.finalpj.nbw.product.domain.Product">
 		SELECT * FROM tb_PRODUCT WHERE p_no = #{value}
 	</select>
-<<<<<<< HEAD
-	
-	<!-- ===================================== 공통부분 ===================================== -->
-=======
-
 	<!-- ===================================== 상품 등록 ===================================== -->
 	<insert id="insertProduct" parameterType="product">
 		INSERT INTO TB_PRODUCT (
@@ -37,10 +32,8 @@
 				   , #{p_count}
 				   )
 	</insert>
-
-
+	
 	<!-- ===================================== 검색 공통부분 ===================================== -->
->>>>>>> 26aa3b4 (Feat: 검색창 수정, 상품분류 완료)
 	<sql id="criteria">
 		<if test="keyword != null">
 			like '%'||#{keyword}||'%'
