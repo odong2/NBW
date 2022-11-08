@@ -5,6 +5,7 @@ import com.finalpj.nbw.coupon.domain.Coupon;
 import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.payment.dao.PaymentDao;
+import com.finalpj.nbw.payment.dao.RefundDao;
 import com.finalpj.nbw.payment.domain.*;
 import com.finalpj.nbw.product.dao.ProductDao;
 import lombok.extern.log4j.Log4j;
@@ -25,13 +26,16 @@ public class PaymentService {
     private final CouponDao couponDao;
     private final ProductDao productDao;
     private final MemberDao memberDao;
+    private final RefundDao refundDao;
 
-    public PaymentService(PaymentDao paymentDao, CouponDao couponDao, ProductDao productDao, MemberDao memberDao){
+    public PaymentService(PaymentDao paymentDao, CouponDao couponDao, ProductDao productDao, MemberDao memberDao, RefundDao refundDao){
         this.paymentDao = paymentDao;
         this.couponDao = couponDao;
         this.productDao= productDao;
         this.memberDao = memberDao;
+        this.refundDao = refundDao;
     }
+    /************************ 결제하기 (비회원) ****************************/
     @Transactional(rollbackFor = Exception.class)
     public void unMemPay(UnMemPayment unMemPaymentDto) throws Exception{
         Object tableName = "tb_unmempaymentdetail";
@@ -45,7 +49,7 @@ public class PaymentService {
         // * (해야할 것)쿠키에 있는 장바구니 삭제
     }
 
-    /*************************  결제하기(회원)  ************************/
+    /**************************  결제하기 (회원)  **************************/
     @Transactional(rollbackFor = Exception.class)
     public void memPay(Payment paymentDto, HttpSession session) throws Exception{
         String cp_no = paymentDto.getCp_no();
@@ -93,6 +97,7 @@ public class PaymentService {
         }
 
         // *(해야할 것)주문한 상품의 재고 감소
+        // *(해야할 것) 장바구니에서 제거
         
     }
     /**************************** 결제 후 주문 상품 상세내역 조회 ************************************/
@@ -103,7 +108,7 @@ public class PaymentService {
     }
 
     /**************************** 결제 후 수령인 상세내역 및 결제금액 조회 (회원) ************************************/
-    public Map<String, Object> afterpaySearchReceiver(String order_no) throws Exception{
+    public Map<String, Object> afterPaySearchReceiver(String order_no) throws Exception{
         Map<String, Object> rMap= null;
         rMap = paymentDao.selectReceiver(order_no);
         return rMap;
@@ -116,8 +121,44 @@ public class PaymentService {
         return rMap;
     }
 
+    /************************************** 주문상태 변경 (memPaymentDetail 테이블) *************************************************/
+    @Transactional(rollbackFor = Exception.class)
+    public String modifyOrderStatus(Map<String, Object> pMap){
+        String msg = "";
+        String orderStatus = (String)pMap.get("order_status");
+        // (1) memPaymentDetail 상품 상태 변경
+        try {
+            paymentDao.updateOrderStatus(pMap);
+            // (2) 상품을 취소한 경우 바로 환불
+            if (orderStatus.equals("취소")) {
+                // (3) refund_status 활불로 변경(취소의 경우는 바로 환불이 된다)
+                pMap.put("refund_status", "환불");
+                refundDao.insertRefundOrder(pMap);
+                msg = "결제가 취소 되었습니다. 환불 금액은 결제계좌로 입금됩니다.";
+            }else if(orderStatus.equals("반품 신청")){
+                refundDao.insertRefundOrder(pMap);
+                msg = "반품신청이 완료 되었습니다. 환불은 관리자가 확인후 진행됩니다.";
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            if(orderStatus.equals("취소")){
+                msg = "결제 취소에 실패하였습니다. 확인 후 다시 시도해 주세요.";
+            }else if(orderStatus.equals("반품 신청")){
+                msg = "반품신청에 실패하였습니다. 확인 후 다시 시도해 주세요";
+            }
+        }
+        return msg;
+    }
+    /********************************** 주문리스트 조회(회원) ***********************************/
+    public List<OrderList> getMemOrderList(String mem_id) throws Exception{
+        return paymentDao.selectMemOrderList(mem_id);
+    }
+    public Map<String,Integer> getMemStatusCnt(String mem_id)throws Exception{
+        return paymentDao.selectMemStatusCnt(mem_id);
+    }
+
     /************************* 결제한 상품 N건 List<Map<String,Object>>형태로 변환 해주는 메서드  ***************************/
-    public List<Map<String,Object>> getProductList(Pay paymentDto, Object tableName){
+    public List<Map<String,Object>> getProductList(Pay paymentDto, Object tableName) throws Exception{
         List<Map<String,Object>> payDetailList = new ArrayList<>();
         for(int i = 0; i < paymentDto.getP_no().length; i++){
             Map pMap = new HashMap<String, Object>();
@@ -132,10 +173,6 @@ public class PaymentService {
             payDetailList.add(pMap);
         }
         return payDetailList;
-    }
-
-    public List<OrderList> getMemOrderList(String mem_id) throws Exception{
-        return paymentDao.selectMemOrderList(mem_id);
     }
 
 }

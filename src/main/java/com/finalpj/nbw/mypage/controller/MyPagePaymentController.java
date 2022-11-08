@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j
 @Controller
@@ -30,12 +32,17 @@ public class MyPagePaymentController {
         Member member = (Member)session.getAttribute("member");
         String mem_id = member.getMem_id();
         List<OrderList> orderList = null;
+        Map<String,Integer> sMap = null;
         try{
+        // (1) 주문 리스트 가져오기
         orderList = paymentService.getMemOrderList(mem_id);
+        // (2) 주문상태 개수 가져오기(ex.취소,반품,교환등)
+        sMap = paymentService.getMemStatusCnt(mem_id);
+        m.addAttribute("orderList",orderList);
+        m.addAttribute("orderStatus", sMap);
         }catch (Exception e){
             e.printStackTrace();
         }
-        m.addAttribute("orderList",orderList);
 
         return "/mypage/payment";
     }
