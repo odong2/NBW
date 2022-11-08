@@ -19,9 +19,9 @@
 		SELECT DISTINCT P_TITLE
 		FROM TB_PRODUCT
 		WHERE
-		    P_TITLE <include refid="criteria"/>
+		P_TITLE <include refid="criteria"/>
 		OR
-			p_author <include refid="criteria"/>
+		p_author <include refid="criteria"/>
 		ORDER BY P_TITLE ASC
 	</select>
 
@@ -74,15 +74,15 @@
 				  FROM TB_PRODUCT
 				  where (P_TITLE
 	  	]]>
-				  <include refid="criteria"/>
-					OR
-					P_AUTHOR <include refid="criteria"/>)
-				    <choose>
-						<when test ='type == "C" '>
-							AND P_CATEGORY = #{p_category}
-						</when>
-					</choose>
-			<![CDATA[
+		<include refid="criteria"/>
+		OR
+		P_AUTHOR <include refid="criteria"/>)
+		<choose>
+			<when test ='type == "C" '>
+				AND P_CATEGORY = #{p_category}
+			</when>
+		</choose>
+		<![CDATA[
 					AND
 				      rownum <= #{pageNum} * #{amount}
 			  	)
@@ -96,25 +96,25 @@
 		SELECT count(*)
 		FROM tb_product
 		WHERE
-			(P_TITLE	<include refid="criteria"/>
-		  	OR
-			P_AUTHOR <include refid="criteria"/>)
+		(P_TITLE	<include refid="criteria"/>
+		OR
+		P_AUTHOR <include refid="criteria"/>)
 		<choose>
 			<when test ='type == "C" '>
 				AND P_CATEGORY = #{p_category}
 			</when>
 		</choose>
-		    AND
-			P_NO > 0
+		AND
+		P_NO > 0
 	</select>
 
 	<!--  ============================== 카테고리로 상품 검색 ==================================	-->
 	<select id="selectProductCategory" resultType="String">
 		SELECT DISTINCT p_category as categoryCode FROM TB_PRODUCT
 		WHERE
-		    P_TITLE <include refid="criteria"/>
-			OR
-		    P_AUTHOR <include refid="criteria"/>
+		P_TITLE <include refid="criteria"/>
+		OR
+		P_AUTHOR <include refid="criteria"/>
 	</select>
 
 	<!--  ========================== 키워드 검색 결과 조회된 카테고리의 개수 ==============================	-->
@@ -122,17 +122,17 @@
 	<select id="selectProductCateInfo"  resultType="categoryFilter">
 		SELECT DISTINCT count(*) as categoryCount
 		FROM (
-				  SELECT *
-				  FROM TB_PRODUCT
-				  WHERE
+		SELECT *
+		FROM TB_PRODUCT
+		WHERE
 
-						(
-						    P_TITLE <include refid="criteria"/>
-						OR
-						P_AUTHOR <include refid="criteria"/>
-						    )
-						AND
-					 	P_CATEGORY = #{categoryCode}
-			  		)
+		(
+		P_TITLE <include refid="criteria"/>
+		OR
+		P_AUTHOR <include refid="criteria"/>
+		)
+		AND
+		P_CATEGORY = #{categoryCode}
+		)
 	</select>
 </mapper>

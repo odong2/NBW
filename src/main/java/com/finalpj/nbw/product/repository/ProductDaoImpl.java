@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Repository
 @Slf4j
+
 public class ProductDaoImpl implements ProductDao {
 	
 	private final String namespace = "com.finalpj.nbw.product.dao.ProductMapper.";

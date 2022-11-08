@@ -4,7 +4,7 @@
         let keywordList; // 자동완성 창에 띄울 키워드를 저장할 변수
         $('#mainSearch').autocomplete({
             source: function (request, response) { //source 는 자동완성의 대상
-            // ajax 시작
+                // ajax 시작
                 $.ajax({
                     url: "/product/search"
                     , type: "POST"
@@ -18,14 +18,14 @@
                             console.log(value["P_TITLE"]); // 출력해야 할 값
                             keywordList = value["P_TITLE"]; // 전역에 선언해둔 변수에 담는다.
                         })
-                            response(
-                                $.map(data, function (item) {
-                                    return {
-                                        label: keywordList
-                                        , value: keywordList // 선택 시 input에 표시되는 값
-                                    };
-                                })
-                            );// response
+                        response(
+                            $.map(data, function (item) {
+                                return {
+                                    label: keywordList
+                                    , value: keywordList // 선택 시 input에 표시되는 값
+                                };
+                            })
+                        );// response
                     }// success 끝
                     , minLength: 2 // 두 자 이상이 입력될 때 서버로 요청을 보낸다.
                     , autoFocus: true
@@ -43,7 +43,6 @@
         })
     });
     /* ================ 검색어 자동 완성 기능 추가 ================== */
-
 </script>
 <style>
     .ui-autocomplete {
@@ -65,7 +64,6 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
         background-clip: padding-box;
     }
-
     .ui-autocomplete > li > div {
         display: block;
         padding: 3px 10px;
@@ -75,7 +73,6 @@
         color: #333333;
         white-space: nowrap;
     }
-
     .ui-state-hover,
     .ui-state-active,
     .ui-state-focus {
@@ -84,7 +81,6 @@
         background-color: #f5f5f5;
         cursor: pointer;
     }
-
     .ui-helper-hidden-accessible {
         border: 0;
         clip: rect(0 0 0 0);
@@ -126,7 +122,7 @@
 		            </li>
                 </c:when>
                 <c:otherwise>
-					 <li class="nav-item">
+                    <li class="nav-item">
                         <a href="/login" class="text-decoration-none px-3 border-end rounded-0"
                         >로그인</a
                         >
@@ -152,30 +148,30 @@
         </ul>
         <br>
         <form id="searchForm" action="/product/search" method="get" style="width: 100%;">
-        <div class="col-12 d-flex align-items-center justify-content-start" >
-            <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
-            <div class="input-group ms-3">
-    <%--  ============================      검색창    =============================  --%>
-                        <input
-                                type="text"
-                                id="mainSearch"
-                                name="keyword"
-                                class="form-control"
-                                placeholder="검색어를 입력해주세요."
-                                aria-label="Recipient's username"
-                                aria-describedby="button-addon2"
-                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
-                        />
-                        <button
-                                class="btn btn-outline-secondary"
-                                id="button-addon2"
-                                type="submit"
-                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
-                        >
-                            <i class="fas fa-search"></i>
-                        </button>
+            <div class="col-12 d-flex align-items-center justify-content-start" >
+                <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
+                <div class="input-group ms-3">
+                    <%--  ============================      검색창    =============================  --%>
+                    <input
+                            type="text"
+                            id="mainSearch"
+                            name="keyword"
+                            class="form-control"
+                            placeholder="검색어를 입력해주세요."
+                            aria-label="Recipient's username"
+                            aria-describedby="button-addon2"
+                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
+                    />
+                    <button
+                            class="btn btn-outline-secondary"
+                            id="button-addon2"
+                            type="submit"
+                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
+                    >
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
             </div>
-        </div>
         </form>
         <%@include file="/WEB-INF/views/product/autocomplete.jsp" %>
     </nav>
@@ -185,87 +181,87 @@
     <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
         <li class="nav-item fs-5 px-4 border-end dropdown border-danger">
-          <a
-            class="text-decoration-none"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="fas fa-bars"></i>
-          </a>
-          <ul class="dropdown-menu" style="width: 800px; margin-top: 11px">
-            <div class="d-flex justify-content-between py-3">
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목1</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목2</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목3</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목4</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목5</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-            </div>
-            <hr />
-            <div class="d-flex justify-content-between py-3">
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목6</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목7</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목8</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목9</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목10</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-            </div>
-          </ul>
+            <a
+                    class="text-decoration-none"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+            >
+                <i class="fas fa-bars"></i>
+            </a>
+            <ul class="dropdown-menu" style="width: 800px; margin-top: 11px">
+                <div class="d-flex justify-content-between py-3">
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목1</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목2</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목3</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목4</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목5</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between py-3">
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목6</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목7</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목8</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목9</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px">
+                        <h5>제목10</h5>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                        <li>소제목</li>
+                    </ul>
+                </div>
+            </ul>
         </li>
         <li class="nav-item px-4 border-end border-danger">
             <a href="/notice/list" class="text-decoration-none">공지사항</a>

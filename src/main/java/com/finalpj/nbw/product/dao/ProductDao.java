@@ -32,3 +32,4 @@ public interface ProductDao {
 
 	void reviewInsert(Review review);
 }
+
