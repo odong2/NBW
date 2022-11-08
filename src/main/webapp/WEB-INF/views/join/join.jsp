@@ -381,10 +381,14 @@
     </script>
 
     <style>
-        /** {*/
-        /*    border: solid 1px red;*/
-        /*}*/
+        @font-face {
+            font-family: 'NEXON Lv1 Gothic OTF';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
         main {
+            font-family: 'NEXON Lv1 Gothic OTF';
             width:70%;
             margin:auto;
             padding-top: 10px;
@@ -399,7 +403,6 @@
         }
         h6 {
             color: #646161;
-            font-family: "210 Soopilmyungjo";
             padding-top: 12px;
         }
         #btn-join {
@@ -407,7 +410,6 @@
             border: 0;
             outline: 0;
             font-size: x-large;
-            font-family: "210 Soopilmyungjo";
             font-weight: bolder;
             background-color: transparent;
         }
@@ -415,7 +417,6 @@
             background-color: #fffbc5;
             font-size: x-large;
             font-weight: bolder;
-            font-family: "210 Soopilmyungjo";
             color: #801919;
         }
     </style>
@@ -455,7 +456,9 @@
 		                </c:otherwise>
 		            </c:choose>
                 </div>
-                <div class = "alert alert-dismissible w-75" id="idCheckDiv"></div>                </div>
+                <div class = "alert alert-dismissible w-75" id="idCheckDiv"> </div>
+                <label id="warningLabel" class="mb-3 text-danger" style="font-size:0.7rem;"></label>
+            </div>
             </div>
         </div>
         <hr>

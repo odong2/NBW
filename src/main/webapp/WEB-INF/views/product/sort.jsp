@@ -16,6 +16,12 @@
         text-align: center;
         padding-top: 3px;
     }
+<<<<<<< HEAD
+=======
+    li.sort-link.active {
+        border: 2px solid yellow;
+    }
+>>>>>>> cong
 </style>
 <script type="text/javascript">
   $(function(){
@@ -29,6 +35,7 @@
           $(".sort_search_form input[name='sort']").val(sortName);
           $(".sort_search_form").submit();
     })
+<<<<<<< HEAD
   })
 </script>
 <section class="sortBar">
@@ -49,4 +56,43 @@
           <input type="text" name="sort"/>
         </form>
     </section>
+=======
+
+      let params = new URLSearchParams(document.location.search);
+      /* 현재 분류기준 */
+      let nowSort = params.get("sort");
+      console.log("nowSort ===>"+nowSort);
+      $(function(){
+          $('.sort-link').each(function(index, item){
+              //console.log(item);
+              let sort =$(item).children('.sort-a').attr("href");
+              console.log("sort ===> "+sort);
+              if(nowSort == sort){
+                  $(item).addClass('active');
+              }
+          })
+      })
+  })
+</script>
+<section class="sortBar">
+    <c:if test="${pagination.totalCount ne 0}">
+        <section>
+          <ul class="sortList" style="float: right;">
+              <li class="sort-link"><a class ="sort-a" href="recent">최신순</a></li>
+              <li class="sort-link"><a class ="sort-a" href="sell">판매순</a></li>
+              <li class="sort-link"><a class ="sort-a" href="lowerprice">낮은가격순</a></li>
+              <li class="sort-link"><a class ="sort-a" href="higherprice">높은가격순</a></li>
+              <li class="sort-link"><a class ="sort-a" href="review">리뷰순</a></li>
+              <li class="sort-link"><a class ="sort-a" href="like">좋아요순</a></li>
+              <li class="sort-link"><a class ="sort-a" href="score">평점순</a></li>
+          </ul>
+            <form class="sort_search_form" method="get" action="/product/search" hidden>
+              <input type="text" name="keyword"/>
+              <input type="text" name="type"/>
+              <input type="text" name="p_category"/>
+              <input type="text" name="sort"/>
+            </form>
+        </section>
+    </c:if>
+>>>>>>> cong
 </section>

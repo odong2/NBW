@@ -91,4 +91,5 @@
     <update id="updateMemPoint" parameterType="java.util.Map">
         UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
     </update>
+
 </mapper>

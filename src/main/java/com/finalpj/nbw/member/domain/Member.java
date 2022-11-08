@@ -28,4 +28,5 @@ public class Member {
     private String mem_nickname;
     private Integer coupon_count;
     private Integer g_discount;
+
 }

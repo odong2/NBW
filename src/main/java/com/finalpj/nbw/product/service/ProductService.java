@@ -75,13 +75,7 @@ public class ProductService {
 		product.setReviewList(rewivewList);
 		return product;
 	}
-    
-
-//    /* 추천 검색어 조회 */
-//    public List<Product> search(Criteria criteria) throws Exception {
-//        return  productDao.selectProductByWord(criteria);
-//    }
-
+	
     /* 상품 등록 */
     public int insertProduct(Product product) throws Exception{
         return productDao.insertProduct(product);

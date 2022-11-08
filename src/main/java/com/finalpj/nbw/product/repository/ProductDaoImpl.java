@@ -100,6 +100,3 @@ public class ProductDaoImpl implements ProductDao {
 		return sqlSession.selectList(namespace+"SelectReviewList",p_no);
 	}
 }
-
-
-

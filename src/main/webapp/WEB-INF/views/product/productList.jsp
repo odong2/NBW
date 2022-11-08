@@ -7,9 +7,19 @@
     <%@include file="../../includes/common.jsp" %>
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <style>
+        /**{*/
+        /*    border: 1px solid red;*/
+        /*}*/
+        @font-face {
+            font-family: 'NEXON Lv1 Gothic OTF';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
         main {
             width: 100%;
             padding-left: 20px;
+            font-family: NEXON Lv1 Gothic OTF;
         }
         ul {
             list-style: none;
@@ -18,10 +28,13 @@
             width: 80%;
             /*margin-bottom: 100px;*/
         }
+<<<<<<< HEAD
         .product_list {
             margin-bottom: 40px;
             padding:10px 5px;
         }
+=======
+>>>>>>> cong
         #product_list>a {
             text-decoration: none;
             text-align: center;
@@ -31,6 +44,12 @@
             font-size: smaller;
             text-decoration: none;
         }
+<<<<<<< HEAD
+=======
+        .paging_btn {
+            text-align: center;
+        }
+>>>>>>> cong
         a {
             text-decoration: none;
         }
@@ -39,22 +58,47 @@
             margin-top: 50px;
             margin-bottom: 100px;
         }
+<<<<<<< HEAD
+=======
+        li.paging_btn.active {
+            background-color: #f8f8a1;
+            color: #454545;
+            font-weight: bolder;
+        }
+>>>>>>> cong
         .pagination_info li {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             text-align: center;
-            padding-top: 2px;
+            padding-top: 8px;
+            padding-right: 13px;
             border-radius: 20px;
             border: 1px #6b6969 solid;
             background-color: white;
             font-size: medium;
             margin-right: 5px;
-            float: left;
         }
         .pagination_info li a {
             color: #767474;
         }
     </style>
+    <script type="text/javascript">
+        $(function (){
+            let params = new URLSearchParams(document.location.search);
+            /* 현재 페이지 */
+            let nowPage = params.get("pageNum");
+            console.log("nowPage ===>"+nowPage);
+            $(function(){
+                $('.paging_btn').each(function(index, item){
+                    let page =$(item).children('.page-num').text();
+                    console.log("page ===> "+page);
+                    if(nowPage == page){
+                        $(item).addClass('active');
+                    }
+                })
+            })
+        })
+    </script>
 </head>
 <body>
 <!-- 헤더 시작 -->
@@ -67,6 +111,7 @@
     <main>
         <br>
         <%--  ======================== 상품 소개 시작 ===================  --%>
+<<<<<<< HEAD
         <c:choose>
             <c:when test="${criteria.keyword != null}">
                 <h6><span style="font-weight: bolder; color: #83b72e;">'${criteria.keyword}'</span> 에 대한 <span style="color: darkgreen"><fmt:formatNumber value="${pagination.totalCount}" type="number"/> </span>개의 검색 결과</h6>
@@ -81,6 +126,19 @@
                 <h6><span style="font-weight: bolder; color: #83b72e;">"전체"</span> 상품은 <span style="color: darkgreen"><fmt:formatNumber value="${pagination.totalCount}" type="number"/> </span>건 입니다. </h6>
             </c:when>
         </c:choose>
+=======
+            <c:choose>
+                <c:when test="${not empty criteria.keyword}">
+                <h6><span style="font-weight: bolder; color: #83b72e;">'${criteria.keyword}'</span> 에 대한 <span style="color: darkgreen"><fmt:formatNumber value="${pagination.totalCount}" type="number"/> </span>개의 검색 결과</h6>
+                </c:when>
+                <c:when test='${not empty criteria.type && criteria.p_category ne "total"}'>
+                    <h6><span style="font-weight: bolder; color: #83b72e;">${criteria.p_category}</span> 상품은 <span style="color: darkgreen"><fmt:formatNumber value="${pagination.totalCount}" type="number"/> </span>건 입니다. </h6>
+                </c:when>
+                <c:when test='${criteria.p_category eq "total"}'>
+                    <h6><span style="font-weight: bolder; color: #83b72e;">"전체"</span> 상품은 <span style="color: darkgreen"><fmt:formatNumber value="${pagination.totalCount}" type="number"/> </span>건 입니다. </h6>
+                </c:when>
+            </c:choose>
+>>>>>>> cong
         <div class="row">
             <%--  ========================  상품정렬 시작  ===================  --%>
             <%@include file="/WEB-INF/views/product/sort.jsp" %>
@@ -111,10 +169,13 @@
                             <div class="row"><p style="font-size: 15px; font-weight: bolder;"><fmt:formatNumber value="${list.getP_price()}" type="number"/>  원</p></div>
                             <div class="row"><p style="font-size: small;">♥️ ${list.getP_like()} </p></div>
                         </div>
+<<<<<<< HEAD
                         <div class="col-2" style="padding-top:55px">
                             <div class="row-cols-md-auto text-center"><button style="margin-bottom: 5px; color: white; background-color: gray; border-radius: 5px; border: none; width: 100%; height: 40px; ">장바구니</button></div>
                             <div class="row-cols-md-auto text-center"><button style="color: white; background-color: midnightblue; border-radius: 5px; border: none; width: 100%; height: 40px; ">바로구매</button></div>
                         </div>
+=======
+>>>>>>> cong
                     </div>
                     <br>
                 </div>
@@ -133,23 +194,39 @@
             <%--  [[검색 결과가 존재하는 경우]] 서버로부터 전송받은 pagination 속성에 저장된 startPage, endPage 값을 가지고 forEach 태그를 이용해서 페이지 번호를 화면에 출력한다.   --%>
             <c:if test="${pagination.totalCount != null || pagination.totalCount != 0}">
                 <div class="row text-center">
+<<<<<<< HEAD
                     <div class="pagination_info">
                         <%--  ----------------------------- 이전 페이지 존재 여부 --------------------------  --%>
                         <c:if test="${pagination.prev}">
                             <li class="pagination_info prev">
+=======
+                    <div class="row pagination_info justify-content-sm-center">
+                        <%--  ----------------------------- 이전 페이지 존재 여부 --------------------------  --%>
+                        <c:if test="${pagination.prev}">
+                            <li class="paging_btn prev">
+>>>>>>> cong
                                 <a href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${pagination.startPage-1}">&laquo;</a>
                             </li>
                         </c:if>
                         <%--  ----------------------------- 총 갯수만큼 페이징 --------------------------  --%>
                             <c:forEach var="num" begin="${pagination.startPage}" end="${pagination.endPage}">
                                 <li class="paging_btn">
+<<<<<<< HEAD
                                     <a href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${num}">${num}</a>
+=======
+                                    <a class="page-num" href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${num}">${num}</a>
+>>>>>>> cong
                                 </li>
                          </c:forEach>
                         <%--  ----------------------------- 다음 페이지 존재 여부 --------------------------  --%>
                         <c:if test="${pagination.next}">
+<<<<<<< HEAD
                         <li class="pagination_info next">
                                 <a href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${pagination.endPage+1}">&laquo&raquo;</a>
+=======
+                        <li class="paging_btn next">
+                                <a href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${pagination.endPage+1}">&raquo;</a>
+>>>>>>> cong
                         </li>
                         </c:if>
                     </div>

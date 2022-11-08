@@ -119,17 +119,6 @@ public class ProductController {
 	public String goCategory(){
 		return "/search/detailSearch";
 	}
-	
-	/* =============================== 추천 검색어 조회 ================================== */
-//	@PostMapping("search")
-//	@ResponseBody
-//	public Map<String, Object> search(@RequestParam Map<String, Object> paramMap) throws Exception{
-//
-//		List<Map<String, Object>> resultList = productService.search(paramMap);
-//		paramMap.put("resultList", resultList);
-//		log.info(resultList.toString());
-//		return paramMap;
-//	}
 
 	@PostMapping(value="autocomplete",  produces = "application/text; charset=UTF-8")
 	public @ResponseBody String keywordSearch(Criteria criteria, String keyword, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -158,7 +147,6 @@ public class ProductController {
 			int totalCount = productService.getTotalCount(criteria);
 			Pagination pagination = new Pagination(criteria, totalCount);
 			//log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
-
 			log.info("CRITERIA : "+ criteria);
 			model.addAttribute("criteria", criteria);
 
@@ -170,7 +158,6 @@ public class ProductController {
 
 			log.info(productService.getCategoryFilter(criteria).toString());
 			model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
-
 		} catch (Exception e){
 			e.printStackTrace();
 		}
