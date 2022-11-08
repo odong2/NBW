@@ -65,4 +65,16 @@ public class PaymentDaoImpl implements PaymentDao {
     public List<OrderList> selectMemOrderList(String mem_id) throws Exception {
         return sqlSession.selectList(namespace + "selectMemOrderList" , mem_id);
     }
+
+
+    /**************************** 주문 상태 변경 <취소, 반품, 구매확정, 배송중></취소,> (회원) ************************************/
+    @Override
+    public int updateOrderStatus(Map<String, Object> pMap) throws Exception {
+        return sqlSession.update(namespace + "updateOrderStatus",pMap);
+    }
+    /******************************** 주문 조회 페이지 상품상태 개수 조회 쿼리문 *********************************/
+    @Override
+    public Map<String, Integer> selectMemStatusCnt(String mem_id) throws Exception {
+        return sqlSession.selectOne(namespace + "selectStatusCnt", mem_id);
+    }
 }

@@ -99,4 +99,26 @@
         WHERE c.p_no = d.p_no
           and c.cp_no = e.cp_no(+)
     </select>
+    <!-- 주문상품 상태 변경(취소, 반품, 교환, 구매확정, 배송중) -->
+    <update id="updateOrderStatus" parameterType="java.util.Map">
+        UPDATE TB_MEMPAYMENTDETAIL
+        SET
+        order_status = #{order_status}
+        WHERE ORDER_NO = #{order_no}
+        AND   P_NO =  #{p_no}
+    </update>
+
+    <!-- 주문 조회 페이지 상품상태 개수 조회 쿼리문 -->
+    <select id="selectStatusCnt" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT  NVL(SUM(DECODE(order_status, '취소', 1, NULL)), 0) AS cancle_count,
+                NVL(SUM(DECODE(order_status, '상품 준비중', 1, NULL)),0) AS ready_count,
+                NVL(SUM(DECODE(order_status, '배송완료', 1, NULL)),0) AS complete_count,
+                NVL(SUM(DECODE(order_status, '배송중', 1, NULL)),0) AS delivery_count,
+                NVL(SUM(DECODE(order_status, '반품', 1, NULL)),0) AS return_count
+        FROM TB_MEMPAYMENTDETAIL
+        WHERE ORDER_NO IN (
+            SELECT order_no FROM tb_mempayment
+            WHERE mem_id = #{mem_id}
+        )
+    </select>
 </mapper>

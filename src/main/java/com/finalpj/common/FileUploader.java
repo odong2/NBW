@@ -60,6 +60,7 @@ public class FileUploader {
 			if (originalFileName != null && originalFileName != "") {
 				String uploadPath = uploadRoot+"/Desktop/upload/"+path;
 				System.out.println(uploadPath);
+
 				UUID uuid = UUID.randomUUID();
 
 				// 파일이름 중복을 피하기위해 uuid를 덧붙여 파일이름 저장

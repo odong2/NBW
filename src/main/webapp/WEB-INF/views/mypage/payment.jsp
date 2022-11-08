@@ -46,6 +46,9 @@
     #productHeader h5{
         font-size: 1.1rem;
     }
+    .modal-section{
+        border-radius: 5px;
+    }
     .product-img{
         width: 70px;
         margin-left:20px;
@@ -82,9 +85,21 @@
         border-color: #5055b1;
         width: 80px;
     }
-    .order-status{
+    .order-status-green{
         color: #6DB329;
         font-weight: bold;
+    }
+    .order-status-red{
+        color: red;
+        font-weight: bold;
+    }
+    .order-status-blue{
+        color: #5055b1;
+        font-weight: bold;
+    }
+    .order-list a{
+        text-decoration: none;
+        font-size: 0.8rem;
     }
     .product-price{
         font-weight: bold;
@@ -104,6 +119,9 @@
     .modal-body #img{
         width: 60px;
     }
+    .modal-content .modal-data{
+        padding:10px;
+    }
     .modal-footer .close-mBtn{
         background-color: white;
         color: #5055b1;
@@ -112,6 +130,9 @@
     .modal #payBackModalLabel{
         font-size: 1.2rem;
         color: #a52834;
+    }
+    .modal #p-msg{
+        font-size: 0.8rem;
     }
 </style>
 </head>
@@ -146,24 +167,24 @@
             </li>
             <li class="header-list">
                 <div class="d-flex justify-content-center">
-                    <img src="/images/delivery-truck.png" alt="배송 이미지" width="40px" />
-                </div>
-                <div class="text-center mt-1">
-                    <span>배송중</span>
-                </div>
-                <div class="text-center mt-1">
-                    <span class="badge bg-primary rounded-pill">0</span>
-                </div>
-            </li>
-            <li class="header-list">
-                <div class="d-flex justify-content-center">
-                    <img src="/images/house.png" alt="배송완료 이미지" width="40px" />
+                    <img src="/images/delivery-truck.png"  alt="배송완료 이미지" width="40px" />
                 </div>
                 <div class="text-center mt-1">
                     <span>배송완료</span>
                 </div>
                 <div class="text-center mt-1">
-                    <span class="badge bg-primary rounded-pill">0</span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.COMPLETE_COUNT}"/></span>
+                </div>
+            </li>
+            <li class="header-list">
+                <div class="d-flex justify-content-center">
+                    <img src="/images/house.png"alt="상품 준비중 이미지" width="40px" />
+                </div>
+                <div class="text-center mt-1">
+                    <span>상품준비중</span>
+                </div>
+                <div class="text-center mt-1">
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.READY_COUNT}"/></span>
                 </div>
             </li>
             <li class="header-list">
@@ -171,10 +192,10 @@
                     <img src="/images/exchange.png" alt="교환 이미지" width="40px" />
                 </div>
                 <div class="text-center mt-1">
-                    <span>반품/교환</span>
+                    <span>반품</span>
                 </div>
                 <div class="text-center">
-                    <span class="badge bg-primary rounded-pill">0</span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.RETURN_COUNT}"/></span>
                 </div>
             </li>
             <li class="header-list">
@@ -185,7 +206,7 @@
                     <span>취소</span>
                 </div>
                 <div class="text-center">
-                    <span class="badge bg-primary rounded-pill">0</span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.CANCLE_COUNT}"/> </span>
                 </div>
             </li>
         </ul>
@@ -206,10 +227,22 @@
             <li class="order-list mb-3">
                 <div class="d-flex mt-3 col-12">
                     <img src="${order.p_img}" class="product-img"/>
-                    <div class="col-4 text-center align-self-center"><span><c:out value="[${order.p_category}]${order.p_title}"/></span></div>
+                    <div class="col-4 text-center align-self-center"><a href="/product/${order.p_no}"><c:out value="[${order.p_category}]${order.p_title}"/></a></div>
                     <div class="col-1 text-center align-self-center"><span><c:out value="${order.p_count}"/>권</span></div>
                     <div class="col-2 text-center align-self-center"><span class="product-price"><fmt:formatNumber value="${order.p_price * order.p_count}" type="number"/>원</span></div>
-                    <div class="col-1 text-center align-self-center"><span class="order-status"><c:out value="${order.order_status}"/></span></div>
+                    <div class="col-1 text-center align-self-center">
+                        <c:choose>
+                            <c:when test="${order.order_status eq '취소' or order.order_status eq '반품'}">
+                                <span class="order-status-red"><c:out value="${order.order_status}"/></span>
+                            </c:when>
+                            <c:when test="${order.order_status eq '상품 준비중'}">
+                                <span class="order-status-green"><c:out value="${order.order_status}"/></span>
+                            </c:when>
+                            <c:when test="${order.order_status eq '배송완료'}">
+                                <span class="order-status-blue"><c:out value="${order.order_status}"/></span>
+                            </c:when>
+                        </c:choose>
+                    </div>
                     <div class="col-3 flex-column text-center align-self-center">
                     <c:choose>
                         <c:when test="${order.order_status eq '배송 완료'}">
@@ -217,7 +250,7 @@
                         </c:when>
                         <c:when test="${order.order_status eq '상품 준비중'}">
                             <div><button type="button" id="payBackBtn" class="btn btn-primary col-4 mb-2"
-                                         data-pImg="${order.p_img}" data-pCount="${order.p_count}" data-pTitle="${order.p_title}" data-pPrice="${order.p_price}"
+                                         data-pImg="${order.p_img}" data-pCount="${order.p_count}" data-pTitle="${order.p_title}" data-pPrice="${order.p_price}" data-orderStatus="취소"
                                          data-pPno="${order.p_no}" data-orderNo="${order.order_no}" data-bs-toggle="modal" data-bs-target= "#payBackModal">결제취소</button></div>
                         </c:when>
                     </c:choose>
@@ -233,63 +266,63 @@
         </ul>
     </section>
         <!-- Modal -->
-        <section class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+        <section class="modal fade rounded-3" id="staticBackdrop" data-bs-backdrop="static"
                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <section>
+                        <section class="modal-data">
                             <h6 class="title mb-2">상품개별 정보</h6>
                             <hr/>
-                            <div class="d-flex mb-2">
-                                <div class="col-4  align-self-center">상품</div>
-                                <div class="col-5  align-self-center">제목</div>
+                            <div class="d-flex mb-2 px-2">
+                                <div class="col-3  align-self-center">상품</div>
+                                <div class="col-5  ms-5 align-self-center">제목</div>
                                 <div class="col-2  align-self-center">금액</div>
                             </div>
                             <div class="d-flex mb-4">
-                                <div class="col-4  align-self-center"><img src="" id="pImg"></div>
-                                <div class="col-5  align-self-center"><span id="pTitle"></span></div>
+                                <div class="col-3  align-self-center"><img src="" id="pImg"></div>
+                                <div class="col-6  align-self-center"><p id="pTitle" class="me-2 mt-3"></p></div>
                                 <div class="col-2  align-self-center"><span id="pPrice"></span></div>
                             </div>
                         </section>
-                        <section>
+                        <section class="modal-data">
                             <h6 class="title">배송정보</h6>
                             <hr/>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>수령자</span></div>
-                                <div><span id="receiverName"></span></div>
+                                <div class="col-7 ms-5"><span id="receiverName"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>수령자 전화번호</span></div>
-                                <div><span id="receiverPhone"></span></div>
+                                <div class="col-7 ms-5"><span id="receiverPhone"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>수령자 주소</span></div>
-                                <div><span id="receiverAddress"></span></div>
+                                <div class="col-7 ms-5"><span id="receiverAddress"></span></div>
                             </div>
-                            <div class="d-flex mb-4">
+                            <div class="d-flex mb-4 px-2">
                                 <div class="col-7"><span>배송메모</span></div>
-                                <div><span id="deliveryMemo"></span></div>
+                                <div class="col-7 ms-5"><span id="deliveryMemo"></span></div>
                             </div>
                         </section>
-                        <section>
+                        <section class="modal-data">
                             <h6 class="title">결제 정보</h6>
                             <hr/>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>쿠폰</span></div>
-                                <div><span id="cpName"></span></div>
+                                <div class="col-7 ms-5"><span id="cpName"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>쿠폰사용 금액</span></div>
-                                <div><span id="cpPrice"></span></div>
+                                <div class="col-7 ms-5"><span id="cpPrice"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>포인트 사용</span></div>
-                                <div><span id="usedPoint"></span></div>
+                                <div class="col-7 ms-5"><span id="usedPoint"></span></div>
                             </div>
-                            <div class="d-flex mb-2">
+                            <div class="d-flex mb-2 px-2">
                                 <div class="col-7"><span>총 결제금액</span></div>
-                                <div><span id="totalPrice"></span></div>
+                                <div class="col-7 ms-5"><span id="totalPrice"></span></div>
                             </div>
                         </section>
                     </div>
@@ -301,34 +334,63 @@
         </section>
         <section>
             <!-- 결제 취소 Modal -->
-            <section class="modal fade" id="payBackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <section class="modal fade rounded-3" id="payBackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <section class="modal-header">
                             <h6 class="modal-title" id="payBackModalLabel">결제취소</h6>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </section>
-                        <section class="modal-body">
-                            <div>
-                                <div class="d-flex mb-2">
-                                    <div class="col-4  align-self-center">상품</div>
-                                    <div class="col-5  align-self-center">제목</div>
-                                    <div class="col-2  align-self-center">금액</div>
-                                </div>
-                                <div class="d-flex mb-4">
-                                    <div class="col-4  align-self-center"><img src="" id="img"></div>
-                                    <div class="col-5  align-self-center"><span id="title"></span></div>
-                                    <div class="col-2  align-self-center"><span id="price"></span></div>
-                                </div>
-                            </div>
-                        </section>
+                        <div class="modal-body">
+                            <section class="modal-data">
+                                    <div class="d-flex mb-2">
+                                        <div class="col-4  align-self-center">상품</div>
+                                        <div class="col-5  align-self-center">제목</div>
+                                        <div class="col-2  align-self-center">금액</div>
+                                    </div>
+                                    <div class="d-flex mb-4">
+                                        <div class="col-4  align-self-center"><img src="" id="img"></div>
+                                        <div class="col-5  align-self-center"><span id="title"></span></div>
+                                        <div class="col-2  align-self-center"><span id="price"></span></div>
+                                    </div>
+
+                            </section>
+                            <section class="modal-data">
+                                <form id="payBackForm" action="/payment/status" method="post">
+                                    <input type="hidden" id="pNo" name="p_no" val=""/>
+                                    <input type="hidden" id="orderNo" name="order_no" val=""/>
+                                    <input type="hidden" id="pCount" name="p_count" val=""/>
+                                    <input type="hidden" id="orderStatus" name="order_status" val=""/>
+                                    <select id="form-select" class="form-select form-select-sm" name="refund_reason" aria-label="Refund Reason">
+                                        <option selected value="0" disabled>환불 사유를 선택하세요</option>
+                                        <option value="취소후 재구매">취소후 재구매</option>
+                                        <option value="구매의사 없음">구매의사 없음</option>
+                                        <option value="주문을 잘못함">주문을 잘못함</option>
+                                        <option value="단순변심">단순변심</option>
+                                    </select>
+                                    <p id="p-msg" class="mt-4">상품이 이미 배송된 경우에는 결제 취소가 어려울 수 있는 점 양해바랍니다.</p>
+                                </form>
+                            </section>
+                        </div>
                         <section class="modal-footer">
                             <button type="button" class="btn btn-secondary close-mBtn" data-bs-dismiss="modal">닫기</button>
-                            <button type="button" class="btn btn-primary">결제취소</button>
+                            <button type="button" id="payBackSBtn" class="btn btn-primary">결제취소</button>
                         </section>
                     </div>
                 </div>
             </section>
+        </section>
+        <%--================================ 댓글 msg 알림창 ===================================--%>
+        <section class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 100">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <div id="colorBox"style="width: 25px; height: 25px; border-radius: 7px; background-color: indianred"></div>
+                    <strong class="me-auto ms-2" id="msgTitle"></strong>
+                    <small>방금</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="msgContent"></div>
+            </div>
         </section>
 </main>
     <%-- ==================== 메인 끝 ==================--%>
@@ -338,6 +400,23 @@
 <%@include file="../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 <script type="text/javascript">
+    /* 결제 반품 및 취소 메시지 보여주는 함수*/
+    let showMsg = function (title, content){
+
+        $('#msgTitle').text(title);
+        $('#msgContent').text(content);
+        const toastLive = document.getElementById('liveToast')
+        const toast = new bootstrap.Toast(toastLive)
+        toast.show()
+    }
+
+    $(function(){
+        let msg = '${msg}';
+        console.log(msg);
+        if(msg.trim().length != 0){
+            showMsg("테스트",msg);
+        }
+    })
 
     <%-- 모달 이벤트 --%>
     $('#staticBackdrop').on('show.bs.modal', function (event) {
@@ -370,19 +449,44 @@
         modal.find('#pTitle').text(pTitle);
         modal.find('#pPrice').text(productPrice);
     })
+    /* 결제취소 모달 */
     $('#payBackModal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget) // Button that triggered the modal
         let img = button.attr('data-pImg');
+        let pNo = button.attr('data-pPno');
+        let orderNo = button.attr('data-orderNo');
+        let orderStatus = button.attr('data-orderStatus');
         let title = button.attr('data-pTitle');
         let price = button.attr('data-pPrice');
         let count = button.attr('data-pCount');
         let productPrice = (price * count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
         let modal = $(this);
+
+        modal.find('#orderStatus').val(orderStatus);
+        modal.find('#pNo').val(pNo);
+        modal.find('#orderNo').val(orderNo);
+        modal.find('pCount').val(count);
         modal.find('#img').attr('src',img);
         modal.find('#title').text(title);
         modal.find('#price').text(productPrice);
 
     });
+
+     /*결제취소 모달에서 결제하기 전송 이벤트*/
+    $('#payBackSBtn').on('click',function(){
+        let returnReason = $('#form-select').val();
+        if(returnReason==null){
+            alert('환불사유를 선택해주세요.');
+            return;
+        }
+        if(!confirm(("결제를 취소하시겠습니까?"))){
+            alert("결제취소를 취소하셨습니다.")
+        }
+        else{
+            $('#payBackForm').submit();
+        }
+    })
+
 </script>
 </body>
 </html>

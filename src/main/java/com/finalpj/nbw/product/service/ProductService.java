@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+
+import com.finalpj.nbw.product.domain.CategoryFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,6 @@ import com.finalpj.nbw.product.dao.ProductDao;
 import com.finalpj.nbw.product.domain.Product;
 import com.finalpj.nbw.product.domain.Review;
 
-import com.finalpj.nbw.product.domain.CategoryFilter;
 import com.finalpj.nbw.product.domain.Criteria;
 
 import lombok.extern.slf4j.Slf4j;

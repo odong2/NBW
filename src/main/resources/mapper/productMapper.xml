@@ -6,12 +6,10 @@
 		SELECT P_NO, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE, P_IMG,P_DESCRIPTION, P_CATEGORY, P_LIKE, P_REVIEW, P_AVGSCORE 
 		FROM TB_PRODUCT WHERE p_no = #{value}
 	</select>
-
 	
  	<select id="SelectReviewList" parameterType="String" resultType="review">
 		SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME FROM TB_REVIEW
 	</select>
-
 	
 	<!-- ===================================== 공통부분 ===================================== -->
 	<!-- ===================================== 상품 등록 ===================================== -->
@@ -41,7 +39,6 @@
 				   , #{p_count}
 				   )
 	</insert>
-
 
 	<sql id="criteria">
 		<if test="keyword != null">
