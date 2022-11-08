@@ -7,13 +7,20 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.finalpj.common.exception.FileUploader;
+import com.finalpj.common.FileUploader;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.member.service.MemberService;
 
@@ -35,6 +42,11 @@ import com.finalpj.nbw.product.service.ProductService;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -53,14 +65,11 @@ public class ProductController {
 		this.memberService = memberService;
 		this.productService = productService;
 	}
-	
 
 	@GetMapping("{id}")
 	public String detail(@PathVariable("id") String p_no, Model model, HttpSession session) {
-		System.out.println("number: "+p_no);
 		Product product = productService.getProduct(p_no);
-		System.out.println("product: "+product.toString());
-		model.addAttribute("product",product);
+		model.addAttribute("product", product);
 		
 		Member member = (Member) session.getAttribute("member");
 		
@@ -83,7 +92,14 @@ public class ProductController {
 		
 		if(member != null) {
 			review.setMem_id(member.getMem_id());
-			map = productService.reviewRegister(review);
+			review.setMem_point(member.getMem_point());
+			review.setMem_nickname(member.getMem_nickname());
+			try {
+				map = productService.reviewRegister(review, session);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}else {
 			map = new HashMap<>();
 			map.put("success", false);
@@ -140,5 +156,40 @@ public class ProductController {
 
 		return "/product/productList";
 	}
+	
+    @GetMapping(value = "images/{fileName:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName){
+		final String uploadRoot = System.getProperty("user.home");
+     	final String fileFolder = uploadRoot+"/Desktop/upload/review/";
+     	
+        System.out.println("file : " + fileName);
+        System.out.println("path : " + fileFolder);
+        
+        Resource resource = new FileSystemResource(fileFolder + fileName);
+        
+        if(!resource.exists())
+        	return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+        
+        System.out.println("resource : " + resource);
+
+        HttpHeaders headers = new HttpHeaders();
+        Path filePath = null;
+
+        try {
+            filePath = Paths.get(fileFolder+fileName);
+            System.out.println("filePath: "+filePath);
+            
+            String Content_Type = Files.probeContentType(filePath);
+            System.out.println(Content_Type);
+            
+			headers.add("Content-Type", Content_Type);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+    }
 }
+
 

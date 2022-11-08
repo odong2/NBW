@@ -246,30 +246,6 @@
 		window.open("${contextPath}/login/change?mem_email="+email+"&mem_id="+id,"","width=600px, height=400px")
 	});
 	
-/* 	let loading = function(command){
-		if(!$('#icon-box').length){
-			$('body').append('<div id="icon-box" style="display:none;"></div>');
-			$('#icon-box').append('<img alt="" src="/images/loading_icon.gif">');
-		}
-		
-		if (command){
-			$('#icon-box').css({
-					'display': 'flex',
-					'justify-content': 'center',
-					'align-items':'center',
-			 		'min-height': '100vh',
-			 		'min-width': '100%',
-					'position':'absolute',
-					'z-index':'2', 
-					'left':'0',
-					'top':'0',
-			        'background-color': 'rgba( 255, 255, 255, 0.5 )'
-			});
-		}else {
-			$('#icon-box').hide();
-		}
-	} */
-	
     let loading = function(command){
 		if(!$('#icon-box').length){
 			$('body').append(' <div id="icon-box" style="display:none;"></div>');

@@ -1,4 +1,4 @@
-package com.finalpj.nbw.login.dto;
+package com.finalpj.nbw.login.domain;
 
 import java.sql.Timestamp;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FindDto {
+public class Find {
 	
 	private String mem_id;
 	private String mem_pw;

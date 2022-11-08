@@ -16,16 +16,15 @@ public class PageHandler {
     private boolean showNext;      // 다음 페이지 이동 링크 여부
 
     public PageHandler(int totalCnt, int page){
-    this.totalCnt = totalCnt;
-    this.page = page;
-
-    totalPage = (int)Math.ceil(totalCnt / (float)pageSize); // 나머지 값 있을 경우 페이지 하나 추가
-    beginPage = (page-1) / naviSize * naviSize + 1;
-    endPage =  Math.min(beginPage + naviSize-1 , totalPage);
-    showPrev = beginPage != 1;
-    showNext = endPage != totalPage;
+	    this.totalCnt = totalCnt;
+	    this.page = page;
+	
+	    totalPage = (int)Math.ceil(totalCnt / (float)pageSize); // 나머지 값 있을 경우 페이지 하나 추가
+	    beginPage = (page-1) / naviSize * naviSize + 1;
+	    endPage =  Math.min(beginPage + naviSize-1 , totalPage);
+	    showPrev = beginPage != 1;
+	    showNext = endPage != totalPage;
     }
-
 
     public void print(){
         System.out.println("현재 페이지는 = " + page + "page");
@@ -35,6 +34,5 @@ public class PageHandler {
         }
         System.out.println(showNext ? "[Next]" : "");
     }
-
 
 }

@@ -3,7 +3,12 @@
 <mapper namespace="com.finalpj.nbw.product.dao.ProductMapper">
 
 	<select id="getProduct" parameterType="String" resultType="com.finalpj.nbw.product.domain.Product">
-		SELECT * FROM tb_PRODUCT WHERE p_no = #{value}
+		SELECT P_NO, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE, P_IMG,P_DESCRIPTION, P_CATEGORY, P_LIKE, P_REVIEW, P_AVGSCORE 
+		FROM TB_PRODUCT WHERE p_no = #{value}
+	</select>
+	
+ 	<select id="SelectReviewList" parameterType="String" resultType="review">
+		SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME FROM TB_REVIEW
 	</select>
 	
 	<!-- ===================================== 공통부분 ===================================== -->
@@ -27,14 +32,15 @@
 
 	
 	<update id="updateLike" parameterType="map">
-		UPDATE TB_PRODUCT
+		UPDATE TB_PRODUCT 
 		SET P_LIKE = P_LIKE + #{value}
 		WHERE P_NO = #{p_no}
 	</update>
 	
 	<update id="reviewCountUpdate" parameterType="review">
 		UPDATE TB_PRODUCT
-		SET P_REVIEW = P_REVIEW + 1
+		SET P_REVIEW = P_REVIEW + 1,
+		P_AVGSCORE = (SELECT SUM(RV_SCORE) FROM TB_REVIEW WHERE P_NO = #{p_no}) / (SELECT COUNT(RV_SCORE) FROM TB_REVIEW WHERE P_NO = #{p_no})
 		WHERE P_NO = #{p_no}
 	</update>
 	
@@ -42,29 +48,27 @@
   		<choose>
 		    <when test="fileSize == 1">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG)
-				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img} )
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image} )
 		    </when>
 		    <when test="fileSize == 2">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2)
-				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2} )
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_image2} )
 		    </when>
 		    <when test="fileSize == 3">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
-				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2}, #{rv_img3} )
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2}, #{rv_image3} )
 		    </when>
 		    <otherwise>
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO)
-				VALUES (#{mem_id}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no})
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no})
 		    </otherwise>
 		</choose>
 	</insert>
 	
-
-
 	<!-- ================================== 상품 목록 조회 > 페이징 포함 ================================== -->
 	<select id="selectProduct"  resultType="product">
 		<![CDATA[
@@ -135,4 +139,5 @@
 					 	P_CATEGORY = #{categoryCode}
 			  		)
 	</select>
+	
 </mapper>
