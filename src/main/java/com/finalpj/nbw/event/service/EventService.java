@@ -85,7 +85,13 @@ public class EventService {
     @Transactional(rollbackFor = Exception.class)
     public int eventAdd(EventMember eventMember) throws Exception{
         log.info("서비스 event 작성 호출 성공");
-        return eventDao.eventAdd(eventMember);
+        int result = 0;
+        int result2 = 0;
+        result = eventDao.eventAdd(eventMember);
+        if(result == 1){
+            result2 = eventDao.updateEvPeople(eventMember);
+        }
+        return result2;
     }
 
     /********************************* [[관리자 이벤트 삭제]] **************************************/
