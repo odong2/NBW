@@ -66,9 +66,15 @@ public class AdminQnaController {
 	@GetMapping("answer")
 	public String qnaDetailList(Model model, Integer qn_no) {
 		log.info("문의사항 답변 페이지 호출");
+		List<Qna> questionIngList = null; // 답변하지 않은 문의사항
+		int ingCnt = 0; // 답변하지 않은 문의글 갯수
 		Qna qt  = null;
 		Answer an = null;
 		try {
+			ingCnt = qnaService.getQuestionIngCnt();
+			model.addAttribute("ingCnt", ingCnt);
+			questionIngList = qnaService.qnaIngList();
+			model.addAttribute("questionIngList", questionIngList);
 			qt = qnaService.qnaRead(qn_no);
 		} catch (Exception e) {
 			e.printStackTrace();
