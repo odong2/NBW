@@ -5,9 +5,6 @@ import com.finalpj.nbw.event.domain.Event;
 import com.finalpj.nbw.event.domain.EventMember;
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
