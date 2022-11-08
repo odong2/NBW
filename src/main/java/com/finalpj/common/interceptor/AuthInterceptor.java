@@ -1,10 +1,9 @@
-package com.finalpj.common.exception.interceptor;
+package com.finalpj.common.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import lombok.extern.log4j.Log4j;

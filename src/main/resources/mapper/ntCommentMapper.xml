@@ -47,7 +47,7 @@
     <update id="updateComment" parameterType="ntCommentDto">
         UPDATE tb_noticecomment
         SET ntc_comment = #{ntc_comment}
-        , ntc_cdate = sysdate
+        , ntc_update = sysdate
         WHERE ntc_no = #{ntc_no} and ntc_commenter = #{ntc_commenter}
     </update>
 </mapper>
