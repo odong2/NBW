@@ -58,7 +58,6 @@
 		ORDER BY P_TITLE ASC
 	</select>
 
-	
 	<update id="updateLike" parameterType="map">
 		UPDATE TB_PRODUCT 
 		SET P_LIKE = P_LIKE + #{value}
@@ -169,7 +168,6 @@
 					WHERE P_CATEGORY =#{p_category}
 				</when>
 			</choose>
-
 
 	</select>
 

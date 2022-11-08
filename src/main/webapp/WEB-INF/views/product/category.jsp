@@ -36,7 +36,6 @@
             $(".category_search_form input[name='type']").val('C');
             $(".category_search_form").submit();
         })
-
         let params = new URLSearchParams(document.location.search);
         let nowCate = params.get("p_category");
         $(function(){
@@ -46,34 +45,33 @@
             })
         })
     })
-
-
 </script>
-    <section class="sidebar">
-<%--    사이드 카테고리바는 키워드 검색 시에만 보인다.     --%>
-            <c:if test="${not empty criteria.keyword and pagination.totalCount ne 0}">
-                <!-- 사이드바 메뉴 시작 -->
-                <section>
-                    <ul class="sidebarList mt-3" style="position: fixed; left: 180px; border: solid 1px #dcdbdb; padding-top: 20px; padding-bottom: 20px; padding-right: 25px; border-radius: 10px; ">
-                        <ul class="category_wrap">
-                            <li class="title" style="border-radius: 10px;"><span style="color:gray">Category</span></li>
-                            <br>
-                                <%--    <a> 태그를 클릭했을 때 필터링된 '상품 목록' 페이지로 이동  --%>
-                            <c:forEach items="${categoryFilterList}" var="item"  varStatus="status">
-                                <li class="side-link"><a class="cate-a" href="${categoryFilterList[status.index]}">∙ ${categoryFilterList[status.index]}</a></li>
-                            </c:forEach>
-                        </ul>
-                        </li>
-                    </ul>
-
-                </li>
+<section class="sidebar">
+    <%--    사이드 카테고리바는 키워드 검색 시에만 보인다.     --%>
+    <c:if test="${not empty criteria.keyword and pagination.totalCount ne 0}">
+    <!-- 사이드바 메뉴 시작 -->
+    <section>
+        <ul class="sidebarList mt-3" style="position: fixed; left: 180px; border: solid 1px #dcdbdb; padding-top: 20px; padding-bottom: 20px; padding-right: 25px; border-radius: 10px; ">
+            <ul class="category_wrap">
+                <li class="title" style="border-radius: 10px;"><span style="color:gray">Category</span></li>
+                <br>
+                    <%--    <a> 태그를 클릭했을 때 필터링된 '상품 목록' 페이지로 이동  --%>
+                <c:forEach items="${categoryFilterList}" var="item"  varStatus="status">
+                    <li class="side-link"><a class="cate-a" href="${categoryFilterList[status.index]}">∙ ${categoryFilterList[status.index]}</a></li>
+                </c:forEach>
             </ul>
-<%--            카테고리 검색을 요청할 form 을 숨김으로 해놓은 뒤 사용자가 위의 a 태그를 클릭하면 그에 해당하는 카테고리 이름을 input 의 value 로 넘긴다.--%>
-            <form class="category_search_form" method="get" action="/product/search" hidden>
-                <input type="text" name="p_category"/>
-                <input type="text" name="keyword"/>
-                <input type="text" name="type"/>
-            </form>
-        </section>
-        <!-- 사이드바 메뉴 끝 -->
+            </li>
+        </ul>
+
+        </li>
+        </ul>
+            <%--            카테고리 검색을 요청할 form 을 숨김으로 해놓은 뒤 사용자가 위의 a 태그를 클릭하면 그에 해당하는 카테고리 이름을 input 의 value 로 넘긴다.--%>
+        <form class="category_search_form" method="get" action="/product/search" hidden>
+            <input type="text" name="p_category"/>
+            <input type="text" name="keyword"/>
+            <input type="text" name="type"/>
+        </form>
     </section>
+    </c:if>
+    <!-- 사이드바 메뉴 끝 -->
+</section>
