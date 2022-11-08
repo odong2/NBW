@@ -60,9 +60,14 @@ public class ProductService {
 	}
     
 
-    /* 추천 검색어 조회 */
-    public List<Map<String, Object>> search(Map<String, Object> paramMap) throws Exception {
-        return  productDao.selectProductByWord(paramMap);
+//    /* 추천 검색어 조회 */
+//    public List<Product> search(Criteria criteria) throws Exception {
+//        return  productDao.selectProductByWord(criteria);
+//    }
+
+    /* 상품 등록 */
+    public int insertProduct(Product product) throws Exception{
+        return productDao.insertProduct(product);
     }
 
     /* 상품 목록 조회 > 페이징*/

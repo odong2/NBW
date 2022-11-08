@@ -19,7 +19,7 @@
             let categoryCode = $(this).attr("href");
             console.log(categoryCode); // 내가 클릭한 a 태그의 href 값 (예: 기술과학, 사회과학..)
             $(".category_search_form input[name='keyword']").val('${criteria.keyword}');
-            $(".category_search_form input[name='categoryCode']").val(categoryCode);
+            $(".category_search_form input[name='p_category']").val(categoryCode);
             $(".category_search_form input[name='type']").val('C');
             $(".category_search_form").submit();
         })
@@ -39,15 +39,12 @@
                     </ul>
                 </li>
             </ul>
-
-<%--            카테고리 검색을 요청할 form 을 숨김으로 해놓은 뒤
-                    사용자가 위의 a 태그를 클릭하면
-                     그에 해당하는 카테고리 이름을 input 의 value 로 넘긴다.
---%>
+<%--            카테고리 검색을 요청할 form 을 숨김으로 해놓은 뒤 사용자가 위의 a 태그를 클릭하면 그에 해당하는 카테고리 이름을 input 의 value 로 넘긴다.--%>
             <form class="category_search_form" method="get" action="/product/search" hidden>
-                <input type="text" name="categoryCode"/>
+                <input type="text" name="p_category"/>
                 <input type="text" name="keyword"/>
                 <input type="text" name="type"/>
             </form>
         </section>
+        <!-- 사이드바 메뉴 끝 -->
     </section>

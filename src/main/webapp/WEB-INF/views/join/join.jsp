@@ -280,7 +280,6 @@
                 let pw = $("#mem_pw").val();
                 console.log("입력한 비밀번호 ===> "+ pw);
 
-                /* (2) ajax 코드를 추가한다 > controller 에 요청할 때 화면이 전환되는 것을 방지 */
                 $.ajax({
                     type:"GET",
                     url:"/member/pwCheck?pw="+pw,
@@ -506,7 +505,7 @@
                 </div>
                 <div class = "alert alert-dismissible w-75" id="nicknameCheckDiv"></div>                </div>
         </div>
-        </div>
+
 
         <!-- 이름 입력 ROW  -->
         <div class="row">
@@ -633,13 +632,11 @@
 		                           autocomplete="off" class="form-control">
 		                </c:when>
 		                <c:otherwise>
+                        <%--    fmt:formatNumber 형식 오류 수정   --%>
 		                    <input name="mem_phone" id="mem_phone" type="tel" placeholder="예) 010-1234-5678"
                                    pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
 		                           autocomplete="off" class="form-control"
-                                   <fmt:formatNumber value="${member.getMem_phone()}" pattern="###-####-####"/>
-
                             />
-
 		                </c:otherwise>
 		            </c:choose>
                 </div>

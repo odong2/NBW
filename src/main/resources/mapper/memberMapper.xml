@@ -51,15 +51,15 @@
     </select>
 
     <!--  ================== *회원 정보 수정* ==================  -->
-    <update id="updateMyInfo" parameterType="member">
+    <update id="updateMyInfo" parameterType="member" >
         UPDATE tb_member
-        SET  mem_zipcode = #{mem_zipcode}
+        SET
+            mem_zipcode = #{mem_zipcode}
             ,mem_address1 = #{mem_address1}
             ,mem_address2 = #{mem_address2}
             ,mem_email = #{mem_email}
             ,mem_update = sysdate
             ,mem_nickname = #{mem_nickname}
-<<<<<<< HEAD
         WHERE mem_id = #{mem_id}
     </update>
 
@@ -84,9 +84,6 @@
     <!--  ================== *회원 탈퇴* ==================  -->
     <delete id="deleteMember" parameterType="member">
         DELETE  FROM tb_member
-<<<<<<< HEAD
-=======
->>>>>>> a955537 (Fix: 충돌수정)
         WHERE mem_id = #{mem_id}
     </delete>
 
@@ -94,12 +91,5 @@
     <update id="updateMemPoint" parameterType="java.util.Map">
         UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
     </update>
-
-<!--    &lt;!&ndash;  ================== *회원 탈퇴* ==================  &ndash;&gt;-->
-<!--    <delete id="deleteMember" parameterType="member">-->
-<!--        DELETE  FROM tb_member-->
-<!--        WHERE mem_id = #{mem_id}-->
-<!--    </delete>-->
-
 
 </mapper>
