@@ -8,7 +8,8 @@
 	</select>
 	
  	<select id="SelectReviewList" parameterType="String" resultType="review">
-		SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME FROM TB_REVIEW
+		SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+		FROM TB_REVIEW WHERE P_NO = #{value}
 	</select>
 	
 	<!-- ===================================== 공통부분 ===================================== -->
@@ -81,12 +82,12 @@
 		    <when test="fileSize == 2">
 		    	INSERT INTO TB_REVIEW
 				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2)
-				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_image2} )
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image}, #{rv_image2} )
 		    </when>
 		    <when test="fileSize == 3">
 		    	INSERT INTO TB_REVIEW
 				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
-				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_img}, #{rv_img2}, #{rv_image3} )
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image}, #{rv_image2}, #{rv_image3} )
 		    </when>
 		    <otherwise>
 		    	INSERT INTO TB_REVIEW

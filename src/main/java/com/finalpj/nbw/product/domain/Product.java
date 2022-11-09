@@ -28,4 +28,9 @@ public class Product {
 	private Integer p_avgscore;
 
 	private List<Review> reviewList;
+	
+	public String getStar() {
+		String star = "★"; 
+		return star.repeat(this.p_avgscore)+"("+p_avgscore+")";
+	}
 }

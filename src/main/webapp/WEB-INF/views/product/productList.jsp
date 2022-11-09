@@ -125,10 +125,10 @@
                 <div class="row" style="padding: 10px 10px;">
                     <div class="row" id="product_list" >
                         <div class="col-3">
-                            <a href="/product/<c:out value="${list.getP_no()}"><img alt=""  width="150px" src="${list.getP_img()}" style="border-radius: 5px;"/></a>
+                            <a href="/product/<c:out value="${list.getP_no()}"/>"> <img alt=""  width="150px" src="${list.getP_img()}" style="border-radius: 5px;"/></a>
                         </div>
                         <div class="col">
-                            <div class="row"><p style="font-weight: bolder"><a href="/product/<c:out value="${list.getP_no()}">${list.getP_title()}</a></p></div>
+                            <div class="row"><p style="font-weight: bolder"><a href="/product/<c:out value="${list.getP_no()}"/>">${list.getP_title()}</a></p></div>
                             <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_author()} 저자</p></div>
                             <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_publisher()} |
                                                                             <fmt:parseDate value="${list.getP_pubdate()}" var="date1" pattern="yyyy-MM-dd"/>
