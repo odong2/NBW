@@ -22,15 +22,10 @@ public class Review {
 	private String rv_img;
 	private String rv_img2;
 	private String rv_img3;
-	private Date rv_date;
+	private String rv_date;
 	private List<MultipartFile> files;
 	private List<String> fileNames;
 	private Integer fileSize;
-	
-	public String getStar() {
-		String star = "★"; 
-		return star.repeat(this.rv_score)+"("+rv_score+")";
-	}
 	
 	public String getRv_image() {
 		return fileNames.get(0);
@@ -41,21 +36,4 @@ public class Review {
 	public String getRv_image3() {
 		return fileNames.get(2);
 	}
-	
-	public void fileNames() {
-		if (this.fileNames == null)
-			this.fileNames = new ArrayList<String>();
-		
-		if (this.rv_img != null)
-			fileNames.add(this.rv_img);
-		
-		if (this.rv_img2 != null)
-			fileNames.add(this.rv_img2);
-		
-		if (this.rv_img3 != null)
-			fileNames.add(this.rv_img3);
-		
-		System.out.println(fileNames);
-	}
-
 }

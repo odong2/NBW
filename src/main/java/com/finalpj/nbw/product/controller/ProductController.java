@@ -9,10 +9,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,33 +19,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.finalpj.common.FileUploader;
+import com.finalpj.common.PageHandler;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.member.service.MemberService;
 
-import com.finalpj.nbw.product.domain.CategoryFilter;
 import com.finalpj.nbw.product.domain.Criteria;
 import com.finalpj.nbw.product.domain.Pagination;
 import com.finalpj.nbw.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.finalpj.nbw.product.domain.Product;
 import com.finalpj.nbw.product.domain.Review;
-import com.finalpj.nbw.product.repository.ProductDaoImpl;
 
-
-import com.finalpj.nbw.product.service.ProductService;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,7 +46,6 @@ import java.nio.file.Paths;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.*;
 
 
 
@@ -80,10 +71,10 @@ public class ProductController {
 		Member member = (Member) session.getAttribute("member");
 		
 		if(member != null) {
-			Map<String,Object> map = new HashMap<>();
-			map.put("p_no", p_no);
-			map.put("mem_id", member.getMem_id());
-			model.addAttribute("isLike", memberService.existLike(map));
+			Map<String,Object> memberMap = new HashMap<>();
+			memberMap.put("p_no", p_no);
+			memberMap.put("mem_id", member.getMem_id());
+			model.addAttribute("isLike", memberService.existLike(memberMap));
 		}
 		
 		return "/detail";
@@ -113,6 +104,33 @@ public class ProductController {
 		}
 
 		return map;
+	}
+	
+	@PostMapping("page")
+	@ResponseBody
+	public void page(int page, String p_no, HttpServletResponse response) {
+		int totalCnt = productService.getReviewTotalCnt(p_no);
+		PageHandler pageHandler = new PageHandler(totalCnt, page);
+		
+		Map<String,Object> pageMap = new HashMap<>();
+		pageMap.put("offset", pageHandler.getOffset());
+		pageMap.put("offsetTo", pageHandler.getOffsetTo());
+		pageMap.put("p_no", p_no);
+		
+		JSONObject jsonObject = new JSONObject();
+		
+		jsonObject.put("reviewList", productService.getReviewListMap(pageMap));
+		jsonObject.put("ph", pageHandler.getPageHandler());
+		
+		String jsonInfo = jsonObject.toString();
+		
+		response.setCharacterEncoding("utf-8");
+		
+		try {
+			response.getWriter().print(jsonInfo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@GetMapping("/category")

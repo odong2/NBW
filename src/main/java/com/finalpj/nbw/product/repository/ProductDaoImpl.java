@@ -96,7 +96,19 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Review> SelectReviewList(String p_no) {
-		return sqlSession.selectList(namespace+"SelectReviewList",p_no);
+	public List<Review> SelectReviewList(Map<String,Object> map) {
+		return sqlSession.selectList(namespace+"SelectReviewList",map);
+	}
+
+
+	@Override
+	public int getReviewTotalCnt(String p_no) {
+		return sqlSession.selectOne(namespace+"getReviewTotalCnt",p_no);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getReviewListMap(Map<String, Object> pageMap) {
+		return sqlSession.selectList(namespace+"getReviewListMap",pageMap);
 	}
 }

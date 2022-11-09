@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finalpj.common.FileUploader;
+import com.finalpj.common.PageHandler;
 import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.product.dao.ProductDao;
@@ -40,8 +41,7 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public Map<String, Object> reviewRegister(Review review, HttpSession session) throws Exception {
-		
+	public Map<String, Object> reviewRegister(Review review, HttpSession session) throws Exception {	
 		Map<String,Object> pointMap = new HashMap<>();
 		pointMap.put("mem_id", review.getMem_id());
 		pointMap.put("mem_point", review.getMem_point()+200);
@@ -72,14 +72,15 @@ public class ProductService {
 	@Transactional
 	public Product getProduct(String p_no) {
 		Product product = productDao.getProduct(p_no);
-		List<Review> rewivewList = productDao.SelectReviewList(p_no);
-		
-		for (Review review : rewivewList) {
-			review.fileNames();
-		}
-		
-		product.setReviewList(rewivewList);
 		return product;
+	}
+	
+	public int getReviewTotalCnt(String p_no) {
+		return productDao.getReviewTotalCnt(p_no);
+	}
+	
+	public List<Map<String, Object>> getReviewListMap(Map<String, Object> pageMap) {
+		return productDao.getReviewListMap(pageMap);
 	}
 
     /* 상품 등록 */

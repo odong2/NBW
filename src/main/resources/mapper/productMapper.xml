@@ -7,9 +7,26 @@
 		FROM TB_PRODUCT WHERE p_no = #{value}
 	</select>
 	
- 	<select id="SelectReviewList" parameterType="String" resultType="review">
-		SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
-		FROM TB_REVIEW WHERE P_NO = #{value}
+ 	<select id="SelectReviewList" parameterType="map" resultType="review">
+        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        FROM TB_REVIEW WHERE P_NO = #{p_no}
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
+	</select>
+	
+	 <select id="getReviewListMap" parameterType="map" resultType="map">
+        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        FROM TB_REVIEW WHERE P_NO = #{p_no}
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
 	</select>
 	
 	<!-- ===================================== 공통부분 ===================================== -->
@@ -96,6 +113,16 @@
 		    </otherwise>
 		</choose>
 	</insert>
+	
+	<select id="getReviewTotalCnt" resultType="int" parameterType="String">
+		SELECT count(*)
+        FROM(
+                SELECT ROWNUM as rnum, a.*  FROM (
+                     SELECT MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3 FROM TB_REVIEW
+                     WHERE P_NO = #{value}
+                 ) a
+            )
+	</select>
 	
 	<!-- ================================== 상품 목록 조회 > 페이징 포함 ================================== -->
 	<select id="selectProduct"  resultType="product">

@@ -38,8 +38,10 @@ public interface ProductDao {
 
 	void reviewInsert(Review review);
 	
-	List<Review> SelectReviewList(String p_no);
+	List<Review> SelectReviewList(Map<String,Object> map);
 
+	int getReviewTotalCnt(String p_no);
 
+	List<Map<String, Object>> getReviewListMap(Map<String, Object> pageMap);
 }
 
