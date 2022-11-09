@@ -14,6 +14,16 @@
   <%@include file="../../../includes/admin/common.jsp" %>
   <title>관리자 이벤트 등록</title>
   <style>
+    /*********************** 글꼴 **************************/
+    @font-face {
+      font-family: 'GangwonEdu_OTFBoldA';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+    body {
+      font-family: GangwonEdu_OTFBoldA;}
+    /*********************** 글꼴 **************************/
     .title {
       margin-top: 15px;
     }

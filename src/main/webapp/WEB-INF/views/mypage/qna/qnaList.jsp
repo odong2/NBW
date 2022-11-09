@@ -5,10 +5,48 @@
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <style>
+        @font-face {
+            font-family: 'GangwonEdu_OTFBoldA';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body{
+            font-family: GangwonEdu_OTFBoldA;
+            box-sizing: border-box;
+            padding:0;
+            margin:0;
+        }
+        .sidebar span{
+            font-size: 1rem;
+        }
+        .sidebar a{
+            font-size: 1rem;
+        }
+        .sidebarList .title span{
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #5055b1;
+        }
+
         main {
             width: 100%;
             padding-left: 30px;
         }
+
+        main .header-list {
+            border: 1px solid rgba(204, 204, 204, 0.8);
+            width: 100%;
+            height: 100px;
+            border-radius: 7px;
+            font-size: 0.8rem;
+            padding: 5px;
+        }
+        /******************** 공통코드 ************************/
+        /*main {*/
+        /*    width: 100%;*/
+        /*    padding-left: 30px;*/
+        /*}*/
         .topAsk {
             margin-bottom: 50px;
             margin-top: 10px;
