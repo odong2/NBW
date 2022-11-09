@@ -7,6 +7,13 @@
 <title>장바구니</title>
 <%@include file="/WEB-INF/includes/common.jsp"%>
 <style>
+ @font-face {
+            font-family: 'GangwonEdu_OTFBoldA';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        	}
+  body {font-family: GangwonEdu_OTFBoldA;}
 main {
 	width: 1000px;
 	margin: auto;
