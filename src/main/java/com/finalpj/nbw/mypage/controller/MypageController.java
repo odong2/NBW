@@ -53,7 +53,7 @@ public class MypageController {
         if (request.getSession().getAttribute("member") == null) {
             response.sendError(403, "로그인 후에 이용해 주세요. ");
         } else {
-            url = "/mypage/mypageInfo";
+            url = "/mypage/info/mypageInfo";
         }
         return url;
         /* ==================================================> 후에 인터셉터 처리 */
@@ -77,7 +77,7 @@ public class MypageController {
         if (request.getSession().getAttribute("member") == null) {
             response.sendError(403, "로그인 후에 이용해 주세요. ");
         } else {
-            url = "/mypage/mypageDelete";
+            url = "/mypage/info/mypageDelete";
         }
         return url;
         /* ==================================================> 후에 인터셉터 처리 */
