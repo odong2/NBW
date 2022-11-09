@@ -75,4 +75,11 @@ public class EventController {
         }
 
     }
+    /**************************************** 이벤트 캘린더 *****************************************/
+    @GetMapping("calender")
+    public String eventCalender() throws Exception {
+        log.info("claender controller 호출");
+        return "calendar";
+    }
+
 }
