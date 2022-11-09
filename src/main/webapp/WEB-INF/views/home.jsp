@@ -4,9 +4,9 @@
 <%@include file="/WEB-INF/includes/common.jsp" %>
     <title>Home</title>
   <style>
-      /**{*/
-      /*    border: 1px solid red;*/
-      /*}*/
+      *{
+          border: 1px solid red;
+      }
     a {
       color: black;
     }
@@ -43,12 +43,9 @@
                     <div class="card-title" style="text-align: right; padding-right: 40px;"><h3>📚 새로 나온 책</h3></div>
                     <hr>
                     <div class="card-body" style="text-align: center; padding-top:20px; padding-left: 40px;">
-                        <div><img src="/images/testbook1.png" width="200"/></div>
-                        <div><img src="/images/testbook2.png" width="200"/></div>
-                        <div><img src="/images/testbook3.png" width="200"/></div>
-                        <div><img src="/images/testbook4.png" width="200"/></div>
-                        <div><img src="/images/testbook5.png" width="200"/></div>
-                        <div><img src="/images/testbook6.png" width="200"/></div>
+                        <c:forEach items = "${homeList}" var="homeList">
+                            <div><img alt="" src="${homeList.getP_img()}" width="200" height="270"/></div>
+                        </c:forEach>
                     </div>
                 </div>
             </section>
