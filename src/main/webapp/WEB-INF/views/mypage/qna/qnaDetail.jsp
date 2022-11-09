@@ -151,18 +151,18 @@
                         <span class="text">답변</span>
                         <span class="gap"></span>
                         <span class="cdate">
-                            등록날짜
+                            <fmt:formatDate value="${an.an_cdate}" pattern="yyyy-MM-dd"/>
                         </span>
                     </div>
                     <div class="inquiry_content">
                         <div class="inquiry_content_area">
                             <p>
-                                답변내용
+                                ${an.an_content}
                             </p>
                         </div>
                     </div>
                 </div>
-            </div>
+                    </div>
            </div>
             <div class="twoBtn">
                 <button id="listBtn" type="button"  class="btn btn-outline-secondary">목록으로</button>
