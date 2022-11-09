@@ -263,9 +263,8 @@
 				</div>
 
 				<div class="mb-3 bg-light px-5 py-3 border rounded">
-					<h5>리뷰보기(${ product.getP_review()})</h5>
-					<ul id="reviewList" style="list-style: none; margin: 0px; padding: 0px;">
-					</ul>
+					<h5>전체 리뷰(${ product.getP_review()})</h5>
+					<ul id="reviewList" style="list-style: none; margin: 0px; padding: 0px;"></ul>
 					<nav aria-label="Page navigation">
 						<ul id="pageNavigation" class="pagination d-flex justify-content-center"></ul>
 					</nav>
@@ -378,13 +377,31 @@
 					$('#bottom'+i).append('<div id="bottom_content'+i+'"></div>');
 					
 					if(rv_img != null)
-						$('#bottom_content'+i).append('<img id="reviewImg" alt="" src="/product/images/'+rv_img+'" style="width: 70px; height: 70px;">');
+						$('#bottom_content'+i).append('<button id="imgToggle" type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>');
+						$('#bottom_content'+i).append('<img class="me-2" id="reviewImg" alt="" src="/product/images/'+rv_img+'" style="width: 70px; height: 70px;">');
 					if(rv_img2 != null)
-						$('#bottom_content'+i).append('<img id="reviewImg" alt="" src="/product/images/'+rv_img2+'" style="width: 70px; height: 70px;">');
+						$('#bottom_content'+i).append('<img class="me-2" id="reviewImg" alt="" src="/product/images/'+rv_img2+'" style="width: 70px; height: 70px;">');
 					if(rv_img3 != null)
 						$('#bottom_content'+i).append('<img id="reviewImg" alt="" src="/product/images/'+rv_img3+'" style="width: 70px; height: 70px;">');
 				});
 			}
+		}
+		
+		let imgToggle = (tag) => {
+			let imgToggle = $(tag).text();
+			
+			if(imgToggle === '펼치기'){
+				$(tag).nextAll().removeAttr('style');
+				$(tag).nextAll().attr('style','width: 200px; height: 200px;');
+			}
+			
+			if(imgToggle === '접기'){
+				$(tag).nextAll().removeAttr('style');
+				$(tag).nextAll().attr('style','width: 70px; height: 70px;');
+			}
+			
+			let toggleValue = imgToggle === '펼치기' ?'접기' :'펼치기';
+			$(tag).text(toggleValue);
 		}
 		
 		$('#reviewModal').click(function(){
