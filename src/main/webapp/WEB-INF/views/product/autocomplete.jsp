@@ -26,7 +26,7 @@
                 <div class="col-5">
                     <h6><strong>최근 검색어</strong></h6>
                     <div class="card" style="width: 100%;  border: 1px solid #3b5998; padding: 100px 30px; text-align: center;">
-                        <div class="card-body">
+                        <div class="card-content">
                             <i class="far fa-info-square fa-2x"></i><br><br>
                             <p style="color: #5e6269; font-size: smaller;">최근 검색어가 없습니다.</p>
                         </div>
