@@ -54,7 +54,7 @@
     <!--======================================= [[ Qna 한건 추가 ]] ======================================-->
     <insert id="qnaInsert" parameterType="qnaDto">
         INSERT INTO TB_QUESTION (
-                                QEN_NO
+                                QN_NO
                                 , QN_FROM
                                 , QN_CATEGORY
                                 , QN_CDATE
