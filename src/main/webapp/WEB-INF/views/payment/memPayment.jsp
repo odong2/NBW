@@ -13,14 +13,16 @@
     <%@include file="/WEB-INF/includes/common.jsp" %>
 <style>
     @font-face {
-        font-family: CookieRun Regular;
-        src: url('/font/cookieRunFont_TTF/CookieRun Regular.ttf') format("truetype");
+        font-family: 'GangwonEdu_OTFBoldA';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
     }
     * {
         /*  border: solid 0.8px blue; */
     }
     body {
-        font-family:  CookieRun Regular;
+        font-family: GangwonEdu_OTFBoldA;
         height: 00vh;
         box-sizing: border-box;
         margin: 0;
@@ -37,12 +39,12 @@
         padding: 0;
     }
     th,.orderUser-info span{
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     .btnFold,
     .btnFold h6,
     #prdInfo{
-        font-size: 0.8rem;
+        font-size: 0.89rem;
     }
 
     .product-img {
@@ -59,9 +61,10 @@
         padding: 10px;
     }
     .delivery span {
-        font-size: 10px;
+        font-size: 0.9rem;
         border: solid 1px;
-        padding: 2px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         background-color: #5055b1;
         color: white;
         border-radius: 10px 10px;
@@ -83,21 +86,32 @@
         border-radius: 5px 5px 0px 0px;
         padding: 10px;
     }
-
+    .prdTitle,
+    .prdPrice,
+    .prdCount{
+        font-size: 1rem;
+    }
     #prdTotallCnt {
         color: #5055b1;
+        font-size: 1rem;
     }
+
     .paymentInfo-wrap span,
     .paymentInfo-wrap p,
     .receiver-label,
     .form-controller,
     option {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     .form-controller {
         border: solid 1px #d8d8d8;
         padding: 5px;
     }
+    #order_pw,
+    #order_pw_check{
+        font-size: 1rem;
+    }
+
 
     .pay {
         margin-left: 10px;
@@ -122,20 +136,17 @@
     #zipcodeBtn {
         background-color: #5055b1;
         color: white;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         height: 33px;
         padding: 3px;
     }
     #deliveryMemo,
     #couponSelect,
     #direct-memo {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
     }
 
     /*  결제 정보창 스타일 */
-    .payLabel {
-
-    }
     .paymentInfo-wrap {
         width: 300px;
         position: fixed;
@@ -148,12 +159,12 @@
         margin-bottom: 5px;
     }
     #paymentPrice {
-        font-size: 1rem;
+        font-size: 1.2rem;
         color:#5055b1;
         font-weight: bold;
     }
     #paymentPriceLabel{
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: bold;
         color: #5055b1;
     }
@@ -161,7 +172,7 @@
         width: 100%;
         background-color: #5055b1;
         color: white;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
         letter-spacing: 0.2em;
         height: 40px;
     }
@@ -170,15 +181,20 @@
         border-radius: 5px;
     }
     .discount-label {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     #couponSelect {
         width: 53%;
-        height: 30px;
+        height: 32px;
+
+
+    }
+    #couponSelect option{
+
     }
 
     #usePoint {
-        font-size: 0.9rem;
+        font-size: 1rem;
         border: solid 1px #d8d8d8;
         padding: 5px;
         width: 80%;
@@ -188,7 +204,7 @@
 
     #pointBtn {
         background-color: #5055b1;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         color: white;
         margin-left: 50px;
     }
@@ -247,7 +263,7 @@
             <button class="btn btnFold d-flex" type="button">
                 <h6 class="title ms-1 col-5">주문 상품</h6>
                 <div class="col-7 d-flex">
-                    <span id="prdTotallCnt" class="mt-2">총 <c:out value="${cartSize}"/>개</span>
+                    <span id="prdTotallCnt" class="mt-2">총 <c:out value="${cartSize}"/>권</span>
                 </div>
             </button>
             <%-- ========================== 주문 상품 정보 시작 ==============================--%>
@@ -267,7 +283,7 @@
                         </div>
                     </td>
                     <td class="delivery col-1"><span>자체배송</span></td>
-                    <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>개</span></td>
+                    <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>권</span></td>
                     <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price * product.p_count}" type="number"/>원</span></td>
                     <c:set var= "productPrice" value="${productPrice + product.p_price * product.p_count}"/>
                 </tr>
@@ -313,7 +329,7 @@
                 <div class="radio d-flex ms-3 mb-3">
                     <div class="me-3">
                         <input id="orderEq" type="radio" name="orderUser-radio" style="width: 10px" checked/>
-                        <label for="orderEq" class="receiver-label">주문자 동일</label>
+                        <label for="orderEq" class="receiver-label me-2">주문자 동일</label>
                         <input id="orderDif" type="radio" name="orderUser-radio" style="width: 10px"/>
                         <label for="orderDif" class="receiver-label">수령자 별도</label>
                     </div>
@@ -413,7 +429,7 @@
                     <div class="col-4 ms-2">
                         <span class="discount-label">쿠폰적용</span>
                     </div>
-                    <select id="couponSelect" name="coupon" onChange="changeSelectCoupon(this.value);">
+                    <select id="couponSelect" name="coupon" class="form-select" onChange="changeSelectCoupon(this.value);">
                         <c:if test="${couponList != null}">
                         <option value="0" selected>쿠폰 선택</option>
                         <%-- 쿠폰이 존재하는 경우 --%>

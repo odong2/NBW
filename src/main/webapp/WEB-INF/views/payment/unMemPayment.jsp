@@ -13,14 +13,16 @@
     <%@include file="/WEB-INF/includes/common.jsp" %>
 <style>
     @font-face {
-        font-family: CookieRun Regular;
-        src: url('/font/cookieRunFont_TTF/CookieRun Regular.ttf') format("truetype");
+        font-family: 'GangwonEdu_OTFBoldA';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
     }
     * {
         /*  border: solid 0.8px blue; */
     }
     body {
-        font-family:  CookieRun Regular;
+        font-family: GangwonEdu_OTFBoldA;
         height: 00vh;
         box-sizing: border-box;
         margin: 0;
@@ -55,10 +57,16 @@
         width: 100%;
         padding: 10px;
     }
+    .prdTitle,
+    .prdPrice,
+    .prdCount{
+        font-size: 1rem;
+    }
     .delivery span {
-        font-size: 10px;
+        font-size: 0.9rem;
         border: solid 1px;
-        padding: 2px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         background-color: #5055b1;
         color: white;
         border-radius: 10px 10px;
@@ -83,6 +91,7 @@
 
     #prdTotallCnt {
         color: #5055b1;
+        font-size: 1rem;
     }
     .paymentInfo-wrap span,
     .paymentInfo-wrap p,
@@ -166,6 +175,11 @@
         border-radius: 5px;
     }
 
+    #order_pw,
+    #order_pw_check{
+        font-size: 17px;
+    }
+
     #naverPayBtn .container-pay {
         background-color: #09bb4d;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -220,7 +234,7 @@
             <button class="btn btnFold d-flex" type="button">
                 <h6 class="title ms-1 col-5">주문 상품</h6>
                 <div class="col-7 d-flex">
-                    <span id="prdTotallCnt" class="mt-2">총 <c:out value="${cartSize}"/>개</span>
+                    <span id="prdTotallCnt" class="mt-2">총 <c:out value="${cartSize}"/>권</span>
                 </div>
             </button>
             <%-- ========================== 주문 상품 정보 시작 ==============================--%>
@@ -240,7 +254,7 @@
                         </div>
                     </td>
                     <td class="delivery col-1"><span>자체배송</span></td>
-                    <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>개</span></td>
+                    <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>권</span></td>
                     <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price * product.p_count}" type="number"/>원</span></td>
                     <c:set var= "totalPrice" value="${totalPrice + product.p_price * product.p_count}"/>
                 </tr>

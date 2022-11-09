@@ -9,12 +9,14 @@
   <title>Title</title>
   <%@include file="/WEB-INF/includes/common.jsp" %>
   <style>
-  @font-face {
-      font-family: CookieRun Regular;
-      src: url('/font/cookieRunFont_TTF/CookieRun Regular.ttf') format("truetype");
-  }
+      @font-face {
+          font-family: 'GangwonEdu_OTFBoldA';
+          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+      }
     body {
-      font-family: CookieRun Regular;
+      font-family: GangwonEdu_OTFBoldA;
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -48,6 +50,16 @@
     #prdImg{
         width: 70px;
     }
+    .prdTitle,
+    .prdCount,
+    .prdStatus,
+    .prdPrice{
+      font-size: 1.1rem;
+    }
+    .prdStatus{
+      color:#6DB329;
+      font-weight: 700;
+    }
     table{
         font-size: 0.9rem;
     }
@@ -72,6 +84,10 @@
     }
     #orderBtn{
         background-color: #6DB329;
+    }
+    #orderInfo span,
+    #receiverInfo span{
+        font-size: 1rem;
     }
     #orderInfoTitle,
     #deliveryTitle{
@@ -113,7 +129,7 @@
               </td>
               <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>개</span></td>
               <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price}" type="number"/>원</span></td>
-              <td class="col-2"><span class="prdStatus"><c:out value="${product.order_status}"/></span></td>
+              <td class="col-2 text-center"><span class="prdStatus"><c:out value="${product.order_status}"/></span></td>
             </tr>
           </c:forEach>
           </tbody>
@@ -162,10 +178,10 @@
                 </div>
             </li>
             <li class ="d-flex mb-3">
-                <div class="col-6">
+                <div class="col-3">
                     <span>받는 주소</span>
                 </div>
-                <div class="col-6 text-end">
+                <div class="col-9 text-end">
                     <span class="me-2">
                         <c:out value="${receiverInfo.RECEIVER_ADDRESS1}"/>
                         <c:out value="${receiverInfo.RECEIVER_ADDRESS2}"/>

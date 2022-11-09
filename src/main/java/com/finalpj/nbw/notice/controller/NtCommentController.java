@@ -39,7 +39,7 @@ public class NtCommentController {
     @PostMapping("/comments")// noitce/comments?nt_no=1
     public ResponseEntity<String> writeComment(@RequestBody NtComment commentDto, Integer nt_no, HttpSession session){
         Member member = (Member)session.getAttribute("member");
-        String commenter = member.getMem_id();
+        String commenter = member.getMem_nickname();
         commentDto.setNtc_commenter(commenter);
         commentDto.setNt_no(nt_no);
         log.info("commentDto = " + commentDto);
@@ -61,7 +61,7 @@ public class NtCommentController {
     @DeleteMapping("/comments/{ntc_no}") // /comments/19?nt_no=1 (포스트맨에서 요청하여 확인)
     public ResponseEntity<String> removeComment(@PathVariable Integer ntc_no, Integer nt_no, HttpSession session){
         Member member = (Member)session.getAttribute("member");
-        String commenter = member.getMem_id();
+        String commenter = member.getMem_nickname();
         try{
             int rowCnt = ntCommentService.removeComment(ntc_no, nt_no, commenter);
             // 삭제 실패 시 Exception 발생
@@ -79,7 +79,7 @@ public class NtCommentController {
     @PatchMapping("/comments/{ntc_no}")// noitce/comments?nt_no?1
     public ResponseEntity<String> modifyComment(@PathVariable Integer ntc_no,@RequestBody NtComment commentDto, HttpSession session){
         Member member = (Member)session.getAttribute("member");
-        String commenter = member.getMem_id();
+        String commenter = member.getMem_nickname();
         commentDto.setNtc_commenter(commenter);
         commentDto.setNtc_no(ntc_no);
         log.info(commentDto);
