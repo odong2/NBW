@@ -85,7 +85,7 @@
     </nav>
     <div class="col-2"></div>
 </div>
-<nav class="navbar" aria-label="Light offcanvas navbar" style="background-image: url('/images/bg_navi.jpeg');">
+<nav class="navbar" aria-label="Light offcanvas navbar" style="">
     <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
         <li class="nav-item fs-5 px-4 border-end dropdown border-danger">
@@ -136,6 +136,7 @@
         <input type="text" name="p_category" hidden>
     </form>
 </nav>
+<hr style="border: 1px #1d1d6a;">
 <!-- 스크립트 -->
 <script type="text/javascript">
     /* ----------------------------------- [[ 검색>메인검색창 유효성 검사]] ----------------------------------*/
@@ -163,10 +164,19 @@
 </script>
 <style>
     @font-face {
+        font-family: 'Cafe24Simplehae';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
         font-family: 'NeoDunggeunmo';
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
         font-weight: normal;
         font-style: normal;
+    }
+    .navbar {
+        font-family: 'Cafe24Simplehae';
     }
     .px-5>a {
         text-decoration: none;

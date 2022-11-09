@@ -377,7 +377,15 @@
                     mailCodeCheck = true;
                 }
             });
+
+            // 전화번호 자동 하이픈 함수
+            const autoHyphen = function(target){
+                target.value = target.value
+                    .replace(/[^0-9]/g, '')
+                    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+            }
         });
+
     </script>
 
     <style>
@@ -629,14 +637,23 @@
                 <div class="input-group mb-3 w-50">
 		            <c:choose>
 		                <c:when test="${ empty member}">
-		                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
-		                           autocomplete="off" class="form-control">
+                            <input type="text" id="mem_phone" name="mem_phone"
+                                   placeholder="'-'를 제외하고 입력하세요"
+                                   oninput="autoHyphen(this)"
+                                   maxlength="13"
+                                   autocomplete="off"
+                                   pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+                                   class="form-controller col-7" value="">
 		                </c:when>
 		                <c:otherwise>
                         <%--    fmt:formatNumber 형식 오류 수정   --%>
-		                    <input name="mem_phone" id="mem_phone" type="tel" placeholder="예) 010-1234-5678"
-		                           autocomplete="off" class="form-control"
-                            />
+                            <input type="text" id="mem_phone" name="mem_phone"
+                                   placeholder="'-'를 제외하고 입력하세요"
+                                   oninput="autoHyphen(this)"
+                                   maxlength="13"
+                                   autocomplete="off"
+                                   pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+                                   class="form-controller col-7" value="">
 		                </c:otherwise>
 		            </c:choose>
                 </div>

@@ -33,8 +33,7 @@
 
         function displayResult(jsonInfo){
             let html;
-             for (let i in jsonInfo.autocProduct){
-               //console.log(`띄워줄 p_title===>`+ jsonInfo.autocProduct[i]["p_title"]+`<br>`);
+                for (let i in jsonInfo.autocProduct){
                 html =
                              `<div class="row" style="height: 120px;">`+
                                  `<div class="col-3" style="padding-top: 5px;">`+
@@ -43,7 +42,7 @@
                                      `</span>`+
                                  `</div>`+
                                  `<div id="autocProduct" class="col-9" style="padding-top:10px;">`+
-                                      `<div class="row" style="height: 30px;"><a class='searchName' style="text-decoration: none;" href=#`+ jsonInfo.autocProduct[i]["p_title"]+`"><p style="font-size: small; font-weight: bolder">`+jsonInfo.autocProduct[i]["p_title"]+`</p></a></div>`+
+                                      `<div class="row" style="height: 30px;"><a href="/product/ `+jsonInfo.autocProduct[i]["p_no"]+`" class='searchName' style="text-decoration: none;"><p style="font-size: smaller; font-weight: bolder">`+jsonInfo.autocProduct[i]["p_title"]+`</p></a></div>`+
                                       `<div class="row" style="height: 30px;"><p style="font-size: small">`+jsonInfo.autocProduct[i]["p_author"]+`</p></div>`+
                                       `<div class="row" style="height: 30px;"><p style="font-size: 13px;">`+jsonInfo.autocProduct[i]["p_price"]+`</p></div>`+
                                  `</div>`+
