@@ -16,14 +16,8 @@
                             if (keyword == null && keyword =="")
                                 alert("공간을 비웁니다. ");
                                 $('#recommand').empty();
-
                             if(data != null) displayResult(data);
-
-                    },
-                error:function(data, textStatus){
-                    alert("에러가 발생했습니다."+data);
-                    },
-                minLength:2
+                    }
             })
         });
 
@@ -38,11 +32,11 @@
                              `<div class="row" style="height: 120px;">`+
                                  `<div class="col-3" style="padding-top: 5px;">`+
                                      `<span style="height: 100px;">`+
-                                        `<img src="`+jsonInfo.autocProduct[i]["p_img"]+ `"style="height: 102px; border-radius: 10px;" >`+
+                                        `<img src="`+jsonInfo.autocProduct[i]["p_img"]+ `"style="height: 102px; width: 70px; border-radius: 10px;" >`+
                                      `</span>`+
                                  `</div>`+
                                  `<div id="autocProduct" class="col-9" style="padding-top:10px;">`+
-                                      `<div class="row" style="height: 30px;"><a href="/product/ `+jsonInfo.autocProduct[i]["p_no"]+`" class='searchName' style="text-decoration: none;"><p style="font-size: smaller; font-weight: bolder">`+jsonInfo.autocProduct[i]["p_title"]+`</p></a></div>`+
+                                      `<div class="row" style="height: 30px; margin-bottom: 20px;"><a href="/product/ `+jsonInfo.autocProduct[i]["p_no"]+`" class='searchName' style="text-decoration: none; "><p style="font-size: smaller; font-weight: bolder">`+jsonInfo.autocProduct[i]["p_title"]+`</p></a></div>`+
                                       `<div class="row" style="height: 30px;"><p style="font-size: small">`+jsonInfo.autocProduct[i]["p_author"]+`</p></div>`+
                                       `<div class="row" style="height: 30px;"><p style="font-size: 13px;">`+jsonInfo.autocProduct[i]["p_price"]+`</p></div>`+
                                  `</div>`+
