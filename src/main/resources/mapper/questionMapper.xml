@@ -62,7 +62,7 @@
                                 , QN_TITLE
         )
         VALUES (
-                SQ_QN_NO.NEXTVAL
+                SEQ_QN_NO.NEXTVAL
                , #{qn_from}
                , #{qn_category}
                , SYSDATE
