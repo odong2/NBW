@@ -162,27 +162,18 @@ public class ProductController {
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName){
 		final String uploadRoot = System.getProperty("user.home");
      	final String fileFolder = uploadRoot+"/Desktop/upload/review/";
-     	
-        System.out.println("file : " + fileName);
-        System.out.println("path : " + fileFolder);
         
         Resource resource = new FileSystemResource(fileFolder + fileName);
         
         if(!resource.exists())
         	return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         
-        System.out.println("resource : " + resource);
-
         HttpHeaders headers = new HttpHeaders();
         Path filePath = null;
 
         try {
             filePath = Paths.get(fileFolder+fileName);
-            System.out.println("filePath: "+filePath);
-            
             String Content_Type = Files.probeContentType(filePath);
-            System.out.println(Content_Type);
-            
 			headers.add("Content-Type", Content_Type);
 		} catch (IOException e) {
 			e.printStackTrace();

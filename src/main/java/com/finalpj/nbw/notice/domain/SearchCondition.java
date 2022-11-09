@@ -27,8 +27,6 @@ public class SearchCondition {
 
     public Integer getOffsetTo(){return  page == 1 ? 10 : page * pageSize;}
 
-
-
     /* 목록으로 가기 시 메서드 호출하여 리스트로 이동(페이지 지정) */
     public String getQueryString(Integer page){
         return UriComponentsBuilder.newInstance()
