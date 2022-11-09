@@ -81,7 +81,25 @@ public class AdminEventController {
         }
         return "redirect:/admin/event/list";
     }
+    /******************************************** [[관리자 이벤트 수정]] **************************************/
+    @GetMapping("/modify")
+    public String getAdminModify(@ModelAttribute Event event, RedirectAttributes rattr) {
+        log.info("admin event Modify 호출");
+        return "/admin/event/eventRead";
+    }
 
+    @PostMapping("/modify")
+    public String adminModify(@ModelAttribute Event event, RedirectAttributes rattr) {
+        log.info("수정하는 이벤트글 정보 = " + event);
+        try {
+            eventService.adminModify(event);
+            rattr.addFlashAttribute("msg","MOD_OK");
+        }catch (Exception e){
+            e.printStackTrace();
+            rattr.addFlashAttribute("msg","MOD_ERR");
+        }
+        return "redirect:/admin/event/list";
+    }
 
     /***************** [[관리자 이벤트 등록페이지]] ***************/
     @GetMapping("/write")

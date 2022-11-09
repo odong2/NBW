@@ -101,4 +101,11 @@ public class EventDaoImpl implements EventDao {
         map.put("cnt", cnt);
         return sqlSession.update(namespace+"updateCommentCnt", map);
     }
+    /****************************** [[ 관리자 이벤트 수정]] ***************************/
+    @Override
+    public int adminModify(Event event) throws Exception {
+        log.info("관리자 event 수정 다오인플 호출 성공");
+        return sqlSession.update(namespace+"adminModify", event);
+    }
+
 }

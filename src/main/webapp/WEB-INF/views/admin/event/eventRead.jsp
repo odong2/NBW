@@ -91,7 +91,7 @@
       <div class="title">
         <h4>프로그램 등록</h4>
       </div>
-        <form action="/admin/event/write" method="post" id="form" class="frm" enctype="multipart/form-data">
+        <form action="/admin/event/modify" method="post" id="form" class="frm" enctype="multipart/form-data">
           <div class="allEventContent">
       <div class="eventcontents">
         <div class="eventimg">
@@ -104,42 +104,42 @@
             <td class="j_infod_title">이벤트 제목<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_title" colspan="2">
-              <input type="text" id="ev_title" name="ev_title" class="j_infod_input">
+              <input type="text" id="ev_title" name="ev_title" class="j_infod_input" value="${event.ev_title}">
             </td>
           </tr>
           <tr>
             <td class="j_infod_target">대상<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_target" colspan="2">
-              <input type="text" id="ev_target" name="ev_target" class="j_infod_input">
+              <input type="text" id="ev_target" name="ev_target" class="j_infod_input" value="${event.ev_target}">
             </td>
           </tr>
           <tr>
             <td class="j_infod_place">장소<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_place" colspan="2">
-              <input type="text" id="ev_place" name="ev_place" class="j_infod_input">
+              <input type="text" id="ev_place" name="ev_place" class="j_infod_input" value="${event.ev_place}">
             </td>
           </tr>
           <tr>
             <td class="j_infod_today">행사기간<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_today" colspan="2">
-              <input type="text" id="ev_today" name="ev_today" class="j_infod_input" >
+              <input type="text" id="ev_today" name="ev_today" class="j_infod_input" value="${event.ev_today}" >
             </td>
           </tr>
           <tr>
             <td class="j_infod_time">시간<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_time" colspan="2">
-              <input type="text" id="ev_time" name="ev_time" class="j_infod_input">
+              <input type="text" id="ev_time" name="ev_time" class="j_infod_input" value="${event.ev_time}">
             </td>
           </tr>
           <tr>
             <td class="j_infod_titl">접수기간<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_start" colspan="2">
-              <input type="text" id="ev_start" name="ev_start" class="j_infod_input">
+              <input type="text" id="ev_start" name="ev_start" class="j_infod_input" value="${event.ev_start}">
               ~
               <input type="text" id="ev_end" name="ev_end" class="j_infod_input">
             </td>
@@ -148,7 +148,7 @@
             <td class="j_infod_phone">문의번호<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_phone" colspan="2">
-              <input type="text" id="ev_phone" name="ev_phone" class="j_infod_input">
+              <input type="text" id="ev_phone" name="ev_phone" class="j_infod_input" value="${event.ev_phone}">
             </td>
           </tr>
           <%--============================== [[모집정원 시작]] ================================--%>
@@ -160,7 +160,7 @@
               </a>
             </td>
             <td class="j_infod_people" colspan="2">
-              <input type="text" id="ev_people" name="ev_people" class="j_infod_input">
+              <input type="text" id="ev_people" name="ev_people" class="j_infod_input" value="${event.ev_people}">
             </td>
           </tr>
           <%--============================== [[모집정원 끝]] ================================--%>
@@ -176,12 +176,12 @@
         </table>
       </div>
         <h6 class="contentpart">이벤트 글</h6>
-            <textarea type="text" class="text-dark" name="ev_content" id="editor"></textarea>
+            <textarea type="text" class="text-dark" name="ev_content" id="editor" value="${event.ev_content}"></textarea>
           </div>
       <div class="sendbtn">
         <div style="display:inline-block">
           <button type="button" type="submit" class="btn btn-secondary btn-lg" id="writeBtn">
-            등록하기
+            수정하기
           </button>
         </div>
       </div>
@@ -226,7 +226,7 @@
         $(document).ready(function (){
           $('#writeBtn').on("click",function (){
             let form = $('#form');
-            form.attr("action", "<c:url value="/admin/event/write"/>");
+            form.attr("action", "<c:url value="/admin/event/modify"/>");
             form.attr("method", "post");
             form.submit();
           })

@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="text-decoration-none px-3 border-start rounded-0"
+                <a href="/mypage/qna/write" class="text-decoration-none px-3 border-start rounded-0"
                 >문의하기</a
                 >
             </li>
@@ -120,10 +120,10 @@
             <a href="/notice/list" class="text-decoration-none">공지사항</a>
         </li>
         <li class="nav-item px-4 border-end border-danger">
-            <a href="#" class="text-decoration-none">문의사항</a>
+            <a href="/mypage/qna/list" class="text-decoration-none">문의사항</a>
         </li>
         <li class="nav-item px-4 border-end border-danger">
-            <a href="#" class="text-decoration-none">프로그램 신청</a>
+            <a href="/event/list" class="text-decoration-none">프로그램 신청</a>
         </li>
         <li class="nav-item px-4">
             <a href="#" class="text-decoration-none">커뮤니티</a>
