@@ -166,7 +166,6 @@
     </a>
     <script>
         $("#ntWrtBtn").click(function(){
-            alert("공지사항 등록 버튼");
             location.href="/admin/notice/write";
         })
         let link = function(detailLink){

@@ -6,26 +6,33 @@
 <title>MyPage</title>
 <style>
     @font-face {
-        font-family: CookieRun Regular;
-        src: url('/font/cookieRunFont_TTF/CookieRun Regular.ttf') format("truetype");
+        font-family: 'GangwonEdu_OTFBoldA';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
     }
     body{
-        font-family: CookieRun Regular;
+        font-family: GangwonEdu_OTFBoldA;
         box-sizing: border-box;
-    }
-    *{
-        /*border: 1px solid blue;*/
+        padding:0;
+        margin:0;
     }
     .sidebar span{
         font-size: 1rem;
     }
     .sidebar a{
-        font-size: 0.9rem;
+        font-size: 1rem;
+    }
+    .sidebarList .title span{
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #5055b1;
     }
 
     main {
         width: 100%;
     }
+
     main .header-list {
         border: 1px solid rgba(204, 204, 204, 0.8);
         width: 100%;
@@ -63,25 +70,25 @@
         border-top: solid 1px rgba(153,153,153,0.5);
     }
     .order-list span{
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
     .order-list #payBackBtn{
         background-color: white;
         color: #a52834;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         border-color: #a52834;
         width:80px;
     }
     .order-list #returnBtn{
         background-color: white;
         color: #5055b1;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         width:80px;
     }
     .order-list #detailBtn{
         background-color: white;
         color: #5055b1;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         border-color: #5055b1;
         width: 80px;
     }
@@ -99,20 +106,21 @@
     }
     .order-list a{
         text-decoration: none;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
     .product-price{
         font-weight: bold;
     }
-    #returnBtn:hover,
-    #detailBtn:hover{
+    #payBackBtn:hover,
+    #detailBtn:hover,
+    #returnBtn:hover{
         background-color: #5055b120;
     }
     .modal-body span{
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     .modal-body .title{
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         color: #5055b1;
     }
     .modal-body #pImg,
@@ -132,7 +140,7 @@
         color: #a52834;
     }
     .modal #p-msg{
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 </style>
 </head>
@@ -289,40 +297,40 @@
                             <h6 class="title">배송정보</h6>
                             <hr/>
                             <div class="d-flex mb-2 px-2">
-                                <div class="col-7"><span>수령자</span></div>
-                                <div class="col-7 ms-5"><span id="receiverName"></span></div>
+                                <div class="col-3"><span>수령자</span></div>
+                                <div class="col-9 text-end"><span id="receiverName"></span></div>
                             </div>
                             <div class="d-flex mb-2 px-2">
-                                <div class="col-7"><span>수령자 전화번호</span></div>
-                                <div class="col-7 ms-5"><span id="receiverPhone"></span></div>
+                                <div class="col-3"><span>수령자 전화번호</span></div>
+                                <div class="col-9 text-end"><span id="receiverPhone"></span></div>
                             </div>
                             <div class="d-flex mb-2 px-2">
-                                <div class="col-7"><span>수령자 주소</span></div>
-                                <div class="col-7 ms-5"><span id="receiverAddress"></span></div>
+                                <div class="col-3"><span>수령자 주소</span></div>
+                                <div class="col-9 text-end"><span id="receiverAddress"></span></div>
                             </div>
                             <div class="d-flex mb-4 px-2">
-                                <div class="col-7"><span>배송메모</span></div>
-                                <div class="col-7 ms-5"><span id="deliveryMemo"></span></div>
+                                <div class="col-3"><span>배송메모</span></div>
+                                <div class="col-9 text-end"><span id="deliveryMemo"></span></div>
                             </div>
                         </section>
                         <section class="modal-data">
                             <h6 class="title">결제 정보</h6>
                             <hr/>
                             <div class="d-flex mb-2 px-2">
-                                <div class="col-7"><span>쿠폰</span></div>
-                                <div class="col-7 ms-5"><span id="cpName"></span></div>
+                                <div class="col-3"><span>쿠폰</span></div>
+                                <div class="col-9 text-end"><span id="cpName"></span></div>
                             </div>
                             <div class="d-flex mb-2 px-2">
-                                <div class="col-7"><span>쿠폰사용 금액</span></div>
-                                <div class="col-7 ms-5"><span id="cpPrice"></span></div>
+                                <div class="col-3"><span>쿠폰사용 금액</span></div>
+                                <div class="col-9 text-end"><span id="cpPrice"></span></div>
                             </div>
                             <div class="d-flex mb-2 px-2">
-                                <div class="col-7"><span>포인트 사용</span></div>
-                                <div class="col-7 ms-5"><span id="usedPoint"></span></div>
+                                <div class="col-3"><span>포인트 사용</span></div>
+                                <div class="col-9 text-end"><span id="usedPoint"></span></div>
                             </div>
                             <div class="d-flex mb-2 px-2">
-                                <div class="col-7"><span>총 결제금액</span></div>
-                                <div class="col-7 ms-5"><span id="totalPrice"></span></div>
+                                <div class="col-3"><span>총 결제금액</span></div>
+                                <div class="col-9 text-end"><span id="totalPrice"></span></div>
                             </div>
                         </section>
                     </div>
@@ -414,7 +422,7 @@
         let msg = '${msg}';
         console.log(msg);
         if(msg.trim().length != 0){
-            showMsg("테스트",msg);
+            showMsg("알림",msg);
         }
     })
 
