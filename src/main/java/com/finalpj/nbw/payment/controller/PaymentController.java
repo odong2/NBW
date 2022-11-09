@@ -77,7 +77,7 @@ public class PaymentController {
         return "/payment/payTest";
     }
 
-    /************************* 결제페이지에서 결제하기  ****************************/
+    /************************* 결제페이지에서 결제하기 (비회원)  ****************************/
     @PostMapping("unmempay")
     public String unMemPay(@ModelAttribute UnMemPayment unMemPaymentDto, RedirectAttributes rattr){
         /** (1)주문번호 생성 **/
@@ -95,7 +95,7 @@ public class PaymentController {
         return "redirect:/payment/pay/" + order_no;
     }
 
-    /************************* 결제페이지에서 결제하기  ****************************/
+    /************************* 결제페이지에서 결제하기 (회원) ****************************/
     @PostMapping("pay")
     public String orderPay(@ModelAttribute Payment paymentDto, HttpSession session, RedirectAttributes rattr){
         /** (1)주문번호 생성 **/
@@ -132,7 +132,7 @@ public class PaymentController {
                 pMap.put("table", "tb_mempaymentdetail");
                 /* 결제된 상품 정보 조회 */
                 productList = paymentService.afterPaySearchOrder(pMap);
-                rMap = paymentService.afterpaySearchReceiver(order_no);
+                rMap = paymentService.afterPaySearchReceiver(order_no);
                 m.addAttribute("receiverInfo",rMap);
                 m.addAttribute("productList", productList);
             } catch (Exception e){
@@ -158,7 +158,17 @@ public class PaymentController {
     }
 
 
-    /** 주문번호 메서드(날짜생성 ex.202205060s06tf)**/
+    /************************ 주문상태 변경(memPaymentDetail 테이블) **********************/
+    @PostMapping("status")
+    public String modifyOrderStatus(@RequestParam Map pMap, RedirectAttributes rattr){
+        log.info(pMap);
+            String msg = paymentService.modifyOrderStatus(pMap);
+            rattr.addFlashAttribute("msg", msg);
+
+        return "redirect:/mypage/payment/list";
+    }
+
+    /** 주문번호 생성 메서드(날짜생성 ex.202205060s06tf)**/
     public String makeOrderNo(){
         String order_no = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -171,4 +181,6 @@ public class PaymentController {
         order_no = strToday + resultUuid.substring(0,8);
         return order_no;
     }
+
+
 }

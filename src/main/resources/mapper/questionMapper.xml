@@ -3,33 +3,51 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.finalpj.nbw.qna.dao.QnaMapper">
-      <!--======================================= [[ Qna 전체 조회 ]] ======================================-->
-    <select id="qnaSelectAll" resultType="qnaDto">
+    <!--======================================= [[ Qna 전체 조회 ]] ======================================-->
+    <select id="qnaSelectAll" parameterType="String" resultType="qnaDto">
         SELECT qn_no, qn_from, qn_category, qn_cdate, qn_content,qn_title,
                DECODE(qn_state, 'N', '처리중', 'Y', '답변완료') as qn_state
         FROM tb_question
+        where qn_from = #{mem_id}
         ORDER BY qn_cdate DESC, qn_no DESC
     </select>
 
     <!--======================================= [[ Qna 처리중 조회 ]] ======================================-->
     <select id="qnaSelectIngAll" resultType="qnaDto">
+    SELECT qn_no, qn_from, qn_category, qn_cdate, qn_content,qn_title,
+    DECODE(qn_state, 'N', '처리중', 'Y', '답변완료') as qn_state
+    FROM tb_question
+    where  qn_state = 'N'
+    ORDER BY qn_cdate DESC, qn_no DESC
+    </select>
+
+    <select id="qnaSelectIng" parameterType="String" resultType="qnaDto">
         SELECT qn_no, qn_from, qn_category, qn_cdate, qn_content,qn_title,
                DECODE(qn_state, 'N', '처리중', 'Y', '답변완료') as qn_state
         FROM tb_question
-        where qn_state = 'N'
+        where
+        <choose>
+            <when test="id neq null">
+             qn_from = #{id } and qn_state = 'N'
+            </when>
+            <otherwise>
+             qn_state = 'N'
+            </otherwise>
+        </choose>
         ORDER BY qn_cdate DESC, qn_no DESC
     </select>
     <!--======================================= [[ Qna 답변완료 조회 ]] ======================================-->
-    <select id="qnaSelectFinishAll" resultType="qnaDto">
+    <select id="qnaSelectFinishAll" parameterType="String" resultType="qnaDto">
         SELECT qn_no, qn_from, qn_category, qn_cdate, qn_content,qn_title,
                DECODE(qn_state, 'N', '처리중', 'Y', '답변완료') as qn_state
         FROM tb_question
-        where qn_state = 'Y'
+        where qn_from = #{mem_id} and qn_state = 'Y'
         ORDER BY qn_cdate DESC, qn_no DESC
     </select>
     <!--======================================= [[ Qna 한건 조회 ]] ======================================-->
     <select id="qnaSelect" parameterType="int" resultType="qnaDto">
-        SELECT *
+        SELECT qn_no, qn_from, qn_category, qn_cdate, qn_content,qn_title,
+               DECODE(qn_state, 'N', '처리중', 'Y', '답변완료') as qn_state
         FROM tb_question
         WHERE qn_no = #{qn_no}
     </select>
@@ -44,7 +62,7 @@
                                 , QN_TITLE
         )
         VALUES (
-                SQ_QN_NO.NEXTVAL
+                SEQ_QN_NO.NEXTVAL
                , #{qn_from}
                , #{qn_category}
                , SYSDATE

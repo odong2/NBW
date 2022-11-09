@@ -9,12 +9,14 @@
   <title>Title</title>
   <%@include file="/WEB-INF/includes/common.jsp" %>
   <style>
-  @font-face {
-      font-family: CookieRun Regular;
-      src: url('/font/cookieRunFont_TTF/CookieRun Regular.ttf') format("truetype");
-  }
+      @font-face {
+          font-family: 'GangwonEdu_OTFBoldA';
+          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+      }
     body {
-      font-family: CookieRun Regular;
+      font-family:GangwonEdu_OTFBoldA;
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -44,14 +46,24 @@
     #mainTitle + span{
         font-size: 2rem;
     }
-    #prdImg{
+    .prdImg{
         width: 70px;
+    }
+    .prdTitle,
+    .prdCount,
+    .prdStatus,
+    .prdPrice{
+        font-size: 1.1rem;
+    }
+    .prdStatus{
+        color:#6DB329;
+        font-weight: 700;
     }
     table{
         font-size: 0.9rem;
     }
     #receiverInfo{
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
     .btn{
         border-radius: 10px;
@@ -101,7 +113,7 @@
             <tr class="prdList">
               <td class="d-flex align-items-center col-8 ms-2">
                 <div class="productImg-box mb-4">
-                  <img id="prdImg" src=<c:out value="${product.p_img}"/> class="product-img"/>
+                  <img class="prdImg" src=<c:out value="${product.p_img}"/> class="product-img"/>
                 </div>
                 <div class="prdTitle-box ms-3 col-12">
                     <span class="prdTitle">
@@ -111,7 +123,7 @@
               </td>
               <td class="col-1"><span class="prdCount"><c:out value="${product.p_count}"/>개</span></td>
               <td class="col-2"><span class="prdPrice"><fmt:formatNumber value="${product.p_price}" type="number"/>원</span></td>
-              <td class="col-2"><span class="prdStatus"><c:out value="${product.order_status}"/></span></td>
+              <td class="col-2 text-center"><span class="prdStatus"><c:out value="${product.order_status}"/></span></td>
             </tr>
           </c:forEach>
           </tbody>
@@ -138,10 +150,10 @@
                 </div>
             </li>
             <li class ="d-flex mb-3">
-                <div class="col-6">
+                <div class="col-3">
                     <span>받는 주소</span>
                 </div>
-                <div class="col-6 text-end">
+                <div class="col-9 text-end">
                     <span class="me-2">
                         <c:out value="${receiverInfo.RECEIVER_ADDRESS1}"/>
                         <c:out value="${receiverInfo.RECEIVER_ADDRESS2}"/>

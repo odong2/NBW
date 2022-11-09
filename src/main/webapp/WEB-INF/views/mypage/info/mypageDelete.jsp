@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%@include file="../../includes/common.jsp" %>
+    <%@include file="../../../includes/common.jsp" %>
     <%--  daum postcode  --%>
-    <%@include file="../../includes/daumPostCode.jsp" %>
+    <%@include file="../../../includes/daumPostCode.jsp" %>
     <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
     <title>MyPage</title>
     <script type="text/javascript">
@@ -55,7 +55,7 @@
 </head>
     <body>
     <!-- 헤더 시작 -->
-    <%@include file="../../includes/header.jsp" %>
+    <%@include file="../../../includes/header.jsp" %>
 
     <!-- 회원 탈퇴 페이지 시작 -->
     <section class="mypage wrapper d-flex">
@@ -150,7 +150,7 @@
     </section>
     <!-- 마이 페이지 끝 -->
     <!-- 풋터 시작 -->
-    <%@include file="../../includes/footer.jsp" %>
+    <%@include file="../../../includes/footer.jsp" %>
     <!-- 풋터 끝 -->
     </body>
     </html>

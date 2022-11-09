@@ -16,6 +16,8 @@ import com.finalpj.nbw.qna.service.QnaService;
 
 import lombok.extern.log4j.Log4j;
 
+import javax.servlet.http.HttpSession;
+
 @Log4j
 @Controller
 @RequestMapping("/admin/qna")
@@ -29,7 +31,7 @@ public class AdminQnaController {
 
 	/***** [[ 관리자 문의사항 조회하는 페이지 ]] *****/
 	@GetMapping("list")
-	public String qnaList(SearchCondition sc, Model model) {
+	public String qnaList(SearchCondition sc, HttpSession session, Model model) {
 		log.info("관리자 문의사항 조회페이지 호출");
 		List<Qna> questionList = null; // 문의사항 조회
 		List<Qna> questionIngList = null; // 답변하지 않은 문의사항
@@ -41,7 +43,7 @@ public class AdminQnaController {
 			log.info("ingCnt: "+ingCnt);
 			model.addAttribute("ingCnt", ingCnt);
 			// 답변하지 않은 문의 가져오기
-			questionIngList = qnaService.qnaIngList();
+			questionIngList = qnaService.qnaIngList(session);
 			log.info("questionIngList: "+questionIngList);
 			model.addAttribute("questionIngList", questionIngList);
 			
@@ -64,7 +66,7 @@ public class AdminQnaController {
 	
 	/***** [[ 관리자 문의사항 디테일 조회하는 페이지 ]] *****/
 	@GetMapping("answer")
-	public String qnaDetailList(Model model, Integer qn_no) {
+	public String qnaDetailList(Model model, HttpSession session, Integer qn_no) {
 		log.info("문의사항 답변 페이지 호출");
 		List<Qna> questionIngList = null; // 답변하지 않은 문의사항
 		int ingCnt = 0; // 답변하지 않은 문의글 갯수
@@ -73,7 +75,7 @@ public class AdminQnaController {
 		try {
 			ingCnt = qnaService.getQuestionIngCnt();
 			model.addAttribute("ingCnt", ingCnt);
-			questionIngList = qnaService.qnaIngList();
+			questionIngList = qnaService.qnaIngList(session);
 			model.addAttribute("questionIngList", questionIngList);
 			qt = qnaService.qnaRead(qn_no);
 		} catch (Exception e) {

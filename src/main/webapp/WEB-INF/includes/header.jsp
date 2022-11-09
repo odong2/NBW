@@ -1,102 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script type="text/javascript">
-    $(function(){
-        let keywordList; // 자동완성 창에 띄울 키워드를 저장할 변수
-        $('#mainSearch').autocomplete({
-            source: function (request, response) { //source 는 자동완성의 대상
-            // ajax 시작
-                $.ajax({
-                    url: "/product/search"
-                    , type: "POST"
-                    , dataType: "json"
-                    , data: {keyword: $('#mainSearch').val()} // 검색창에 입력된 키워드가 url 요청에서 파라미터로 전송된다.
-                    // 통신에 성공하면
-                    , success: function (data) {
-                        /* data.resultList 는 배열임 */
-                        const array = data.resultList;
-                        array.forEach((value) => {
-                            console.log(value["P_TITLE"]); // 출력해야 할 값
-                            keywordList = value["P_TITLE"]; // 전역에 선언해둔 변수에 담는다.
-                        })
-                            response(
-                                $.map(data, function (item) {
-                                    return {
-                                        label: keywordList
-                                        , value: keywordList // 선택 시 input에 표시되는 값
-                                    };
-                                })
-                            );// response
-                    }// success 끝
-                    , minLength: 2 // 두 자 이상이 입력될 때 서버로 요청을 보낸다.
-                    , autoFocus: true
-                    , select: function (evt, ui) {
-                        console.log("전체 data: " + JSON.stringify(ui));
-                        console.log("검색 데이터: " + ui.item);
-                    }
-                    , focus: function (evt, ui) {
-                        return false;
-                    }
-                    , close: function (evt) {}
-                })
-                // ajax 끝
-            }
-        })
-    });
-    /* ================ 검색어 자동 완성 기능 추가 ================== */
-
-</script>
-<style>
-    .ui-autocomplete {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 1000;
-        display: none;
-        float: left;
-        min-width: 160px;
-        padding: 10px 0;
-        margin: 5px 0 0;
-        list-style: none;
-        font-size: 14px;
-        text-align: left;
-        background-color: #ffffff;
-        border-radius: 10px;
-        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        background-clip: padding-box;
-    }
-
-    .ui-autocomplete > li > div {
-        display: block;
-        padding: 3px 10px;
-        clear: both;
-        font-weight: normal;
-        line-height: 1.42857143;
-        color: #333333;
-        white-space: nowrap;
-    }
-
-    .ui-state-hover,
-    .ui-state-active,
-    .ui-state-focus {
-        text-decoration: none;
-        color: #262626;
-        background-color: #f5f5f5;
-        cursor: pointer;
-    }
-
-    .ui-helper-hidden-accessible {
-        border: 0;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-    }
-</style>
-
+<%@include file="/WEB-INF/views/search/mainSearch.jsp" %>
 <div class="d-flex flex-wrap">
     <div class="col-2"></div>
     <nav class="d-flex align-items-center flex-column col-8">
@@ -126,7 +29,7 @@
 		            </li>
                 </c:when>
                 <c:otherwise>
-					 <li class="nav-item">
+                    <li class="nav-item">
                         <a href="/login" class="text-decoration-none px-3 border-end rounded-0"
                         >로그인</a
                         >
@@ -145,140 +48,143 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="text-decoration-none px-3 border-start rounded-0"
+                <a href="/mypage/qna/write" class="text-decoration-none px-3 border-start rounded-0"
                 >문의하기</a
                 >
             </li>
         </ul>
         <br>
         <form id="searchForm" action="/product/search" method="get" style="width: 100%;">
-        <div class="col-12 d-flex align-items-center justify-content-start" >
-            <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
-            <div class="input-group ms-3">
-    <%--  ============================      검색창    =============================  --%>
-                        <input
-                                type="text"
-                                id="mainSearch"
-                                name="keyword"
-                                class="form-control"
-                                placeholder="검색어를 입력해주세요."
-                                aria-label="Recipient's username"
-                                aria-describedby="button-addon2"
-                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
-                        />
-                        <button
-                                class="btn btn-outline-secondary"
-                                id="button-addon2"
-                                type="submit"
-                                style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
-                        >
-                            <i class="fas fa-search"></i>
-                        </button>
+            <div class="col-12 d-flex align-items-center justify-content-start" >
+                <a href="/home"><img alt="" src="/images/NBW_title.gif" style="width: 200px;"></a>
+                <div class="input-group ms-3">
+                    <%--  ============================      검색창    =============================  --%>
+                    <input
+                            type="text"
+                            id="mainSearch"
+                            name="keyword"
+                            class="form-control"
+                            placeholder="검색어를 입력해주세요."
+                            aria-label="Recipient's username"
+                            aria-describedby="button-addon2"
+                            autocomplete="off"
+                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
+                    />
+                    <button
+                            class="btn btn-outline-secondary"
+                            id="button-addon2"
+                            type="submit"
+                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998;width:55px"
+                    >
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
             </div>
-        </div>
         </form>
         <%@include file="/WEB-INF/views/product/autocomplete.jsp" %>
     </nav>
     <div class="col-2"></div>
 </div>
-<nav class="navbar" aria-label="Light offcanvas navbar" style="background-image: url('/images/bg_navi.jpeg');">
+<nav class="navbar" aria-label="Light offcanvas navbar" style="">
     <div class="col-2"></div>
     <ul class="nav nav-pills d-flex align-items-center p-1 col-10">
         <li class="nav-item fs-5 px-4 border-end dropdown border-danger">
-          <a
-            class="text-decoration-none"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="fas fa-bars"></i>
-          </a>
-          <ul class="dropdown-menu" style="width: 800px; margin-top: 11px">
-            <div class="d-flex justify-content-between py-3">
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목1</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목2</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목3</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목4</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목5</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-            </div>
-            <hr />
-            <div class="d-flex justify-content-between py-3">
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목6</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목7</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목8</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목9</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-              <ul class="px-5" style="list-style: none; padding: 0px">
-                <h5>제목10</h5>
-                <li>소제목</li>
-                <li>소제목</li>
-                <li>소제목</li>
-              </ul>
-            </div>
-          </ul>
+            <a
+                    class="text-decoration-none"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+            >
+                <i class="fas fa-bars"></i>
+            </a>
+            <ul class="dropdown-menu" style="width: 800px; margin-top: 11p; border-radius: 10px;">
+
+                <div class="d-flex justify-content-between py-3">
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="total"><h5>전체</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="철학"><h5>철학</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="종교"><h5>종교</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="사회과학"><h5>사회과학</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="자연과학"><h5>자연과학</h5></a></ul>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between py-2">
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="기술과학"><h5>기술과학</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="예술"><h5>예술</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="언어"><h5>언어</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="문학"><h5>문학</h5></a></ul>
+                    <ul class="px-5" style="list-style: none; padding: 0px"><a href="역사"><h5>역사</h5></a></ul>
+                </div>
+            </ul>
         </li>
         <li class="nav-item px-4 border-end border-danger">
             <a href="/notice/list" class="text-decoration-none">공지사항</a>
         </li>
         <li class="nav-item px-4 border-end border-danger">
-            <a href="#" class="text-decoration-none">문의사항</a>
+            <a href="/mypage/qna/list" class="text-decoration-none">문의사항</a>
         </li>
         <li class="nav-item px-4 border-end border-danger">
-            <a href="#" class="text-decoration-none">프로그램 신청</a>
+            <a href="/event/list" class="text-decoration-none">프로그램 신청</a>
         </li>
         <li class="nav-item px-4">
             <a href="#" class="text-decoration-none">커뮤니티</a>
         </li>
     </ul>
     <div class="col-1"></div>
+    <form id="navForm" method="get" action="/product/search">
+        <!-- 네비게이션 상품 분류 카테고리로 이동 요청할 input -->
+        <input type="text" name="type" value="C" hidden>
+        <input type="text" name="p_category" hidden>
+    </form>
 </nav>
+<hr style="border: 1px #1d1d6a;">
+<!-- 스크립트 -->
+<script type="text/javascript">
+    /* ----------------------------------- [[ 검색>메인검색창 유효성 검사]] ----------------------------------*/
+    $("#button-addon2").on('click', function(e){
+        let keyword = $.trim($("input[name='keyword']").val());
+       if(!keyword){
+           e.preventDefault();
+           alert("검색어를 입력해 주세요.");
+       }
+    });
+    /* ----------------------------------- [[ 검색>메인검색창 유효성 검사]] ----------------------------------*/
+    /* ----------------------------------- [[ 검색>네비게이션 카테고리]] ----------------------------------*/
+    $(".dropdown-menu a").on("click", function(e){
+        e.preventDefault();
+        let menu = $(this).attr("href");
+        console.log(menu); // 내가 클릭한 a 태그의 href 값 (예: 기술과학, 사회과학..)
+        if(menu == "total"){ // 클라이언트가 전체 메뉴를 클릭할 경우
+            $("#navForm input[name='type']").val("");
+            $("#navForm").submit();
+        }
+        $("#navForm input[name='p_category']").val(menu);
+        $("#navForm").submit();
+    })
+    /* ----------------------------------- [[ 검색>네비게이션 카테고리]] ----------------------------------*/
+</script>
+<style>
+    @font-face {
+        font-family: 'Cafe24Simplehae';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'NeoDunggeunmo';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .navbar {
+        font-family: 'Cafe24Simplehae';
+    }
+    .px-5>a {
+        text-decoration: none;
+        font-family: 'NeoDunggeunmo';
+    }
+    a>h6:hover {
+        background-color: #dfeafa;
+        border-radius: 50px;
+    }
+</style>
+

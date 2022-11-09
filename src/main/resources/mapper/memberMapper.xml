@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.finalpj.nbw.member.dao.MemberDao">
+<mapper namespace="com.finalpj.nbw.member.dao.MemberMapper">
 
 	<select id="selectMemeber" parameterType="String" resultType="member">
 		SELECT * FROM tb_MEMBER WHERE MEM_ID = #{value}
@@ -51,9 +51,10 @@
     </select>
 
     <!--  ================== *회원 정보 수정* ==================  -->
-    <update id="updateMyInfo" parameterType="member">
+    <update id="updateMyInfo" parameterType="member" >
         UPDATE tb_member
-        SET  mem_zipcode = #{mem_zipcode}
+        SET
+            mem_zipcode = #{mem_zipcode}
             ,mem_address1 = #{mem_address1}
             ,mem_address2 = #{mem_address2}
             ,mem_email = #{mem_email}
@@ -90,5 +91,5 @@
     <update id="updateMemPoint" parameterType="java.util.Map">
         UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
     </update>
-    
+
 </mapper>

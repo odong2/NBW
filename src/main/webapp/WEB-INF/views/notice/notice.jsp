@@ -9,7 +9,14 @@
     <title>Title</title>
     <%@include file="/WEB-INF/includes/common.jsp" %>
     <style>
+        @font-face {
+            font-family: 'GangwonEdu_OTFBoldA';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
+            font-family: GangwonEdu_OTFBoldA;
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -196,8 +203,8 @@
             </c:if>
             <%-- =================== 총 게시물 개수만큼 페이징 처리 ================--%>
             <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                <li class="page-item">
-                    <a class="page-link" href="<c:url value="/notice/list${ph.sc.getQueryString(i)}"/>">${i}</a>
+                <li class="page-item page-list">
+                    <a class="page-link page-num" href="<c:url value="/notice/list${ph.sc.getQueryString(i)}"/>">${i}</a>
                 </li>
             </c:forEach>
             <%-- =================== 다음 페이지 링크 보여줄 지 여부 ================--%>
@@ -219,6 +226,19 @@
 <%@include file="/WEB-INF/includes/footer.jsp" %>
 <!-- 풋터 끝 -->
 <script>
+    let params = new URLSearchParams(document.location.search);
+    /* 현재 페이지 */
+    let nowPage = params.get("page");
+    console.log(nowPage);
+    $(function(){
+        $('.page-list').each(function(index, item){
+            let page =$(item).children('.page-num').text();
+            console.log(page);
+            if(nowPage == page){
+                $(item).addClass('active');
+            }
+        })
+    })
     <%-- 검색정렬 버튼 이벤트 --%>
     function keywordSort(keyword) {
         let search_keyword = $(keyword).text();

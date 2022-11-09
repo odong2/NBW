@@ -21,7 +21,7 @@
 
           <!-- Nav Item - [상품, 공지사항, 문의사항 관리] -->
           <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/admin/product/list">
               <img
                 src="/images/books.png"
                 alt=""

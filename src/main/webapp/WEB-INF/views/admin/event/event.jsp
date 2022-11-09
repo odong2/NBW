@@ -13,6 +13,16 @@
     <%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자 메인페이지</title>
     <style>
+        /*********************** 글꼴 **************************/
+        @font-face {
+            font-family: 'GangwonEdu_OTFBoldA';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: GangwonEdu_OTFBoldA;}
+        /*********************** 글꼴 **************************/
         .title {
             margin-top: 15px;
         }
@@ -78,7 +88,7 @@
             <div class="twobtn">
                 <button class="registerbtn" type="button" id="writeBtn"
                         onclick="location.href='<c:url value="/admin/event/write"/>'">등록</button>
-                <button class="deadlinebtn">마감</button>
+<%--                <button class="deadlinebtn">마감</button>--%>
             </div>
             <!-- 버튼[등록, 마감] 끝 -->
             <!-- 표 시작 -->
@@ -92,7 +102,7 @@
                         <th>시간</th>
                         <th>접수기간</th>
                         <th>모집정원</th>
-                        <th>선택</th>
+                        <th>신청자보기</th>
                     </tr>
                     </thead>
                 <c:forEach var="event" items="${eventSelectAll}">
@@ -123,7 +133,11 @@
                             <c:out value="${event.ev_people}"/>
                         </td>
                         <td>
-                            <div class="check"><input type="checkbox" id="vehicle5" name="vehicle5" /></div>
+                            <button id="applicationbtn" type="button" class="btn btn-outline-primary btn-sm">
+                                <a href="/admin/event/applicant?ev_no=${event.ev_no}">
+                                    신청자
+                                </a>
+                            </button>
                         </td>
                     </tr>
                     </tbody>
@@ -147,10 +161,12 @@
 </a>
 <script>
     $(document).ready(function (){
-        $('#listBtn').on("click", function (){
-            location.href = "<c:url value='/event/list'/>";
-        })
+        <%--$('#applicationbtn').on("click", function (){--%>
+        <%--    location.href = "<c:url value='/admin/event/applicant?ev_no=${event.ev_no}'/>";--%>
+        <%--    &lt;%&ndash;<a href="/admin/event/detail?ev_no=${event.ev_no}">;&ndash;%&gt;--%>
+        <%--})--%>
     })
+
 </script>
 </body>
 </html>

@@ -280,7 +280,6 @@
                 let pw = $("#mem_pw").val();
                 console.log("입력한 비밀번호 ===> "+ pw);
 
-                /* (2) ajax 코드를 추가한다 > controller 에 요청할 때 화면이 전환되는 것을 방지 */
                 $.ajax({
                     type:"GET",
                     url:"/member/pwCheck?pw="+pw,
@@ -378,14 +377,26 @@
                     mailCodeCheck = true;
                 }
             });
+
+            // 전화번호 자동 하이픈 함수
+            const autoHyphen = function(target){
+                target.value = target.value
+                    .replace(/[^0-9]/g, '')
+                    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+            }
         });
+
     </script>
 
     <style>
-        /** {*/
-        /*    border: solid 1px red;*/
-        /*}*/
+        @font-face {
+            font-family: 'NEXON Lv1 Gothic OTF';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
         main {
+            font-family: 'NEXON Lv1 Gothic OTF';
             width:70%;
             margin:auto;
             padding-top: 10px;
@@ -400,7 +411,6 @@
         }
         h6 {
             color: #646161;
-            font-family: "210 Soopilmyungjo";
             padding-top: 12px;
         }
         #btn-join {
@@ -408,7 +418,6 @@
             border: 0;
             outline: 0;
             font-size: x-large;
-            font-family: "210 Soopilmyungjo";
             font-weight: bolder;
             background-color: transparent;
         }
@@ -416,7 +425,6 @@
             background-color: #fffbc5;
             font-size: x-large;
             font-weight: bolder;
-            font-family: "210 Soopilmyungjo";
             color: #801919;
         }
     </style>
@@ -456,7 +464,9 @@
 		                </c:otherwise>
 		            </c:choose>
                 </div>
-                <div class = "alert alert-dismissible w-75" id="idCheckDiv"></div>                </div>
+                <div class = "alert alert-dismissible w-75" id="idCheckDiv"> </div>
+                <label id="warningLabel" class="mb-3 text-danger" style="font-size:0.7rem;"></label>
+            </div>
             </div>
         </div>
         <hr>
@@ -506,7 +516,7 @@
                 </div>
                 <div class = "alert alert-dismissible w-75" id="nicknameCheckDiv"></div>                </div>
         </div>
-        </div>
+
 
         <!-- 이름 입력 ROW  -->
         <div class="row">
@@ -598,8 +608,6 @@
                 </div>
             </div>
         </div>
-        
-
 
         <hr>
         <br>
@@ -629,15 +637,23 @@
                 <div class="input-group mb-3 w-50">
 		            <c:choose>
 		                <c:when test="${ empty member}">
-		                    <input name="mem_phone" id="mem_phone" placeholder="'-'를 제외한 숫자만 입력해 주세요."
-		                           autocomplete="off" class="form-control">
+                            <input type="text" id="mem_phone" name="mem_phone"
+                                   placeholder="'-'를 제외하고 입력하세요"
+                                   oninput="autoHyphen(this)"
+                                   maxlength="13"
+                                   autocomplete="off"
+                                   pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+                                   class="form-controller col-7" value="">
 		                </c:when>
 		                <c:otherwise>
-		                    <input name="mem_phone" id="mem_phone" type="tel" placeholder="예) 010-1234-5678"
-		                           autocomplete="off" class="form-control"
-		                           value="${member.getMem_phone()}"/>
-		                           <!-- pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" -->
-                                   <%-- <fmt:formatNumber value="${member.getMem_phone()}" pattern="###-####-####"/> --%>
+                        <%--    fmt:formatNumber 형식 오류 수정   --%>
+                            <input type="text" id="mem_phone" name="mem_phone"
+                                   placeholder="'-'를 제외하고 입력하세요"
+                                   oninput="autoHyphen(this)"
+                                   maxlength="13"
+                                   autocomplete="off"
+                                   pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+                                   class="form-controller col-7" value="">
 		                </c:otherwise>
 		            </c:choose>
                 </div>
