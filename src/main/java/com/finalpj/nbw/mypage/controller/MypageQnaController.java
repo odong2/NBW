@@ -1,6 +1,7 @@
 package com.finalpj.nbw.mypage.controller;
 
 import com.finalpj.nbw.member.domain.Member;
+import com.finalpj.nbw.qna.domain.Answer;
 import com.finalpj.nbw.qna.domain.Qna;
 import com.finalpj.nbw.qna.service.QnaService;
 import lombok.extern.log4j.Log4j;
@@ -46,11 +47,13 @@ public class MypageQnaController {
     }
     /***************************** [[QNA 디테일 페이지]] *******************************/
     @GetMapping("detail")
-    public String qnaRead(Integer qn_no, Model m){
+    public String qnaRead(Integer qn_no, Model m, HttpSession session){
         log.info(qn_no);
         try {
-            Qna qna = qnaService.qnaRead(qn_no);
+            Qna qna = qnaService.qnaRead(qn_no); // 회원 문의
+            Answer an = qnaService.answerRead(qn_no); //운영자 답변
             m.addAttribute("qna",qna);
+            m.addAttribute("an",an);
             log.info(qna);
         } catch (Exception e) {
         }

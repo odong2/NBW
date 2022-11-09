@@ -51,6 +51,16 @@
              , #{ev_end}, #{ev_people}, #{ev_target}
              , #{ev_place}, #{ev_time}, #{ev_today}, #{ev_phone}, #{ev_img, jdbcType=VARCHAR})
     </insert>
+    <!--============================================ [[ 관리자 이벤트 수정 ]] ==========================================-->
+    <update id="adminModify" parameterType="eventDto">
+        UPDATE TB_EVENT
+        SET  ev_title = #{ev_title}, ev_content = #{ev_content}, ev_file = #{ev_file, jdbcType=VARCHAR}, ev_start = #{ev_start},
+            ev_end = #{ev_end}, ev_people = #{ev_people}, ev_target = #{ev_target},
+            ev_place = #{ev_place}, ev_time = #{ev_time}, ev_today = #{ev_today}, ev_phone = #{ev_phone}, ev_img = #{ev_img, jdbcType=VARCHAR}
+        WHERE ev_no = #{ev_no}
+    </update>
+
+
     <!--============================================ [[ 이벤트 신청 ]] ==========================================-->
     <insert id="eventAdd" parameterType="eventDto">
         INSERT INTO TB_MEMBEREVENT (
@@ -64,6 +74,7 @@
         SET EV_NOWPEOPLE = EV_NOWPEOPLE+1
         WHERE ev_no = #{ev_no}
     </update>
+
     <!--============================================ [[ 이벤트 등록 ]] ==========================================-->
 <!--    <select id="count" resultType="int">-->
 <!--            SELECT count(*) FROM tb_event-->

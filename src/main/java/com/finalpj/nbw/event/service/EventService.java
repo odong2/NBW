@@ -108,5 +108,12 @@ public class EventService {
 //        return eventDao.selectSearchCnt(sc);
 //    }
 
+    /********************************* [[관리자 이벤트 수정]] **************************************/
+    @Transactional(rollbackFor = Exception.class)
+    public int adminModify (Event event) throws Exception{
+        log.info("서비스 Event 한건 삭제 호출");
+        return eventDao.adminModify(event);
+    }
+
 
 }
