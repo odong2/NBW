@@ -28,5 +28,6 @@ public interface EventDao {
     /***************************** 이벤트 신청 ***************************/
     int eventAdd(EventMember eventMember) throws Exception;
     int updateEvPeople(EventMember eventMember) throws Exception;
-
+    /***************************** 관리자 이벤트 수정 ***************************/
+    int adminModify(Event event) throws Exception;
 }
