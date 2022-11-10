@@ -15,14 +15,13 @@ import lombok.Setter;
 public class Review {
 	private String mem_id;
 	private String mem_nickname;
-	private Integer mem_point;
 	private String p_no;
 	private Integer rv_score;
 	private String rv_content;
 	private String rv_img;
 	private String rv_img2;
 	private String rv_img3;
-	private String rv_date;
+	private Date rv_date;
 	private List<MultipartFile> files;
 	private List<String> fileNames;
 	private Integer fileSize;
@@ -35,5 +34,10 @@ public class Review {
 	}
 	public String getRv_image3() {
 		return fileNames.get(2);
+	}
+	
+	public String getStar() {
+		String star = "★";
+		return star.repeat(this.rv_score)+"("+this.rv_score+")";
 	}
 }

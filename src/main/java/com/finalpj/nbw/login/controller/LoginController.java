@@ -84,7 +84,7 @@ public class LoginController {
 			}
 
 		} catch (LoginException e) {
-//			rattr.addFlashAttribute("LoginFailMsg", e.getMessage());
+			//rattr.addFlashAttribute("LoginFailMsg", e.getMessage());
 			model.addAttribute("LoginFailMsg", e.getMessage());
 		}
 		
@@ -92,14 +92,18 @@ public class LoginController {
 	}
 
 	@GetMapping("/logout")
-	public void logout(HttpSession session, HttpServletResponse response) throws Exception {
+	public void logout(HttpSession session, HttpServletResponse response,@RequestParam String url) throws Exception {
 		if (session.getAttribute("member") == null) {
 			response.sendError(403, "로그인 상태가 아닙니다.");
 		} else {
 			session.removeAttribute("member");
 			session.invalidate();
-			response.sendRedirect("/login");
 		}
+		
+		if(url != null) 
+			response.sendRedirect(url);
+		else 
+			response.sendRedirect("/login");
 	}
 
 	@GetMapping("login/oauth2/code/{platform}")

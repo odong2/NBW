@@ -42,23 +42,23 @@ public class ProductService {
 	
 	@Transactional
 	public Map<String, Object> reviewRegister(Review review, HttpSession session) throws Exception {	
+		Member member = (Member) session.getAttribute("member");
+		
 		Map<String,Object> pointMap = new HashMap<>();
 		pointMap.put("mem_id", review.getMem_id());
-		pointMap.put("mem_point", review.getMem_point()+200);
+		pointMap.put("mem_point", member.getMem_point()+200);
 		
 		if(review.getFiles() != null) {
-			System.out.println("파일존재함!");
 			List<String> fileNames =  fileUploader.fileUpload(review.getFiles(),"review");
 			review.setFileNames(fileNames);
 			review.setFileSize(fileNames.size());
-			pointMap.put("mem_point", review.getMem_point()+400);
+			pointMap.put("mem_point", member.getMem_point()+400);
 		}
 		
 		productDao.reviewInsert(review);
 		productDao.reviewCountUpdate(review);
 		memberDao.updateMemPoint(pointMap);
 		
-		Member member = (Member) session.getAttribute("member");
 		int mem_point = (Integer) pointMap.get("mem_point");
 		member.setMem_point(mem_point);
 		session.setAttribute("member", member);
@@ -69,6 +69,48 @@ public class ProductService {
 		return map;
 	}
 
+	public Map<String, Object> reviewModify(Review review) {
+		
+		if(review.getFiles() != null) {
+			System.out.println("파일 존재");
+			List<String> fileNames =  fileUploader.fileUpload(review.getFiles(),"review");
+			review.setFileNames(fileNames);
+			review.setFileSize(fileNames.size());
+		}else {
+			System.out.println("파일 미 존재");
+		}
+		
+		int result = productDao.reviewUpdate(review);
+		System.out.println(result);
+		
+		Map<String, Object> reviewMap = new HashMap<String,Object>();
+		reviewMap.put("rv_content", review.getRv_content());
+		reviewMap.put("rv_score", review.getRv_score());
+		reviewMap.put("fileNames", review.getFileNames());
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("success", true);
+		map.put("msg", "리뷰가 수정되었습니다.");
+		map.put("review", reviewMap);
+		return map;
+	}
+	
+	public Map<String, Object> reviewDelete(Review review) {
+		System.out.println("mem_id: "+review.getMem_id());
+		System.out.println("rv_content"+review.getRv_content());
+		System.out.println("p_no"+review.getP_no());
+		System.out.println("rv_score"+review.getRv_score());
+		
+		int result = productDao.reviewDelete(review);
+		System.out.println(result);
+		productDao.reviewCountDelete(review);
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("success", true);
+		map.put("msg", "리뷰가 삭제되었습니다.");
+		return map;
+	}
+	
 	@Transactional
 	public Product getProduct(String p_no) {
 		Product product = productDao.getProduct(p_no);
@@ -107,4 +149,9 @@ public class ProductService {
         categoryFilterList = productDao.selectProductCategory(criteria);
         return categoryFilterList;
     }
+
+	public Review memberReview(Map<String, Object> memberMap) {
+		return productDao.getMemberReview(memberMap);
+	}
+
 }

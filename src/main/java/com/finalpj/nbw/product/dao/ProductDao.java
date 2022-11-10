@@ -36,6 +36,8 @@ public interface ProductDao {
 
 	void reviewCountUpdate(Review review);
 
+	void reviewCountDelete(Review review);
+	
 	void reviewInsert(Review review);
 	
 	List<Review> SelectReviewList(Map<String,Object> map);
@@ -43,5 +45,11 @@ public interface ProductDao {
 	int getReviewTotalCnt(String p_no);
 
 	List<Map<String, Object>> getReviewListMap(Map<String, Object> pageMap);
+
+	Review getMemberReview(Map<String, Object> memberMap);
+
+	int reviewUpdate(Review review);
+
+	int reviewDelete(Review review);
 }
 

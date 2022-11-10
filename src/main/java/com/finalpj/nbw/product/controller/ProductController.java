@@ -74,9 +74,11 @@ public class ProductController {
 			Map<String,Object> memberMap = new HashMap<>();
 			memberMap.put("p_no", p_no);
 			memberMap.put("mem_id", member.getMem_id());
+			
+			model.addAttribute("memberReview", productService.memberReview(memberMap));
 			model.addAttribute("isLike", memberService.existLike(memberMap));
 		}
-		
+	
 		return "/detail";
 	}
 
@@ -89,7 +91,6 @@ public class ProductController {
 		
 		if(member != null) {
 			review.setMem_id(member.getMem_id());
-			review.setMem_point(member.getMem_point());
 			review.setMem_nickname(member.getMem_nickname());
 			try {
 				map = productService.reviewRegister(review, session);
@@ -101,6 +102,46 @@ public class ProductController {
 			map = new HashMap<>();
 			map.put("success", false);
 			map.put("msg", "로그인이 필요합니다.");
+		}
+
+		return map;
+	}
+	
+	@PostMapping("review/modify")
+	@ResponseBody
+	public Map<String, Object> modify(Review review, HttpSession session) {
+		Map<String, Object> map = null;
+		
+		Member member = (Member) session.getAttribute("member");
+		
+		if(member != null) {
+			review.setMem_id(member.getMem_id());
+			map = productService.reviewModify(review);
+			
+		}else {
+			map = new HashMap<>();
+			map.put("success", false);
+			map.put("msg", "로그인 연결이 끊어졌습니다.");
+		}
+
+		return map;
+	}
+	
+	@PostMapping("review/delete")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestBody Review review, HttpSession session) {
+		Map<String, Object> map = null;
+		
+		Member member = (Member) session.getAttribute("member");
+		
+		if(member != null) {
+			review.setMem_id(member.getMem_id());
+			map = productService.reviewDelete(review);
+			
+		}else {
+			map = new HashMap<>();
+			map.put("success", false);
+			map.put("msg", "로그인 연결이 끊어졌습니다.");
 		}
 
 		return map;
@@ -190,7 +231,7 @@ public class ProductController {
      	final String fileFolder = uploadRoot+"/Desktop/upload/review/";
         
         Resource resource = new FileSystemResource(fileFolder + fileName);
-        
+        	
         if(!resource.exists())
         	return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         

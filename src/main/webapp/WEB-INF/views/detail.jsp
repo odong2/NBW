@@ -3,61 +3,63 @@
 <head>
 <%@include file="/WEB-INF/includes/common.jsp"%>
 <title>ProductDetail</title>
-<style>    
-	a {
-		color: black;
-	}
-	main {
-		width: 70%;
-		margin: auto;
-	}
-	#header {
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-		z-index: 5;
-		background-color: white;
-		height: 80px;
-	}
-	
-	#review-box fieldset {
-		display: inline-block;
-		direction: rtl;
-		border: 0;
-	}
-	
-	#review-box fieldset legend {
-		text-align: right;
-	}
-	
-	#review-box input[type=radio] {
-		display: none;
-	}
-	
-	#review-box label {
-		font-size: 1.5rem;
-		color: transparent;
-		text-shadow: 0 0 0 #f0f0f0;
-	}
-	
-	#review-box label:hover {
-		/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-		text-shadow: 0 0 0 orange;
-	}
-	
-	#review-box label:hover ~ label {
-		/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-		text-shadow: 0 0 0 orange;
-	}
-	
-	#review-box input[type=radio]:checked ~ label {
-		/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-		text-shadow: 0 0 0 orange;
-	}
-	
-	#imgDelete {
-		cursor: pointer;
-	}
+<style>
+a {
+	color: black;
+}
+
+main {
+	width: 70%;
+	margin: auto;
+}
+
+#header {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 5;
+	background-color: white;
+	height: 80px;
+}
+
+#review-box fieldset {
+	display: inline-block;
+	direction: rtl;
+	border: 0;
+}
+
+#review-box fieldset legend {
+	text-align: right;
+}
+
+#review-box input[type=radio] {
+	display: none;
+}
+
+#review-box label {
+	font-size: 1.5rem;
+	color: transparent;
+	text-shadow: 0 0 0 #f0f0f0;
+}
+
+#review-box label:hover {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#review-box label:hover ~ label {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#review-box input[type=radio]:checked ~ label {
+	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+	text-shadow: 0 0 0 orange;
+}
+
+#imgDelete {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -193,10 +195,13 @@
 	<main>
 		<section class="">
 			<div class="px-4 px-lg-5 my-5">
-				<div class="mb-3 d-flex align-items-center justify-content-start bg-light px-5 py-3 border rounded">
-				
-					<img class="me-5 card-img-top border rounded" src="${product.p_img}" alt="..." style="width: 200px; height: 300px;"/>
-					
+				<div
+					class="mb-3 d-flex align-items-center justify-content-start bg-light px-5 py-3 border rounded">
+
+					<img class="me-5 card-img-top border rounded"
+						src="${product.p_img}" alt="..."
+						style="width: 200px; height: 300px;" />
+
 					<div class="d-flex flex-column justify-content-center">
 						<div class="my-3 fs-4">${product.getP_title()}</div>
 						<div class="mb-3 d-flex">
@@ -209,37 +214,39 @@
 							<div class="text-warning" style="font-size: 0.9rem">${product.star}</div>
 						</div>
 						<div class="mb-2 d-flex align-items-center">
-							<span class="pe-2">좋아요:</span>
-							<i class="fas fa-heart" style="color:red; font-size: 0.9rem;"></i>
-							<span style="color:red; font-size: 0.9rem;">(${product.p_like})</span>
+							<span class="pe-2">좋아요:</span> <i class="fas fa-heart"
+								style="color: red; font-size: 0.9rem;"></i> <span
+								style="color: red; font-size: 0.9rem;">(${product.p_like})</span>
 						</div>
 						<div class="mb-2 d-flex align-items-center">
 							<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
 						</div>
 						<div class="mb-2 d-flex">
 							정가:
-							<fmt:formatNumber value="${product.getP_price() }" />원
+							<fmt:formatNumber value="${product.getP_price() }" />
+							원
 						</div>
 						<div class="mb-5 d-flex align-items-center">
 							<div class="me-1">회원가:</div>
 							<div class="me-1">
-								<fmt:formatNumber value="${product.getP_price() * 0.9}" />원
+								<fmt:formatNumber value="${product.getP_price() * 0.9}" />
+								원
 							</div>
 							<div id="state_ing" class="badge bg-danger rounded-pill">10%</div>
 						</div>
 					</div>
-					
+
 				</div>
 
 				<div class="mb-3 bg-light px-5 py-3 border rounded">
 					<h5>상세내용</h5>
-					<hr/>
-					<p class="lead" style="font-size: 1rem; margin: 0px;">${product.getP_description()}</p>
+					<hr />
+					<p class="lead text-muted" style="font-size: 1rem; margin: 0px;">${product.getP_description()}</p>
 				</div>
 
 				<div class="mb-3 bg-light px-5 py-3 border rounded">
 					<h5>관련상품</h5>
-					<hr/>
+					<hr />
 					<div
 						class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 						<div class="col-2">
@@ -263,10 +270,87 @@
 				</div>
 
 				<div class="mb-3 bg-light px-5 py-3 border rounded">
+					<c:choose>
+						<c:when test="${empty member}">
+							<h5 class="btnFold">내가 작성한 리뷰보기</h5>
+							<hr />
+							<span class="text-danger">로그인이 필요합니다.</span>
+						</c:when>
+						<c:when test="${empty memberReview}">
+							<h5 class="btnFold text-danger">내가 작성한 리뷰보기</h5>
+							<hr />
+							<span>작성한 리뷰가 없습니다.</span>
+						</c:when>
+						<c:otherwise>
+							<h5 class="btnFold" style="cursor: pointer;">
+								내가 작성한 리뷰보기 <i class="fas fa-caret-down"></i>
+							</h5>
+							<hr />
+							<div class="fold">
+								<ul style="list-style: none; margin: 0px; padding: 0px;">
+									<li id="rv_body">
+										<div
+											class="mb-3 d-flex align-items-center justify-content-between">
+											<div>
+												<span class="pe-1 border-end" style="font-size: 0.8rem;"><c:out
+														value="${memberReview.mem_nickname}" /></span> <span
+													class="px-1 border-end" style="font-size: 0.8rem;"><c:out
+														value="${memberReview.rv_date}" /></span> <span class="ps-1"
+													style="font-size: 0.8rem;">신고</span>
+											</div>
+											<span id="scoreUpdate" class="ps-2 text-warning" style="font-size: 1rem;"><c:out
+													value="${memberReview.star}" /></span>
+										</div>
+
+
+										<div id="rv_content"
+											class="d-flex align-items-center justify-content-between">
+											<span id="contentUpdate" style="font-size: 1.2rem;"><c:out
+													value="${memberReview.rv_content}" /></span>
+											<div id="imgUpdate-box">
+												<button type="button"
+													class="me-2 btn btn-outline-dark btn-sm"
+													onclick="imgToggle(this)">펼치기</button>
+												<c:if test="${!empty memberReview.rv_img }">
+													<img id="imgUpdate1" class="me-2 border border-dark" id="reviewImg" alt=""
+														src="/product/images/<c:out value='${memberReview.rv_img}'/>"
+														style="width: 60px; height: 60px;">
+												</c:if>
+												<c:if test="${!empty memberReview.rv_img2 }">
+													<img id="imgUpdate2" class="me-2 border border-dark" id="reviewImg" alt=""
+														src="/product/images/<c:out value='${memberReview.rv_img2}'/>"
+														style="width: 60px; height: 60px;">
+												</c:if>
+												<c:if test="${!empty memberReview.rv_img3 }">
+													<img id="imgUpdate3" class="me-2 border border-dark" id="reviewImg" alt=""
+														src="/product/images/<c:out value='${memberReview.rv_img3}'/>"
+														style="width: 60px; height: 60px;">
+												</c:if>
+											</div>
+										</div>
+
+										<div id="rv_btns" class="mt-3 d-flex justify-content-end">
+											<button onclick="review_modify()"
+												class="me-1 btn-outline-primary rounded-pill"
+												style="font-size: 0.8rem;">수정</button>
+											<button onclick="review_delete()"
+												class="me-3 btn-outline-danger rounded-pill"
+												style="font-size: 0.8rem;">삭제</button>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+
+				<div class="mb-3 bg-light px-5 py-3 border rounded">
 					<h5>전체 리뷰(${ product.getP_review()})</h5>
-					<ul id="reviewList" style="list-style: none; margin: 0px; padding: 0px;"></ul>
+					<ul id="reviewList"
+						style="list-style: none; margin: 0px; padding: 0px;"></ul>
 					<nav aria-label="Page navigation">
-						<ul id="pageNavigation" class="pagination d-flex justify-content-center"></ul>
+						<ul id="pageNavigation"
+							class="pagination d-flex justify-content-center"></ul>
 					</nav>
 					<form id="pageForm" action="/product/page" method="post">
 						<input name="p_no" value="${product.p_no}" type="hidden">
@@ -281,16 +365,207 @@
 	<!-- 풋터 시작 -->
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<!-- 풋터 끝 -->
-	
+
+	<!-- 리뷰 수정 JS -->
+	<script type="text/javascript">
+		let reviewBackup;
+		
+	    /* 리뷰 수정 시도 */
+	    const review_modify = () => {
+	    	reviewBackup = $('#rv_body').children();
+	    	
+	    	$('#rv_body').empty();
+	    	
+	    	$('#rv_body').append(`
+					<div id="review-box" class="d-flex align-items-center mb-3">
+						<fieldset>
+							<input type="radio" value="5" id="modify_rate1" name="modify_reviewStar" onclick="pointChange(5)">
+							<label for="modify_rate1" data-score="5">★</label> 
+							<input type="radio" value="4" id="modify_rate2" name="modify_reviewStar" onclick="pointChange(4)">
+							<label for="modify_rate2" data-score="4">★</label>
+							<input type="radio" value="3" id="modify_rate3" name="modify_reviewStar" onclick="pointChange(3)">
+							<label for="modify_rate3" data-score="3">★</label>
+							<input type="radio" value="2" id="modify_rate4" name="modify_reviewStar" onclick="pointChange(2)">
+							<label for="modify_rate4" data-score="2">★</label> 
+							<input type="radio" value="1" id="modify_rate5" name="modify_reviewStar" onclick="pointChange(1)">
+							<label for="modify_rate5" data-score="1">★</label>
+						</fieldset>
+						<div id="modify_reviewPoint" class="ms-2 text-warning">0</div>
+						<div class="text-warning">/5</div>
+					</div>
+	    			`);
+	    	
+	    	$('#rv_body').append('<textarea id="modify_content" class="mb-3 form-control" placeholder="내용을 10자 이상 입력해주세요. 주제와 무관한 댓글,악플, 배송문의 등의 글은 임의 삭제될 수 있습니다."/>');
+	    	
+	    	$('#rv_body').append('<div id="modifyImg" class="d-flex flex-column align-items-start"></div');
+	    	$('#modifyImg').append(`
+	    					<div class="mb-3">
+	    						<button onclick="modifyImg_delete()" class="badge bg-danger rounded-pill me-1">이미지 삭제</button>
+								<span class="text-danger" style="font-size:0.7rem;">* 리뷰 수정시 기존 이미지는 모두 삭제됩니다.</span>
+							</div>
+							<div id="modifyImg-box" class="d-flex">
+								<input type="file" onchange="memberReviewImgUrl(this)" id="modify_input" accept="image/jpeg,image/png" style="display: none;">
+								<label
+									class="me-1 fs-1 d-flex align-items-center justify-content-center border border-opacity-25"
+									for="modify_input" style="width: 60px; height: 60px;">+</label>
+								<div id="img-box2" class="d-flex align-items-center"></div>
+							</div>
+	    			`);
+	    	
+	    	$('#rv_body').append('<div id="rv_btns" class="mt-3 d-flex justify-content-end"></div>');
+	    	$('#rv_btns').append('<button onclick="modify_submmit()" class="me-1 btn-outline-primary rounded-pill" style="font-size:0.8rem;">확인</button>');
+	    	$('#rv_btns').append('<button onclick="modify_cancel()" class="me-3 btn-outline-secondary rounded-pill" style="font-size:0.8rem;">취소</button>');
+	    };
+	    
+	    /* 리뷰 수정 취소 */ 
+	    let modify_cancel = (obj) => {
+	    	console.log(obj);
+	    	if (!obj){
+		    	$('#rv_body').empty();
+		    	$('#rv_body').append(reviewBackup);
+		    	rv_imgs = [];
+	    	}else {
+	    		let rv_content = obj.rv_content;
+	    		let rv_score = obj.rv_score;
+	    		let fileNames = obj.fileNames;
+	    		
+		    	$('#rv_body').empty();
+		    	$('#rv_body').append(reviewBackup);
+		    	rv_imgs = [];
+	    		$('#contentUpdate').text(rv_content);
+	    		$('#scoreUpdate').text(getStar(rv_score));
+	    		
+	    		$('#imgUpdate-box').empty();
+	    		$('#imgUpdate-box').append('<button type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>')
+	 			
+	    		fileNames.forEach((item,i)=>{
+	    			$('#imgUpdate-box').append('<img id="imgUpdate'+i+'" class="me-2 border border-dark" id="reviewImg" alt="" src="/product/images/'+item+'" style="width: 60px; height: 60px;">');
+	    		})
+	    	}
+	    }
+	    
+		/* 리뷰 이미지 업로드 */
+		let memberReviewImgUrl = (input) => {		
+			if(rv_imgs.length === 3){
+				return alert('최대 3개까지만 등록 가능합니다.');
+			}
+			
+			let reader = new FileReader();
+			
+			reader.onload = function(e) {
+			 	let src = e.target.result;
+			 	$('#img-box2').append('<img class="me-1 border border-dark" alt="" src="'+src+'" style="width: 60px; height: 60px;">');
+		 	};
+		 	
+			reader.readAsDataURL(input.files[0]);
+			rv_imgs.push(input.files[0]);
+		}
+		
+		let pointChange = (number) => {
+			$('#modify_reviewPoint').text(number);
+		}
+		
+		/* 리뷰 이미지 삭제 */
+		let modifyImg_delete = () => {
+			$('#img-box2').empty();
+			rv_imgs = [];
+			console.log('rv_imgs.length: '+rv_imgs.length);
+			console.log(rv_imgs);
+		}
+		
+		/* 리뷰 수정 요청 */
+		let modify_submmit = () => {			
+			let rv_score = $('#modify_reviewPoint').text();
+			let rv_content = $('#modify_content').val();
+			let p_no = '${product.getP_no()}';
+			
+			let formData = new FormData();
+			
+			formData.append('p_no',p_no);
+			formData.append('rv_score',rv_score);
+			formData.append('rv_content',rv_content);
+			
+			rv_imgs.forEach((item)=>{
+				formData.append('files',item);
+			})
+			
+			if(rv_score <= 0){
+				alert('별점을 입력해주세요.');
+			}else if(!rv_content) {
+				alert('리뷰를 작성해주세요.');
+			}else {
+				$.ajax({
+					type : "POST",
+					url : "/product/review/modify",
+					data : formData,
+					dataType : "json",
+					processData: false,
+					contentType: false,				
+					success : function(result) {
+						console.log(result);
+						if(result.success){
+							msg(result.msg);
+							modify_cancel(result.review);
+						}else {
+							msg(result.msg);
+							modify_cancel();
+						}
+				 	},
+				 	error : function(request, status, error) {
+				 		console.log("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+					}
+				});
+			}
+		}
+		
+		/* 리뷰 삭제 요청 */
+		let review_delete = () => {
+			if(confirm('정말로 리뷰를 삭제하시겠습니까?')){
+				let rv_content = '${memberReview.rv_content}';
+				let p_no = '${memberReview.p_no}';
+				let rv_score = '${memberReview.rv_score}';
+				
+				let obj = {}
+				obj.rv_content = rv_content;
+				obj.p_no = p_no;
+				obj.rv_score = rv_score;
+				
+				console.log(obj)
+				
+				$.ajax({
+					type : "POST",
+					url : "/product/review/delete",
+					contentType: "application/json; charset=UTF-8", 
+					data : JSON.stringify(obj),
+					dataType:"json",
+					success : function(response) {
+						location.reload();
+					},
+					error : function(data, textStatus) {
+						msg("에러가 발생했습니다."+data);
+						console.log(data);
+					}
+				}) 
+			}
+		}
+	</script>
+
 	<!-- 리뷰 JS -->
 	<script type="text/javascript">
 		let now_page = 1;
-		let rv_img = [];
-	
+		let rv_imgs = [];
+		
 		$(document).ready(function(){
 			reviewPage(1);
 		})
 	
+		$(".fold").hide();
+		
+	    $(".btnFold").click(function (e) {
+	        e.preventDefault();
+	        $(".fold").slideToggle(100);
+	    });
+		
 		let reviewPage = (page) => {
 			now_page = page;
 			
@@ -335,8 +610,6 @@
 					}else{
 						$('#pageNavigation').append('<li class="page-item page-list"><button class="page-link page-num" onclick="reviewPage('+i+')">'+i+'</button></li>');
 					}
-					
-					
 				}
 				
 				if(showNext){
@@ -363,26 +636,25 @@
 					$('#reviewList').append('<hr/><li id="review_li'+i+'"></li>');
 					
 					$('#review_li'+i).append('<div id="top'+i+'" class="mb-3 d-flex align-items-center justify-content-between"></div>');
-					
-					$('#review_li'+i).append('<div id="bottom'+i+'" class="d-flex align-items-start justify-content-between"></div>');
+					$('#review_li'+i).append('<div id="bottom'+i+'" class="d-flex align-items-center justify-content-between"></div>');
 					
 					$('#top'+i).append('<div id="top_content'+i+'"></div>');
-					$('#top_content'+i).append('<span class="pe-2 border-end border-opacity-50" style="font-size:0.8rem;">'+mem_nickname+'</span>');
-					$('#top_content'+i).append('<span class="px-2 border-end border-opacity-50" style="font-size:0.8rem;">'+getCdate(rv_date)+'</span>');
-					$('#top_content'+i).append('<span class="ps-2" style="font-size:0.8rem;">신고</span>');
-					$('#top'+i).append('<span class="ps-2 text-warning" style="font-size:0.8rem;">'+getStar(rv_score)+'</span>');
+					$('#top_content'+i).append('<span class="pe-1 border-end" style="font-size:0.8rem;">'+mem_nickname+'</span>');
+					$('#top_content'+i).append('<span class="px-1 border-end" style="font-size:0.8rem;">'+getCdate(rv_date)+'</span>');
+					$('#top_content'+i).append('<span class="ps-1" style="font-size:0.8rem;">신고</span>');
+					$('#top'+i).append('<span class="ps-2 text-warning" style="font-size:1rem;">'+getStar(rv_score)+'</span>');
 					
 					
-					$('#bottom'+i).append('<span style="font-size: 1rem;">'+rv_content+'</span>');
+					$('#bottom'+i).append('<span style="font-size: 1.2rem;">'+rv_content+'</span>');
 					$('#bottom'+i).append('<div id="bottom_content'+i+'"></div>');
 					
 					if(rv_img != null)
 						$('#bottom_content'+i).append('<button id="imgToggle" type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>');
-						$('#bottom_content'+i).append('<img class="me-2" id="reviewImg" alt="" src="/product/images/'+rv_img+'" style="width: 70px; height: 70px;">');
+						$('#bottom_content'+i).append('<img class="me-1 border border-dark" id="reviewImg" alt="" src="/product/images/'+rv_img+'" style="width: 60px; height: 60px;">');
 					if(rv_img2 != null)
-						$('#bottom_content'+i).append('<img class="me-2" id="reviewImg" alt="" src="/product/images/'+rv_img2+'" style="width: 70px; height: 70px;">');
+						$('#bottom_content'+i).append('<img class="me-1 border border-dark" id="reviewImg" alt="" src="/product/images/'+rv_img2+'" style="width: 60px; height: 60px;">');
 					if(rv_img3 != null)
-						$('#bottom_content'+i).append('<img id="reviewImg" alt="" src="/product/images/'+rv_img3+'" style="width: 70px; height: 70px;">');
+						$('#bottom_content'+i).append('<img class="border border-dark" alt="" src="/product/images/'+rv_img3+'" style="width: 60px; height: 60px;">');
 				});
 			}
 		}
@@ -392,12 +664,12 @@
 			
 			if(imgToggle === '펼치기'){
 				$(tag).nextAll().removeAttr('style');
-				$(tag).nextAll().attr('style','width: 200px; height: 200px;');
+				$(tag).nextAll().attr('style','width: 400px; height: 400px;');
 			}
 			
 			if(imgToggle === '접기'){
 				$(tag).nextAll().removeAttr('style');
-				$(tag).nextAll().attr('style','width: 70px; height: 70px;');
+				$(tag).nextAll().attr('style','width: 60px; height: 60px;');
 			}
 			
 			let toggleValue = imgToggle === '펼치기' ?'접기' :'펼치기';
@@ -451,7 +723,7 @@
 		
 		/* 리뷰 이미지 업로드 */
 		function reviewImgUrl(input) {
-			if(rv_img.length === 3){
+			if(rv_imgs.length === 3){
 				return alert('최대 3개까지만 등록 가능합니다.');
 			}
 			
@@ -461,8 +733,8 @@
 			 	$('#img-box').append('<img class="ms-2 border border-dark" alt="" src="'+src+'" style="width: 100px; height: 100px;">')
 		 	};
 			reader.readAsDataURL(input.files[0]);
-			rv_img.push(input.files[0]);
-			$('#fileCount').text('사진 첨부(선택) '+rv_img.length+'/3');
+			rv_imgs.push(input.files[0]);
+			$('#fileCount').text('사진 첨부(선택) '+rv_imgs.length+'/3');
 		}
 		
 		/* 리뷰 전송시 검사 */
@@ -474,7 +746,7 @@
 				alert('별점을 입력해주세요.');
 			}else if(!rv_content) {
 				alert('리뷰를 작성해주세요.');
-			}else if(rv_img.length === 0){
+			}else if(rv_imgs.length === 0){
 				if(confirm('리뷰사진 없이 등록 하시겠습니까?')){
 					review_submmit();
 				}
@@ -498,7 +770,7 @@
 		$('#imgDelete').click(function(){
 			$('#img-box').empty();
 			$('#fileCount').text('사진 첨부(선택) 0/3');
-			rv_img = [];
+			rv_imgs = [];
 		})
 		
 		/* 리뷰 전송 */
@@ -513,7 +785,7 @@
 			formData.append('rv_score',rv_score);
 			formData.append('rv_content',rv_content);
 			
-			rv_img.forEach((item)=>{
+			rv_imgs.forEach((item)=>{
 				formData.append('files',item);
 			})
 			
@@ -551,7 +823,7 @@
 			return star.repeat(score)+"("+score+")";
 		}
 	</script>
-	
+
 	<script type="text/javascript">
 	let c_count = '1';
 	let booleanValue = ${empty isLike ?false :isLike};
@@ -774,11 +1046,11 @@
 		if(!$('#msg-box').length){
 			$('body').append('<div id="msg-box" class="position-fixed top-50 start-50 translate-middle"></div>');
 			$('#msg-box').append('<div id="LoginFailMsg" class="text-center list-group-item list-group-item-danger">'+text+'</div>');
-			$("#LoginFailMsg").delay(500).fadeOut(500);
+			$("#LoginFailMsg").delay(500).fadeOut(1200);
 		}
 		$("#LoginFailMsg").text(text);
 		$("#LoginFailMsg").show();
-		$("#LoginFailMsg").delay(500).fadeOut(500);
+		$("#LoginFailMsg").delay(500).fadeOut(1200);
 	}
 </script>
 </body>
