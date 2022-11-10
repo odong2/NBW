@@ -1,6 +1,8 @@
 package com.finalpj.nbw.payment.repository;
 
 import com.finalpj.nbw.payment.dao.RefundDao;
+import com.finalpj.nbw.payment.domain.Refund;
+
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -20,4 +22,9 @@ public class RefundDaoImpl implements RefundDao {
     public int insertRefundOrder(Map<String, Object> pMap) throws Exception {
         return sqlSession.insert(namespace + "insertRefundOrder", pMap);
     }
+
+	@Override
+	public Refund selectRefundInfo(Map<String, Object> pMap) throws Exception {
+		return sqlSession.selectOne(namespace+"selectRefundInfo", pMap);
+	}
 }

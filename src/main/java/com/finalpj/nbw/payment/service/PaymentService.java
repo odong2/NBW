@@ -140,6 +140,10 @@ public class PaymentService {
             }else if(orderStatus.equals("반품 신청")){
                 refundDao.insertRefundOrder(pMap);
                 msg = "반품신청이 완료 되었습니다. 환불은 관리자가 확인후 진행됩니다.";
+            } else if(orderStatus.equals("상품 준비중")) {
+            	pMap.put("order_status", "배송완료");
+            	paymentDao.updateOrderStatus(pMap);
+            	msg = "배송이 완료되었습니다. 배송 완료된 상품은 전체 주문 내역에서 확인 가능합니다.";
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -177,5 +181,14 @@ public class PaymentService {
         return payDetailList;
     }
 
+    /********************************** 관리자 페이지에서 조건에 맞는 주문리스트 조회 ***********************************/
+    public List<AdminPayment> getAdminPaymentList(Map<String,Object> pMap) throws Exception{
+    	return paymentDao.selectAdminPayment(pMap);
+    }
+
+    /********************************** 관리자 페이지에서 조건에 맞는 환불요청 정보조회 ***********************************/
+    public Refund getRefundInfo(Map<String,Object> pMap) throws Exception{
+    	return refundDao.selectRefundInfo(pMap);
+    }
 }
 

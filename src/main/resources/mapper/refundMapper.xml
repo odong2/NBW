@@ -7,4 +7,18 @@
             (refund_no, order_no, p_no, refund_reason, refund_status,confirm_date)
         VALUES (SEQ_REFUND_NO.NEXTVAL, #{order_no},#{p_no}, #{refund_reason}, #{refund_status}, sysdate)
     </insert>
+    <!-- [[ 관리자의 승인 후 confirm_date 및 상태 수정하기 ]] -->
+    <update id="updateRefundOrder" parameterType="refundDto">
+    	UPDATE TB_MEMREFUND 
+		   SET confirm_date = sysdate
+		      ,refund_status = #{refund_status}
+		 WHERE refund_no = #{refund_no}
+    </update>
+    <!-- [[ 해당 반품정보 가져오기 ]] -->
+    <select id="selectRefundInfo" parameterType="map" resultType="refundDto">
+    	SELECT refund_no, refund_reason, apply_date, refund_status, order_no, p_no
+		  FROM TB_MEMREFUND 
+		 WHERE order_no = #{order_no}
+		   AND p_no = #{p_no}
+    </select>
 </mapper>
