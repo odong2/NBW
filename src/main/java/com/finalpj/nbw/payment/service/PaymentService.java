@@ -137,7 +137,8 @@ public class PaymentService {
                 pMap.put("refund_status", "환불");
                 refundDao.insertRefundOrder(pMap);
                 msg = "결제가 취소 되었습니다. 환불 금액은 결제계좌로 입금됩니다.";
-            }else if(orderStatus.equals("반품 신청")){
+            }else if(orderStatus.equals("반품")){
+            	pMap.put("refund_status", "반품 신청");
                 refundDao.insertRefundOrder(pMap);
                 msg = "반품신청이 완료 되었습니다. 환불은 관리자가 확인후 진행됩니다.";
             } else if(orderStatus.equals("상품 준비중")) {
@@ -149,7 +150,7 @@ public class PaymentService {
             e.printStackTrace();
             if(orderStatus.equals("취소")){
                 msg = "결제 취소에 실패하였습니다. 확인 후 다시 시도해 주세요.";
-            }else if(orderStatus.equals("반품 신청")){
+            }else if(orderStatus.equals("반품")){
                 msg = "반품신청에 실패하였습니다. 확인 후 다시 시도해 주세요";
             }
         }
@@ -190,5 +191,10 @@ public class PaymentService {
     public Refund getRefundInfo(Map<String,Object> pMap) throws Exception{
     	return refundDao.selectRefundInfo(pMap);
     }
+    /********************************** 반품 상태 업데이트 해주기 ***********************************/
+    public int modifyRefundStatus(Map<String,Object> pMap) throws Exception{
+    	return refundDao.updateRefundOrder(pMap);
+    }
+    
 }
 

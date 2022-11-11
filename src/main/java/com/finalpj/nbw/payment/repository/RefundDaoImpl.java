@@ -23,8 +23,15 @@ public class RefundDaoImpl implements RefundDao {
         return sqlSession.insert(namespace + "insertRefundOrder", pMap);
     }
 
+    /* 반품 정보 상세 조회 */
 	@Override
 	public Refund selectRefundInfo(Map<String, Object> pMap) throws Exception {
 		return sqlSession.selectOne(namespace+"selectRefundInfo", pMap);
+	}
+
+	/* 반품 상태 변경 (반품 승인, 반품 거절) */
+	@Override
+	public int updateRefundOrder(Map<String,Object> pMap) throws Exception {
+		return sqlSession.update(namespace+"updateRefundOrder", pMap);
 	}
 }

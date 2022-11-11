@@ -8,7 +8,7 @@
         VALUES (SEQ_REFUND_NO.NEXTVAL, #{order_no},#{p_no}, #{refund_reason}, #{refund_status}, sysdate)
     </insert>
     <!-- [[ 관리자의 승인 후 confirm_date 및 상태 수정하기 ]] -->
-    <update id="updateRefundOrder" parameterType="refundDto">
+    <update id="updateRefundOrder" parameterType="map">
     	UPDATE TB_MEMREFUND 
 		   SET confirm_date = sysdate
 		      ,refund_status = #{refund_status}

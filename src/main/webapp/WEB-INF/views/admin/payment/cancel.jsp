@@ -127,17 +127,22 @@
 	                          </c:choose>
 	                          <td><c:out value="${pList.order_status}"/></td>
 	                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
-	                          <c:choose>
-	                            <c:when test="${pList.order_status eq '반품 신청'}">
-		                          <td>
-		                            <button class="btn btn-danger btn-sm refund-detail" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
-		                            		data-bs-toggle="modal" data-bs-target="#cancelModal">
-		                              상세보기
+		                      <td>
+	                            <c:choose>
+	                              <c:when test="${pList.order_status eq '반품'}">
+		                              <button class="btn btn-danger btn-sm" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
+		                              		data-bs-toggle="modal" data-bs-target="#refundModal">
+		                                상세보기
+		                              </button>
+	                              </c:when>
+	                              <c:otherwise>
+	                              	<button class="btn btn-warning btn-sm" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
+		                              		data-bs-toggle="modal" data-bs-target="#cancelModal">
+		                                취소사유
 		                            </button>
-		                          </td>
-	                            </c:when>
-	                            <c:otherwise><td>취소완료</td></c:otherwise>
-	                          </c:choose>
+							  	</c:otherwise>
+	                            </c:choose>
+		                      </td>
 	                        </tr>
 	                    </c:forEach>
                       </tbody>
@@ -152,7 +157,7 @@
         <!-- End of Footer -->
         <!-- End of Content Wrapper -->
         	<!-- 반품 요청 모달 -->
-			<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+			<div class="modal fade" id="refundModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
 			  <div class="modal-dialog modal-lg modal-dialog-centered">
 			    <div class="modal-content border border-secondary rounded-3 border-opacity-50">
 			      <div class="modal-header">
@@ -170,13 +175,35 @@
 	                </div>
 			      </div>
 			      <div class="modal-footer">
-	                <button type="button" class="btn btn-secondary btn-confirm" data-bs-dismiss="modal">반품 승인</button>
-	                <button type="button" class="btn btn-secondary btn-refuse" data-bs-dismiss="modal">반품 거절</button>
 	              </div>
 			    </div>
 			  </div>
 			</div>
 			<!-- 반품 요청 모달 -->
+        	<!-- 취소정보 상세보기 모달 -->
+			<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg modal-dialog-centered">
+			    <div class="modal-content border border-secondary rounded-3 border-opacity-50">
+			      <div class="modal-header">
+			        <h4 class="modal-title" id="cancelModalToggleLabel"><b>취소 사유 상세보기</b></h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body">
+	                <div class="row">
+	                  <h5 class="m-title mt-3"><b>🚫취소 사유</b></h5>
+	                  <div class="m-content"></div>
+	                </div>
+					<div class="row mt-3">
+	                  <h5 class="m-title col-3"><b>📆반품 신청일</b></h5>
+	                  <div class="col-9 r-date"></div>
+	                </div>
+			      </div>
+			      <div class="modal-footer">
+	              </div>
+			    </div>
+			  </div>
+			</div>
+        	<!-- 취소정보 상세보기 모달 -->
         
       </section>
     </div>
@@ -190,7 +217,8 @@
     	
     
 <script type="text/javascript">
-	$('#cancelModal').on('show.bs.modal', function (event) {
+	/* 반품 사유 모달 호출 ajax처리 - 데이터 받아서 넣어주기 */
+	$('#refundModal').on('show.bs.modal', function (event) {
     	let button = $(event.relatedTarget);
 		let order_no = button.attr("data-orderNo");
 		let p_no = button.attr("data-pNo");
@@ -204,9 +232,59 @@
                 order_no:order_no
             },
             success : function(data) {
+            	console.log(data);
             	let apply_date = getDate(data.apply_date);
             	modal.find('.m-content').text(data.refund_reason);
             	modal.find('.r-date').text(apply_date);
+            	modal.find('#refund_no').val(data.refund_no);
+            	/* 상태가 반품 신청이라면 반품 승인과 반품 거절
+         	   	   상태가 반품 승인 및 반품 거절이라면 닫기 버튼 */
+            	if(data.refund_status != "반품 신청"){ // 반품 신청일 때
+        	    	modal.find('.modal-footer').empty();
+            		modal.find('.modal-footer').html(`
+            			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            		`);
+            	} else{ // 반품 승인 및 반품 거절일 때
+        	    	modal.find('.modal-footer').empty(); //원래 있던 기존의 값 지워주고
+        	    	// 버튼 그려주기
+            		modal.find('.modal-footer').html(`
+            				<input type="hidden" id="refund_no" name="refund_no" value="" />
+        	                <button type="button" class="btn btn-secondary btn-confirm" data-bs-dismiss="modal"
+        	                	data-refundNo="${'${data.refund_no}'}" data-refundStatus="반품 승인" onClick=modifyRefundStatus(this);>반품 승인
+        	                </button>
+        	                <button type="button" class="btn btn-secondary btn-refuse" data-bs-dismiss="modal"
+        	                	data-refundNo="${'${data.refund_no}'}" data-refundStatus="반품 거절" onClick=modifyRefundStatus(this);>반품 거절
+        	                </button>
+            		`);
+            	}
+            },
+            error : function(data, textStatus) {
+                alert("에러가 발생했습니다."+data);
+            },
+            complete : function(data, textStatus) {
+            }
+        }); //end of ajax
+	});
+	
+	/* 취소 사유 모달 호출 ajax처리 */
+	$('#cancelModal').on('show.bs.modal', function (event) {
+    	let button = $(event.relatedTarget);
+		let order_no = button.attr("data-orderNo");
+		let p_no = button.attr("data-pNo");
+		let modal = $(this);
+		$.ajax({
+            type : "post",
+            url : "${contextPath}/admin/payment/refundlist",
+            data : {
+                p_no:p_no,
+                order_no:order_no
+            },
+            success : function(data) {
+            	console.log(data);
+            	let apply_date = getDate(data.apply_date);
+            	modal.find('.m-content').text(data.refund_reason);
+            	modal.find('.r-date').text(apply_date);
+            	modal.find('#refund_no').val(data.refund_no);
             },
             error : function(data, textStatus) {
                 alert("에러가 발생했습니다."+data);
@@ -223,7 +301,33 @@
         let day = String(date.getDate()).padStart(2,"0");
         return year + "-" + month + "-" + day;
     }
+	
+	/* 반품 승인과 반품 거절 눌렀을 경우 ajax로 상태 바꿔주기 */
+	function modifyRefundStatus(button){
+		let refund_no = $(button).attr("data-refundNo");
+		let refund_status = $(button).attr("data-refundStatus");
 		
+		$.ajax({
+            type : "post",
+            url : "${contextPath}/admin/payment/modifyrefundstatus",
+            data : {
+                refund_no:refund_no,
+                refund_status:refund_status
+            },
+            success : function() {
+            	if(refund_status == "반품 승인"){
+	            	alert('반품이 승인되었습니다.');
+            	} else{
+	            	alert('반품이 거절되었습니다.');
+            	}
+            },
+            error : function(data, textStatus) {
+                alert("에러가 발생했습니다."+data);
+            },
+            complete : function(data, textStatus) {
+            }
+        }); //end of ajax
+	}
 </script>
   </body>
 </html>

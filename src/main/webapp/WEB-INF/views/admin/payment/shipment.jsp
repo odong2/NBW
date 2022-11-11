@@ -92,15 +92,15 @@
 	                          <td><c:out value="${pList.order_status}"/></td>
 	                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
 	                          <td>
-	                          <form id="shippingForm" action="/admin/payment/modify" method="post">
-	                          	<input type="hidden" name="p_no" value="${pList.p_no}" />
-	                          	<input type="hidden" name="order_no" value="${pList.order_no}" />
-	                          	<input type="hidden" name="order_status" value="${pList.order_status}" />
-	                          	<input type="hidden" name="page" value="shipmentlist" />
-	                            <button id="btn_ship" class="btn btn-success btn-circle btn-sm" type="button">
-	                              <i class="fas fa-box-open"></i>
-	                            </button>
-	                          </form>
+	                          <c:choose>
+	                            <c:when test="${pList.mem_id eq null}"><span>비회원 배송</span></c:when>
+	                            <c:otherwise>
+		                            <button class="btn btn-success btn-sm btn-ship" type="button" data-memId="${pList.mem_id}"
+		                            		data-pNo="${pList.p_no}" data-orderNo="${pList.order_no}" data-orderStatus="${pList.order_status}"
+		                            		data-page="shipmentlist" onClick=modifyStatus(this);>배송완료
+									</button>
+								</c:otherwise>
+	                          </c:choose>
 	                          </td>
 	                        </tr>
 	                      </c:forEach>
@@ -126,14 +126,36 @@
     </a>
     <script type="text/javascript">
     /* 상품 배송시키기 */
-	$('#btn_ship').on('click',function(){
-        if(!confirm(("상품 준비가 끝났습니다. 배송을 보내시겠습니까?"))){
-            alert("다음에 다시 시도해주십시오.")
+    function modifyStatus(button){
+    	let pNo = $(button).attr("data-pNo");
+    	let orderNo = $(button).attr("data-orderNo");
+    	let mem_id = $(button).attr("data-memId");
+    	let page = $(button).attr("data-page");
+    	let orderStatus = $(button).attr("data-orderStatus");
+    	if(!confirm(("상품 준비가 끝났습니다. 배송을 보내시겠습니까?"))){
+            alert("다음에 다시 시도해주십시오.");
+        }else{
+    	 $.ajax({
+             type : "post",
+             url : "${contextPath}/admin/payment/modify",
+             data : {
+                 p_no:pNo,
+                 order_no:orderNo,
+                 mem_id:mem_id,
+                 order_status:orderStatus,
+                 page:page
+             },
+             success : function() {
+                 location.reload();
+             },
+             error : function(data, textStatus) {
+                 alert("에러가 발생했습니다."+data);
+             },
+             complete : function(data, textStatus) {
+             }
+         }); //end of ajax
         }
-        else{
-            $('#shippingForm').submit();
-        }
-    	})
+    }
     </script>
   </body>
 </html>
