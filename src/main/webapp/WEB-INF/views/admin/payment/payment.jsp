@@ -32,13 +32,15 @@
     	.m-content {
 	        display: flex;
 	        width: 96%;
+	        height: 250px;
 	        align-items: center;
 	        justify-content: center;
 	        margin: 5px auto;
 	        padding: 5px;
 	        border: 2px solid darksalmon;
 	        border-radius: 8px;
-	      }
+	        color: black;
+	    }
 	    .m-title {
 	        margin-left: auto;
 	        color: darksalmon;
@@ -64,15 +66,20 @@
 	    .modal-title{
 	      	color: black;
 	    }
+	    .modal{
+	    	display: absolute;
+  			justify-content: center;
+  			align-items:center;
+  			min-height: 100vh;
+  			left: 40%;	
+	    	width: 580px;
+	    }
+	    .modal-content{
+	    	padding: 10px;
+	    }
     </style>
   </head>
   <body id="page-top">
-  <script>
-	let msg = "${msg}";
-	if(msg != ""){
-		alert(msg);
-	}
-  </script>
     <!-- Page Wrapper -->
     <div class="d-flex justify-content-start">
       <!-- Sidebar -->
@@ -131,7 +138,7 @@
 	                            <c:when test="${pList.order_status eq '반품'}">
 		                          <td>
 		                            <button class="btn btn-danger btn-sm refund-detail" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
-		                            		data-bs-toggle="modal" data-bs-target="#cancelModal">
+		                            		data-bs-toggle="modal" data-bs-target="#refundModal">
 		                              상세보기
 		                            </button>
 		                          </td>
@@ -180,16 +187,16 @@
 			  <div class="modal-dialog modal-lg modal-dialog-centered">
 			    <div class="modal-content border border-secondary rounded-3 border-opacity-50">
 			      <div class="modal-header">
-			        <h4 class="modal-title" id="cancelModalToggleLabel"><b>반품 요청 상세보기</b></h4>
+			        <h5 class="modal-title" id="cancelModalToggleLabel"><b>반품 요청 상세보기</b></h5>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body">
 	                <div class="row">
-	                  <h5 class="m-title mt-3"><b>⚠️반품 사유</b></h5>
+	                  <h6 class="m-title mt-3"><b>⚠️반품 사유</b></h6>
 	                  <div class="m-content"></div>
 	                </div>
 					<div class="row mt-3">
-	                  <h5 class="m-title col-3"><b>📆반품 신청일</b></h5>
+	                  <h6 class="m-title col-3"><b>📆반품 신청일</b></h6>
 	                  <div class="col-9 r-date"></div>
 	                </div>
 			      </div>
@@ -204,16 +211,16 @@
 			  <div class="modal-dialog modal-lg modal-dialog-centered">
 			    <div class="modal-content border border-secondary rounded-3 border-opacity-50">
 			      <div class="modal-header">
-			        <h4 class="modal-title" id="cancelModalToggleLabel"><b>취소 사유 상세보기</b></h4>
+			        <h5 class="modal-title" id="cancelModalToggleLabel"><b>취소 사유 상세보기</b></h5>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body">
 	                <div class="row">
-	                  <h5 class="m-title mt-3"><b>🚫취소 사유</b></h5>
+	                  <h6 class="m-title mt-3"><b>🚫취소 사유</b></h6>
 	                  <div class="m-content"></div>
 	                </div>
 					<div class="row mt-3">
-	                  <h5 class="m-title col-3"><b>📆반품 신청일</b></h5>
+	                  <h6 class="m-title col-3"><b>📆취소 신청일</b></h6>
 	                  <div class="col-9 r-date"></div>
 	                </div>
 			      </div>
@@ -287,12 +294,10 @@
             	/* 상태가 반품 신청이라면 반품 승인과 반품 거절
          	   	   상태가 반품 승인 및 반품 거절이라면 닫기 버튼 */
             	if(data.refund_status != "반품 신청"){ // 반품 신청일 때
-        	    	modal.find('.modal-footer').empty();
             		modal.find('.modal-footer').html(`
             			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             		`);
             	} else{ // 반품 승인 및 반품 거절일 때
-        	    	modal.find('.modal-footer').empty(); //원래 있던 기존의 값 지워주고
         	    	// 버튼 그려주기
             		modal.find('.modal-footer').html(`
             				<input type="hidden" id="refund_no" name="refund_no" value="" />
