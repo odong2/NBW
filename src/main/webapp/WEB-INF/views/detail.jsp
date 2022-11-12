@@ -638,6 +638,7 @@
 		let reader = new FileReader();
 		reader.onload = function(e) {
 		 	let src = e.target.result;
+			 console.log(src);
 		 	$('#img-box').append('<img class="ms-2 border border-dark" alt="" src="'+src+'" style="width: 100px; height: 100px;">')
 	 	};
 		reader.readAsDataURL(input.files[0]);
