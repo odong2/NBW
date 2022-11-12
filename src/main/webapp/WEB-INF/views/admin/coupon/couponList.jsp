@@ -342,8 +342,8 @@
     let getDate = function(cdate){
         let date = new Date(cdate);
         let year = date.getFullYear();
-        let month = String(date.getMonth()).padStart(2, "0");
-        let day = String(date.getDay()).padStart(2,"0");
+        let month = String(date.getMonth()+1).padStart(2, "0");
+        let day = String(date.getDate()).padStart(2,"0");
         return year + "-" + month + "-" + day + " ";
     }
 </script>

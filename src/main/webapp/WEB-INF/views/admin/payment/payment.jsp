@@ -391,11 +391,13 @@
 	});
 	/* apply_date를 날짜 형식 맞춰주기 */
 	let getDate = function(data){
-        let date = new Date(data);
-        let year = date.getFullYear();
-        let month = String(date.getMonth() + 1).padStart(2, "0");
-        let day = String(date.getDate()).padStart(2,"0");
-        return year + "-" + month + "-" + day;
+		let date = new Date(data);
+		let year = date.getFullYear();
+		let month = String(date.getMonth()+1).padStart(2, "0");
+		let day = String(date.getDate()).padStart(2,"0");
+		const hours = String(date.getHours()).padStart(2, "0");
+		const minutes = String(date.getMinutes()).padStart(2, "0");
+		return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
     }
 	
 	/* 반품 승인과 반품 거절 눌렀을 경우 ajax로 상태 바꿔주기 */
