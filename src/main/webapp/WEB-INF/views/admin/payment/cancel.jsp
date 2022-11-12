@@ -108,7 +108,10 @@
                    	⚠️반품 요청 들어온 상품
                   </h5>
                   <div class="mt-3">
-                  	<span>반품 요청이 들어온 상품입니다. '상세보기' 버튼을 클릭하여 사유를 확인하고 반품 승인 및 거절을 눌러주세요.</span>
+                  	<span>
+                  	반품 요청이 들어온 상품입니다. '상세보기' 버튼을 클릭하여 사유를 확인하고 반품 승인 및 거절을 눌러주세요.
+                  	<br>반품을 거절하거나 승인해준 상품은 <a href="/admin/payment/list">상태 확정 주문 조회</a>페이지에서 조회 가능합니다.
+                  	</span>
                   </div>
                 </div>
                 <div class="card-body">
@@ -233,11 +236,13 @@
         	    	// 버튼 그려주기
             		modal.find('.modal-footer').html(`
             				<input type="hidden" id="refund_no" name="refund_no" value="" />
-        	                <button type="button" class="btn btn-secondary btn-confirm" data-bs-dismiss="modal"
-        	                	data-refundNo="${'${data.refund_no}'}" data-refundStatus="반품 승인" onClick=modifyRefundStatus(this);>반품 승인
+        	                <button type="button" class="btn btn-secondary btn-confirm" data-bs-dismiss="modal" data-orderno="${'${data.order_no}'}"
+        	                	data-pno="${'${data.p_no}'}" data-refundNo="${'${data.refund_no}'}" data-refundStatus="환불" onClick=modifyRefundStatus(this);>
+        	                	반품 승인
         	                </button>
-        	                <button type="button" class="btn btn-secondary btn-refuse" data-bs-dismiss="modal"
-        	                	data-refundNo="${'${data.refund_no}'}" data-refundStatus="반품 거절" onClick=modifyRefundStatus(this);>반품 거절
+        	                <button type="button" class="btn btn-secondary btn-refuse" data-bs-dismiss="modal" data-orderno="${'${data.order_no}'}"
+        	                	data-pno="${'${data.p_no}'}" data-refundNo="${'${data.refund_no}'}" data-refundStatus="반품 거절" onClick=modifyRefundStatus(this);>
+        	                	반품 거절
         	                </button>
             		`);
             	}
@@ -264,6 +269,8 @@
 	
 	/* 반품 승인과 반품 거절 눌렀을 경우 ajax로 상태 바꿔주기 */
 	function modifyRefundStatus(button){
+		let order_no = $(button).attr("data-orderno");
+		let p_no = $(button).attr("data-pno");
 		let refund_no = $(button).attr("data-refundNo");
 		let refund_status = $(button).attr("data-refundStatus");
 		
@@ -271,13 +278,15 @@
             type : "post",
             url : "${contextPath}/admin/payment/modifyrefundstatus",
             data : {
+                order_no:order_no,
+                p_no:p_no,
                 refund_no:refund_no,
                 refund_status:refund_status
             },
             success : function() {
-            	if(refund_status == "반품 승인"){
+            	if(refund_status == "환불"){ // 반품 승인버튼을 눌러주었을 경우
 	            	alert('반품이 승인되었습니다.');
-            	} else{
+            	} else{ // 반품 거절을 눌러주었을 경우
 	            	alert('반품이 거절되었습니다.');
             	}
             	location.reload();

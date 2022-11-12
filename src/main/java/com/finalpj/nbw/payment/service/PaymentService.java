@@ -187,10 +187,8 @@ public class PaymentService {
     	List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
     	Map<String,Object> pMap = new HashMap<>();
 		// 주문상태에 따라 조건 다르게 리스트 받아와야함
-		// (1)none: 전체 주문내역 조회 (2)취소 / 반품 / 상품 준비중 / 배송완료 상태별 주문 내역 불러오기
-		if(!status.equals("none")) { 
-			pMap.put("order_status", status);
-		}
+		// 취소 / 반품 / 상품 준비중 / 배송완료/ 환불 상태별 주문 내역 불러오기
+		pMap.put("order_status", status);
 		pMap.put("table1", "TB_UNMEMPAYMENTDETAIL");
 		pMap.put("table2", "TB_UNMEMPAYMENT");
 		try {
@@ -216,17 +214,24 @@ public class PaymentService {
     	return refundDao.selectRefundList();
     }
     /********************************** 반품 상태 업데이트 해주기 ***********************************/
+    /** 반품 상태 정리하기
+     * (1) 반품 승인: TB_MEMREFUND의 refund_status는 '반품 신청'->'환불'로 변경, TB_MEMPAYMENTDETAIL의 order_status는 '반품'->'환불'로 변경
+     * (2) 반품 거절: TB_MEMREFUND의 refund_status는 '반품 신청'->'반품 거절'로 변경, TB_MEMPAYMENTDETAIL의 order_status는 '반품'->'배송완료'로 변경
+     */
     @Transactional(rollbackFor = Exception.class)
-    public int modifyRefundStatus(Map<String,Object> pMap) throws Exception{
-    	String status = (String) pMap.get("refund_status"); // 반품 상태: (1)반품 승인 (2)반품 거절
-    	refundDao.updateRefundOrder(pMap);
+    public void modifyRefundStatus(Map<String,Object> pMap) throws Exception{
+    	String status = (String) pMap.get("refund_status"); // 반품 상태: (1)반품 승인(환불로 컬럼에 상태 저장) (2)반품 거절
+    	refundDao.updateRefundOrder(pMap); // TB_MEMREFUND의 상태 변경
     	// (1) 관리자가 반품 승인을 해주었을 경우 
-    	if(status == "반품 승인") { 
-    		
+    	if(status.equals("환불")) { 
+    		pMap.put("order_status", status);
     	}
-    	return refundDao.updateRefundOrder(pMap);
+    	// (2) 관리자가 반품 거절을 해주었을 경우 
+    	else {
+    		pMap.put("order_status", "배송완료");
+    	}
+    	paymentDao.updateOrderStatus(pMap); // TB_MEMPAYMENTDETAIL에서의 상태 변경
     }
-    
     
 }
 

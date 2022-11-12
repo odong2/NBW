@@ -31,7 +31,7 @@ public class AdminPaymentController {
 	}
 	
 	/*********************** [[ 배송상태 관리페이지 ]] ***********************/
-	@GetMapping("/shipmentlist")
+	@GetMapping("/shipment")
 	public String getShipmentList(Model model) {
 		List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
 		String status = "상품 준비중";
@@ -45,7 +45,7 @@ public class AdminPaymentController {
 	}
 	
 	/*********************** [[ 취소 및 환불 관리페이지 ]] ***********************/
-	@GetMapping("/cancellist")
+	@GetMapping("/cancel")
 	public String getCancelList(Model model) {
 		List<Map<String,Object>> refundList = null; //회원 및 비회원 주문 리스트
 		try {
@@ -57,13 +57,17 @@ public class AdminPaymentController {
 		return "/admin/payment/cancel";
 	}
 
-	/*********************** [[ 전체 주문 관리페이지 ]] ***********************/
+	/*********************** [[ 상태 확정된 주문 내역 관리페이지 ]] ***********************/
 	@GetMapping("/list")
 	public String getPaymentList(Model model) {
 		List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
-		String status = "none";
+		String status = "배송완료";
 		try {
 			paymentList = paymentService.getAdminPaymentList(status);
+			status = "환불";
+			paymentList.addAll(paymentService.getAdminPaymentList(status));
+			status = "취소";
+			paymentList.addAll(paymentService.getAdminPaymentList(status));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -103,7 +107,7 @@ public class AdminPaymentController {
 	/*********************** [[ 받아온 상태에 따른 리스트 가져오기 ]] ***********************/
 	@PostMapping("searchlist")
 	@ResponseBody
-	public List<AdminPayment> getSearchList(@RequestParam String status){
+	public List<AdminPayment> getSearchList(@RequestParam String status, Model model){
 		log.info("ajax로 받아온 status는: "+status);
 		List<AdminPayment> searchList = null; 
 		try {
@@ -112,6 +116,7 @@ public class AdminPaymentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("searchList", searchList);
 		return searchList;
 	}
 }

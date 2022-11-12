@@ -92,9 +92,9 @@
               data-parent="#accordionSidebar"
             >
               <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/admin/payment/shipmentlist">배송 전 상품</a>
-                <a class="collapse-item" href="/admin/payment/cancellist">반품 요청 상품</a>
-                <a class="collapse-item" href="/admin/payment/list">전체 주문 조회</a>
+                <a class="collapse-item" href="/admin/payment/shipment">배송 전 상품</a>
+                <a class="collapse-item" href="/admin/payment/cancel">반품 요청 상품</a>
+                <a class="collapse-item" href="/admin/payment/list">상태 확정 주문 조회</a>
               </div>
             </div>
           </li>
