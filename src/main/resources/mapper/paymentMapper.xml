@@ -121,4 +121,29 @@
             WHERE mem_id = #{mem_id}
         )
     </select>
+    
+    <!-- 관리자페이지에서 회원 및 비회원 결제 정보 조회 -->
+    <select id="selectAdminPayment" parameterType="map" resultType="adminPaymentDto">
+    	SELECT A.p_no, A.order_status, B.order_no, B.order_date
+    	<choose>
+    	<when test='table1 eq "TB_UNMEMPAYMENTDETAIL"'>
+    	</when>
+    	<otherwise>
+    		, B.mem_id
+    	</otherwise>
+    	</choose>
+		  FROM(
+		        SELECT p_no, order_status, order_no
+		          FROM ${table1} 
+		       <choose>
+		        <when test="order_status == null"></when>
+		        <otherwise>
+		         WHERE order_status = #{order_status}
+		        </otherwise>
+		       </choose>
+		      ) A
+		INNER JOIN ${table2} B
+		   ON A.order_no = B.order_no
+		ORDER BY order_date desc
+    </select>
 </mapper>

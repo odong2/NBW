@@ -7,4 +7,31 @@
             (refund_no, order_no, p_no, refund_reason, refund_status,confirm_date)
         VALUES (SEQ_REFUND_NO.NEXTVAL, #{order_no},#{p_no}, #{refund_reason}, #{refund_status}, sysdate)
     </insert>
+    <!-- [[ 관리자의 승인 후 confirm_date 및 상태 수정하기 ]] -->
+    <update id="updateRefundOrder" parameterType="map">
+    	UPDATE TB_MEMREFUND 
+		   SET confirm_date = sysdate
+		      ,refund_status = #{refund_status}
+		 WHERE refund_no = #{refund_no}
+    </update>
+    <!-- [[ 해당 반품정보 가져오기 ]] -->
+    <select id="selectRefundInfo" parameterType="map" resultType="refundDto">
+    	SELECT refund_no, refund_reason, apply_date, refund_status, order_no, p_no, confirm_date
+		  FROM TB_MEMREFUND 
+		 WHERE order_no = #{order_no}
+		   AND p_no = #{p_no}
+    </select>
+    <!-- [[ 반품 들어온 상품만(refund_status가 '반품 신청' 인것만) 보여주는 쿼리문 ]] -->
+    <select id="selectRefundList" resultType="map">
+    	SELECT C.p_no, C.refund_status, B.order_no, B.order_date, B.mem_id
+		  FROM(
+		       SELECT D.order_no, D.p_no, A.refund_status
+		         FROM TB_MEMPAYMENTDETAIL D, (SELECT order_no, p_no, refund_status from TB_MEMREFUND 
+		                                       WHERE refund_status = '반품 신청') A
+		        WHERE D.order_no = A.order_no and D.p_no = A.p_no
+		       ) C
+		INNER JOIN TB_MEMPAYMENT  B
+		   ON C.order_no = B.order_no
+		ORDER BY order_date desc
+    </select>
 </mapper>
