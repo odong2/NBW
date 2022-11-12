@@ -14,6 +14,16 @@
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자 메인페이지</title>
     <style type="text/css">
+    	@font-face {
+            font-family: 'InfinitySans-RegularA1';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        *{
+            font-family: 'InfinitySans-RegularA1';
+        }
     	.h5-title{
     		color: black;
     	}
@@ -95,8 +105,11 @@
               <div class="card mt-3 mb-4">
                 <div class="card-header py-3">
                   <h5 class="m-0 font-weight-bold h5-title">
-                    취소 및 환불 상품 목록
+                   	⚠️반품 요청 들어온 상품
                   </h5>
+                  <div class="mt-3">
+                  	<span>반품 요청이 들어온 상품입니다. '상세보기' 버튼을 클릭하여 사유를 확인하고 반품 승인 및 거절을 눌러주세요.</span>
+                  </div>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -117,38 +130,32 @@
                         </tr>
                       </thead>
                       <tbody>
-                      	<c:forEach var="pList" items="${paymentList}">
-	                        <tr>
-	                          <td><c:out value="${pList.order_no}"/></td>
-	                          <td><c:out value="${pList.p_no}"/></td>
-	                          <c:choose>
-	                            <c:when test="${pList.mem_id eq null}">
-	                           	  <td>비회원</td>
-	                           	</c:when>
-	                            <c:otherwise>
-		                          <td><c:out value="${pList.mem_id}"/></td>
-	                            </c:otherwise>
-	                          </c:choose>
-	                          <td><c:out value="${pList.order_status}"/></td>
-	                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
-		                      <td>
-	                            <c:choose>
-	                              <c:when test="${pList.order_status eq '반품'}">
-		                              <button class="btn btn-danger btn-sm" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
-		                              		data-bs-toggle="modal" data-bs-target="#refundModal">
-		                                상세보기
-		                              </button>
-	                              </c:when>
-	                              <c:otherwise>
-	                              	<button class="btn btn-warning btn-sm" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
-		                              		data-bs-toggle="modal" data-bs-target="#cancelModal">
-		                                취소사유
-		                            </button>
-							  	</c:otherwise>
-	                            </c:choose>
-		                      </td>
-	                        </tr>
-	                    </c:forEach>
+                      	<c:choose>
+                      	  <c:when test='${refundList == null || refundList.size() == 0}'>
+                      	  	<tr><td colspan="6">반품 신청 들어온 상품이 없습니다.</td></tr>
+                      	  </c:when>
+                      	  <c:otherwise>
+                      		<c:forEach var="rList" items="${refundList}">
+	                        	<tr>
+	                          		<td><c:out value="${rList.ORDER_NO}"/></td>
+	                          		<td><c:out value="${rList.P_NO}"/></td>
+		                      		<td><c:out value="${rList.MEM_ID}"/></td>
+	                          		<td><c:out value="${rList.REFUND_STATUS}"/></td>
+	                          		<td><fmt:formatDate value="${rList.ORDER_DATE}" pattern="yyyy-MM-dd"/></td>
+		                      		<td>
+		                            <c:choose>
+		                              <c:when test="${rList.REFUND_STATUS eq '반품 신청'}">
+			                              <button class="btn btn-danger btn-sm" type="button" data-orderNo="${rList.ORDER_NO}" data-pNo="${rList.P_NO}"
+			                              		data-bs-toggle="modal" data-bs-target="#refundModal">
+			                                상세보기
+			                              </button>
+		                              </c:when>
+		                            </c:choose>
+		                      		</td>
+	                        	</tr>
+	                    	</c:forEach>
+                      	  </c:otherwise>
+                      	</c:choose>
                       </tbody>
                     </table>
                   </div>
@@ -184,31 +191,6 @@
 			  </div>
 			</div>
 			<!-- 반품 요청 모달 -->
-        	<!-- 취소정보 상세보기 모달 -->
-			<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-			  <div class="modal-dialog modal-lg modal-dialog-centered">
-			    <div class="modal-content border border-secondary rounded-3 border-opacity-50">
-			      <div class="modal-header">
-			        <h5 class="modal-title" id="cancelModalToggleLabel"><b>취소 사유 상세보기</b></h5>
-			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			      </div>
-			      <div class="modal-body">
-	                <div class="row">
-	                  <h6 class="m-title mt-3"><b>🚫취소 사유</b></h6>
-	                  <div class="m-content"></div>
-	                </div>
-					<div class="row mt-3">
-	                  <h6 class="m-title col-5"><b>📆취소 신청일</b></h6>
-	                  <div class="col-7 r-date"></div>
-	                </div>
-			      </div>
-			      <div class="modal-footer">
-	              </div>
-			    </div>
-			  </div>
-			</div>
-        	<!-- 취소정보 상세보기 모달 -->
-        
       </section>
     </div>
     <!-- [[ 오른쪽 div 끝 ]] -->
@@ -268,33 +250,6 @@
         }); //end of ajax
 	});
 	
-	/* 취소 사유 모달 호출 ajax처리 */
-	$('#cancelModal').on('show.bs.modal', function (event) {
-    	let button = $(event.relatedTarget);
-		let order_no = button.attr("data-orderNo");
-		let p_no = button.attr("data-pNo");
-		let modal = $(this);
-		$.ajax({
-            type : "post",
-            url : "${contextPath}/admin/payment/refundlist",
-            data : {
-                p_no:p_no,
-                order_no:order_no
-            },
-            success : function(data) {
-            	console.log(data);
-            	let apply_date = getDate(data.apply_date);
-            	modal.find('.m-content').text(data.refund_reason);
-            	modal.find('.r-date').text(apply_date);
-            	modal.find('#refund_no').val(data.refund_no);
-            },
-            error : function(data, textStatus) {
-                alert("에러가 발생했습니다."+data);
-            },
-            complete : function(data, textStatus) {
-            }
-        }); //end of ajax
-	});
 	/* apply_date를 날짜 형식 맞춰주기 */
 	let getDate = function(data){
         let date = new Date(data);
@@ -322,6 +277,7 @@
             	} else{
 	            	alert('반품이 거절되었습니다.');
             	}
+            	location.reload();
             },
             error : function(data, textStatus) {
                 alert("에러가 발생했습니다."+data);

@@ -13,6 +13,16 @@
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자 메인페이지</title>
     <style type="text/css">
+    	@font-face {
+            font-family: 'InfinitySans-RegularA1';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        *{
+            font-family: 'InfinitySans-RegularA1';
+        }
     	.h5-title{
     		color: black;
     	}
@@ -55,8 +65,11 @@
               <div class="card mt-3 mb-4">
                 <div class="card-header py-3">
                   <h5 class="m-0 font-weight-bold h5-title">
-                    '상품준비중'인 주문 목록
+                    📦'상품준비중'인 주문 목록
                   </h5>
+                  <div class="mt-3">
+                  	<span>배송 요청이 들어온 상품입니다. 구매자에게 배송을 완료했다면 '배송완료' 버튼을 클릭하여 배송처리를 확정지어주세요.</span>
+                  </div>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -77,33 +90,40 @@
                         </tr>
                       </thead>
                       <tbody>
-	                      <c:forEach var="pList" items="${paymentList}">
-	                        <tr>
-	                          <td><c:out value="${pList.order_no}"/></td>
-	                          <td><c:out value="${pList.p_no}"/></td>
-	                          <c:choose>
-	                            <c:when test="${pList.mem_id eq null}">
-	                           	  <td>비회원</td>
-	                           	</c:when>
-	                            <c:otherwise>
-		                          <td><c:out value="${pList.mem_id}"/></td>
-	                            </c:otherwise>
-	                          </c:choose>
-	                          <td><c:out value="${pList.order_status}"/></td>
-	                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
-	                          <td>
-	                          <c:choose>
-	                            <c:when test="${pList.mem_id eq null}"><span>비회원 배송</span></c:when>
-	                            <c:otherwise>
-		                            <button class="btn btn-success btn-sm btn-ship" type="button" data-memId="${pList.mem_id}"
-		                            		data-pNo="${pList.p_no}" data-orderNo="${pList.order_no}" data-orderStatus="${pList.order_status}"
-		                            		data-page="shipmentlist" onClick=modifyStatus(this);>배송완료
-									</button>
-								</c:otherwise>
-	                          </c:choose>
-	                          </td>
-	                        </tr>
-	                      </c:forEach>
+                      	<c:choose>
+                      	  <c:when test='${paymentList == null || paymentList.size() == 0}'>
+                      	  	<tr><td colspan="6">상품 준비중인 상품이 없습니다.</td></tr>
+                      	  </c:when>
+                      	  <c:otherwise>
+		                      <c:forEach var="pList" items="${paymentList}">
+		                        <tr>
+		                          <td><c:out value="${pList.order_no}"/></td>
+		                          <td><c:out value="${pList.p_no}"/></td>
+		                          <c:choose>
+		                            <c:when test="${pList.mem_id eq null}">
+		                           	  <td>비회원</td>
+		                           	</c:when>
+		                            <c:otherwise>
+			                          <td><c:out value="${pList.mem_id}"/></td>
+		                            </c:otherwise>
+		                          </c:choose>
+		                          <td><c:out value="${pList.order_status}"/></td>
+		                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
+		                          <td>
+		                          <c:choose>
+		                            <c:when test="${pList.mem_id eq null}"><span>비회원 배송</span></c:when>
+		                            <c:otherwise>
+			                            <button class="btn btn-success btn-sm btn-ship" type="button" data-memId="${pList.mem_id}"
+			                            		data-pNo="${pList.p_no}" data-orderNo="${pList.order_no}" data-orderStatus="${pList.order_status}"
+			                            		data-page="shipmentlist" onClick=modifyStatus(this);>배송완료
+										</button>
+									</c:otherwise>
+		                          </c:choose>
+		                          </td>
+		                        </tr>
+		                      </c:forEach>
+		                  </c:otherwise>
+		                </c:choose>
                       </tbody>
                     </table>
                   </div>

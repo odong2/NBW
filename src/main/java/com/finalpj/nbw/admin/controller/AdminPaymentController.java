@@ -29,37 +29,17 @@ public class AdminPaymentController {
 	public AdminPaymentController(PaymentService paymentService) {
 		this.paymentService = paymentService;
 	}
-	/* 이거 서비스로 뺴버리기 */
-	public List<AdminPayment> setStatus(String status) {
-		List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
-		Map<String,Object> pMap = new HashMap<>();
-		// 주문상태에 따라 조건 다르게 리스트 받아와야함
-		// (1)none: 전체 주문내역 조회 (2)취소 / 반품 / 상품 준비중 / 배송완료 상태별 주문 내역 불러오기
-		if(!status.equals("none")) { 
-			pMap.put("order_status", status);
-		}
-		pMap.put("table1", "TB_UNMEMPAYMENTDETAIL");
-		pMap.put("table2", "TB_UNMEMPAYMENT");
-		try {
-			// 비회원 정보 가져오기
-			paymentList = paymentService.getAdminPaymentList(pMap);
-			// 회원 정보 담아주기
-			pMap.put("table1", "TB_MEMPAYMENTDETAIL");
-			pMap.put("table2", "TB_MEMPAYMENT");
-			// 하나의 리스트에 회원 및 비회원 주문 내역 담아주기
-			paymentList.addAll(paymentService.getAdminPaymentList(pMap));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return paymentList;
-	}
 	
 	/*********************** [[ 배송상태 관리페이지 ]] ***********************/
 	@GetMapping("/shipmentlist")
 	public String getShipmentList(Model model) {
 		List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
 		String status = "상품 준비중";
-		paymentList = this.setStatus(status);
+		try {
+			paymentList = paymentService.getAdminPaymentList(status);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("paymentList",paymentList);
 		return "admin/payment/shipment";
 	}
@@ -67,12 +47,13 @@ public class AdminPaymentController {
 	/*********************** [[ 취소 및 환불 관리페이지 ]] ***********************/
 	@GetMapping("/cancellist")
 	public String getCancelList(Model model) {
-		List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
-		String status = "취소";
-		paymentList = this.setStatus(status);
-		status = "반품";
-		paymentList.addAll(this.setStatus(status));
-		model.addAttribute("paymentList",paymentList);
+		List<Map<String,Object>> refundList = null; //회원 및 비회원 주문 리스트
+		try {
+			refundList = paymentService.getRefundList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("refundList",refundList);
 		return "/admin/payment/cancel";
 	}
 
@@ -81,7 +62,11 @@ public class AdminPaymentController {
 	public String getPaymentList(Model model) {
 		List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
 		String status = "none";
-		paymentList = this.setStatus(status);
+		try {
+			paymentList = paymentService.getAdminPaymentList(status);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("paymentList",paymentList);
 		return "/admin/payment/payment";
 	}
@@ -89,7 +74,6 @@ public class AdminPaymentController {
 	@PostMapping("modify")
 	@ResponseBody
 	public void modifyOrderStatus(@RequestParam Map pMap, RedirectAttributes rattr) {
-		log.info("받아온 pMap=================="+pMap);
 		String msg = paymentService.modifyOrderStatus(pMap);
         rattr.addFlashAttribute("msg", msg);
 	}
@@ -97,7 +81,6 @@ public class AdminPaymentController {
 	@PostMapping("refundlist")
 	@ResponseBody
 	public Refund getRefundInfo(@RequestParam Map pMap) {
-		log.info("ajax로 받아온 pMap: "+pMap);
 		Refund refundInfo = null;
 		try {
 			refundInfo = paymentService.getRefundInfo(pMap);
@@ -116,5 +99,19 @@ public class AdminPaymentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	/*********************** [[ 받아온 상태에 따른 리스트 가져오기 ]] ***********************/
+	@PostMapping("searchlist")
+	@ResponseBody
+	public List<AdminPayment> getSearchList(@RequestParam String status){
+		log.info("ajax로 받아온 status는: "+status);
+		List<AdminPayment> searchList = null; 
+		try {
+			searchList = paymentService.getAdminPaymentList(status);
+			log.info("searchList============================="+searchList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return searchList;
 	}
 }

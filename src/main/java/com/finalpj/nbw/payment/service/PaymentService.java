@@ -183,18 +183,50 @@ public class PaymentService {
     }
 
     /********************************** 관리자 페이지에서 조건에 맞는 주문리스트 조회 ***********************************/
-    public List<AdminPayment> getAdminPaymentList(Map<String,Object> pMap) throws Exception{
-    	return paymentDao.selectAdminPayment(pMap);
+    public List<AdminPayment> getAdminPaymentList(String status) throws Exception{
+    	List<AdminPayment> paymentList = null; //회원 및 비회원 주문 리스트
+    	Map<String,Object> pMap = new HashMap<>();
+		// 주문상태에 따라 조건 다르게 리스트 받아와야함
+		// (1)none: 전체 주문내역 조회 (2)취소 / 반품 / 상품 준비중 / 배송완료 상태별 주문 내역 불러오기
+		if(!status.equals("none")) { 
+			pMap.put("order_status", status);
+		}
+		pMap.put("table1", "TB_UNMEMPAYMENTDETAIL");
+		pMap.put("table2", "TB_UNMEMPAYMENT");
+		try {
+			// 비회원 정보 가져오기
+			paymentList = paymentDao.selectAdminPayment(pMap);
+			// 회원 정보 담아주기
+			pMap.put("table1", "TB_MEMPAYMENTDETAIL");
+			pMap.put("table2", "TB_MEMPAYMENT");
+			// 하나의 리스트에 회원 및 비회원 주문 내역 담아주기
+			paymentList.addAll(paymentDao.selectAdminPayment(pMap));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return paymentList;
     }
 
     /********************************** 관리자 페이지에서 조건에 맞는 환불요청 정보조회 ***********************************/
     public Refund getRefundInfo(Map<String,Object> pMap) throws Exception{
     	return refundDao.selectRefundInfo(pMap);
     }
+    /********************************** 관리자 페이지에서 반품 신청 들어온 것만 조회 ***********************************/
+    public List<Map<String,Object>> getRefundList() throws Exception{
+    	return refundDao.selectRefundList();
+    }
     /********************************** 반품 상태 업데이트 해주기 ***********************************/
+    @Transactional(rollbackFor = Exception.class)
     public int modifyRefundStatus(Map<String,Object> pMap) throws Exception{
+    	String status = (String) pMap.get("refund_status"); // 반품 상태: (1)반품 승인 (2)반품 거절
+    	refundDao.updateRefundOrder(pMap);
+    	// (1) 관리자가 반품 승인을 해주었을 경우 
+    	if(status == "반품 승인") { 
+    		
+    	}
     	return refundDao.updateRefundOrder(pMap);
     }
+    
     
 }
 

@@ -14,6 +14,16 @@
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자 메인페이지</title>
     <style type="text/css">
+    	@font-face {
+            font-family: 'InfinitySans-RegularA1';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        *{
+            font-family: 'InfinitySans-RegularA1';
+        }
     	.h5-title{
     		color: black;
     	}
@@ -77,6 +87,14 @@
 	    .modal-content{
 	    	padding: 10px;
 	    }
+	    .btn-drop{
+	    	background-color: #8793db;
+	    	color: white;
+	    }
+	    .btn-drop:hover{
+	    	background-color: #a6c1ee;
+	    	color: #4c6286;
+	    }
     </style>
   </head>
   <body id="page-top">
@@ -98,8 +116,27 @@
               <div class="card mt-3 mb-4">
                 <div class="card-header py-3">
                   <h5 class="m-0 font-weight-bold h5-title">
-                    전체 주문 목록
+                    📈전체 주문 목록
                   </h5>
+                  <div class="row">
+	                  <div class="mt-3 col-10">
+	                  	<span>전체 주문 목록을 관리합니다. 카테고리를 선택하여 원하는 상태의 상품을 조회할 수 있습니다.</span>
+	                  </div>
+	                  <div class="dropdown mt-3 col-2">
+							<button class="btn btn-drop dropdown-toggle" type="button"
+							    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+							    aria-expanded="false">
+							    상태 선택
+							</button>
+							<ul class="dropdown-menu animated--fade-in"
+							    aria-labelledby="dropdownMenuButton">
+							    <li class="dropdown-item" data-status="상품 준비중" onclick="searchStatus(this);">상품 준비중</li>
+							    <li class="dropdown-item" data-status="배송완료" onclick="searchStatus(this);">배송완료</li>
+							    <li class="dropdown-item" data-status="반품" onclick="searchStatus(this);">반품</li>
+							    <li class="dropdown-item" data-status="취소" onclick="searchStatus(this);">취소</li>
+							</ul>
+					  </div>
+	              </div>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -120,56 +157,63 @@
                         </tr>
                       </thead>
                       <tbody>
-                      	<c:forEach var="pList" items="${paymentList}">
-	                        <tr>
-	                          <td><c:out value="${pList.order_no}"/></td>
-	                          <td><c:out value="${pList.p_no}"/></td>
-	                          <c:choose>
-	                            <c:when test="${pList.mem_id eq null}">
-	                           	  <td>비회원</td>
-	                           	</c:when>
-	                            <c:otherwise>
-		                          <td><c:out value="${pList.mem_id}"/></td>
-	                            </c:otherwise>
-	                          </c:choose>
-	                          <td><c:out value="${pList.order_status}"/></td>
-	                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
-	                          <c:choose>
-	                            <c:when test="${pList.order_status eq '반품'}">
-		                          <td>
-		                            <button class="btn btn-danger btn-sm refund-detail" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
-		                            		data-bs-toggle="modal" data-bs-target="#refundModal">
-		                              상세보기
-		                            </button>
-		                          </td>
-	                            </c:when>
-	                            <c:when test="${pList.order_status eq '상품 준비중'}">
-	                              <td>
-		                            <c:choose>
-		                            <c:when test="${pList.mem_id eq null}"><span>비회원 배송</span></c:when>
+                      	<c:choose>
+                      	  <c:when test='${paymentList == null || paymentList.size() == 0}'>
+                      	  	<tr><td colspan="6">고객의 주문내역이 존재하지 않습니다.</td></tr>
+                      	  </c:when>
+                      	  <c:otherwise>
+	                      	<c:forEach var="pList" items="${paymentList}">
+		                        <tr>
+		                          <td><c:out value="${pList.order_no}"/></td>
+		                          <td><c:out value="${pList.p_no}"/></td>
+		                          <c:choose>
+		                            <c:when test="${pList.mem_id eq null}">
+		                           	  <td>비회원</td>
+		                           	</c:when>
 		                            <c:otherwise>
-			                            <button class="btn btn-success btn-sm btn-ship" type="button" data-memId="${pList.mem_id}"
-			                            		data-pNo="${pList.p_no}" data-orderNo="${pList.order_no}" data-orderStatus="${pList.order_status}"
-			                            		data-page="shipmentlist" onClick=modifyStatus(this);>배송완료
-										</button>
-									</c:otherwise>
+			                          <td><c:out value="${pList.mem_id}"/></td>
+		                            </c:otherwise>
 		                          </c:choose>
-		                          </td>
-	                            </c:when>
-	                            <c:when test="${pList.order_status eq '배송완료'}">
-	                              <td><span>배송완료</span></td>
-	                            </c:when>
-	                            <c:otherwise>
-	                            	<td>
-	                            		<button class="btn btn-warning btn-sm" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
-		                              		data-bs-toggle="modal" data-bs-target="#cancelModal">
-		                                취소사유
-		                            	</button>
-		                            </td>
-	                            </c:otherwise>
-	                          </c:choose>
-	                        </tr>
-	                    </c:forEach>
+		                          <td><c:out value="${pList.order_status}"/></td>
+		                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
+		                          <c:choose>
+		                            <c:when test="${pList.order_status eq '반품'}">
+			                          <td>
+			                            <button class="btn btn-danger btn-sm refund-detail" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
+			                            		data-bs-toggle="modal" data-bs-target="#refundModal">
+			                              상세보기
+			                            </button>
+			                          </td>
+		                            </c:when>
+		                            <c:when test="${pList.order_status eq '상품 준비중'}">
+		                              <td>
+			                            <c:choose>
+			                            <c:when test="${pList.mem_id eq null}"><span>비회원 배송</span></c:when>
+			                            <c:otherwise>
+				                            <button class="btn btn-success btn-sm btn-ship" type="button" data-memId="${pList.mem_id}"
+				                            		data-pNo="${pList.p_no}" data-orderNo="${pList.order_no}" data-orderStatus="${pList.order_status}"
+				                            		data-page="shipmentlist" onClick=modifyStatus(this);>배송완료
+											</button>
+										</c:otherwise>
+			                          </c:choose>
+			                          </td>
+		                            </c:when>
+		                            <c:when test="${pList.order_status eq '배송완료'}">
+		                              <td><span>배송처리</span></td>
+		                            </c:when>
+		                            <c:otherwise>
+		                            	<td>
+		                            		<button class="btn btn-warning btn-sm" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
+			                              		data-bs-toggle="modal" data-bs-target="#cancelModal">
+			                                취소사유
+			                            	</button>
+			                            </td>
+		                            </c:otherwise>
+		                          </c:choose>
+		                        </tr>
+		                    </c:forEach>
+		                  </c:otherwise>
+		                </c:choose>
                       </tbody>
                     </table>
                   </div>
@@ -380,6 +424,30 @@
             }
         }); //end of ajax
 	}
+	
+	/* 상태에 따라 값 보여주기 - ajax처리 */
+	function searchStatus(button){
+		let status = $(button).attr("data-status");
+		
+		$.ajax({
+            type : "post",
+            url : "${contextPath}/admin/payment/searchlist",
+            data: {
+            	status: status
+            },
+            success : function(data) {
+            	console.log(data);
+            	//$("tbody").empty(); // tbody인 요소의 자식 요소를 모두 삭제함.
+            },
+            error : function(data, textStatus) {
+                alert("에러가 발생했습니다."+data);
+            },
+            complete : function(data, textStatus) {
+            }
+        }); //end of ajax
+		
+	}
+	
     </script>
   </body>
 </html>
