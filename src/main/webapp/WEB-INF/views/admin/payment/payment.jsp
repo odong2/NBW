@@ -95,6 +95,9 @@
 	    	background-color: #a6c1ee;
 	    	color: #4c6286;
 	    }
+	    .dropdown-item{
+	    	
+	    }
     </style>
   </head>
   <body id="page-top">
@@ -116,11 +119,11 @@
               <div class="card mt-3 mb-4">
                 <div class="card-header py-3">
                   <h5 class="m-0 font-weight-bold h5-title">
-                    📈전체 주문 목록
+                    ✅상태 확정된 주문 목록
                   </h5>
                   <div class="row">
 	                  <div class="mt-3 col-10">
-	                  	<span>전체 주문 목록을 관리합니다. 카테고리를 선택하여 원하는 상태의 상품을 조회할 수 있습니다.</span>
+	                  	<span>상태가 확정된 주문 목록을 관리합니다. 카테고리(배송완료, 환불, 취소)를 선택하여 원하는 상태의 상품을 조회할 수 있습니다.</span>
 	                  </div>
 	                  <div class="dropdown mt-3 col-2">
 							<button class="btn btn-drop dropdown-toggle" type="button"
@@ -130,9 +133,9 @@
 							</button>
 							<ul class="dropdown-menu animated--fade-in"
 							    aria-labelledby="dropdownMenuButton">
-							    <li class="dropdown-item" data-status="상품 준비중" onclick="searchStatus(this);">상품 준비중</li>
+							    <li class="dropdown-item" onclick="location.reload();">전체</li>
 							    <li class="dropdown-item" data-status="배송완료" onclick="searchStatus(this);">배송완료</li>
-							    <li class="dropdown-item" data-status="반품" onclick="searchStatus(this);">반품</li>
+							    <li class="dropdown-item" data-status="환불" onclick="searchStatus(this);">환불</li>
 							    <li class="dropdown-item" data-status="취소" onclick="searchStatus(this);">취소</li>
 							</ul>
 					  </div>
@@ -177,25 +180,12 @@
 		                          <td><c:out value="${pList.order_status}"/></td>
 		                          <td><fmt:formatDate value="${pList.order_date}" pattern="yyyy-MM-dd"/></td>
 		                          <c:choose>
-		                            <c:when test="${pList.order_status eq '반품'}">
+		                            <c:when test="${pList.order_status eq '환불'}">
 			                          <td>
 			                            <button class="btn btn-danger btn-sm refund-detail" type="button" data-orderNo="${pList.order_no}" data-pNo="${pList.p_no}"
 			                            		data-bs-toggle="modal" data-bs-target="#refundModal">
-			                              상세보기
+			                              환불사유
 			                            </button>
-			                          </td>
-		                            </c:when>
-		                            <c:when test="${pList.order_status eq '상품 준비중'}">
-		                              <td>
-			                            <c:choose>
-			                            <c:when test="${pList.mem_id eq null}"><span>비회원 배송</span></c:when>
-			                            <c:otherwise>
-				                            <button class="btn btn-success btn-sm btn-ship" type="button" data-memId="${pList.mem_id}"
-				                            		data-pNo="${pList.p_no}" data-orderNo="${pList.order_no}" data-orderStatus="${pList.order_status}"
-				                            		data-page="shipmentlist" onClick=modifyStatus(this);>배송완료
-											</button>
-										</c:otherwise>
-			                          </c:choose>
 			                          </td>
 		                            </c:when>
 		                            <c:when test="${pList.order_status eq '배송완료'}">
@@ -283,38 +273,6 @@
       <i class="fas fa-angle-up"></i>
     </a>
     <script type="text/javascript">
-    /* 상품 배송시키기 */
-    function modifyStatus(button){
-    	let pNo = $(button).attr("data-pNo");
-    	let orderNo = $(button).attr("data-orderNo");
-    	let mem_id = $(button).attr("data-memId");
-    	let page = $(button).attr("data-page");
-    	let orderStatus = $(button).attr("data-orderStatus");
-    	if(!confirm(("상품 준비가 끝났습니다. 배송을 보내시겠습니까?"))){
-            alert("다음에 다시 시도해주십시오.");
-        }else{
-    	 $.ajax({
-             type : "post",
-             url : "${contextPath}/admin/payment/modify",
-             data : {
-                 p_no:pNo,
-                 order_no:orderNo,
-                 mem_id:mem_id,
-                 order_status:orderStatus,
-                 page:page
-             },
-             success : function() {
-                 location.reload();
-             },
-             error : function(data, textStatus) {
-                 alert("에러가 발생했습니다."+data);
-             },
-             complete : function(data, textStatus) {
-             }
-         }); //end of ajax
-        }
-    }
-    
     /* 반품 사유 모달 호출 ajax처리 - 데이터 받아서 넣어주기 */
 	$('#refundModal').on('show.bs.modal', function (event) {
     	let button = $(event.relatedTarget);
@@ -427,7 +385,7 @@
         }); //end of ajax
 	}
 	
-	/* 상태에 따라 값 보여주기 - ajax처리 */
+	/* dropdown에서 누른 order_status상태에 따라 값 보여주기 - ajax처리 */
 	function searchStatus(button){
 		let status = $(button).attr("data-status");
 		
@@ -438,8 +396,12 @@
             	status: status
             },
             success : function(data) {
-            	console.log(data);
-            	//$("tbody").empty(); // tbody인 요소의 자식 요소를 모두 삭제함.
+            	if(data.length > 0){ // 받아온 결과가 있을 경우
+	            	$("tbody").empty(); // tbody인 요소의 자식 요소를 모두 삭제함.
+	            	drawHtml(data);
+            	} else { //받아온 결과가 없을 경우
+            		alert(status+' 에 해당하는 목록이 존재하지 않습니다.');
+            	}
             },
             error : function(data, textStatus) {
                 alert("에러가 발생했습니다."+data);
@@ -448,6 +410,49 @@
             }
         }); //end of ajax
 		
+	}
+	/* ajax에서 받아온 값으로 html그리기 */
+	function drawHtml(data){
+		let oneTR = '';
+		data.forEach(function(index){
+			let order_no = index.order_no;
+			let p_no = index.p_no;
+			let mem_id = index.mem_id;
+			let order_date = getDate(index.order_date);
+			let order_status = index.order_status;
+			
+			oneTR += `
+				<tr>
+				<td><c:out value="${'${order_no}'}"/></td>
+                <td><c:out value="${'${p_no}'}"/></td>
+                <td><c:out value="${'${mem_id}'}"/></td>
+                <td><c:out value="${'${order_status}'}"/></td>
+                <td><c:out value="${'${order_date}'}"/></td>
+			`;
+			if(order_status == "배송완료"){
+				oneTR += `<td><span>배송처리</span></td>`;
+			} else if(order_status == "환불"){
+				oneTR += `
+					<td>
+	                    <button class="btn btn-danger btn-sm refund-detail" type="button" data-orderNo="${'${order_no}'}" data-pNo="${'${p_no}'}"
+	                    		data-bs-toggle="modal" data-bs-target="#refundModal">
+	                      환불사유
+	                    </button>
+	                </td>
+				`;
+			} else if(order_status == "취소"){
+				oneTR += `
+					<td>
+	            		<button class="btn btn-warning btn-sm" type="button" data-orderNo="${'${order_no}'}" data-pNo="${'${p_no}'}"
+	                  		data-bs-toggle="modal" data-bs-target="#cancelModal">
+	                    취소사유
+	                	</button>
+                	</td>
+				`;
+			}
+			
+		}); // end of forEach
+		$("tbody").html(oneTR);
 	}
 	
     </script>
