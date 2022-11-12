@@ -86,6 +86,12 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
+	public int updateProductCount(List<Map<String, Object>> productList) throws Exception {
+		return sqlSession.update(namespace + "updateProductCount" , productList);
+	}
+
+	/* 결제 후 해당 상품 재고 감소 */
+	@Override
 	public void reviewCountUpdate(Review review) {
 		sqlSession.update(namespace+"reviewCountUpdate", review);
 	}

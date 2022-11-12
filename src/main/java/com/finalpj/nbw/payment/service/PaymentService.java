@@ -1,5 +1,7 @@
 package com.finalpj.nbw.payment.service;
 
+import com.finalpj.nbw.cart.dao.CartDao;
+import com.finalpj.nbw.cart.domain.Cart;
 import com.finalpj.nbw.coupon.dao.CouponDao;
 import com.finalpj.nbw.coupon.domain.Coupon;
 import com.finalpj.nbw.member.dao.MemberDao;
@@ -27,13 +29,15 @@ public class PaymentService {
     private final ProductDao productDao;
     private final MemberDao memberDao;
     private final RefundDao refundDao;
+    private final CartDao cartDao;
 
-    public PaymentService(PaymentDao paymentDao, CouponDao couponDao, ProductDao productDao, MemberDao memberDao, RefundDao refundDao){
+    public PaymentService(PaymentDao paymentDao, CouponDao couponDao, ProductDao productDao, MemberDao memberDao, RefundDao refundDao, CartDao cartDao){
         this.paymentDao = paymentDao;
         this.couponDao = couponDao;
         this.productDao= productDao;
         this.memberDao = memberDao;
         this.refundDao = refundDao;
+        this.cartDao = cartDao;
     }
     /************************ 결제하기 (비회원) ****************************/
     @Transactional(rollbackFor = Exception.class)
@@ -96,10 +100,23 @@ public class PaymentService {
             session.setAttribute("member", member);
         }
 
-        // *(해야할 것)주문한 상품의 재고 감소
+        // (6)주문한 상품의 재고 감소
+        List<Map<String, Object>> productList = new ArrayList<>();
+        Map<String, Object> productMap = null;
+        /* 상품 재고 감소. 상풍 반품 및 취소시 sort는 plus 이다. */
+        for(int i = 0; i < paymentDto.getP_no().length; i++){
+            productMap = new HashMap<>();
+            int p_count = paymentDto.getP_count()[i];
+            int p_no = paymentDto.getP_no()[i];
+            productMap.put("p_count", p_count);
+            productMap.put("p_no", p_no);
+            productList.add(productMap);
+        }
 
-        // *(해야할 것) 장바구니에서 제거
+        productDao.updateProductCount(productList);
 
+        // (7) 장바구니에서 제거
+        cartDao.deleteAfterPayCart(paymentDto);
 
     }
     /**************************** 결제 후 주문 상품 상세내역 조회 ************************************/

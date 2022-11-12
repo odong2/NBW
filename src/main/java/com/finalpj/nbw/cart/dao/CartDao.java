@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.finalpj.nbw.cart.domain.Cart;
+import com.finalpj.nbw.payment.domain.Payment;
 import com.finalpj.nbw.product.domain.Product;
 
 public interface CartDao {
@@ -25,6 +26,8 @@ public interface CartDao {
 	int updateCart(Map<String, Object> pMap);
 
 	void deleteCart(Map<String, Object> pMap);
+
+	int deleteAfterPayCart(Payment paymentDto) throws Exception; // 결제후 장바구니 삭제
 	
 	int selectCount(Map<String,Object> pMap); // 장바구니 상품 수량
 }

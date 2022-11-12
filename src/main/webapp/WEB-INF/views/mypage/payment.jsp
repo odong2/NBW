@@ -65,6 +65,20 @@
         border-top: solid 2px rgba(0,0,0,1);
 
     }
+    #orderContainer{
+        height: 300px;
+        border: 1px solid rgba(153,153,153,0.7);
+        border-radius: 20px;
+        width: 80%;
+        margin:auto;
+    }
+    #orderContainer span{
+        display: inline-block;
+        height: 100%;
+        margin-top: 130px;
+        color: rgba(153,153,153,0.8);
+    }
+
     .order-list{
         margin-right: 40px;
         border-top: solid 1px rgba(153,153,153,0.5);
@@ -222,6 +236,7 @@
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
     <section class="container-fluid mt-4">
         <ul>
+        <c:if test="${not empty orderList}">
         <c:forEach var="order" items="${orderList}">
             <%-- == 한 주문번호에 상품 여러개면 하나로 묶기 ==--%>
             <c:if test="${empty preOrderNo || preOrderNo ne order.order_no }">
@@ -271,6 +286,12 @@
                 </div>
             </li>
         </c:forEach>
+        </c:if>
+        <c:if test="${empty orderList}">
+            <div id="orderContainer" class="text-center">
+                <span class="text-center h4">주문 상품이 없습니다</span>
+            </div>
+        </c:if>
         </ul>
     </section>
         <!-- Modal -->
