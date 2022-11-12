@@ -1,9 +1,12 @@
 package com.finalpj.nbw.admin.controller;
 
+import com.finalpj.common.FileUploader;
 import com.finalpj.nbw.event.domain.Event;
 import com.finalpj.nbw.event.domain.EventMember;
 import com.finalpj.nbw.event.service.EventService;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -12,13 +15,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -28,9 +37,13 @@ public class AdminEventController {
 
     EventService eventService;
 
+    ResourceLoader resourceLoader;
+    FileUploader fileUploader;
 
-    public AdminEventController (EventService eventService) {
+    public AdminEventController (EventService eventService, ResourceLoader resourceLoader, FileUploader fileUploader) {
         this.eventService = eventService;
+        this.resourceLoader = resourceLoader;
+        this.fileUploader = fileUploader;
     }
 
     /***************** [[관리자 이벤트 조회페이지]] *********************/
@@ -43,9 +56,14 @@ public class AdminEventController {
     /*************************** [[ 관리자 이벤트 디테일 페이지 ]] **********************/
     @GetMapping("/detail")
     public String adminEventRead(Integer ev_no, Model m){
-        log.info(ev_no);
         try {
-            Event event = (Event) eventService.adminEventRead(ev_no);
+            Event event = eventService.adminEventRead(ev_no);
+            if(event.getEv_file() != null) {
+                String saveFileName = event.getEv_file();
+                int idx = saveFileName.indexOf("_");
+                String originalFileName = saveFileName.substring(idx+1);
+                event.setEv_filename(originalFileName);
+            }
             m.addAttribute("eventSelect",event);
             log.info(event);
         } catch (Exception e) {
@@ -53,18 +71,46 @@ public class AdminEventController {
         return "admin/event/eventDetail";
     }
     /***************** [[관리자 이벤트 신청자 조회페이지]] ***************/
-    @GetMapping("applicant")
+    @GetMapping("/applicant")
     public String adminEventApplicant(Integer ev_no, Model m) {
         log.info(ev_no);
         try {
-            EventMember eventMember = (EventMember) eventService.adminEventApplicant(ev_no);
+            Event event = (Event) eventService.adminEventRead(ev_no);
+            List<EventMember> eventMember = eventService.adminEventApplicant(ev_no);
+            m.addAttribute("eventSelect", event);
             m.addAttribute("adminEventPerson", eventMember);
-            log.info(eventMember);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return "admin/event/eventApplicant";
     }
+    /***************** [[관리자 이벤트 신청자 거절] ***************/
+    @PostMapping("/personn")
+    public String adminEventPersonN (EventMember eventMember, Model m, RedirectAttributes rattr) {
+        log.info("adminEventPersonN 컨트롤러 호출");
+    try {
+        eventService.adminEventPersonN(eventMember);// mem_status N로 변경
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return "redirect:/admin/event/applicant?ev_no="+ eventMember.getEv_no();
+    }
+    /***************** [[관리자 이벤트 신청자 승인] ***************/
+    @PostMapping("/persony")
+    public String adminEventPersonY (EventMember eventMember, RedirectAttributes rattr) {
+        log.info("adminEventPersonY 컨트롤러 호출");
+        try {
+            eventService.adminEventPersonY(eventMember); // mem_status Y로 변경
+            int result2 = eventService.updatePersonY(eventMember); // 신청자수 +1
+            log.info(result2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/admin/event/applicant?ev_no="+eventMember.getEv_no();
+    }
+
+    //
+
 
     /************************************ [[이벤트 삭제 페이지]] *********************************/
     @GetMapping("/delete/{ev_no}")
@@ -89,14 +135,36 @@ public class AdminEventController {
     }
 
     @PostMapping("/modify")
-    public String adminModify(@ModelAttribute Event event, RedirectAttributes rattr) {
+    public String adminModify(@ModelAttribute Event event, MultipartFile file, RedirectAttributes rattr) {
         log.info("수정하는 이벤트글 정보 = " + event);
-        try {
-            eventService.adminModify(event);
-            rattr.addFlashAttribute("msg","MOD_OK");
-        }catch (Exception e){
-            e.printStackTrace();
-            rattr.addFlashAttribute("msg","MOD_ERR");
+        String originalFileName = file.getOriginalFilename();
+        if(originalFileName!= null && originalFileName != "") {
+            String saveFileName = "";
+            String uploadPath = "C:\\eventupload\\file";
+            UUID uuid = UUID.randomUUID();
+            saveFileName = uuid.toString() + "_" + originalFileName;
+            File folder = new File(uploadPath, saveFileName);
+            if (!folder.isDirectory()) {
+                folder.mkdirs();
+            }
+            event.setEv_file(saveFileName);
+            try {
+                eventService.adminModify(event);
+                file.transferTo(folder);
+                rattr.addFlashAttribute("msg","WRT_OK");
+            }catch(Exception e) {
+                e.printStackTrace();
+                rattr.addFlashAttribute("msg", "WRT_ERR");
+            }
+        }
+        else {
+            try {
+                eventService.adminModify(event);
+                rattr.addFlashAttribute("msg", "WRT_OK");
+            } catch (Exception e) {
+                e.printStackTrace();
+                rattr.addFlashAttribute("msg", "WRT_ERR");
+            }
         }
         return "redirect:/admin/event/list";
     }
@@ -109,37 +177,12 @@ public class AdminEventController {
         return "admin/event/eventRegister";
     }
     @PostMapping("/write")
-    public String adminEventWrite(Event event, MultipartFile file, RedirectAttributes rattr, Model m) throws Exception {
-    log.info("file = " + file.getOriginalFilename());
-    String originalFileName = file.getOriginalFilename();
-    if(originalFileName!= null && originalFileName != "") {
-        String saveFileName = "";
-        String uploadPath = "C:\\eventupload\\file";
-        UUID uuid = UUID.randomUUID();
-        saveFileName = uuid.toString() + "_" + originalFileName;
-        File folder = new File(uploadPath, saveFileName);
-        if (!folder.isDirectory()) {
-            folder.mkdirs();
-        }
-        event.setEv_file(saveFileName);
-        try {
-            eventService.adminEventWrite(event);
-            file.transferTo(folder);
-            rattr.addFlashAttribute("msg","WRT_OK");
-        }catch(Exception e) {
-            e.printStackTrace();
-            rattr.addFlashAttribute("msg", "WRT_ERR");
-        }
-    }
-    else {
-        try {
-            eventService.adminEventWrite(event);
-            rattr.addFlashAttribute("msg", "WRT_OK");
-        } catch (Exception e) {
-            e.printStackTrace();
-            rattr.addFlashAttribute("msg", "WRT_ERR");
-          }
-        }
+    public String adminEventWrite(Event event, MultipartFile file, MultipartFile img,  RedirectAttributes rattr, Model m) throws Exception {
+        String ev_file = fileUploader.fileUpload(file, "event/file");
+        event.setEv_file(ev_file);
+        String ev_img = fileUploader.fileUpload(img, "event/img");
+        event.setEv_img(ev_img);
+        eventService.adminEventWrite(event);
         return "redirect:/admin/event/list";
     }
 
@@ -168,6 +211,30 @@ public class AdminEventController {
         }
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 
+    }
+    /******************************* [[이벤트 이미지]] **********************************/
+    // 썸네일 코드
+    @GetMapping("/display/{fileName:.+}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getFile (@PathVariable String fileName){
+        log.info("fileName : " + fileName);
+        final String uploadRoot = System.getProperty("user.home");
+        final String fileFolder = uploadRoot+"/Desktop/upload/event/img";
+        File file = new File(fileFolder + fileName);
+
+        log.info("file: " + file);
+
+        ResponseEntity<byte[]> result = null;
+
+        try{
+            HttpHeaders header = new HttpHeaders();
+
+            header.add("Content-Type", Files.probeContentType(file.toPath()));
+            result= new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),header,HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
