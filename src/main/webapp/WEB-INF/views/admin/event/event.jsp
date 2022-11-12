@@ -42,20 +42,6 @@
             padding-top: 2.5px;
             padding-bottom: 2.5px;
         }
-        /* 마감버튼 */
-        .deadlinebtn {
-            background-color: #e0e0e0;
-            color: black;
-            border: 0;
-            outline: 0;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 2.5px;
-            padding-bottom: 2.5px;
-        }
-        .check {
-            text-align: center;
-        }
         .check > input {
             width: 22px;
             height: 22px;
@@ -88,7 +74,6 @@
             <div class="twobtn">
                 <button class="registerbtn" type="button" id="writeBtn"
                         onclick="location.href='<c:url value="/admin/event/write"/>'">등록</button>
-<%--                <button class="deadlinebtn">마감</button>--%>
             </div>
             <!-- 버튼[등록, 마감] 끝 -->
             <!-- 표 시작 -->
@@ -102,6 +87,7 @@
                         <th>시간</th>
                         <th>접수기간</th>
                         <th>모집정원</th>
+                        <th>상태</th>
                         <th>신청자보기</th>
                     </tr>
                     </thead>
@@ -128,9 +114,12 @@
                             <c:out value="${event.ev_end}"/>
                         </td>
                         <td>
-                            <c:out value="${event.ev_people-event.ev_nowpeople}"/>
-                            /
                             <c:out value="${event.ev_people}"/>
+                            /
+                            <c:out value="${event.ev_nowpeople}"/>
+                        </td>
+                        <td>
+                            <c:out value="${event.ev_status}"/>
                         </td>
                         <td>
                             <button id="applicationbtn" type="button" class="btn btn-outline-primary btn-sm">
@@ -160,12 +149,11 @@
     <i class="fas fa-angle-up"></i>
 </a>
 <script>
-    $(document).ready(function (){
-        <%--$('#applicationbtn').on("click", function (){--%>
-        <%--    location.href = "<c:url value='/admin/event/applicant?ev_no=${event.ev_no}'/>";--%>
-        <%--    &lt;%&ndash;<a href="/admin/event/detail?ev_no=${event.ev_no}">;&ndash;%&gt;--%>
-        <%--})--%>
-    })
+    <%--$(document).ready(function (){--%>
+    <%--    $("#applicationbtn").on("click", function (){--%>
+    <%--        location.href = '/admin/event/applicant?ev_no=${event.ev_no}';--%>
+    <%--    })--%>
+    <%--})--%>
 
 </script>
 </body>

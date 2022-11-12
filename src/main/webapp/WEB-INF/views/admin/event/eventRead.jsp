@@ -180,7 +180,8 @@
           </div>
       <div class="sendbtn">
         <div style="display:inline-block">
-          <button type="button" type="submit" class="btn btn-secondary btn-lg" id="writeBtn">
+          <input type="hidden" value="${event.ev_no}" name="ev_no">
+          <button type="button" class="btn btn-secondary btn-lg" id="writeBtn">
             수정하기
           </button>
         </div>

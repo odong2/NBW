@@ -38,22 +38,21 @@
             color: blue;
             font-weight: normal;
         }
-        .delbtn {
-            border: 0;
-            background-color: #e0e0e0;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 2.5px;
-            padding-bottom: 2.5px;
-            color: red;
-            font-weight: normal;
+        .listbtn {
+            float: right;
+            margin-right: 40px;
+            margin-bottom: 15px;
+        }
+        #delbtn {
+        }
+        #okbtn {
         }
         tr {
             text-align: center;
         }
         .eventname {
             color: red;
-            font-size: 13px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -73,9 +72,18 @@
         <!-- Main Content -->
         <main class="container-fluid">
             <div class="title">
-                <h4>신청자 관리&nbsp;<span class="eventname"><c: value="${event.ev_no}"/></span></h4>
+                <h3>신청자 관리&nbsp;
+                    <span class="eventname">
+                        ${eventSelect.ev_title}
+                    </span>
+                </h3>
             </div>
             <!-- 표 시작 -->
+            <div class="listbtn">
+                <button id="listBtn" type="button"  class="btn btn-outline-secondary">
+                    목록
+                </button>
+            </div>
             <div class="container">
                 <table class="table table-striped" class="table">
                     <thead>
@@ -89,29 +97,48 @@
                         <th>선택</th>
                     </tr>
                     </thead>
-                    <c:forEach var="event" items="${adminEventPerson}">
+                    <c:forEach var="eventMember" items="${adminEventPerson}">
                     <tbody>
-                    <tr>
-                        <td>
-                            5
-                        </td>
-                        <td>
-                            <c:out value="${event.mem_name}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.mem_email}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.mem_birthday}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.mem_gender}"/>
-                        </td>
-                        <td>
-                            <c:out value="${event.mem_phone}"/>
-                        </td>
-                        <td><button class="okbtn">승인</button><button class="delbtn">삭제</button></td>
-                    </tr>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                <c:out value="${eventMember.mem_name}"/>
+                            </td>
+                            <td>
+                                <c:out value="${eventMember.mem_email}"/>
+                            </td>
+                            <td>
+                                <c:out value="${eventMember.mem_birthday}"/>
+                            </td>
+                            <td>
+                                <c:out value="${eventMember.mem_gender}"/>
+                            </td>
+                            <td>
+                                <c:out value="${eventMember.mem_phone}"/>
+                            </td>
+                            <td style="float: right">
+                                <span style="float: left">
+                                <form action="/admin/event/personn" method="post">
+                                    <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
+                                    <input type="hidden" value="${eventMember.mem_id}" name="mem_id">
+                                <button id="delbtn" type="submit" class="btn btn-outline-danger">
+                                    거절
+                                </button>
+                                </span>
+                                <span style="float: right">
+                                </form>
+                                <form action="/admin/event/persony" method="post">
+                                        <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
+                                        <input type="hidden" value="${eventMember.mem_id}" name="mem_id">
+                                <button id="okbtn" type="submit"  class="btn btn-outline-primary">
+                                    승인
+                                </button>
+                                </form>
+                                </span>
+                            </td>
+                        </tr>
                     </tbody>
                     </c:forEach>
                 </table>
@@ -126,6 +153,31 @@
 </div>
 <!-- [[ 오른쪽 div 끝 ]] -->
 <!-- End of Page Wrapper -->
+<%--============================== [이벤트 버튼] ==============================--%>
+<script>
+    $(document).ready(function (){
+        <%--$("#delbtn").on("click", function (){--%>
+        <%--if(!confirm("정말로 삭제하시겠습니까?")) return;--%>
+        <%--let form = $('#form');--%>
+        <%--form.attr("action", "<c:url value="/admin/event/deleteperson/${eventSelect.ev_no}"/>");--%>
+        <%--form.attr("method", "post");--%>
+        <%--    form.submit();--%>
+        <%--})--%>
+
+        $("#delbtn").on("click", function (){
+            if(!confirm("거절 하시겠습니까?")) return;
+            alert("거절 완료");
+        })
+        $("#okbtn").on("click", function (){
+            if(!confirm("승인 하시겠습니까?")) return;
+            alert("승인 완료");
+        })
+
+        $('#listBtn').on("click", function (){
+            location.href = "<c:url value='/admin/event/list'/>";
+        })
+    })
+</script>
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">

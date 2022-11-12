@@ -60,14 +60,15 @@
       margin-top: 20px;
     }
     #ev_content {
-      width: 80%;
+      width: 50%;
       height: 150px;
     }
     .ck-editor__editable {
       height: 400px;
     }
     .ck-content {
-      font-size: 11px;
+      font-size: 20px;
+      color: black;
     }
 
   </style>
@@ -95,8 +96,17 @@
           <div class="allEventContent">
       <div class="eventcontents">
         <div class="eventimg">
-<%--          <img id="previewImg" width="300px" height="300px" />--%>
-<%--          <input type="file" id="fileUpload" accept="image/*" name="ev_img" />--%>
+          <%----%>
+          <div>
+            <div style="height: 370px; width: 300px">
+              <img id="eventImg" width="300px"/>
+            </div>
+            <input type="file" name="img"
+                   id="file" accept="image/gif, image/jpeg, image/png" onchange="setCouponImg(this)"/>
+          </div>
+<%--            <input type="file" name="file" id="fileInput"  value="파일"/>--%>
+          <%----%>
+          <div id="img-box" class="d-flex align-items-center"></div>
         </div>
         <table id="j_infod_table">
           <tbody id="j_infod_tbody">
@@ -188,25 +198,6 @@
         </form>
       </section>
         <%--여기에 메인 넣으면 됨--%>
-      <script>
-
-        /****************************** [[이미지 첨부 시작]] *************************/
-        // const fileInput = document.getElementById("fileUpload");
-        //
-        // const handleFiles = (e) => {
-        //   const selectedFile = [...fileInput.files];
-        //   const fileReader = new FileReader();
-        //
-        //   fileReader.readAsDataURL(selectedFile[0]);
-        //
-        //   fileReader.onload = function () {
-        //     document.getElementById("previewImg").src = fileReader.result;
-        //   };
-        // };
-        // fileInput.addEventListener("change", handleFiles);
-        /****************************** [[이미지 첨부 끝]] *************************/
-
-      </script>
   <script>
 /******************************** [[클래식 에디터]] *******************************/
         ClassicEditor
@@ -232,6 +223,56 @@
           })
         })
         /****************************** [[이벤트 등록하기]] ************************/
+      </script>
+      <script>
+        let fileAdd = ()=>{
+          $('#eventImg').css({
+            'border-radius': '5px',
+            'padding': '10px',
+          });
+          $('#fileClear').css('display','block');
+          imgBoxHeight = imgBoxHeight + 165;
+          $('#imgBox').height(imgBoxHeight);
+        }
+        /* 쿠폰 이미지 및 이미지 박스 초기화하는 함수*/
+        let fileClear = ()=>{
+          $('#eventImg').prop('src','');
+          $('#eventImg').css('box-shadow', '')
+          $('#file').val('');
+          $('#fileClear').css('display','none');
+          imgBoxHeight = imgBoxHeight - 165;
+          $('#imgBox').height(imgBoxHeight);
+        }
+      </script>
+      <script>
+        let title = '';
+        let content = '';
+        let imgBoxHeight = $('#imgBox').height(); // 업로드 이미지 박스 크기
+        /* 쿠폰 이미지 등록 */
+        let setCouponImg = (input)=>{
+          if (input.files && input.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+              $('#eventImg').prop('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+            // 이미지 박스 및 이미지 크기 조절
+            fileAdd();
+          }
+          // 파일 올리기 취소
+          else {
+            /* 기존에 이미지가 없을 경우 */
+            $('#eventImg').prop('src', "");
+            $('#eventImg').css('box-shadow', '')
+            $('#file').val('');
+            $('#fileClear').css('display','none');
+            /* 기존에 이미지가 있을 경우 */
+            if(imgBoxHeight == 265){
+              imgBoxHeight = imgBoxHeight - 165;
+              $('#imgBox').height(imgBoxHeight);
+            }
+          }
+        }
       </script>
     </main>
     <!-- Footer -->

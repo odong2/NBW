@@ -82,8 +82,10 @@
             float: left;
         }
         .classimg {
-            width: 146px;
-            height: 225px;
+/*            width: 146px;
+            height: 225px;*/
+            width: 180px;
+            height: 260px;
         }
         .receiving {
             width: 62px;
@@ -102,8 +104,15 @@
             margin-left: 3px;
             margin-right: 3px;
         }
+        /** {*/
+        /*    border: 1px red solid;*/
+        /*}*/
+        .detail {
+            margin-left: 10px;
+        }
         .bookname {
             margin-left: 10px;
+            margin-top: 10px;
         }
         .bodycontent {
             margin-left: 10px;
@@ -146,7 +155,7 @@
         .bookname > a {
             text-decoration: none;
             font-weight: bold;
-            font-size: large;
+            font-size: 25px;
         }
     </style>
 </head>
@@ -168,13 +177,6 @@
         </div>
     </div>
 
-    <div class="search-box">
-        <form>
-            <input id="search-txt" type="text" placeholder="검색어를 입력해 주세요" />
-            <button id="search-btn" type="submit">검색</button>
-        </form>
-    </div>
-
     <hr />
     <%-- ************************************** [[EVENT CONTENT 시작]] ************************************ --%>
     <%--    <section id="event-main" class="container">--%>
@@ -190,18 +192,18 @@
                     />
                     <!-- 이미지 사진 끝 -->
                     <div class="picking">
-                        <span class="receiving">접수중</span>
+                        <span class="receiving">${event.ev_status}</span>
                         <span class="receivingpeople"><c:out value="${event.ev_people-event.ev_nowpeople}"/></span>
                     </div>
                 </div>
                 <!-- 왼쪽 그림 끝 -->
                 <!-- 오른쪽 설명 시작 -->
                 <div class="detail">
-                    <p class="bookname">
+                    <div class="bookname">
                         <a href="/event/detail?ev_no=${event.ev_no}" style="color: #ff0000"/>
                             <c:out value="${event.ev_title}"/>
                         </a>
-                    </p>
+                    </div>
 
                     <div class="bodycontent">
                         <div class="playpeople">
@@ -236,7 +238,8 @@
                         <div class="recruitment">
                             <div>모집정원&nbsp;:&nbsp;</div>
                             <div style="color: #7c7c7c">
-                                <c:out value="${event.ev_people}"/>
+                                <c:out value="${event.ev_people}"/> 명&nbsp;
+                                <span style="color: red">(신청:<c:out value="${event.ev_nowpeople}"/>)</span>
                             </div>
                         </div>
                     </div>
