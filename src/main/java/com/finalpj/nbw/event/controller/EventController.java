@@ -7,9 +7,7 @@ import com.finalpj.nbw.member.domain.Member;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -34,19 +32,20 @@ public class EventController {
         return "/event/eventList";
     }
     /***************************** [[이벤트 디테일 페이지]] *******************************/
-    @GetMapping("detail")
+    @GetMapping("/detail")
     public String eventRead(Integer ev_no, Model m){
         try {
-            Event event = (Event) eventService.eventRead(ev_no);
+            Event event = eventService.eventRead(ev_no);
             if(event.getEv_file() != null) {
                 String saveFileName = event.getEv_file();
                 int idx = saveFileName.indexOf("_");
                 String originalFileName = saveFileName.substring(idx+1);
-//                event.setEv_filename(originalFileName);
+                event.setEv_filename(originalFileName);
             }
             m.addAttribute("eventSelect",event);
             log.info(event);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return "/event/eventDetail";
     }
@@ -57,15 +56,14 @@ public class EventController {
         return "/event/add";
     }
     @PostMapping("/add")
-    public String eventAdd(EventMember eventMember, RedirectAttributes rattr, Model m, HttpSession session) {
+    public String eventAdd(EventMember eventMember, Integer ev_no, RedirectAttributes rattr, Model m, HttpSession session) {
         log.info("이벤트 신청 controller 호출 성공");
         Member member = (Member)session.getAttribute("member");
         String mem_id = member.getMem_id();
         eventMember.setMem_id(mem_id);
         log.info("mem_id 가져오기 성공"+mem_id);
         try{
-            if(eventService.eventAdd(eventMember) != 1)
-                throw new Exception ("Write failed.");
+            eventService.eventAdd(eventMember, ev_no);
 
             return "redirect:/event/list";
         }catch (Exception e) {
@@ -75,11 +73,7 @@ public class EventController {
         }
 
     }
+
     /**************************************** 이벤트 캘린더 *****************************************/
-    @GetMapping("calender")
-    public String eventCalender() throws Exception {
-        log.info("claender controller 호출");
-        return "calendar";
-    }
 
 }
