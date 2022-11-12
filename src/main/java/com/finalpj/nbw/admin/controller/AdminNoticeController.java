@@ -177,10 +177,7 @@ public class AdminNoticeController {
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(String fileName){
         final String fileFolder = "C:\\upload\\file\\";
-        log.info("download file : " + fileName);
         Resource resource = new FileSystemResource(fileFolder + fileName);
-
-        log.info("resource : " + resource);
 
         String resourceName = resource.getFilename();
         HttpHeaders headers = new HttpHeaders();

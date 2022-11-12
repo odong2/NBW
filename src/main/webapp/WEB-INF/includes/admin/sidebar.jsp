@@ -43,6 +43,17 @@
             >
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/admin/coupon/list">
+              <img
+                      src="/images/coupon.png"
+                      alt=""
+                      class="img-icon"
+                      style="margin-right: 16px"
+              />
+              <span><b>쿠폰 관리</b></span></a
+            >
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/admin/qna/list">
               <img
                 src="/images/qna.png"
@@ -53,7 +64,6 @@
               <span><b>문의사항 관리</b></span></a
             >
           </li>
-
           <!-- Divider -->
           <hr class="sidebar-divider" />
 

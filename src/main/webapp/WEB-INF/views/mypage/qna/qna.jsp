@@ -118,7 +118,7 @@
                         </th>
                         <td>
                             <div class="typePick">
-                                <select class="" name="qn_category" style="width: 600px; height: 45px">
+                                <select class="form-control" name="qn_category" style="width: 600px; height: 45px">
                                     <option selected>선택</option>
                                     <option value="제품">제품</option>
                                     <option value="교환">교환</option>

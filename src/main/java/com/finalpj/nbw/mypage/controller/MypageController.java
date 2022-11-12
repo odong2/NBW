@@ -110,4 +110,9 @@ public class MypageController {
         return "redirect:/home";
     }
 
+    @GetMapping("coupon")
+    public String getCouponPage() throws IOException {
+        return "/mypage/coupon";
+    }
+
 }
