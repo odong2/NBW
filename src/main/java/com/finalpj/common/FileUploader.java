@@ -3,12 +3,10 @@ package com.finalpj.common;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 @Component
 public class FileUploader {
@@ -33,9 +31,9 @@ public class FileUploader {
 
 			// 폴더가 없다면 생성
 			if (!folder.isDirectory()) {
+				System.out.println("해당 경로에 폴더가 존재하지 않아 폴더를 생성합니다.");
 				folder.mkdirs();
 			}
-
 			try {
 				file.transferTo(folder);
 			} catch (IllegalStateException e) {
@@ -44,7 +42,6 @@ public class FileUploader {
 				e.printStackTrace();
 			}
 		}
-
 		return saveFileName;
 	}
 

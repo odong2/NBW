@@ -21,5 +21,7 @@
             <typeAlias alias="review" type="com.finalpj.nbw.product.domain.Review"/>
             <typeAlias alias="qnaDto" type="com.finalpj.nbw.qna.domain.Qna"/>
             <typeAlias alias="answerDto" type="com.finalpj.nbw.qna.domain.Answer"/>
+            <typeAlias alias="adminPaymentDto" type="com.finalpj.nbw.payment.domain.AdminPayment"/>
+            <typeAlias alias="refundDto" type="com.finalpj.nbw.payment.domain.Refund"/>
         </typeAliases>
 </configuration>

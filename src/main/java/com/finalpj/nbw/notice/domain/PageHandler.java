@@ -26,17 +26,16 @@ public class PageHandler {
     public PageHandler(int totalCnt, SearchCondition sc){
         this.totalCnt = totalCnt;
         this.sc = sc;
-
         doPaging(totalCnt, sc);
     }
+    
     public void doPaging(int totalCnt,SearchCondition sc){
-    this.totalCnt = totalCnt;
-
-    totalPage = (int)Math.ceil(totalCnt / (float)sc.getPageSize()); // 나머지 값 있을 경우 페이지 하나 추가
-    beginPage = (sc.getPage()-1) / naviSize * naviSize + 1;
-    endPage =  Math.min(beginPage + naviSize-1 , totalPage);
-    showPrev = beginPage != 1;
-    showNext = endPage != totalPage;
+	    this.totalCnt = totalCnt;
+	    totalPage = (int)Math.ceil(totalCnt / (float)sc.getPageSize()); // 나머지 값 있을 경우 페이지 하나 추가
+	    beginPage = (sc.getPage()-1) / naviSize * naviSize + 1;
+	    endPage =  Math.min(beginPage + naviSize-1 , totalPage);
+	    showPrev = beginPage != 1;
+	    showNext = endPage != totalPage;
     }
 
 

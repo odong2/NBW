@@ -11,7 +11,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 	<%@include file="../../../includes/admin/common.jsp" %>
-    <title>관리자 공지사항</title>
+    <title>공지사항 관리 페이지</title>
       <style>
         #noticeData,
         #noticeTitle{
@@ -166,7 +166,6 @@
     </a>
     <script>
         $("#ntWrtBtn").click(function(){
-            alert("공지사항 등록 버튼");
             location.href="/admin/notice/write";
         })
         let link = function(detailLink){

@@ -43,6 +43,17 @@
             >
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/admin/coupon/list">
+              <img
+                      src="/images/coupon.png"
+                      alt=""
+                      class="img-icon"
+                      style="margin-right: 16px"
+              />
+              <span><b>쿠폰 관리</b></span></a
+            >
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/admin/qna/list">
               <img
                 src="/images/qna.png"
@@ -53,7 +64,6 @@
               <span><b>문의사항 관리</b></span></a
             >
           </li>
-
           <!-- Divider -->
           <hr class="sidebar-divider" />
 
@@ -82,8 +92,9 @@
               data-parent="#accordionSidebar"
             >
               <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="buttons.html">배송 전 상품</a>
-                <a class="collapse-item" href="cards.html">교환 & 반품</a>
+                <a class="collapse-item" href="/admin/payment/shipment">배송 전 상품</a>
+                <a class="collapse-item" href="/admin/payment/cancel">반품 요청 상품</a>
+                <a class="collapse-item" href="/admin/payment/list">상태 확정 주문 조회</a>
               </div>
             </div>
           </li>

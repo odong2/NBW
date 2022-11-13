@@ -73,6 +73,11 @@ public class ProductService {
 	public Product getProduct(String p_no) {
 		Product product = productDao.getProduct(p_no);
 		List<Review> rewivewList = productDao.SelectReviewList(p_no);
+		
+		for (Review review : rewivewList) {
+			review.fileNames();
+		}
+		
 		product.setReviewList(rewivewList);
 		return product;
 	}

@@ -4,62 +4,100 @@
 <%@include file="/WEB-INF/includes/common.jsp"%>
 <title>ProductDetail</title>
 <style>
-a {
-	color: black;
-}
 
-main {
-	width: 70%;
-	margin: auto;
-}
+    @font-face {
+        font-family: 'GangwonEdu_OTFBoldA';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    body{
+        font-family: GangwonEdu_OTFBoldA;
+        box-sizing: border-box;
+        padding:0;
+        margin:0;
+    }
+    .sidebar span{
+        font-size: 1rem;
+    }
+    .sidebar a{
+        font-size: 1rem;
+    }
+    .sidebarList .title span{
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #5055b1;
+    }
 
-#header {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	z-index: 5;
-	background-color: white;
-	height: 80px;
-}
+    main {
+        width: 100%;
+    }
 
-#review-box fieldset {
-	display: inline-block;
-	direction: rtl;
-	border: 0;
-}
-
-#review-box fieldset legend {
-	text-align: right;
-}
-
-#review-box input[type=radio] {
-	display: none;
-}
-
-#review-box label {
-	font-size: 1.5rem;
-	color: transparent;
-	text-shadow: 0 0 0 #f0f0f0;
-}
-
-#review-box label:hover {
-	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-	text-shadow: 0 0 0 orange;
-}
-
-#review-box label:hover ~ label {
-	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-	text-shadow: 0 0 0 orange;
-}
-
-#review-box input[type=radio]:checked ~ label {
-	/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
-	text-shadow: 0 0 0 orange;
-}
-
-#imgDelete {
-	cursor: pointer;
-}
+    main .header-list {
+        border: 1px solid rgba(204, 204, 204, 0.8);
+        width: 100%;
+        height: 100px;
+        border-radius: 7px;
+        font-size: 0.8rem;
+        padding: 5px;
+    }
+    
+	a {
+		color: black;
+	}
+	
+	main {
+		width: 70%;
+		margin: auto;
+	}
+	
+	#header {
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		z-index: 5;
+		background-color: white;
+		height: 80px;
+	}
+	
+	#review-box fieldset {
+		display: inline-block;
+		direction: rtl;
+		border: 0;
+	}
+	
+	#review-box fieldset legend {
+		text-align: right;
+	}
+	
+	#review-box input[type=radio] {
+		display: none;
+	}
+	
+	#review-box label {
+		font-size: 1.5rem;
+		color: transparent;
+		text-shadow: 0 0 0 #f0f0f0;
+	}
+	
+	#review-box label:hover {
+		/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+		text-shadow: 0 0 0 orange;
+	}
+	
+	#review-box label:hover ~ label {
+		/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+		text-shadow: 0 0 0 orange;
+	}
+	
+	#review-box input[type=radio]:checked ~ label {
+		/* text-shadow: 0 0 0 rgba(250, 208, 0, 0.99); */
+		text-shadow: 0 0 0 orange;
+	}
+	
+	#imgDelete {
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
@@ -195,11 +233,11 @@ main {
 	<main>
 		<section class="">
 			<div class="px-4 px-lg-5 my-5">
-				<div class="d-flex">
-					<div class="col-3 me-5">
-						<img class="card-img-top" src="${product.getP_img()}" alt="..." />
-					</div>
-					<div class="col-9 d-flex flex-column justify-content-center">
+				<div class="mb-3 d-flex align-items-center justify-content-start bg-light px-5 py-3 border rounded">
+				
+					<img class="me-5 card-img-top border rounded" src="${product.p_img}" alt="..." style="width: 200px; height: 300px;"/>
+					
+					<div class="d-flex flex-column justify-content-center">
 						<div class="my-3 fs-4">${product.getP_title()}</div>
 						<div class="mb-3 d-flex">
 							<div class="pe-2">${product.getP_author()}</div>
@@ -207,74 +245,93 @@ main {
 							<div class="ps-2">${product.getP_pubdate()}</div>
 						</div>
 						<div class="mb-2 d-flex align-items-center">
-							<div class="pe-2">별점: ${product.getP_avgscore()}</div>
+							<span class="pe-2">별점:</span>
+							<div class="text-warning" style="font-size: 0.9rem">${product.star}</div>
 						</div>
 						<div class="mb-2 d-flex align-items-center">
-							<div class="pe-2">좋아요: ${product.getP_like()}</div>
+							<span class="pe-2">좋아요:</span>
+							<i class="fas fa-heart" style="color:red; font-size: 0.9rem;"></i>
+							<span style="color:red; font-size: 0.9rem;">(${product.p_like})</span>
 						</div>
 						<div class="mb-2 d-flex align-items-center">
 							<div class="pe-2">리뷰: ${product.getP_review()} 개</div>
-							<!-- <button class="btn btn-primary btn-sm">리뷰작성하기</button> -->
 						</div>
 						<div class="mb-2 d-flex">
 							정가:
-							<fmt:formatNumber value="${product.getP_price() }" />
+							<fmt:formatNumber value="${product.getP_price() }" />원
 						</div>
 						<div class="mb-5 d-flex align-items-center">
 							<div class="me-1">회원가:</div>
 							<div class="me-1">
-								<fmt:formatNumber value="${product.getP_price() * 0.9}" />
+								<fmt:formatNumber value="${product.getP_price() * 0.9}" />원
 							</div>
 							<div id="state_ing" class="badge bg-danger rounded-pill">10%</div>
 						</div>
 					</div>
+					
 				</div>
-				<hr />
-				<h5>상세내용</h5>
-				<p class="lead">${product.getP_description()}</p>
-				<hr />
-				<h5>관련상품</h5>
-				<div
-					class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-					<div class="col-2">
-						<div class="card h-100">
-							<!-- Product image-->
-							<a href="#"> <img class="card-img-top"
-								src="${product.getP_img()}" alt="..." />
-							</a>
-							<!-- Product details-->
-							<div class="card-body">
-								<div class="text-center">
-									<!-- Product name-->
-									<h5 class="fw-bolder">제목</h5>
-									<!-- Product price-->
-									가격
+
+				<div class="mb-3 bg-light px-5 py-3 border rounded">
+					<h5>상세내용</h5>
+					<hr/>
+					<p class="lead" style="font-size: 1rem; margin: 0px;">${product.getP_description()}</p>
+				</div>
+
+				<div class="mb-3 bg-light px-5 py-3 border rounded">
+					<h5>관련상품</h5>
+					<hr/>
+					<div
+						class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+						<div class="col-2">
+							<div class="card h-100">
+								<!-- Product image-->
+								<a href="#"> <img class="card-img-top"
+									src="${product.getP_img()}" alt="..." />
+								</a>
+								<!-- Product details-->
+								<div class="card-body">
+									<div class="text-center">
+										<!-- Product name-->
+										<h5 class="fw-bolder">제목</h5>
+										<!-- Product price-->
+										가격
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<hr />
-				<h5 class="mb-5">리뷰보기(${ product.getP_review()})</h5>
-				<ul style="list-style: none; margin: 0px; padding: 0px;">
-				<c:forEach var="review" items="${ product.getReviewList() }">
-					<li class="">
-						<div class="mb-3 d-flex justify-content-between" >
-							<div>
-								<span class="pe-2 border-end border-opacity-50" style="font-size:0.8rem;"><c:out value="${review.mem_nickname}"/></span>
-								<span class="px-2 border-end border-opacity-50" style="font-size:0.8rem;"><c:out value="${review.rv_date}"/></span>
-								<span class="ps-2" style="font-size:0.8rem;">신고</span>
-							</div>
-							<span class="ps-2 text-warning" style="font-size:0.8rem;"><c:out value="${ review.star }"/></span>
-						</div>
-						<div class="d-flex align-items-start justify-content-between">
-							<span style="font-size: 1rem;"><c:out value="${review.rv_content}"/></span>
-							<img alt="" src="/product/images/${ review.rv_img }" style="width: 70px; height: 70px;">
-						</div>
+
+				<div class="mb-3 bg-light px-5 py-3 border rounded">
+					<h5>리뷰보기(${ product.getP_review()})</h5>
+					<ul style="list-style: none; margin: 0px; padding: 0px;">
+					<c:if test="${ empty product.reviewList }">
 						<hr/>
-					</li>
-				</c:forEach>
-				</ul>
+						<p class="lead" style="font-size: 1rem; margin: 0px;">등록된 리뷰가 없습니다.</p>
+					</c:if>
+					<c:forEach var="review" items="${product.reviewList}">
+						<hr/>
+						<li class="">
+							<div class="mb-3 d-flex align-items-center justify-content-between" >
+								<div>
+									<span class="pe-2 border-end border-opacity-50" style="font-size:0.8rem;"><c:out value="${review.mem_nickname}"/></span>
+									<span class="px-2 border-end border-opacity-50" style="font-size:0.8rem;"><c:out value="${review.rv_date}"/></span>
+									<span class="ps-2" style="font-size:0.8rem;">신고</span>
+								</div>
+								<span class="ps-2 text-warning" style="font-size:0.8rem;"><c:out value="${ review.star }"/></span>
+							</div>
+							<div class="d-flex align-items-start justify-content-between">
+								<span style="font-size: 1rem;"><c:out value="${review.rv_content}"/></span>
+								<div>
+								<c:forEach var="img" items="${ review.fileNames }">
+									<img id="reviewImg" alt="" src="/product/images/${ img }" style="width: 70px; height: 70px;">
+								</c:forEach>
+								</div>
+							</div>
+						</li>
+					</c:forEach>
+					</ul>
+				</div>
 			</div>
 		</section>
 	</main>
@@ -284,14 +341,24 @@ main {
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<!-- 풋터 끝 -->
 	<script type="text/javascript">
+		let reviewList = [
+			<c:forEach var="review" items="${ product.reviewList }" >
+				{
+					mem_id : '${review.mem_id}',
+					mem_nickname : '${review.mem_nickname}',
+					p_no : ${review.p_no},
+					rv_score : '${review.star}',
+					rv_content : '${review.rv_content}',
+					fileNames : [ <c:forEach var="img" items="${review.fileNames}" >'${img}',</c:forEach> ]
+				},
+			</c:forEach>
+		]
+	</script>
+	
+	<script type="text/javascript">
 	let c_count = '1';
 	let booleanValue = ${empty isLike ?false :isLike};
 	let rv_img = [];
-	
-	const score = (number) => {
-		let star = '★';
-		return star.repeat(number);;
-	}
 	
 	$(document).ready(function(){
 		isLike(booleanValue);
@@ -545,24 +612,24 @@ main {
 	
 	$('#reviewContent').focus(function(){
 		const size = $('#reviewContent').val().length;
-		
 		$('#floatingValue').text(size+'/3000');
 	})
 	
+	/* 리뷰 내용 작성시 작성된 니용이 없으면 돌림 */
 	$('#reviewContent').blur(function(){
 		const size = $('#reviewContent').val().length;
-		
 		if(size <= 0)
 			$('#floatingValue').text('내용을 10자 이상 입력해주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.')
 	})
 	
+	/* 리뷰 내용 작성시 최대 글자수 탐지 */
 	$('#reviewContent').keyup(function(){
 		const size = $('#reviewContent').val().length;
-		
 		if(size > 0)
 			$('#floatingValue').text(size+'/3000');
 	})
 	
+	/* 리뷰 이미지 업로드 */
 	function reviewImgUrl(input) {
 		if(rv_img.length === 3){
 			return alert('최대 3개까지만 등록 가능합니다.');
@@ -571,6 +638,7 @@ main {
 		let reader = new FileReader();
 		reader.onload = function(e) {
 		 	let src = e.target.result;
+			 console.log(src);
 		 	$('#img-box').append('<img class="ms-2 border border-dark" alt="" src="'+src+'" style="width: 100px; height: 100px;">')
 	 	};
 		reader.readAsDataURL(input.files[0]);
@@ -578,6 +646,7 @@ main {
 		$('#fileCount').text('사진 첨부(선택) '+rv_img.length+'/3');
 	}
 	
+	/* 리뷰 전송시 검사 */
 	$('#reviewSubmmitBtn').click(function(){
 		const rv_score = $('#reviewPoint').text();
 		const rv_content = $('#reviewContent').val();
@@ -595,6 +664,7 @@ main {
 		}
 	})
 	
+	/* 작성한 리뷰 내용 초기화 */
 	let review_clear = () => {
 		$('#reviewModalToggle').modal("hide");
 		$('#reviewPoint').text('0');
@@ -605,12 +675,14 @@ main {
 		rv_img = [];
 	}
 	
+	/* 리뷰 업로드 사진 초기화 */
 	$('#imgDelete').click(function(){
 		$('#img-box').empty();
 		$('#fileCount').text('사진 첨부(선택) 0/3');
 		rv_img = [];
 	})
 	
+	/* 리뷰 전송 */
 	let review_submmit = () => {
 		const formData = new FormData();
 		
