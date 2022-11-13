@@ -8,7 +8,7 @@
 		SELECT * FROM tb_MEMBER WHERE MEM_ID = #{value}
 	</select>
 
-<!--  ================= *회원 가입* ================= -->
+<!--  ================= * 회원 가입* ================= -->
     <insert id="insertMember">
         INSERT INTO TB_MEMBER (
                                MEM_ID
@@ -40,17 +40,17 @@
                 )
     </insert>
 
-    <!--  ================== *ID 중복 체크* ==================  -->
+    <!--  ================== * ID 중복 체크 * ==================  -->
     <select id="selectIdCheck" resultType="java.lang.String">
         SELECT mem_id from tb_member WHERE mem_id = #{mem_id}
     </select>
 
-    <!--  ================== *닉네임 중복 체크* ==================  -->
+    <!--  ================== * 닉네임 중복 체크 * ==================  -->
     <select id="selectNicknameCheck" resultType="java.lang.String">
         SELECT mem_nickname from tb_member WHERE mem_nickname = #{mem_nickname}
     </select>
 
-    <!--  ================== *회원 정보 수정* ==================  -->
+    <!--  ================== * 회원 정보 수정* ==================  -->
     <update id="updateMyInfo" parameterType="member" >
         UPDATE tb_member
         SET
@@ -81,7 +81,7 @@
 		AND MEM_ID = #{mem_id}
 	</delete>
 
-    <!--  ================== *회원 탈퇴* ==================  -->
+    <!--  ================== * 회원 탈퇴 * ==================  -->
     <delete id="deleteMember" parameterType="member">
         DELETE  FROM tb_member
         WHERE mem_id = #{mem_id}
@@ -92,4 +92,9 @@
         UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
     </update>
 
+    <!--  ================== * 마이페이지 회원 사진 추가 * ==================  -->
+    <update id="updateMyImg" parameterType="member">
+        UPDATE TB_MEMBER SET mem_img = #{mem_img}
+        WHERE mem_id = #{mem_id}
+    </update>
 </mapper>

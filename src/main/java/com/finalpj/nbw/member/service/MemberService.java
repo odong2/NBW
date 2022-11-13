@@ -46,7 +46,7 @@ public class MemberService {
     public String nicknameCheck(String strCheckNickname) throws Exception{
         log.info("SERVICE ===================> 닉네임 중복체크 service");
         System.out.println(memberDao.selectNicknameCheck(strCheckNickname));
-        return memberDao.selectIdCheck(strCheckNickname);
+        return memberDao.selectNicknameCheck(strCheckNickname);
     }
 
 

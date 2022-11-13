@@ -30,4 +30,7 @@ public class Member {
 
     private Integer coupon_count;
     private Integer g_discount;
+
+    private String mem_img;
+
 }

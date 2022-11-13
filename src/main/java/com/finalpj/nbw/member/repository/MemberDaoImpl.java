@@ -83,4 +83,10 @@ public class MemberDaoImpl implements MemberDao{
         return sqlSession.update(namespace + "updateMemPoint", pMap);
     }
 
+    /* ====================================== 내 사진 추가 ============================================ */
+    @Override
+    public int updateMyImg(Member member) throws Exception {
+        return sqlSession.update(namespace + "updateMyImg", member);
+    }
+
 }

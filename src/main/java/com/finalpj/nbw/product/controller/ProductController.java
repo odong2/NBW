@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
+import oracle.jdbc.proxy.annotation.Post;
+import org.apache.tomcat.jni.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -16,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -120,6 +124,7 @@ public class ProductController {
 		return "/search/detailSearch";
 	}
 
+	/* =================================== 자동완성 검색창 ==================================*/
 	@PostMapping(value="autocomplete",  produces = "application/text; charset=UTF-8")
 	public @ResponseBody String keywordSearch(Criteria criteria, String keyword, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		response.setContentType("text/html;charset=utf-8");
@@ -134,9 +139,11 @@ public class ProductController {
 
 		String jsonInfo = jsonObject.toString();
 		log.info(jsonInfo);
+
+		/* 이미 DB 에 저장된 이미지 출력과 구분할 용도로 view 에 전송해준다 */
+		request.setAttribute("reqImg", true);
 		return jsonInfo;
 	}
-
 
 	/* =============================== 상품 목록 검색 > 페이징 ================================== */
 	@GetMapping("search")
@@ -158,11 +165,14 @@ public class ProductController {
 
 			log.info(productService.getCategoryFilter(criteria).toString());
 			model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
+
+			/* 이미 DB 에 저장된 이미지 출력과 구분할 용도로 view 에 전송해준다 */
+			model.addAttribute("reqImg", true);
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
-		return "/product/productList";
+		return "product/productList";
 	}
 	
     @GetMapping(value = "images/{fileName:.+}")
@@ -189,6 +199,5 @@ public class ProductController {
 
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
+
 }
-
-
