@@ -1,16 +1,15 @@
 package com.finalpj.nbw.product.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
@@ -37,13 +36,9 @@ import com.finalpj.nbw.product.domain.Review;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -230,33 +225,6 @@ public class ProductController {
 		return "/product/productList";
 	}
 
-//    @GetMapping(value = "images/{fileName:.+}")
-//    @ResponseBody
-//    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletResponse response) {
-//    	System.out.println("fileName========================>"+ fileName);
-//    	
-//		final String uploadRoot = System.getProperty("user.home");
-//     	final String fileFolder = uploadRoot+"/Desktop/upload/review/";
-//        
-//        Resource resource = new FileSystemResource(fileFolder + fileName);
-//        
-//        if(!resource.exists())
-//        	return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
-//        
-//        HttpHeaders headers = new HttpHeaders();
-//        Path filePath = null;
-//
-//        try {
-//            filePath = Paths.get(fileFolder+fileName);
-//            String Content_Type = Files.probeContentType(filePath);
-//			headers.add("Content-Type", Content_Type);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//        
-//        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-//    }
-
 	@GetMapping("/images/{fileName:.+}")
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(@PathVariable String fileName) {
@@ -264,8 +232,11 @@ public class ProductController {
 		final String fileFolder = uploadRoot + "/Desktop/upload/review/";
 		File file = new File(fileFolder + fileName);
 
+		if(!file.exists())
+			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+		
 		ResponseEntity<byte[]> result = null;
-
+			
 		try {
 			HttpHeaders header = new HttpHeaders();
 
@@ -308,7 +279,7 @@ public class ProductController {
 			// ' 구분자로 나눠서 배열로 저장 ->  [0] = {객체} . . .
 			String[] cookieArray = cookieValue.split("'");
 			
-			boolean exist = true;			
+			boolean exist = true;
 			// 기존 쿠키값에 존재하는지 검사
 			for(String cookie : cookieArray) {
 				if( cookie.equals(product) )
@@ -318,13 +289,24 @@ public class ProductController {
 			st.append("[");
 			if(exist) // 기존 쿠키값에 존재하지 않을 경우에만 추가
 				st.append(product + "'"); // 클릭해서 들어온 상품을 맨 앞으로 넣어줌 -> [ {클릭한상품 객체} ' 
-				
-			for(int i=0; i<cookieArray.length; i++) {
-				if (i == cookieArray.length-1) {
-					st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
-					st.append("]");
-				}else {
-					st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
+			
+			if(cookieArray.length < 5) { // 쿠키에 5개 이상 담지 않음
+				for(int i=0; i<cookieArray.length; i++) {
+					if (i == cookieArray.length-1) {
+						st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
+						st.append("]");
+					}else {
+						st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
+					}
+				}
+			}else { // 쿠키에 5개 이상인 경우 기존 쿠키값에서 맨 마지막 값 삭제;
+				for(int i=0; i<cookieArray.length-1; i++) {
+					if (i == cookieArray.length-2) {
+						st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
+						st.append("]");
+					}else {
+						st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
+					}
 				}
 			}
 			
@@ -351,8 +333,6 @@ public class ProductController {
 	
 	@PostMapping("/recentRemove")
 	public void recentRemove(@CookieValue(value = "recent_product", required = false) Cookie cookie, @RequestBody String product, HttpServletResponse response) throws UnsupportedEncodingException {
-		System.out.println("개별 삭제 요청 ====>"+product);
-		
 		if(cookie != null) {// 쿠기가 존재할 경우에만 삭제
 			StringBuilder st = new StringBuilder();
 			
@@ -362,29 +342,41 @@ public class ProductController {
 			// [] 배열로 감싸져 있는 값을 꺼냄 -> {객체} ' {객체} ' {객체}
 			String cookieValue = decode_product.substring(1, decode_product.length() - 1);
 
-			// ' 구분자로 나눠서 배열로 저장 ->  [0] = {객체} . . .
-			String[] cookieArray = cookieValue.split("'");
+			// ' 구분자로 나눠서 리스트로 저장 ->  [0] = {객체} . . .
+			List<String> cookieList = new ArrayList<String>();
+			cookieList.addAll(Arrays.asList(cookieValue.split("'")));
+			
+			if(cookieList.size() == 1) { // 1개만 담겨 있는 경우 아예 삭제
+				System.out.println("완전삭제");
+				cookie.setValue("");
+				cookie.setMaxAge(0);
+				cookie.setPath("/product/");
+				response.addCookie(cookie);
+			} else {
+				cookieList.remove(product);
 				
-			st.append("[");
-			// 삭제할 값만 제외하고 다시 담아줌
-			for(int i=0; i<cookieArray.length; i++) {
-				if( !cookieArray[i].equals(product) ){
-					if (i == cookieArray.length-1) {
-						System.out.println(cookieArray[i]);
-						st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
-						st.append("]");
+				st.append("[");
+				// 삭제할 값만 제외하고 다시 담아줌
+				Iterator<String> it = cookieList.iterator();
+
+				int index = 1;
+				while(it.hasNext()) {
+					String c = it.next();
+						
+					if(index == cookieList.size()) {
+						st.append(c+"]");
 					}else {
-						System.out.println(cookieArray[i]);
-						st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
+						st.append(c+"'");
+						index++;
 					}
 				}
+				
+				// 클릭한 상품과 기존 쿠키값을 합친 뒤 인코딩해서 쿠키에 저장해준뒤 내려
+				cookieValue = URLEncoder.encode(st.toString(), "UTF-8");
+				cookie.setValue(cookieValue);
+				cookie.setPath("/product/"); 
+				response.addCookie(cookie);
 			}
-			
-			// 클릭한 상품과 기존 쿠키값을 합친 뒤 인코딩해서 쿠키에 저장해준뒤 내려
-			cookieValue = URLEncoder.encode(st.toString(), "UTF-8");
-			cookie.setValue(cookieValue);
-			cookie.setPath("/product/"); 
-			response.addCookie(cookie);
 		}
 	}
 }

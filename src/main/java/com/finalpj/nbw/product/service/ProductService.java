@@ -46,13 +46,13 @@ public class ProductService {
 		
 		Map<String,Object> pointMap = new HashMap<>();
 		pointMap.put("mem_id", review.getMem_id());
-		pointMap.put("mem_point", member.getMem_point()+200);
+		pointMap.put("mem_point", member.getMem_point()+100);
 		
 		if(review.getFiles() != null) {
 			List<String> fileNames =  fileUploader.fileUpload(review.getFiles(),"review");
 			review.setFileNames(fileNames);
 			review.setFileSize(fileNames.size());
-			pointMap.put("mem_point", member.getMem_point()+400);
+			pointMap.put("mem_point", member.getMem_point()+200);
 		}
 		
 		productDao.reviewInsert(review);

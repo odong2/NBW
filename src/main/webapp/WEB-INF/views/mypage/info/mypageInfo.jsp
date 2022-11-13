@@ -29,7 +29,7 @@
 	        padding:0;
 	        margin:0;
 	    }
-	    .sidebar span{
+/* 	    .sidebar span{
 	        font-size: 1rem;
 	    }
 	    .sidebar a{
@@ -39,7 +39,7 @@
 	        font-size: 1.3rem;
 	        font-weight: bold;
 	        color: #5055b1;
-	    }
+	    } */
 	
 	    main {
 	        width: 100%;

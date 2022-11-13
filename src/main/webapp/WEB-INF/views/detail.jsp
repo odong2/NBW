@@ -13,7 +13,6 @@ main {
 	margin: auto;
 }
 
-
 #header {
 	position: fixed;
 	bottom: 0;
@@ -64,11 +63,11 @@ main {
 
 .switch {
 	position: fixed;
-	top:35%;
-	right:5%;
+	top: 35%;
+	right: 5%;
 	background-color: white;
+	right: 5%;
 }
-
 </style>
 </head>
 <body>
@@ -147,45 +146,58 @@ main {
 		</div>
 	</div>
 
-	<div class="switch rounded-pill bg-light border border-dark d-flex justify-content-center align-items-center flex-column" style="width: 70px; height: 150px;">
-		<button id="scrollTop" class="mb-3 fs-1 btn-outline-primary rounded-pill" style="">
+	<div
+		class="switch rounded-pill bg-light border border-dark d-flex justify-content-center align-items-center flex-column"
+		style="width: 70px; height: 150px;">
+		<button id="scrollTop"
+			class="mb-3 fs-1 btn-outline-primary rounded-pill" style="">
 			<i class="fas fa-angle-up"></i>
 		</button>
-		
- 		<div data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" class="position-relative">
-		  <img id="recentThumbnail" class="border border-dark border-1 rounded-circle" alt="" src="${product.p_img}" style="width: 50px; height: 50px; cursor:pointer;">
-		  <span id="RecentProductSize" class="position-absolute bottom-0 start-100 translate-middle translate-middle badge rounded-pill bg-danger">9 <span class="visually-hidden"></span></span>
+
+		<div data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+			class="position-relative">
+			<img id="recentThumbnail"
+				class="border border-dark border-1 rounded-circle" alt=""
+				src="${product.p_img}"
+				style="width: 50px; height: 50px; cursor: pointer;"> <span
+				id="RecentProductSize"
+				class="position-absolute bottom-0 start-100 translate-middle translate-middle badge rounded-pill bg-danger">0
+				<span class="visually-hidden"></span>
+			</span>
 		</div>
 	</div>
 
-	<div class="offcanvas offcanvas-end m-auto me-5" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="height: 80%; border-radius: 10px;">
-	  <div class="offcanvas-header">
-	    <h5 class="offcanvas-title" id="offcanvasRightLabel">최근 본 상품</h5>
-	    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-	  </div>
-	  <div class="offcanvas-body">
-	  
-	  	<div class="mb-4">
-	    	<span class="badge bg-secondary">전체</span>
-	    	<span class="badge bg-secondary">가격순</span>
-	    	<span class="badge bg-secondary">리뷰순</span>
-	    </div>
-	    
-		<div class="mb-2 d-flex justify-content-between align-items-center">
-			<div>
-				<span id="RecentProductSize2" class="ms-1 text-success">10</span>
-				<span> 건</span>
-			</div>
-			<div id="removeAllRecentProduct" class="me-1 text-muted">
-				<i class="far fa-trash-alt"></i>
-				<span class="ms-1" style="font-size:0.9rem">모두 삭제</span>
-			</div>
-		</div>	
-		
-		<div id="RecentProduct" class="d-flex flex-column">
-
+	<div class="offcanvas offcanvas-end m-auto me-5" tabindex="-1"
+		id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+		style="height: 80%; border-radius: 10px;">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasRightLabel">최근 본 상품</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+				aria-label="Close"></button>
 		</div>
-	  </div>
+		<div class="offcanvas-body" style="padding-top: 0px;">
+			<div class="sticky-top bg-body mb-3">
+				<div class="mb-3 d-flex align-items-center">
+					<span class="badge bg-secondary me-1">전체</span> <span
+						class="badge bg-secondary me-1">가격순</span> <span
+						class="badge bg-secondary">리뷰순</span>
+				</div>
+
+				<div class="mb-2 d-flex justify-content-between align-items-center">
+					<div>
+						<span id="RecentProductSize2" class="ms-1 text-success">0</span>
+						<span> 건</span>
+					</div>
+					<div id="removeAllRecentProduct"
+						class="me-1 btn btn-outline-danger" style="font-size: 0.7rem">
+						<i class="far fa-trash-alt"></i> <span class="ms-1">모두 삭제</span>
+					</div>
+				</div>
+				<hr/>
+			</div>
+
+			<div id="RecentProduct" class="d-flex flex-column overflow-auto"></div>
+		</div>
 	</div>
 
 	<!-- 고정바 시작 -->
@@ -297,12 +309,13 @@ main {
 				<div class="mb-3 bg-light px-5 py-3 border rounded">
 					<h5>관련상품</h5>
 					<hr />
-						<div
-							class="row justify-content-center">
-							<c:forEach var="product" items="${BestProduct}">
+					<div class="row justify-content-center">
+						<c:forEach var="product" items="${BestProduct}">
 							<div class="col-3">
 								<div class="card h-100">
-									<a href="/product/${product.p_no}"><img class="card-img-top" src="${product.p_img}" alt="..." style="height: 300px;"/></a>
+									<a href="/product/${product.p_no}"><img
+										class="card-img-top" src="${product.p_img}" alt="..."
+										style="height: 300px;" /></a>
 									<div class="card-body">
 										<div class="text-center">
 											<h5 class="fw-bolder">${product.p_title}</h5>
@@ -311,8 +324,8 @@ main {
 									</div>
 								</div>
 							</div>
-							</c:forEach>
-						</div>
+						</c:forEach>
+					</div>
 				</div>
 
 				<div class="mb-3 bg-light px-5 py-3 border rounded">
@@ -344,7 +357,8 @@ main {
 														value="${memberReview.rv_date}" /></span> <span class="ps-1"
 													style="font-size: 0.8rem;">신고</span>
 											</div>
-											<span id="scoreUpdate" class="ps-2 text-warning" style="font-size: 1rem;"><c:out
+											<span id="scoreUpdate" class="ps-2 text-warning"
+												style="font-size: 1rem;"><c:out
 													value="${memberReview.star}" /></span>
 										</div>
 
@@ -899,7 +913,7 @@ main {
 					let cookieArray = cookie.split("'");
 					let array = JSON.parse(cookieArray);
 					
-					addRecentProduct(array.reverse());
+					addRecentProduct(array);
 				},
 				error : function(data, textStatus) {
 					msg("에러가 발생했습니다."+data);
@@ -910,21 +924,26 @@ main {
 		
 		// 쿠키값으로 화면에 그려주는 메서드
 		let addRecentProduct = (array) => {
+			$('#RecentProduct').empty();
+			
 			array.forEach((product,i)=>{
 				$('#RecentProduct').append('<div id="RecentProductBoody'+i+'" class="mb-3 d-flex w-100 p-2 border border-opacity-50 rounded"><div>');
 				$('#RecentProductBoody'+i).append('<a href="/product/'+product.p_no+'"><img alt="" src="'+product.p_img+'" style="width: 70px; height: 100px;"></a>');
 				$('#RecentProductBoody'+i).append('<div class="col-8 ms-2 d-flex flex-column justify-content-between"><span>'+product.p_title+'</span><span style="font-size: 0.8rem">'+product.p_author+'</span><span style="font-size: 0.8rem">'+product.p_price+'원</span></div>');
-				$('#RecentProductBoody'+i).append('<button class="btn btn-outline-secondary" onclick="removeRecentProduct('+product.p_no+',this)"><i class="far fa-trash-alt"></i></button>');
+				$('#RecentProductBoody'+i).append('<button class="btn btn-outline-secondary h-25" style="font-size: 0.9rem" onclick="removeRecentProduct('+product.p_no+')"><i class="far fa-trash-alt"></i></button>');
 			})
 			$('#RecentProductSize').text(array.length);
 			$('#RecentProductSize2').text(array.length);
 		}
 		
-		let removeRecentProduct = (pno, node) => {
+		// 단건 상품 삭제 메서드
+		let removeRecentProduct = (pno) => {
 			if(confirm('선택 하신 상품을 삭제하시겠습니까?')){
 				let cookie = $.cookie('recent_product');
 				let cookieArray = cookie.split("'");
 				let array = JSON.parse(cookieArray);
+				
+				console.log(array);
 				
 				let obj = {};
 				
@@ -939,10 +958,18 @@ main {
 					contentType: "application/text; charset=UTF-8",
 					data : JSON.stringify(obj),
 					success : function() {
-						let id = node.parentNode.id;
-						$("#"+id).detach(); // 선택 요소 삭제
-						$('#RecentProductSize').text(array.length-1); // 총 개수 변경
-						$('#RecentProductSize2').text(array.length-1); // 총 개수 변경 
+						if(array.length === 1){
+							$('#RecentProduct').empty();
+							$('#RecentProductSize').text(0); // 총 개수 변경
+							$('#RecentProductSize2').text(0); // 총 개수 변경 
+							$('#RecentProduct').append('<span class="mt-5 text-center">최근 본 상품이 없습니다.</span>');
+						}else{
+							let cookie = $.cookie('recent_product');
+							let cookieArray = cookie.split("'");
+							let array = JSON.parse(cookieArray);
+							console.log(array);
+							addRecentProduct(array);
+						}
 					},
 					error : function(data, textStatus) {
 						msg("에러가 발생했습니다."+data);
@@ -959,9 +986,9 @@ main {
 				url : "/product/recentRemoveAll",
 				success : function() {
 					$('#RecentProduct').empty();
+					$('#RecentProduct').append('<span class="mt-5 text-center">최근 본 상품이 없습니다.</span>');
 					$('#RecentProductSize').text(0);
 					$('#RecentProductSize2').text(0);
-					$('#recentThumbnail').attr('src','null');
 				},
 				error : function(data, textStatus) {
 					msg("에러가 발생했습니다."+data);
@@ -975,7 +1002,7 @@ main {
 				removeAllRecentProduct();
 		})
 	</script>
-	
+
 	<script type="text/javascript">
 	let c_count = '1';
 	let booleanValue = ${empty isLike ?false :isLike};

@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionAdvice {
 
-    @ExceptionHandler(Exception.class)
-    public String exceptionHandle(Exception e, Model model){
-        log.info("아래의 예외 발생하여 에러페이지 출력");
-        log.info(e);
-        model.addAttribute("exception",e);
-        return "error/error";
-    }
+//    @ExceptionHandler(Exception.class)
+//    public String exceptionHandle(Exception e, Model model){
+//        log.info("아래의 예외 발생하여 에러페이지 출력");
+//        log.info(e);
+//        model.addAttribute("exception",e);
+//        return "error/error";
+//    }
 
 }

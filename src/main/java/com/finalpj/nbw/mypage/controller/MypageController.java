@@ -110,4 +110,10 @@ public class MypageController {
         return "redirect:/home";
     }
 
+    /* ========= 회원 히스토리 GET ========= */
+    @GetMapping("history")
+    public String getHistory() {
+    	
+    	return "/mypage/history";
+    }
 }
