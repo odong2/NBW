@@ -60,6 +60,7 @@ public class PaymentService {
         String deliveryMemo = paymentDto.getDelivery_memo();
         int used_point = paymentDto.getUsed_point();
         int mem_point = paymentDto.getMem_point();
+//        int pointReserve = paymentDto.getPointReserve();
         String mem_id = paymentDto.getMem_id();
         Object tableName = "tb_mempaymentdetail";
         Map<String,Object> pMap = null;
@@ -89,6 +90,7 @@ public class PaymentService {
         // (5) point 사용 하였을 경우 point 차감
         if(used_point != 0){
             pMap = new HashMap<>();
+            // 기존 포인트 - 사용포인트 + 적립금
             mem_point = mem_point - used_point;
             pMap.put("mem_id", mem_id);
             pMap.put("mem_point", mem_point);
@@ -245,7 +247,7 @@ public class PaymentService {
     	}
     	// (2) 관리자가 반품 거절을 해주었을 경우 
     	else {
-    		pMap.put("order_status", "배송완료");
+    		pMap.put("order_status", "반품 거절");
     	}
     	paymentDao.updateOrderStatus(pMap); // TB_MEMPAYMENTDETAIL에서의 상태 변경
     }

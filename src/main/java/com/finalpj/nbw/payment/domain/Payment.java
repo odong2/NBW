@@ -21,6 +21,7 @@ public class Payment implements Pay{
     private String mem_name;            // 회원 이름
     private Integer mem_point = 0;      // 회원 보유 포인트
     private Integer used_point = 0;     // 사용포인트 
+    private Integer pointReserve = 0;     // 적립금
     private String cp_no;               // 쿠폰번호
     private Integer total_price;        // 총 결제금액
     private String receiver_name;       // 수취인 이름
