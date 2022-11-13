@@ -154,4 +154,10 @@ public class ProductService {
 		return productDao.getMemberReview(memberMap);
 	}
 
+	public List<Product> getBestProducts(String p_no){
+		Map<String,Object> ParameterMap = new HashMap<>(); 
+		ParameterMap.put("p_no", p_no); // 가져올 상품의 카테고리 비교용 
+		ParameterMap.put("count", 5); // 가져올 상품의 개수
+		return productDao.getBestProducts(ParameterMap);
+	}
 }

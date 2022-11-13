@@ -134,4 +134,10 @@ public class ProductDaoImpl implements ProductDao {
 	public void reviewCountDelete(Review review) {
 		sqlSession.update(namespace+"reviewCountDelete", review);
 	}
+
+
+	@Override
+	public List<Product> getBestProducts(Map<String, Object> map) {
+		return sqlSession.selectList(namespace+"getBestProducts",map);
+	}
 }

@@ -51,5 +51,7 @@ public interface ProductDao {
 	int reviewUpdate(Review review);
 
 	int reviewDelete(Review review);
+	
+	List<Product> getBestProducts(Map<String,Object> map);
 }
 

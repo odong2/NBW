@@ -97,6 +97,15 @@
 		AND RV_SCORE = #{rv_score}
 	</delete>
 	
+	<select id="getBestProducts" parameterType="map" resultType="product">
+		SELECT ROWNUM, P_NO, P_TITLE, P_PUBLISHER, P_PRICE, P_IMG FROM (
+		    SELECT P_NO, P_TITLE, P_PUBLISHER, P_PRICE, P_IMG FROM TB_PRODUCT
+		    WHERE P_CATEGORY = ( SELECT P_CATEGORY FROM TB_PRODUCT WHERE P_NO = #{p_no} )
+		    AND NOT P_NO = #{p_no}
+		    ORDER BY P_REVIEW DESC
+		) WHERE <![CDATA[ROWNUM < #{count}]]>
+	</select>
+	
 	<!-- ===================================== 공통부분 ===================================== -->
 	<!-- ===================================== 상품 등록 ===================================== -->
 	<insert id="insertProduct" parameterType="product">
