@@ -64,9 +64,9 @@
         .classimg {
             float: left;
             /*flex: 1;*/
-            width: 110px;
-            height: 180px;
-            margin-right: 10px;
+            width: 170px;
+            height: 220px;
+            margin-right: 20px;
         }
         .classimg > img {
             width: 70%;
@@ -96,6 +96,11 @@
         }
         /* 행사시간 */
         .playtime {
+            display: inline-flex;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .status {
             display: inline-flex;
             margin-top: 3px;
             margin-bottom: 3px;
@@ -145,7 +150,7 @@
             <%-- 신청한 이벤트 시작--%>
             <ul>
                 <li>
-                    <div class="divTitle">참여중인 이벤트</div>
+                    <div class="divTitle">이벤트 신청 내역</div>
                     <hr />
                     <c:forEach var="event" items="${myEventSelectAll}">
                 <div class="alltext">
@@ -190,6 +195,13 @@
                             <c:out value="${event.ev_time}"/>
                             </div>
                         </div>
+                            <br/>
+                        <div class="status">
+                            <div>상태&nbsp;:&nbsp;</div>
+                            <div>
+                                <c:out value="${event.mem_status}"/>
+                            </div>
+                        </div>
                     <!-- 행사 설명 끝-->
                     <!-- 상세보기 버튼 시작 -->
                          <div class="playdetail">
@@ -206,6 +218,7 @@
         </c:forEach>
     </ul>
 </main>
+
     <%-- ==================== 메인 끝 ==================--%>
 </section>
 <!-- 마이 페이지 끝 -->
