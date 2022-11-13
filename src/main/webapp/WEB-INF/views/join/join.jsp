@@ -15,8 +15,12 @@
 
         /* 유효성 검사 통과유무 변수 > 필수 항목 */
         let idCheck = false;            // 아이디
+        let idEqual = false;            // 아이디 일치 여부 검사
         let pwCheck = false;            // 비번
+        let pwGrade = false;            // 비밀번호 안전등급 검사
+        let pwEqual = false;            // 비밀번호 일치 여부 검사
         let nicknameCheck = false;      // 닉네임
+        let nicknameEqual = false;       // 닉네임 일치 여부 검사
         let nameCheck = false;            // 이름
         let mailCheck = false;            // 이메일
         let mailCodeCheck = false;          // 이메일 인증 코드 일치
@@ -160,9 +164,13 @@
 					mailCodeCheck = true;
 				</c:if>
                 /* 최종 유효성 검사 체크 > 모든 것이 참이어야 가입 가능 */
-                if(idCheck&&pwCheck&&nameCheck&&mailCheck&&birthCheck&&genderCheck&&phoneCheck&&addressCheck&&privacyCheck&&mailCodeCheck&&nicknameCheck) {
+                if(idCheck&&idEqual&&pwCheck&&pwGrade&&pwEqual
+                    &&nameCheck && mailCheck&&nicknameEqual
+                    && birthCheck&&genderCheck &&phoneCheck&&addressCheck
+                    &&privacyCheck&&mailCodeCheck&&nicknameCheck) {
                     $("#joinForm").attr("action", "/member/join");
                     $("#joinForm").attr("method", "post");
+                    alert("NBW 회원이 되신 것을 환영합니다!");
                     $("#joinForm").submit();
                 }else
                     alert("회원가입 양식을 다시 한 번 확인해 주세요.");
@@ -192,9 +200,8 @@
             });
 
             /* ===================================== 아이디 유효성 체크 ========================================= */
-            $("#mem_id").keyup(function(){
+            $("#mem_id").blur(function(){
                 let id = $(this).val();
-
                 /* id < 4 */
                 if(id.length < 4){
                     $('#idCheckDiv').removeClass("alert-success");
@@ -211,23 +218,23 @@
                     idCheck = false; // 가입 불가
                     return;
                 }
-                /* 중복 아이디가 있을 경우 > 서버로 가서 아이디 중복 체크를 한다
-                * url과 입력 데이터는 바뀌면 안되기 때문에 Ajax로 처리한다. */
-                // url : /member/idCheck
-                // 서버에서 가져온 데이터 즉, result 가 null 이면 사용가능하다. null 이 아니면 사용이 불가하다.
+               /* 아이디 중복 체크 */
                 $("#idCheckDiv").load("/member/idCheck?id="+id, function(result){
-                    if(result.indexOf("가능한")){
-                        // 중복이 되지 않은 경우
-                        $('#idCheckDiv').addClass("alert-success");
-                        $('#idCheckDiv').removeClass("alert-danger");
-                        // 중복이 되지 않은 경우 가입이 가능하다.
-                        idCheck = true;
-                    } else {
+                    if(result.indexOf("중복")){
+                        console.log(result);
+                        idEqual = false;
+                        console.log("가입여부 ==> "+ !idEqual);
                         // 중복된 경우
                         $('#idCheckDiv').removeClass("alert-success");
                         $('#idCheckDiv').addClass("alert-danger");
-                        // 중복이 된 경우 가입을 막는다.
-                        idCheck = false;
+                    }
+                    if(result.indexOf("가능한")) {
+                        console.log(result);
+                        idEqual = true;
+                        console.log("가입여부 ==> " + idEqual);
+                        // 중복이 되지 않은 경우
+                        $('#idCheckDiv').addClass("alert-success");
+                        $('#idCheckDiv').removeClass("alert-danger");
                     }
                 });
             });
@@ -237,7 +244,7 @@
                             .css('background-color', '#ffffff');
             });
 
-            $('#mem_nickname').keyup(function (){
+            $('#mem_nickname').blur(function (){
                 let nickname = $(this).val();
 
                 /* nickname < 4 */
@@ -248,7 +255,7 @@
                     nicknameCheck = false; // 가입 불가
                     return;
                 }
-                /* id > 20 */
+                /* nickname > 20 */
                 if(nickname.length > 20){
                     $('#nicknameCheckDiv').removeClass("alert-success");
                     $('#nicknameCheckDiv').addClass("alert-danger");
@@ -263,13 +270,13 @@
                         $('#nicknameCheckDiv').addClass("alert-success");
                         $('#nicknameCheckDiv').removeClass("alert-danger");
                         // 중복이 되지 않은 경우 가입이 가능하다.
-                        nicknameCheck = true;
+                        nicknameEqual = true;
                     } else {
                         // 중복된 경우
                         $('#nicknameCheckDiv').removeClass("alert-success");
                         $('#nicknameCheckDiv').addClass("alert-danger");
                         // 중복이 된 경우 가입을 막는다.
-                        nicknameCheck = false;
+                        nicknameEqual = false;
                     }
                 });
             })
@@ -294,6 +301,7 @@
                             $('#pwCheckDiv').removeClass("alert-dismissible");
                             $('#pwCheckDiv').addClass("alert-danger");
                             $('#pwCheckDiv').text("보안수준 : "+ result);
+                            pwGrade = false; // 보안수준 낮음이면 가입 불가
                         }
                         if(result == "NORMAL"){
                             result = "보통";
@@ -301,6 +309,7 @@
                             $('#pwCheckDiv').removeClass("alert-danger");
                             $('#pwCheckDiv').addClass("alert-success");
                             $('#pwCheckDiv').text("보안수준 : "+ result);
+                            pwGrade = false;
                         }
                         if(result == "STRONG"){
                             result = "강력";
@@ -308,6 +317,7 @@
                             $('#pwCheckDiv').removeClass("alert-info");
                             $('#pwCheckDiv').addClass("alert-info");
                             $('#pwCheckDiv').text("보안수준 : "+ result);
+                            pwGrade = true;
                         }
                     }
                 });
@@ -321,13 +331,15 @@
                     $('#pwCheckDiv2').removeClass("alert-dismissible");
                     $('#pwCheckDiv2').addClass("alert-danger");
                     $('#pwCheckDiv2').text("비밀번호가 일치하지 않습니다.");
+                    pwEqual = false;
+
                 }else{
                     $('#pwCheckDiv2').removeClass("alert-danger");
                     $('#pwCheckDiv2').addClass("alert-info");
                     $('#pwCheckDiv2').text("비밀번호가 일치합니다.");
+                    pwEqual = true;
                 }
             });
-
 
             /* ===================================== 이메일 전송  ===================================== */
             $("[name=btn-email-send]").click(function(e){
@@ -377,15 +389,7 @@
                     mailCodeCheck = true;
                 }
             });
-
-            // 전화번호 자동 하이픈 함수
-            const autoHyphen = function(target){
-                target.value = target.value
-                    .replace(/[^0-9]/g, '')
-                    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-            }
         });
-
     </script>
 
     <style>
@@ -477,7 +481,8 @@
                 <h6><span style="color: red; ">*</span>비밀번호 </h6>
                 <span class="final_pw_ck" style="font-size: 5px; color: red" hidden>비밀번호를 입력해주세요.</span>
                 <div id="layer" style="display: none">
-                    <p style="font-size: x-small"> 비밀번호에 <strong>숫자, 소문자, 대문자</strong>를<br>모두 포함해 주세요.</p>
+                    <p style="font-size: x-small"> 비밀번호에 <strong>숫자, 소문자, 대문자</strong>를<br>모두 포함해 주세요.<br>
+                        <span style="color: red;">강력</span>인 경우만 가입이 가능합니다.</p>
                 </div>
             </div>
             <div class="col-9">
@@ -565,7 +570,7 @@
 	                               autocomplete="off" class="form-control " placeholder="인증번호를 입력해 주세요" disabled/>
 	                    </div>
 	                    <div class="col-3">
-	                        <button name="btn-email-send" class="btn btn-outline-secondary" type="button">인증메일 전송</button>
+	                        <button name="btn-email-send" class="btn btn-outline-secondary" type="button" style="font-size: smaller">인증메일 전송</button>
 	                    </div>
 	                </div>
 	                <div class="row">
@@ -643,7 +648,7 @@
                                    maxlength="13"
                                    autocomplete="off"
                                    pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
-                                   class="form-controller col-7" value="">
+                                   class="form-control" value="" />
 		                </c:when>
 		                <c:otherwise>
                         <%--    fmt:formatNumber 형식 오류 수정   --%>
@@ -653,7 +658,7 @@
                                    maxlength="13"
                                    autocomplete="off"
                                    pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
-                                   class="form-controller col-7" value="">
+                                   class="form-control w-50" value=""/>
 		                </c:otherwise>
 		            </c:choose>
                 </div>
@@ -897,3 +902,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
+<script type="text/javascript">
+    // 전화번호 자동 하이픈 함수
+    const autoHyphen = function(target){
+        target.value = target.value
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+    }
+</script>
