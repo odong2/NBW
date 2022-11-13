@@ -22,6 +22,7 @@ public class QnaService {
     public QnaService(QnaDao qnaDao){
         this.qnaDao = qnaDao;
     }
+
     /********************************* [[Qna 전체 조회]] **************************************/
     @Transactional(readOnly = true)
     public List<Qna> qnaList(String id) throws Exception {
@@ -31,6 +32,7 @@ public class QnaService {
         log.info("QnaService : qnaList 호출성공");
         return qnaList;
     }
+
     /********************************* [[Qna 처리중 조회]] **************************************/
     @Transactional(readOnly = true)
     public List<Qna> qnaIngList(HttpSession session) throws Exception {
@@ -45,6 +47,7 @@ public class QnaService {
         qnaIngList = qnaDao.qnaIngList(id);
         return qnaIngList;
     }
+
     /********************************* [[Qna 처리중 조회]] **************************************/
     @Transactional(readOnly = true)
     public List<Qna> qnaFinishList(String id) throws Exception {

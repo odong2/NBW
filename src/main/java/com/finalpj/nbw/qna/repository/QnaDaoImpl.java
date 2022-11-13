@@ -34,6 +34,7 @@ public class QnaDaoImpl implements QnaDao {
         log.info("QnaDao : eventList 호출 성공" + qnaList);
         return qnaList;
     }
+
     /****************************** [[Qna 처리중 조회]] **********************************/
     @Override
     public List<Qna> qnaIngList(String id) throws Exception {
@@ -42,6 +43,7 @@ public class QnaDaoImpl implements QnaDao {
         log.info("QnaDao : eventList 호출 성공" + qnaIngList);
         return qnaIngList;
     }
+
     /****************************** [[Qna 답변완료 조회]] **********************************/
     @Override
     public List<Qna> qnaFinishList(String id) throws Exception {

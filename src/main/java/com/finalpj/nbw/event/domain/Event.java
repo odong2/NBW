@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -34,6 +36,11 @@ public class Event {
     private String ev_phone; // 문의번호
 
     private Integer ev_cocnt; // 댓글카운트
+
+    private String mem_status; // 상태
+
+    private String mem_id; // 아이디
+
 
     public Event (Integer ev_no, String ev_title, String ev_content,
                   String ev_start, String ev_end, Integer ev_people, String ev_target,

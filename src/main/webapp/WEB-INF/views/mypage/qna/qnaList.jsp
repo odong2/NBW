@@ -262,7 +262,7 @@
                 </div>
             </div>
             <%-- 처리중인 문의 --%>
-            <%-- 전체 문의 --%>
+            <%-- 답변완료 문의 --%>
             <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="finish" tabindex="0">
                 <div class="qna-list-wrap" >
                     <ul>
@@ -297,7 +297,7 @@
                     </ul>
                 </div>
             </div>
-                <%-- 전체 문의 --%>
+                <%-- 답변완료 문의 --%>
             </div>
         </div>
     </main>
