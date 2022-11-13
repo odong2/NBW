@@ -4,9 +4,9 @@
 <%@include file="/WEB-INF/includes/common.jsp" %>
     <title>Home</title>
   <style>
-      *{
-          border: 1px solid red;
-      }
+      /**{*/
+      /*    border: 1px solid red;*/
+      /*}*/
     a {
       color: black;
     }
@@ -24,9 +24,9 @@
         <br>
         <section class="slide-img-wrap">
             <section>
-                <div class="recent=product">
-                    <div class="slide-img-wrap">
-                        <div class="slide-img" style="height: 400px; ">
+                <div class="recent-product">
+                    <div class="slide-img-wrap" style="text-align: center">
+                        <div class="slide-img" style="height: 400px; padding-left: 20px; text-align: center">
                             <div><a><img src="/images/main-img1.png" width="950" /></a></div>
                             <div><a><img src="/images/main-img2.png" width="950"/></a></div>
                             <div><a><img src="/images/main-img3.png" width="950"/></a></div>
@@ -43,8 +43,13 @@
                     <div class="card-title" style="text-align: right; padding-right: 40px;"><h3>📚 새로 나온 책</h3></div>
                     <hr>
                     <div class="card-body" style="text-align: center; padding-top:20px; padding-left: 40px;">
+
                         <c:forEach items = "${homeList}" var="homeList">
-                            <div><img alt="" src="${homeList.getP_img()}" width="200" height="270"/></div>
+                            <div>
+                                <a href="/product/<c:out value="${homeList.getP_no()}"/>">
+                                            <img src="${homeList.getP_img()}" alt="" width="200" height="270"/>
+                                </a>
+                            </div>
                         </c:forEach>
                     </div>
                 </div>
