@@ -1,5 +1,6 @@
 package com.finalpj.nbw.payment.dao;
 
+import com.finalpj.nbw.payment.domain.AdminPayment;
 import com.finalpj.nbw.payment.domain.CartProduct;
 import com.finalpj.nbw.payment.domain.OrderList;
 import com.finalpj.nbw.payment.domain.Payment;
@@ -19,4 +20,7 @@ public interface PaymentDao {
     List<OrderList> selectMemOrderList(String mem_id) throws Exception;                // 회원 :  주문리스트 조회
     int updateOrderStatus(Map<String,Object> pMap) throws Exception;                   // 회원 : 주문상품 상태 변경(취소, 반품, 교환, 구매확정, 배송중)
     Map<String,Integer> selectMemStatusCnt(String mem_id) throws Exception;                            // 회원 : 주문 조회 페이지 상품상태 개수 조회 쿼리문
+    
+    /* [[ 관리자페이지에서 처리할 부분 추가 ]] */
+    List<AdminPayment> selectAdminPayment(Map<String,Object> pMap) throws Exception; // 테이블명과 상태정보 넘겨서 주문 리스트 가져오기
 }

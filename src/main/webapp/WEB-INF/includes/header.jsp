@@ -24,7 +24,7 @@
                     </li>
                     <li class="nav-item">
 	                <a href="/mypage/payment/list" class="text-decoration-none px-3 border-end rounded-0"
-		                >주문내역</a
+		                >마이페이지</a
 		                >
 		            </li>
                 </c:when>

@@ -1,6 +1,7 @@
 package com.finalpj.nbw.payment.repository;
 
 import com.finalpj.nbw.payment.dao.PaymentDao;
+import com.finalpj.nbw.payment.domain.AdminPayment;
 import com.finalpj.nbw.payment.domain.CartProduct;
 import com.finalpj.nbw.payment.domain.OrderList;
 import com.finalpj.nbw.payment.domain.Payment;
@@ -77,4 +78,10 @@ public class PaymentDaoImpl implements PaymentDao {
     public Map<String, Integer> selectMemStatusCnt(String mem_id) throws Exception {
         return sqlSession.selectOne(namespace + "selectStatusCnt", mem_id);
     }
+
+    /******************************** 관리자페이지에서 주문한 상품 조건에 맞게 조회 *********************************/
+	@Override
+	public List<AdminPayment> selectAdminPayment(Map<String, Object> pMap) throws Exception {
+		return sqlSession.selectList(namespace+"selectAdminPayment", pMap);
+	}
 }

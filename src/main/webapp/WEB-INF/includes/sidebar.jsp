@@ -106,7 +106,7 @@
                             <span>이벤트 </span>
                         </li>
                         <li class="side-link">
-                            <a href="#"> 이벤트 신청 내역</a>
+                            <a href="/mypage/event/list"> 이벤트 신청 내역</a>
                         </li>
                         <li class="side-link">
                             <a href="#"> 참여중 이벤트</a>

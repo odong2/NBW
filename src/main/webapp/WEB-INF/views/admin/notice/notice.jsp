@@ -11,7 +11,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 	<%@include file="../../../includes/admin/common.jsp" %>
-    <title>관리자 공지사항</title>
+    <title>공지사항 관리 페이지</title>
       <style>
         #noticeData,
         #noticeTitle{

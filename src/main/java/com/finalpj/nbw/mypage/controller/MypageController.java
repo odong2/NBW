@@ -3,12 +3,8 @@ package com.finalpj.nbw.mypage.controller;
 import com.finalpj.nbw.login.service.LoginService;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.mypage.service.MypageService;
-import com.finalpj.nbw.qna.domain.Qna;
-import com.finalpj.nbw.qna.service.QnaService;
 import lombok.extern.log4j.Log4j;
 
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,14 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import javax.servlet.http.HttpSession;
+
 
 @Log4j
 @RequestMapping("/mypage/")
@@ -109,11 +102,15 @@ public class MypageController {
         request.getSession().invalidate();
         return "redirect:/home";
     }
-
+    
     /* ========= 회원 히스토리 GET ========= */
     @GetMapping("history")
     public String getHistory() {
-    	
     	return "/mypage/history";
+    }
+    
+    @GetMapping("coupon")
+    public String getCouponPage() throws IOException {
+        return "/mypage/coupon";
     }
 }

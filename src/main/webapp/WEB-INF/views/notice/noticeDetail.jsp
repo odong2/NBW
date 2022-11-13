@@ -403,8 +403,8 @@
     let getCdate = function(ntc_cdate){
         let date = new Date(ntc_cdate);
         let year = date.getFullYear();
-        let month = String(date.getMonth()).padStart(2, "0");
-        let day = String(date.getDay()).padStart(2,"0");
+        let month = String(date.getMonth()+1).padStart(2, "0");
+        let day = String(date.getDate()).padStart(2,"0");
         const hours = String(date.getHours()).padStart(2, "0");
         const minutes = String(date.getMinutes()).padStart(2, "0");
         return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
@@ -663,7 +663,7 @@
                 success : function(result){
                     $('#comment-input').css('height', '40px');
                     title = "댓글 등록 완료";
-                    content = "해당 게실글에 댓글을 등록하였습니다.";
+                    content = "해당 게시글에 댓글을 등록하였습니다.";
                     audio.play();
                     showMsg(title, content, 'green');
                     showComments(nt_no); <%-- 데이터 변경으로 인해 댓글을 다시 가져온다 --%>

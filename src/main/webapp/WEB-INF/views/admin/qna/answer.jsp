@@ -14,6 +14,15 @@
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자-문의사항답변</title>
     <style type="text/css">
+     @font-face {
+       font-family: 'InfinitySans-RegularA1';
+       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+       font-weight: normal;
+       font-style: normal;
+     }
+     *{
+       font-family: 'InfinitySans-RegularA1';
+     }
      .q_content {
         height: 250px;
         padding: 16px;

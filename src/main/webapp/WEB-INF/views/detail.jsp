@@ -1230,6 +1230,142 @@ main {
 		$("#LoginFailMsg").show();
 		$("#LoginFailMsg").delay(500).fadeOut(1200);
 	}
+	
+	$('#reviewModal').click(function(){
+		$.ajax({
+			type : "POST",
+			url : "/login/exist",
+			dataType:"json",
+			success : function(response) {
+				if(response.isLogin){
+					$('#reviewModalToggle').modal("show");
+				}else{
+					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
+						location.href = '/login?pno=${product.getP_no()}';
+					}
+				}
+			},
+			error : function(data, textStatus) {
+				msg("에러가 발생했습니다."+data);
+				console.log(data);
+			}
+		})
+	})
+	
+	$('label').click(function(e){
+		let text = e.target.dataset.score;
+		$('#reviewPoint').text(text);
+	})
+	
+	$('#reviewContent').focus(function(){
+		const size = $('#reviewContent').val().length;
+		$('#floatingValue').text(size+'/3000');
+	})
+	
+	/* 리뷰 내용 작성시 작성된 니용이 없으면 돌림 */
+	$('#reviewContent').blur(function(){
+		const size = $('#reviewContent').val().length;
+		if(size <= 0)
+			$('#floatingValue').text('내용을 10자 이상 입력해주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다.')
+	})
+	
+	/* 리뷰 내용 작성시 최대 글자수 탐지 */
+	$('#reviewContent').keyup(function(){
+		const size = $('#reviewContent').val().length;
+		if(size > 0)
+			$('#floatingValue').text(size+'/3000');
+	})
+	
+	/* 리뷰 이미지 업로드 */
+	function reviewImgUrl(input) {
+		if(rv_img.length === 3){
+			return alert('최대 3개까지만 등록 가능합니다.');
+		}
+		
+		let reader = new FileReader();
+		reader.onload = function(e) {
+		 	let src = e.target.result;
+			 console.log(src);
+		 	$('#img-box').append('<img class="ms-2 border border-dark" alt="" src="'+src+'" style="width: 100px; height: 100px;">')
+	 	};
+		reader.readAsDataURL(input.files[0]);
+		rv_img.push(input.files[0]);
+		$('#fileCount').text('사진 첨부(선택) '+rv_img.length+'/3');
+	}
+	
+	/* 리뷰 전송시 검사 */
+	$('#reviewSubmmitBtn').click(function(){
+		const rv_score = $('#reviewPoint').text();
+		const rv_content = $('#reviewContent').val();
+		
+		if(rv_score <= 0){
+			alert('별점을 입력해주세요.');
+		}else if(!rv_content) {
+			alert('리뷰를 작성해주세요.');
+		}else if(rv_img.length === 0){
+			if(confirm('리뷰사진 없이 등록 하시겠습니까?')){
+				review_submmit();
+			}
+		}else {
+			review_submmit();
+		}
+	})
+	
+	/* 작성한 리뷰 내용 초기화 */
+	let review_clear = () => {
+		$('#reviewModalToggle').modal("hide");
+		$('#reviewPoint').text('0');
+		$('#reviewContent').val('');
+		$('#img-box').empty();
+		$('#floatingValue').text('0/3000');
+		$('#fileCount').text('사진 첨부(선택) 0/3');
+		rv_img = [];
+	}
+	
+	/* 리뷰 업로드 사진 초기화 */
+	$('#imgDelete').click(function(){
+		$('#img-box').empty();
+		$('#fileCount').text('사진 첨부(선택) 0/3');
+		rv_img = [];
+	})
+	
+	/* 리뷰 전송 */
+	let review_submmit = () => {
+		const formData = new FormData();
+		
+		const rv_score = $('#reviewPoint').text();
+		const rv_content = $('#reviewContent').val();
+		const p_no = '${ product.getP_no() }';
+		
+		formData.append('p_no',p_no);
+		formData.append('rv_score',rv_score);
+		formData.append('rv_content',rv_content);
+		
+		rv_img.forEach((item)=>{
+			formData.append('files',item);
+		})
+		
+		$.ajax({
+			type : "POST",
+			url : "/product/review",
+			data : formData,
+			processData: false,
+			contentType: false,				
+			success : function(result) {
+				console.log(result);
+				if(result.success){
+					review_clear();
+					msg(result.msg);
+				}else {
+					review_clear();
+					msg(result.msg);
+				}
+		 	},
+		 	error : function(request, status, error) {
+		 		console.log("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+			}
+		});
+	}
 </script>
 </body>
 </html>

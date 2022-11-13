@@ -2,11 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.finalpj.nbw.coupon.dao.CouponMapper">
+    <!-- 쿠폰 등록 -->
+    <insert id="insertCoupon" parameterType="couponDto">
+        INSERT INTO tb_coupon
+        (
+            cp_no, cp_name,cp_price,cp_public,cp_img
+        )
+        VALUES
+            (
+                #{cp_no}, #{cp_name}, #{cp_price}, #{cp_public}, #{cp_img,jdbcType=VARCHAR}
+            )
+    </insert>
+    <!-- 쿠폰 다운로드 -->
+    <insert id="insertDownloadCoupon" parameterType="java.util.Map">
+        INSERT INTO TB_COUPONDOWNLOAD
+        (
+            cp_no,
+            mem_id
+        )
+        VALUES
+            (#{cp_no}, #{mem_id})
+    </insert>
+    <!-- 쿠폰 다운로드 후 tb_couponzip테이블에 등록 / 회원 쿠폰 입력하여 등록 -->
+    <insert id="insertMemCoupon" parameterType="java.util.Map">
+        INSERT INTO TB_COUPONZIP
+            ( cp_no, mem_id)
+        VALUES(#{cp_no}, #{mem_id})
+    </insert>
+
+    <!-- 모든 쿠폰 조회-->
+    <select id="selectAllCoupon" resultType="couponDto">
+        SELECT * FROM tb_coupon ORDER BY CP_CDATE desc
+    </select>
+    <!-- 다운로드 가능한 쿠폰 모두 조회-->
+    <select id="selectPublicCoupon" resultType="couponDto">
+        select * from tb_coupon where cp_public = 'Y'
+    </select>
+
+    <!-- 해당 회원의 다운로드 가능한 쿠폰 조회 (마이페지 쿠폰 조회 사용) -->
+    <select id="selectMemPublicCoupon" parameterType="java.lang.String" resultType="couponDto">
+        SELECT a.*,b.mem_id
+        FROM(
+                select * from tb_coupon where cp_public = 'Y'
+                ORDER BY cp_cdate desc
+            ) a,
+            (
+                SELECT * FROM TB_COUPONDOWNLOAD
+                WHERE mem_id = #{mem_id}) b
+        where a.cp_no = b.cp_no
+        UNION ALL
+        SELECT c.*,
+               CASE WHEN 1 = 0 THEN  ''
+                   END  AS "MEM_ID"
+        FROM TB_COUPON c
+        WHERE cp_public = 'Y'
+          AND cp_no NOT IN (
+            SELECT a.cp_no  FROM (
+                                     SELECT * FROM TB_COUPON
+                                     WHERE cp_public = 'Y'
+                                     ORDER BY cp_no desc
+                                 ) A,
+                                 TB_COUPONDOWNLOAD B
+            WHERE A.CP_NO = B.CP_NO
+              AND B.MEM_ID = #{mem_id}
+        )
+    </select>
+
+    <!-- 회원이 쿠폰등록 버튼 눌렀을 때, 회원이 해당 쿠폰을 다운로드 받았는지 체크 -->
+    <select id="selectDownloadedCoupon" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT NVL2(max(cp_no),'N','Y') as downloaded FROM  tb_coupondownload
+        WHERE cp_no = #{cp_no}
+          and mem_id = #{mem_id}
+    </select>
     <!-- 쿠폰 존재여부 확인. 0보다 크면 쿠폰이 존재함-->
     <select id="selectIsCoupon" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT count(*) from tb_couponzip
         WHERE mem_id = #{mem_id}
     </select>
+
     <!-- couponzip 조회하여 멤버가 보유한 쿠폰을 조회 -->
     <select id="selectCouponList" parameterType="String" resultType="couponDto">
         SELECT * FROM tb_coupon WHERE
@@ -18,6 +91,13 @@
 
     <!-- 결제 시 쿠폰 사용하였을 경우 id와 쿠폰번호를 조건으로 사용한 쿠폰 삭제-->
     <delete id="deleteMemCoupon" parameterType="java.util.Map">
-        DELETE FROM tb_couponzip WHERE  cp_no= #{cp_no} and mem_id = #{mem_id}
+        DELETE FROM tb_couponzip
+               WHERE  cp_no= #{cp_no} and mem_id = #{mem_id}
+    </delete>
+
+    <!-- 쿠폰 삭제 (관리자)-->
+    <delete id="deleteCoupon" parameterType="java.lang.String">
+        DELETE FROM tb_coupon
+                WHERE cp_no = #{cp_no}
     </delete>
 </mapper>
