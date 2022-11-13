@@ -34,6 +34,7 @@ public interface ProductDao {
 
 	void updateLike(Map<String, Object> map);
 
+	int updateProductCount(List<Map<String, Object>> productList) throws Exception; // 결제 후 상품 재고 감소 (writer : 민준)
 	void reviewCountUpdate(Review review);
 
 	void reviewInsert(Review review);

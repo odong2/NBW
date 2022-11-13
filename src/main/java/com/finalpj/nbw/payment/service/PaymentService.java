@@ -1,5 +1,7 @@
 package com.finalpj.nbw.payment.service;
 
+import com.finalpj.nbw.cart.dao.CartDao;
+import com.finalpj.nbw.cart.domain.Cart;
 import com.finalpj.nbw.coupon.dao.CouponDao;
 import com.finalpj.nbw.coupon.domain.Coupon;
 import com.finalpj.nbw.member.dao.MemberDao;
@@ -27,13 +29,15 @@ public class PaymentService {
     private final ProductDao productDao;
     private final MemberDao memberDao;
     private final RefundDao refundDao;
+    private final CartDao cartDao;
 
-    public PaymentService(PaymentDao paymentDao, CouponDao couponDao, ProductDao productDao, MemberDao memberDao, RefundDao refundDao){
+    public PaymentService(PaymentDao paymentDao, CouponDao couponDao, ProductDao productDao, MemberDao memberDao, RefundDao refundDao, CartDao cartDao){
         this.paymentDao = paymentDao;
         this.couponDao = couponDao;
         this.productDao= productDao;
         this.memberDao = memberDao;
         this.refundDao = refundDao;
+        this.cartDao = cartDao;
     }
     /************************ 결제하기 (비회원) ****************************/
     @Transactional(rollbackFor = Exception.class)
@@ -56,6 +60,7 @@ public class PaymentService {
         String deliveryMemo = paymentDto.getDelivery_memo();
         int used_point = paymentDto.getUsed_point();
         int mem_point = paymentDto.getMem_point();
+//        int pointReserve = paymentDto.getPointReserve();
         String mem_id = paymentDto.getMem_id();
         Object tableName = "tb_mempaymentdetail";
         Map<String,Object> pMap = null;
@@ -85,6 +90,7 @@ public class PaymentService {
         // (5) point 사용 하였을 경우 point 차감
         if(used_point != 0){
             pMap = new HashMap<>();
+            // 기존 포인트 - 사용포인트 + 적립금
             mem_point = mem_point - used_point;
             pMap.put("mem_id", mem_id);
             pMap.put("mem_point", mem_point);
@@ -96,10 +102,23 @@ public class PaymentService {
             session.setAttribute("member", member);
         }
 
-        // *(해야할 것)주문한 상품의 재고 감소
+        // (6)주문한 상품의 재고 감소
+        List<Map<String, Object>> productList = new ArrayList<>();
+        Map<String, Object> productMap = null;
+        /* 상품 재고 감소. 상풍 반품 및 취소시 sort는 plus 이다. */
+        for(int i = 0; i < paymentDto.getP_no().length; i++){
+            productMap = new HashMap<>();
+            int p_count = paymentDto.getP_count()[i];
+            int p_no = paymentDto.getP_no()[i];
+            productMap.put("p_count", p_count);
+            productMap.put("p_no", p_no);
+            productList.add(productMap);
+        }
 
-        // *(해야할 것) 장바구니에서 제거
+        productDao.updateProductCount(productList);
 
+        // (7) 장바구니에서 제거
+        cartDao.deleteAfterPayCart(paymentDto);
 
     }
     /**************************** 결제 후 주문 상품 상세내역 조회 ************************************/
@@ -228,7 +247,7 @@ public class PaymentService {
     	}
     	// (2) 관리자가 반품 거절을 해주었을 경우 
     	else {
-    		pMap.put("order_status", "배송완료");
+    		pMap.put("order_status", "반품 거절");
     	}
     	paymentDao.updateOrderStatus(pMap); // TB_MEMPAYMENTDETAIL에서의 상태 변경
     }

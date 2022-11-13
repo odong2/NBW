@@ -65,6 +65,20 @@
         border-top: solid 2px rgba(0,0,0,1);
 
     }
+    #orderContainer{
+        height: 300px;
+        border: 1px solid rgba(153,153,153,0.7);
+        border-radius: 20px;
+        width: 80%;
+        margin:auto;
+    }
+    #orderContainer span{
+        display: inline-block;
+        height: 100%;
+        margin-top: 130px;
+        color: rgba(153,153,153,0.8);
+    }
+
     .order-list{
         margin-right: 40px;
         border-top: solid 1px rgba(153,153,153,0.5);
@@ -79,10 +93,11 @@
         border-color: #a52834;
         width:80px;
     }
-    .order-list #returnBtn{
+    .order-list .returnBtn{
         background-color: white;
-        color: #5055b1;
+        color: #a52834;
         font-size: 0.9rem;
+        border-color: #a52834;
         width:80px;
     }
     .order-list #detailBtn{
@@ -97,7 +112,7 @@
         font-weight: bold;
     }
     .order-status-red{
-        color: red;
+        color: #f77b00;
         font-weight: bold;
     }
     .order-status-blue{
@@ -113,7 +128,7 @@
     }
     #payBackBtn:hover,
     #detailBtn:hover,
-    #returnBtn:hover{
+    .returnBtn:hover{
         background-color: #5055b120;
     }
     .modal-body span{
@@ -222,6 +237,7 @@
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
     <section class="container-fluid mt-4">
         <ul>
+        <c:if test="${not empty orderList}">
         <c:forEach var="order" items="${orderList}">
             <%-- == 한 주문번호에 상품 여러개면 하나로 묶기 ==--%>
             <c:if test="${empty preOrderNo || preOrderNo ne order.order_no }">
@@ -240,7 +256,10 @@
                     <div class="col-2 text-center align-self-center"><span class="product-price"><fmt:formatNumber value="${order.p_price * order.p_count}" type="number"/>원</span></div>
                     <div class="col-1 text-center align-self-center">
                         <c:choose>
-                            <c:when test="${order.order_status eq '취소' or order.order_status eq '반품'}">
+                            <c:when test="${order.order_status eq '반품'}">
+                                        <span class="order-status-blue">반품 신청</span>
+                            </c:when>
+                            <c:when test="${order.order_status eq '환불' || order.order_status eq '반품 거절' || order.order_status eq '취소'}">
                                 <span class="order-status-red"><c:out value="${order.order_status}"/></span>
                             </c:when>
                             <c:when test="${order.order_status eq '상품 준비중'}">
@@ -249,12 +268,15 @@
                             <c:when test="${order.order_status eq '배송완료'}">
                                 <span class="order-status-blue"><c:out value="${order.order_status}"/></span>
                             </c:when>
+
                         </c:choose>
                     </div>
                     <div class="col-3 flex-column text-center align-self-center">
                     <c:choose>
-                        <c:when test="${order.order_status eq '배송 완료'}">
-                        <div><button type="button" id="returnBtn" class="btn btn-primary col-4 mb-2">반품</button></div>
+                        <c:when test="${order.order_status eq '배송완료'}">
+                        <div><button type="button" class="btn btn-primary col-4 mb-2 returnBtn"
+                                     data-pImg="${order.p_img}" data-pCount="${order.p_count}" data-pTitle="${order.p_title}" data-pPrice="${order.p_price}" data-orderStatus="반품"
+                                     data-pPno="${order.p_no}" data-orderNo="${order.order_no}" data-bs-toggle="modal" data-bs-target="#payBackModal">반품</button></div>
                         </c:when>
                         <c:when test="${order.order_status eq '상품 준비중'}">
                             <div><button type="button" id="payBackBtn" class="btn btn-primary col-4 mb-2"
@@ -271,6 +293,12 @@
                 </div>
             </li>
         </c:forEach>
+        </c:if>
+        <c:if test="${empty orderList}">
+            <div id="orderContainer" class="text-center">
+                <span class="text-center h4">주문 상품이 없습니다</span>
+            </div>
+        </c:if>
         </ul>
     </section>
         <!-- Modal -->
@@ -407,7 +435,7 @@
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>
 <!-- 풋터 끝 -->
-<script type="text/javascript">
+<script>
     /* 결제 반품 및 취소 메시지 보여주는 함수*/
     let showMsg = function (title, content){
 
@@ -429,6 +457,7 @@
     <%-- 모달 이벤트 --%>
     $('#staticBackdrop').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget) // Button that triggered the modal
+
         <%-- button data에서 클릭한 주문번호의 상세내역 데이터 동적 바인딩 --%>
         let pImg = button.attr('data-pImg');
         let pTitle = button.attr('data-pTitle');
@@ -457,8 +486,10 @@
         modal.find('#pTitle').text(pTitle);
         modal.find('#pPrice').text(productPrice);
     })
-    /* 결제취소 모달 */
+
+    /* 결제취소 모달 / 반품 모달 */
     $('#payBackModal').on('show.bs.modal', function (event) {
+
         let button = $(event.relatedTarget) // Button that triggered the modal
         let img = button.attr('data-pImg');
         let pNo = button.attr('data-pPno');
@@ -474,10 +505,16 @@
         modal.find('#pNo').val(pNo);
         modal.find('#orderNo').val(orderNo);
         modal.find('pCount').val(count);
-        modal.find('#img').attr('src',img);
+        modal.find('#img').attr('src', img);
         modal.find('#title').text(title);
         modal.find('#price').text(productPrice);
+        if($(event.relatedTarget).text() == '반품') {
+            modal.find('#payBackModalLabel').text('반품 신청');
+        }
+        else if($(event.relatedTarget).text() == '취소'){
+            modal.find('#payBackModalLabel').text('결제 취소');
 
+        }
     });
 
      /*결제취소 모달에서 결제하기 전송 이벤트*/

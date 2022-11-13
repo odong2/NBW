@@ -61,5 +61,15 @@
 		 WHERE mem_id = #{mem_id}
 		   AND p_no = #{p_no}
 	</delete>
+
+	<!-- 결제 후 장바구니 삭제 -->
+	<delete id="deleteAfterPayCart" parameterType="paymentDto">
+		DELETE tb_memcart
+		WHERE mem_id = #{mem_id}
+		  AND p_no in
+		<foreach collection="p_no" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
 	
 </mapper>

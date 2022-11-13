@@ -109,22 +109,25 @@
   <body>
     <div id="notfound">
       <div class="notfound">
-        <div class="notfound-404">
-            <img
-                class="img-profile rounded-circle"
-                src="/images/emoji.png"
-                position="absolute"
-                left=" 0";
-                top=" 0";
-                display=" inline-block"
-                width=" 140px"
-                height="140px"
-                background-size=" cover"
-        /></div>
-        <h1>404</h1>
-        <h2>Oops! Page Not Be Found</h2>
-        <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>
-        <a href="#">Back to homepage</a>
+<%--        <div class="notfound-404">--%>
+<%--            <img--%>
+<%--                class="img-profile rounded-circle"--%>
+<%--                src="/images/emoji.png"--%>
+<%--                position="absolute"--%>
+<%--                left=" 0";--%>
+<%--                top=" 0";--%>
+<%--                display=" inline-block"--%>
+<%--                width=" 140px"--%>
+<%--                height="140px"--%>
+<%--                background-size=" cover"--%>
+<%--        /></div>--%>
+          <p>
+              ${error}
+          </p>
+<%--        <h1>404</h1>--%>
+<%--        <h2>Oops! Page Not Be Found</h2>--%>
+<%--        <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>--%>
+<%--        <a href="#">Back to homepage</a>--%>
       </div>
     </div>
   </body>

@@ -191,5 +191,13 @@
 				</choose>
 				)
 	</select>
-	
+
+	<!-- 결제 후 상품 수량 감소 -->
+	<update id="updateProductCount" parameterType="java.util.List" >
+		<foreach collection="list" item="item" index="index" open="DECLARE BEGIN" separator=";" close="; END;">
+			UPDATE 	tb_product
+			SET	p_count = p_count - #{item.p_count} WHERE 	p_no = #{item.p_no}
+
+		</foreach>
+	</update>
 </mapper>
