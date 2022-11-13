@@ -8,6 +8,8 @@
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
   />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <meta name="description" content="" />
   <meta name="author" content="" />
   <script src="/ckeditor5-35.2.0/build/ckeditor.js"></script>
@@ -132,10 +134,10 @@
             </td>
           </tr>
           <tr>
-            <td class="j_infod_today">행사기간<a class="j_infod_sym">*</a>
+            <td class="j_infod_today">행사날짜<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_today" colspan="2">
-              <input type="text" id="ev_today" name="ev_today" class="j_infod_input" >
+              <input id="ev_today" name="ev_today" class="j_infod_input datepicker" autocomplete="off">
             </td>
           </tr>
           <tr>
@@ -273,6 +275,28 @@
             }
           }
         }
+      </script>
+      <script>
+        <%-- ================================= DatePicker =================================== --%>
+        // datepicker 클래스 이벤트 - 적정한 옵션을 넣어서 초기화 시켜 준다. 기본 datepicker()로 사용 가능
+        $(".datepicker").datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+          monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ]
+        });
+
+        // datepicker 클래스 이벤트
+        var now = new Date();
+        var startYear = now.getFullYear();
+        var yearRange = (startYear - 120) +":" + startYear ;
+        // datepicker - 초기값으로 셋팅하는 방법을 사용하면 2번째는 무시 당한다.
+        //원래 있던 datepicker에 option을 추가하는 방법이다.
+        $( ".datepicker" ).datepicker("option", {
+          "maxDate" : new Date(),
+          yearRange: yearRange
+        });
       </script>
     </main>
     <!-- Footer -->

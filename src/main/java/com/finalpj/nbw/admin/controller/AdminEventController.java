@@ -86,10 +86,11 @@ public class AdminEventController {
     }
     /***************** [[관리자 이벤트 신청자 거절] ***************/
     @PostMapping("/personn")
-    public String adminEventPersonN (EventMember eventMember, Model m, RedirectAttributes rattr) {
+    public String adminEventPersonN (EventMember eventMember, Integer ev_no, Model m, RedirectAttributes rattr) {
         log.info("adminEventPersonN 컨트롤러 호출");
     try {
         eventService.adminEventPersonN(eventMember);// mem_status N로 변경
+        eventService.updateStatusN(ev_no);
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -97,11 +98,12 @@ public class AdminEventController {
     }
     /***************** [[관리자 이벤트 신청자 승인] ***************/
     @PostMapping("/persony")
-    public String adminEventPersonY (EventMember eventMember, RedirectAttributes rattr) {
+    public String adminEventPersonY (EventMember eventMember, Integer ev_no, RedirectAttributes rattr) {
         log.info("adminEventPersonY 컨트롤러 호출");
         try {
             eventService.adminEventPersonY(eventMember); // mem_status Y로 변경
             int result2 = eventService.updatePersonY(eventMember); // 신청자수 +1
+            eventService.updateStatusY(ev_no);
             log.info(result2);
         } catch (Exception e) {
             e.printStackTrace();

@@ -39,5 +39,6 @@ public interface EventDao {
     /***************************** 관리자 이벤트 수정 ***************************/
     int adminModify(Event event) throws Exception;
     /***************************** 이벤트 상태 업데이트 ************************/
-    int updateStatus(Integer ev_no) throws Exception;
+    int updateStatusY(Integer ev_no) throws Exception; // 이벤트 모집 마감
+    int updateStatusN(Integer ev_no) throws Exception;// 이벤트 모집중
 }

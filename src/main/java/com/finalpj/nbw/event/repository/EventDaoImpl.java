@@ -126,9 +126,15 @@ public class EventDaoImpl implements EventDao {
     }
 
     /****************************** [[이벤트 상태 변경]] *******************************/
+    // EV_STATUS = Y : 이벤트 상태 = 마감
     @Override
-    public int updateStatus(Integer ev_no) throws Exception {
-        return sqlSession.update(namespace+"updateStatus", ev_no);
+    public int updateStatusY(Integer ev_no) throws Exception {
+        return sqlSession.update(namespace+"updateStatusY", ev_no);
+    }
+    // EV_STATUS = N : 이벤트 상태 = 모집중
+    @Override
+    public int updateStatusN(Integer ev_no) throws Exception {
+        return sqlSession.update(namespace+"updateStatusN", ev_no);
     }
 
     /************************** [[조건검색 결과 게시물 개수]] ****************************/

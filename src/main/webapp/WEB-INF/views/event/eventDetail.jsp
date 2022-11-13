@@ -364,6 +364,7 @@
             location.href = "<c:url value='/event/list'/>";
          })
         $('#addbtn').on("click", function (){
+            if(!confirm("신청 하시겠습니까?")) return;
             alert("이벤트 신청 완료");
             <%--location.href = "<c:url value='/event/add'/>";--%>
             <%--attr("action", "<c:url value="/event/add"/>");--%>

@@ -101,10 +101,16 @@ public class EventService {
         eventDao.adminEventPersonN(eventMember);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public int updateStatusN (Integer ev_no) throws Exception{
+        log.info("이벤트 상태 모집중으로 변경");
+        return eventDao.updateStatusN(ev_no);
+    }
+
     /******************************* [[ 관리자 이벤트 신청자 승인 ]] *******************************/
     @Transactional(rollbackFor = Exception.class)
     public void adminEventPersonY (EventMember eventMember) throws Exception{
-        log.info("서비스 Event 신청자 거절 호출");
+        log.info("서비스 Event 신청자 승인 호출");
         eventDao.adminEventPersonY(eventMember);
     }
 
@@ -114,6 +120,11 @@ public class EventService {
         return eventDao.updatePersonY(eventMember);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public int updateStatusY (Integer ev_no) throws Exception{
+        log.info("이벤트 상태 마감으로 변경");
+        return eventDao.updateStatusY(ev_no);
+    }
 
     /********************************* [[관리자 이벤트 삭제]] **************************************/
     @Transactional(rollbackFor = Exception.class)
@@ -136,13 +147,7 @@ public class EventService {
     public int eventAdd(EventMember eventMember, Integer ev_no) throws Exception{
         log.info("서비스 event 작성 호출 성공");
         int result = 0; // 이벤트 신청
-//        int result2 = 0; // 참석인원
-        int result3 = 0; // 답변 상태   마감 or 처리중
         result = eventDao.eventAdd(eventMember);
-        if(result == 1){
-//            result2 = eventDao.updateEvPeople(eventMember);
-            result3 = eventDao.updateStatus(ev_no);
-        }
         return result;
     }
 

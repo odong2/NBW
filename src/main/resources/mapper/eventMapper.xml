@@ -3,6 +3,62 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.finalpj.nbw.event.dao.EventMapper">
+
+    <!--========================================== [[ 관리자페이지 신청한 회원 조회 ]] ===============================-->
+    <select id="adminPerson" parameterType="int" resultType="eventMemberDto">
+        SELECT e.ev_no, m.mem_name, m.mem_email, m.mem_gender, m.mem_phone, m.mem_birthday, m.mem_id
+        FROM tb_member m, tb_event e
+        WHERE ev_no = #{ev_no} AND mem_id in (
+            SELECT mem_id FROM TB_MEMBEREVENT
+            WHERE ev_no = #{ev_no})
+    </select>
+    <!--========================================== [[ 관리자페이지 신청한 회원 거절 ]] ===============================-->
+    <update id="adminEventPersonN" parameterType="eventMemberDto">
+        UPDATE tb_memberevent
+        SET mem_status = 'N'
+        WHERE ev_no = #{ev_no} AND mem_id = #{mem_id}
+    </update>
+
+
+    <!--========================================== [[ 관리자페이지 신청한 회원 승인 ]] ===============================-->
+    <!-- id와 no번호가 같을때 mem_status 상태를 Y(승인)로 변경한다. -->
+    <update id="adminEventPersonY" parameterType="eventMemberDto">
+        UPDATE tb_memberevent
+        SET mem_status = 'Y'
+        WHERE ev_no = #{ev_no} AND mem_id = #{mem_id}
+    </update>
+    <!-- 신청 수 +1 -->
+    <!-- no번호가 같을때 nowpeople을 +1 한다. -->
+    <update id="updatePersonY" parameterType="eventMemberDto" >
+        UPDATE TB_EVENT
+        SET EV_NOWPEOPLE = EV_NOWPEOPLE+1
+        WHERE ev_no = #{ev_no} AND  ev_people - ev_nowpeople > 0
+    </update>
+    <!--============================================ [[ 관리자 이벤트 삭제 ]] ==========================================-->
+    <delete id="adminEventDelete" parameterType="int">
+        DELETE FROM tb_event WHERE ev_no = #{ev_no}
+    </delete>
+
+    <!--============================================ [[ 관리자 이벤트 등록 ]] ==========================================-->
+    <insert id="eventInsert" parameterType="eventDto">
+        INSERT INTO TB_EVENT (
+                               ev_no, ev_title, ev_content, ev_file, ev_start
+                             , ev_end, ev_people, ev_target
+                             , ev_place, ev_time, ev_today, ev_phone, ev_img
+        )
+        VALUES (SEQ_EV_NO.NEXTVAL, #{ev_title}, #{ev_content}, #{ev_file, jdbcType=VARCHAR}, #{ev_start}
+               , #{ev_end}, #{ev_people}, #{ev_target}
+               , #{ev_place}, #{ev_time}, #{ev_today}, #{ev_phone}, #{ev_img, jdbcType=VARCHAR})
+    </insert>
+    <!--============================================ [[ 관리자 이벤트 수정 ]] ==========================================-->
+    <update id="adminModify" parameterType="eventDto">
+        UPDATE TB_EVENT
+        SET  ev_title = #{ev_title}, ev_content = #{ev_content}, ev_file = #{ev_file, jdbcType=VARCHAR}, ev_start = #{ev_start},
+             ev_end = #{ev_end}, ev_people = #{ev_people}, ev_target = #{ev_target},
+             ev_place = #{ev_place}, ev_time = #{ev_time}, ev_today = #{ev_today}, ev_phone = #{ev_phone}
+        WHERE ev_no = #{ev_no}
+    </update>
+
     <!--======================================= [[ 이벤트리스트 전체 조회 ]] ======================================-->
     <select id="eventSelectAll" resultType="eventDto">
         SELECT ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start, ev_end, ev_people
@@ -36,56 +92,6 @@
         WHERE mem_id = #{mem_id}
     </select>
 
-    <!--========================================== [[ 관리자페이지 신청한 회원 조회 ]] ===============================-->
-    <select id="adminPerson" parameterType="int" resultType="eventMemberDto">
-        SELECT e.ev_no, m.mem_name, m.mem_email, m.mem_gender, m.mem_phone, m.mem_birthday, m.mem_id
-        FROM tb_member m, tb_event e
-        WHERE ev_no = #{ev_no} AND mem_id in (
-            SELECT mem_id FROM TB_MEMBEREVENT
-            WHERE ev_no = #{ev_no})
-    </select>
-    <!--========================================== [[ 관리자페이지 신청한 회원 거절 ]] ===============================-->
-    <update id="adminEventPersonN" parameterType="eventMemberDto">
-        UPDATE tb_memberevent
-        SET mem_status = 'N'
-        WHERE ev_no = #{ev_no} AND mem_id = #{mem_id}
-    </update>
-    <!--========================================== [[ 관리자페이지 신청한 회원 승인 ]] ===============================-->
-    <update id="adminEventPersonY" parameterType="eventMemberDto">
-        UPDATE tb_memberevent
-        SET mem_status = 'Y'
-        WHERE ev_no = #{ev_no} AND mem_id = #{mem_id}
-    </update>
-<!-- 신청 수 +1 -->
-    <update id="updatePersonY" parameterType="eventMemberDto" >
-        UPDATE TB_EVENT
-        SET EV_NOWPEOPLE = EV_NOWPEOPLE+1
-        WHERE ev_no = #{ev_no}
-    </update>
-    <!--============================================ [[ 관리자 이벤트 삭제 ]] ==========================================-->
-    <delete id="adminEventDelete" parameterType="int">
-        DELETE FROM tb_event WHERE ev_no = #{ev_no}
-    </delete>
-
-    <!--============================================ [[ 관리자 이벤트 등록 ]] ==========================================-->
-    <insert id="eventInsert" parameterType="eventDto">
-        INSERT INTO TB_EVENT (
-                             ev_no, ev_title, ev_content, ev_file, ev_start
-                           , ev_end, ev_people, ev_target
-                           , ev_place, ev_time, ev_today, ev_phone, ev_img
-                            )
-        VALUES (SEQ_EV_NO.NEXTVAL, #{ev_title}, #{ev_content}, #{ev_file, jdbcType=VARCHAR}, #{ev_start}
-             , #{ev_end}, #{ev_people}, #{ev_target}
-             , #{ev_place}, #{ev_time}, #{ev_today}, #{ev_phone}, #{ev_img, jdbcType=VARCHAR})
-    </insert>
-    <!--============================================ [[ 관리자 이벤트 수정 ]] ==========================================-->
-    <update id="adminModify" parameterType="eventDto">
-        UPDATE TB_EVENT
-        SET  ev_title = #{ev_title}, ev_content = #{ev_content}, ev_file = #{ev_file, jdbcType=VARCHAR}, ev_start = #{ev_start},
-            ev_end = #{ev_end}, ev_people = #{ev_people}, ev_target = #{ev_target},
-            ev_place = #{ev_place}, ev_time = #{ev_time}, ev_today = #{ev_today}, ev_phone = #{ev_phone}
-        WHERE ev_no = #{ev_no}
-    </update>
     <!--============================================ [[ 이벤트 신청 ]] ==========================================-->
     <insert id="eventAdd" parameterType="eventDto">
         INSERT INTO TB_MEMBEREVENT (ev_no, mem_id)
@@ -97,10 +103,16 @@
             )
     </insert>
     <!--============================================ [[ 이벤트 마감 변경 ]] ==========================================-->
-    <update id="updateStatus" parameterType="int">
+    <!-- EV_STATUS = Y 마감                EV_STATUS = N 모집중 -->
+    <update id="updateStatusY" parameterType="int">
     UPDATE tb_event
     SET EV_STATUS = 'Y'
     where ev_no = #{ev_no} and ev_people - ev_nowpeople = 0
+    </update>
+    <update id="updateStatusN" parameterType="int">
+        UPDATE tb_event
+        SET EV_STATUS = 'N'
+        where ev_no = #{ev_no} and ev_people - ev_nowpeople > 0
     </update>
 
 </mapper>
