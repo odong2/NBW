@@ -35,6 +35,7 @@ public class SearchCondition {
                 .queryParam("keyword", keyword)
                 .build().toString();
     }
+    
     /* 조건검색 결과 페이징 */
     public String getQueryString(){
         // ?page=1&option=T&keyword="title"

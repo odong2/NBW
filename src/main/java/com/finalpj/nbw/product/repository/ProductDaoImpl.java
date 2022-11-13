@@ -102,7 +102,48 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Review> SelectReviewList(String p_no) {
-		return sqlSession.selectList(namespace+"SelectReviewList",p_no);
+	public List<Review> SelectReviewList(Map<String,Object> map) {
+		return sqlSession.selectList(namespace+"SelectReviewList",map);
+	}
+
+
+	@Override
+	public int getReviewTotalCnt(String p_no) {
+		return sqlSession.selectOne(namespace+"getReviewTotalCnt",p_no);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getReviewListMap(Map<String, Object> pageMap) {
+		return sqlSession.selectList(namespace+"getReviewListMap",pageMap);
+	}
+
+
+	@Override
+	public Review getMemberReview(Map<String, Object> memberMap) {
+		return sqlSession.selectOne(namespace+"getMemberReview",memberMap);
+	}
+
+
+	@Override
+	public int reviewUpdate(Review review) {
+		return sqlSession.update(namespace+"reviewUpdate",review);
+	}
+
+
+	@Override
+	public int reviewDelete(Review review) {
+		return sqlSession.delete(namespace+"reviewDelete",review);
+	}
+
+	@Override
+	public void reviewCountDelete(Review review) {
+		sqlSession.update(namespace+"reviewCountDelete", review);
+	}
+
+
+	@Override
+	public List<Product> getBestProducts(Map<String, Object> map) {
+		return sqlSession.selectList(namespace+"getBestProducts",map);
 	}
 }

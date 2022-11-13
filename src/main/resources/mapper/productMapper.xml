@@ -7,9 +7,103 @@
 		FROM TB_PRODUCT WHERE p_no = #{value}
 	</select>
 	
- 	<select id="SelectReviewList" parameterType="String" resultType="review">
-		SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
-		FROM TB_REVIEW WHERE P_NO = #{value}
+ 	<select id="SelectReviewList" parameterType="map" resultType="review">
+        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        FROM TB_REVIEW WHERE P_NO = #{p_no}
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
+	</select>
+	
+	 <select id="getReviewListMap" parameterType="map" resultType="map">
+        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        FROM TB_REVIEW WHERE P_NO = #{p_no}
+                    ) a
+                )
+        WHERE <![CDATA[#{offset} < rnum  and rnum <= #{offsetTo}]]>
+	</select>
+	
+	<select id="getMemberReview" parameterType="map" resultType="review">
+		SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+                FROM(
+                    SELECT ROWNUM as rnum, a.*  FROM (
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        FROM TB_REVIEW WHERE P_NO = #{p_no} AND MEM_ID = #{mem_id}
+                    ) a
+                )
+        WHERE rnum = 1
+	</select>
+	
+	<update id="reviewUpdate" parameterType="review">
+		<choose>
+		    <when test="fileSize == 1">
+				UPDATE TB_REVIEW 
+				SET RV_CONTENT = #{rv_content}, RV_SCORE = #{rv_score}, RV_DATE = SYSDATE, RV_IMG = #{rv_image}
+				WHERE RV_CONTENT = (
+					SELECT RV_CONTENT
+					 FROM(
+						SELECT ROWNUM as rnum, RV_CONTENT FROM (
+							SELECT RV_CONTENT FROM TB_REVIEW WHERE P_NO = #{p_no} AND MEM_ID = #{mem_id}
+							)
+					)WHERE rnum = 1)
+		    </when>
+		    <when test="fileSize == 2">
+				UPDATE TB_REVIEW 
+				SET RV_CONTENT = #{rv_content}, RV_SCORE = #{rv_score}, RV_DATE = SYSDATE, RV_IMG = #{rv_image}, RV_IMG2 = #{rv_image2}
+				WHERE RV_CONTENT = (
+					SELECT RV_CONTENT
+					 FROM(
+						SELECT ROWNUM as rnum, RV_CONTENT FROM (
+							SELECT RV_CONTENT FROM TB_REVIEW WHERE P_NO = #{p_no} AND MEM_ID = #{mem_id}
+							)
+					)WHERE rnum = 1)
+		    </when>
+		    <when test="fileSize == 3">
+				UPDATE TB_REVIEW 
+				SET RV_CONTENT = #{rv_content}, RV_SCORE = #{rv_score}, RV_DATE = SYSDATE, RV_IMG = #{rv_image}, RV_IMG2 = #{rv_image2}, RV_IMG3 = #{rv_image3}
+				WHERE RV_CONTENT = (
+					SELECT RV_CONTENT
+					 FROM(
+						SELECT ROWNUM as rnum, RV_CONTENT FROM (
+							SELECT RV_CONTENT FROM TB_REVIEW WHERE P_NO = #{p_no} AND MEM_ID = #{mem_id}
+							)
+					)WHERE rnum = 1)
+		    </when>
+		    <otherwise>
+				UPDATE TB_REVIEW 
+				SET RV_CONTENT = #{rv_content}, RV_SCORE = #{rv_score}, RV_DATE = SYSDATE
+				WHERE RV_CONTENT = (
+					SELECT RV_CONTENT
+					 FROM(
+						SELECT ROWNUM as rnum, RV_CONTENT FROM (
+							SELECT RV_CONTENT FROM TB_REVIEW WHERE P_NO = #{p_no} AND MEM_ID = #{mem_id}
+							)
+					)WHERE rnum = 1)
+		    </otherwise>
+		</choose>
+	</update>
+	
+	<delete id="reviewDelete" parameterType="review">
+		DELETE FROM TB_REVIEW
+		WHERE P_NO = #{p_no}
+		AND MEM_ID = #{mem_id}
+		AND RV_CONTENT = #{rv_content}
+		AND RV_SCORE = #{rv_score}
+	</delete>
+	
+	<select id="getBestProducts" parameterType="map" resultType="product">
+		SELECT ROWNUM, P_NO, P_TITLE, P_PUBLISHER, P_PRICE, P_IMG FROM (
+		    SELECT P_NO, P_TITLE, P_PUBLISHER, P_PRICE, P_IMG FROM TB_PRODUCT
+		    WHERE P_CATEGORY = ( SELECT P_CATEGORY FROM TB_PRODUCT WHERE P_NO = #{p_no} )
+		    AND NOT P_NO = #{p_no}
+		    ORDER BY P_REVIEW DESC
+		) WHERE <![CDATA[ROWNUM < #{count}]]>
 	</select>
 	
 	<!-- ===================================== 공통부분 ===================================== -->
@@ -72,6 +166,13 @@
 		WHERE P_NO = #{p_no}
 	</update>
 	
+	<update id="reviewCountDelete" parameterType="review">
+		UPDATE TB_PRODUCT
+		SET P_REVIEW = P_REVIEW - 1,
+		P_AVGSCORE = (SELECT SUM(RV_SCORE) FROM TB_REVIEW WHERE P_NO = #{p_no}) / (SELECT COUNT(RV_SCORE) FROM TB_REVIEW WHERE P_NO = #{p_no})
+		WHERE P_NO = #{p_no}
+	</update>
+	
 	<insert id="reviewInsert" parameterType="review">
   		<choose>
 		    <when test="fileSize == 1">
@@ -96,6 +197,16 @@
 		    </otherwise>
 		</choose>
 	</insert>
+	
+	<select id="getReviewTotalCnt" resultType="int" parameterType="String">
+		SELECT count(*)
+        FROM(
+                SELECT ROWNUM as rnum, a.*  FROM (
+                     SELECT MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3 FROM TB_REVIEW
+                     WHERE P_NO = #{value}
+                 ) a
+            )
+	</select>
 	
 	<!-- ================================== 상품 목록 조회 > 페이징 포함 ================================== -->
 	<select id="selectProduct"  resultType="product">

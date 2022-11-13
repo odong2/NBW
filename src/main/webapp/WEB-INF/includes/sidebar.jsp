@@ -64,10 +64,7 @@
                             <span>커뮤니티 활동</span>
                         </li>
                         <li class="side-link">
-                            <a href="#"> 좋아요 상품</a>
-                        </li>
-                        <li class="side-link">
-                            <a href="#"> 작성리뷰</a>
+                            <a href="/mypage/history"> 상품 이력</a>
                         </li>
                         <li class="side-link">
                             <a href="#"> 내가 남긴 댓글</a>

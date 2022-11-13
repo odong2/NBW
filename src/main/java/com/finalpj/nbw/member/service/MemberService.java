@@ -90,5 +90,4 @@ public class MemberService {
     public boolean existLike(Map<String, Object> map) {
     	return memberDao.existLike(map);
     }
-
 }

@@ -18,7 +18,7 @@
                         >
                     </li>
                     <li class="nav-item">
-                        <a href="/logout" class="text-decoration-none px-3 border-end rounded-0"
+                        <a id="logout" href="#" class="text-decoration-none px-3 border-end rounded-0"
                         >로그아웃</a
                         >
                     </li>
@@ -139,6 +139,10 @@
 <hr style="border: 1px #1d1d6a;">
 <!-- 스크립트 -->
 <script type="text/javascript">
+	let url =  document.location.href.substring(16);
+	
+	$('#logout').attr('href','/logout?url='+url);
+
     /* ----------------------------------- [[ 검색>메인검색창 유효성 검사]] ----------------------------------*/
     $("#button-addon2").on('click', function(e){
         let keyword = $.trim($("input[name='keyword']").val());
@@ -187,4 +191,3 @@
         border-radius: 50px;
     }
 </style>
-

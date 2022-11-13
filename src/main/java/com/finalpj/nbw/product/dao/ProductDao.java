@@ -37,10 +37,22 @@ public interface ProductDao {
 	int updateProductCount(List<Map<String, Object>> productList) throws Exception; // 결제 후 상품 재고 감소 (writer : 민준)
 	void reviewCountUpdate(Review review);
 
+	void reviewCountDelete(Review review);
+	
 	void reviewInsert(Review review);
 	
-	List<Review> SelectReviewList(String p_no);
+	List<Review> SelectReviewList(Map<String,Object> map);
 
+	int getReviewTotalCnt(String p_no);
 
+	List<Map<String, Object>> getReviewListMap(Map<String, Object> pageMap);
+
+	Review getMemberReview(Map<String, Object> memberMap);
+
+	int reviewUpdate(Review review);
+
+	int reviewDelete(Review review);
+	
+	List<Product> getBestProducts(Map<String,Object> map);
 }
 

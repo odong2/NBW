@@ -29,6 +29,7 @@
 	        padding:0;
 	        margin:0;
 	    }
+	    
 	    .sidebar span{
 	        font-size: 1rem;
 	    }
