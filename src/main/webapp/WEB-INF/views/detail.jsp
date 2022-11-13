@@ -553,6 +553,7 @@ main {
 						console.log(result);
 						if(result.success){
 							msg(result.msg);
+							reviewPage(1);
 							modify_cancel(result.review);
 						}else {
 							msg(result.msg);
@@ -604,7 +605,7 @@ main {
 		let rv_imgs = [];
 		
 		$(document).ready(function(){			
-			reviewPage(1);
+			reviewPage(now_page);
 			imgAppend();
 		})
 		
