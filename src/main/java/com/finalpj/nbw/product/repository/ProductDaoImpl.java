@@ -99,4 +99,16 @@ public class ProductDaoImpl implements ProductDao {
 	public List<Review> SelectReviewList(String p_no) {
 		return sqlSession.selectList(namespace+"SelectReviewList",p_no);
 	}
+
+	/* 상품 수정 */
+	@Override
+	public int updateProduct(Product product) throws Exception {
+		return sqlSession.update(namespace+"updateProduct", product);
+	}
+
+	/* 상품 삭제 */
+	@Override
+	public int deleteProduct(Integer p_no) throws Exception {
+		return sqlSession.update(namespace+"deleteProduct", p_no);
+	}
 }

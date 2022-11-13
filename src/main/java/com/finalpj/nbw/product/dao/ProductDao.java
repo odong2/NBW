@@ -40,6 +40,12 @@ public interface ProductDao {
 	
 	List<Review> SelectReviewList(String p_no);
 
+	/* 상품 수정 */
+	int updateProduct(Product product) throws Exception;
+
+	/* 상품 삭제 */
+	int deleteProduct(Integer p_no) throws Exception;
+
 
 }
 
