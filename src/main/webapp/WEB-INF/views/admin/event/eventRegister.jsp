@@ -17,15 +17,23 @@
   <title>관리자 이벤트 등록</title>
   <style>
     /*********************** 글꼴 **************************/
+    /** {*/
+    /*  border: 1px solid red;*/
+    /*}*/
     @font-face {
-      font-family: 'GangwonEdu_OTFBoldA';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+      font-family: 'InfinitySans-RegularA1';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
       font-weight: normal;
       font-style: normal;
     }
-    body {
-      font-family: GangwonEdu_OTFBoldA;}
+
+    *{
+      font-family: 'InfinitySans-RegularA1';
+    }
     /*********************** 글꼴 **************************/
+    main {
+      color: black;
+    }
     .title {
       margin-top: 15px;
     }
@@ -39,6 +47,12 @@
       display: flex;
       flex-wrap: wrap;
       margin-top: 20px;
+      margin-left: 30px;
+    }
+    #j_infod_table {
+      margin-left: 30px;
+      font-weight: bold;
+      font-size: 17px;
     }
     #writeBtn {
       background-color: #d119fe;
@@ -69,7 +83,7 @@
       height: 400px;
     }
     .ck-content {
-      font-size: 20px;
+      font-size: 30px;
       color: black;
     }
 
@@ -137,7 +151,7 @@
             <td class="j_infod_today">행사날짜<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_today" colspan="2">
-              <input id="ev_today" name="ev_today" class="j_infod_input datepicker" autocomplete="off">
+              <input id="ev_today" name="ev_today" class="j_infod_input" autocomplete="off">
             </td>
           </tr>
           <tr>
@@ -151,9 +165,9 @@
             <td class="j_infod_titl">접수기간<a class="j_infod_sym">*</a>
             </td>
             <td class="j_infod_start" colspan="2">
-              <input type="text" id="ev_start" name="ev_start" class="j_infod_input">
+              <input id="ev_start" name="ev_start" class="j_infod_input" autocomplete="off">
               ~
-              <input type="text" id="ev_end" name="ev_end" class="j_infod_input">
+              <input id="ev_end" name="ev_end" class="j_infod_input" autocomplete="off">
             </td>
           </tr>
           <tr>
@@ -187,7 +201,7 @@
           </tbody>
         </table>
       </div>
-        <h6 class="contentpart">이벤트 글</h6>
+        <h6 class="contentpart"></h6>
             <textarea type="text" class="text-dark" name="ev_content" id="editor"></textarea>
           </div>
       <div class="sendbtn">
@@ -279,7 +293,27 @@
       <script>
         <%-- ================================= DatePicker =================================== --%>
         // datepicker 클래스 이벤트 - 적정한 옵션을 넣어서 초기화 시켜 준다. 기본 datepicker()로 사용 가능
-        $(".datepicker").datepicker({
+        $("#ev_today").datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+          monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+          minDate: 0
+        });
+
+        // datepicker 클래스 이벤트
+        var now = new Date();
+        var startYear = now.getFullYear();
+        var yearRange = (startYear - 120) +":" + startYear ;
+        // datepicker - 초기값으로 셋팅하는 방법을 사용하면 2번째는 무시 당한다.
+        //원래 있던 datepicker에 option을 추가하는 방법이다.
+        $( ".datepicker" ).datepicker("option", {
+          "maxDate" : new Date(),
+          yearRange: yearRange
+        });
+
+        $("#ev_start").datepicker({
           changeMonth: true,
           changeYear: true,
           dateFormat: "yy-mm-dd",
@@ -297,6 +331,27 @@
           "maxDate" : new Date(),
           yearRange: yearRange
         });
+
+        $("#ev_end").datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+          monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+          minDate: 0
+        });
+
+        // datepicker 클래스 이벤트
+        var now = new Date();
+        var startYear = now.getFullYear();
+        var yearRange = (startYear - 120) +":" + startYear ;
+        // datepicker - 초기값으로 셋팅하는 방법을 사용하면 2번째는 무시 당한다.
+        //원래 있던 datepicker에 option을 추가하는 방법이다.
+        $( ".datepicker" ).datepicker("option", {
+          "maxDate" : new Date(),
+          yearRange: yearRange
+        });
+
       </script>
     </main>
     <!-- Footer -->

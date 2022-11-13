@@ -15,14 +15,19 @@
     <style>
         /*********************** 글꼴 **************************/
         @font-face {
-            font-family: 'GangwonEdu_OTFBoldA';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+            font-family: 'InfinitySans-RegularA1';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
             font-weight: normal;
             font-style: normal;
         }
-        body {
-            font-family: GangwonEdu_OTFBoldA;}
+
+        *{
+            font-family: 'InfinitySans-RegularA1';
+        }
         /*********************** 글꼴 **************************/
+        main {
+            color: black;
+        }
         .title {
             margin-top: 15px;
         }
