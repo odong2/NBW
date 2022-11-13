@@ -23,6 +23,9 @@
         body {
             font-family: GangwonEdu_OTFBoldA;}
         /*********************** 글꼴 **************************/
+        main {
+            color: black;
+        }
         .title {
             margin-top: 15px;
         }
@@ -39,12 +42,12 @@
             margin-top: 5px;
         }
         .picturepeople {
-            margin-left: 30px;
+            margin-left: 50px;
             margin-right: 40px;
         }
         .classimg {
-            width: 180px;
-            height: 260px;
+            width: 210px;
+            height: 290px;
         }
         .receiving {
             width: 62px;
@@ -71,7 +74,9 @@
             color: #ff0000;
         }
         .bodycontent {
-            margin-left: 10px;
+            margin-left: 50px;
+            font-size: 20px;
+            font-weight: bold;
         }
         .playpeople {
             display: inline-flex;
@@ -233,7 +238,7 @@
                             </div>
                             <br />
                             <div class="phone">
-                                <div>문의전회&nbsp;:&nbsp;</div>
+                                <div>문의전화&nbsp;:&nbsp;</div>
                                 <div style="color: #7c7c7c">${eventSelect.ev_phone}</div>
                             </div>
                             <br />
