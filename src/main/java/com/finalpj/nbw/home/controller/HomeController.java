@@ -33,6 +33,7 @@ public class HomeController {
         List<Product> list = productService.searchProduct(criteria);
         model.addAttribute("homeList", list);
         log.info(" 최신 상품 ====> "+ list);
+
         return "/home";
     }
 }
