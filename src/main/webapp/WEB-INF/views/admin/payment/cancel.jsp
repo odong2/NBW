@@ -10,7 +10,10 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <%@include file="/WEB-INF/includes/common.jsp" %>
+    <%-- bootstrap-css--%>
+	<link href="/bootstrap-5.0.2-dist/css/bootstrap.css" rel="stylesheet"/>
+	<%-- bootstrap-js--%>
+	<script src="/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자 메인페이지</title>
     <style type="text/css">

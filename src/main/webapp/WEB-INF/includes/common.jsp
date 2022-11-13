@@ -24,5 +24,5 @@
 
 <link href="/commoncss/footer.css" rel="stylesheet" type="text/css"/>
 <link href="/commoncss/header.css" rel="stylesheet" type="text/css"/>
-<!-- <link href="/commoncss/font.css" rel="stylesheet" type="text/css"/> -->
-<!-- <link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" /> -->
+<link href="/commoncss/font.css" rel="stylesheet" type="text/css"/>
+<link href="/commoncss/sidebar.css" rel="stylesheet" type="text/css" />
