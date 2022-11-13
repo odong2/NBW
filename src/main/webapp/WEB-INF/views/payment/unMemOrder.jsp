@@ -119,7 +119,7 @@
             <tr class="prdList">
               <td class="d-flex align-items-center col-8 ms-2">
                 <div class="productImg-box mb-4">
-                  <img id="prdImg" src=<c:out value="${product.p_img}"/> class="product-img"/>
+                  <img id="prdImg" src=<c:out value="${product.p_img}"/>class="product-img"/>
                 </div>
                 <div class="prdTitle-box ms-3 col-12">
                     <span class="prdTitle">

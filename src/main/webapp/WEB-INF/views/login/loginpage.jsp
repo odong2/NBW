@@ -106,7 +106,7 @@
           <div class="tab-pane fade" id="list-order">
             <form
               class="d-flex flex-column mb-3"
-              action="/login"
+              action="/"
               method="post"
             >
               <label>주문자명</label>
@@ -114,24 +114,22 @@
               	id="orderName"
                 type="text"
                 class="form-control mb-1"
-                name=""
+                name="order_name"
                 placeholder="주문자명을 입력해 주세요."
               />
-              <label>휴대폰 번호</label>
+              <label>주문 비밀번호</label>
               <input
-              	id="orderPhone"
                 type="text"
                 class="form-control mb-1"
-                id="floatingPassword"
-                name=""
-                placeholder="휴대폰 번호를 입력해 주세요."
+                id="orderPassword"
+                name="order_pw"
+                placeholder="비밀번호를 입력해 주세요."
               />
               <label>주문번호</label>
               <input
               	id="orderNo"
                 type="text"
                 class="form-control mb-1"
-                id="floatingInput"
                 name=""
                 placeholder="주문번호를 입력해 주세요."
               />
