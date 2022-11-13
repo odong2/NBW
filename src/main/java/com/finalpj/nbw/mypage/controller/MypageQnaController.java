@@ -43,7 +43,7 @@ public class MypageQnaController {
         model.addAttribute("qnaSelectIngAll", qnaSelectIngAll);
         model.addAttribute("qnaSelectFinishAll", qnaSelectFinishAll);
         log.info("컨트롤러 타고 있습니다... 제발22222");
-        return "mypage/Qna/qnaList";
+        return "mypage/qna/qnaList";
     }
     /***************************** [[QNA 디테일 페이지]] *******************************/
     @GetMapping("detail")
@@ -57,7 +57,7 @@ public class MypageQnaController {
             log.info(qna);
         } catch (Exception e) {
         }
-        return "mypage/Qna/qnaDetail";
+        return "mypage/qna/qnaDetail";
     }
 
     /************************************ [[QNA 삭제 페이지]] *********************************/
@@ -79,7 +79,7 @@ public class MypageQnaController {
     /*********************************** [[Qna 작성]] ***************************************/
     @GetMapping("write")
     public String qnaWrite(Model m) {
-    return "mypage/Qna/qna";
+    return "mypage/qna/qna";
     }
     /*********************************** [[Qna 작성]] ***************************************/
     @PostMapping("/write")
