@@ -57,7 +57,7 @@
             width: 40px;
             height: 40px;
             text-align: center;
-            padding-top: 8px;
+            padding-top: 8px;s
             padding-right: 13px;
             border-radius: 20px;
             border: 1px #6b6969 solid;
@@ -125,7 +125,8 @@
                 <div class="row" style="padding: 10px 10px;">
                     <div class="row" id="product_list" >
                         <div class="col-3">
-                            <a href="/product/<c:out value="${list.getP_no()}"/>"> <img alt=""  width="150px" src="${list.getP_img()}" style="border-radius: 5px;"/></a>
+<%--                            <c:set var="URL" value="${pageContext.request.requestURL}" />--%>
+                            <a href="/product/<c:out value="${list.getP_no()}"/>"> <img alt="" width="150px" src='${list.getP_img()}' style="border-radius: 5px;"/></a>
                         </div>
                         <div class="col">
                             <div class="row"><p style="font-weight: bolder"><a href="/product/<c:out value="${list.getP_no()}"/>">${list.getP_title()}</a></p></div>
