@@ -266,7 +266,7 @@ public class ProductController {
 
 			Cookie cookie = new Cookie("recent_product", cookieValue);
 			cookie.setMaxAge(60 * 60 * 24);
-			cookie.setPath("/product/");
+			cookie.setPath("/");
 			response.addCookie(cookie);
 			
 		} else { // 만들어둔 쿠키가 있을 경우
@@ -314,7 +314,7 @@ public class ProductController {
 			cookieValue = URLEncoder.encode(st.toString(), "UTF-8");
 			Cookie cookie = new Cookie("recent_product", cookieValue);
 			cookie.setMaxAge(60 * 60 * 24);
-			cookie.setPath("/product/"); 
+			cookie.setPath("/"); 
 			response.addCookie(cookie);
 		}
 	}
@@ -326,7 +326,7 @@ public class ProductController {
 		if(cookie != null) { // 쿠키가 존재할 경우 값을 모두 삭제
 			cookie.setValue("");
 			cookie.setMaxAge(0);
-			cookie.setPath("/product/");
+			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 	}
@@ -350,7 +350,7 @@ public class ProductController {
 				System.out.println("완전삭제");
 				cookie.setValue("");
 				cookie.setMaxAge(0);
-				cookie.setPath("/product/");
+				cookie.setPath("/");
 				response.addCookie(cookie);
 			} else {
 				cookieList.remove(product);
@@ -374,7 +374,7 @@ public class ProductController {
 				// 클릭한 상품과 기존 쿠키값을 합친 뒤 인코딩해서 쿠키에 저장해준뒤 내려
 				cookieValue = URLEncoder.encode(st.toString(), "UTF-8");
 				cookie.setValue(cookieValue);
-				cookie.setPath("/product/"); 
+				cookie.setPath("/"); 
 				response.addCookie(cookie);
 			}
 		}

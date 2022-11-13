@@ -898,8 +898,11 @@ main {
 					p_no : '${product.p_no}',
 					p_title : '${product.p_title}',
 					p_author : '${product.p_author}',
+					p_publisher : '${product.p_publisher}',
+					p_pubdate : '${product.p_pubdate}',
 					p_price : '<fmt:formatNumber value="${product.p_price}"/>',
-					p_img : '${product.p_img}'
+					p_img : '${product.p_img}',
+					p_category : '${product.p_category}',
 				}
 			
 			// 클릭한 상품정보를 서버로 보내서 쿠키에 담음
@@ -912,7 +915,6 @@ main {
 					let cookie = $.cookie('recent_product');
 					let cookieArray = cookie.split("'");
 					let array = JSON.parse(cookieArray);
-					
 					addRecentProduct(array);
 				},
 				error : function(data, textStatus) {
