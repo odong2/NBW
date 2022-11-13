@@ -122,8 +122,8 @@
               data-parent="#accordionSidebar"
             >
               <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="buttons.html">글 등록</a>
-                <a class="collapse-item" href="cards.html">신청자 관리</a>
+                <a class="collapse-item" href="/admin/event/write">글 등록</a>
+                <a class="collapse-item" href="/admin/event/list">행사 관리</a>
               </div>
             </div>
           </li>

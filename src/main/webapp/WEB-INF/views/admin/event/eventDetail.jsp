@@ -23,6 +23,9 @@
         body {
             font-family: GangwonEdu_OTFBoldA;}
         /*********************** 글꼴 **************************/
+        main {
+            color: black;
+        }
         .title {
             margin-top: 15px;
         }
@@ -39,12 +42,12 @@
             margin-top: 5px;
         }
         .picturepeople {
-            margin-left: 30px;
+            margin-left: 50px;
             margin-right: 40px;
         }
         .classimg {
-            width: 146px;
-            height: 225px;
+            width: 210px;
+            height: 290px;
         }
         .receiving {
             width: 62px;
@@ -71,7 +74,9 @@
             color: #ff0000;
         }
         .bodycontent {
-            margin-left: 10px;
+            margin-left: 50px;
+            font-size: 20px;
+            font-weight: bold;
         }
         .playpeople {
             display: inline-flex;
@@ -174,7 +179,7 @@
         <!-- Main Content -->
         <main class="container-fluid">
             <div class="title">
-                <h4>${eventSelect.ev_title}</h4>
+                <h4 style="color: red; margin-top: 5px;">${eventSelect.ev_title}</h4>
                 <button id="updBtn" type="button"  class="btn btn-outline-primary">
                         수정하기
                 </button>
@@ -189,11 +194,13 @@
                         <!-- 이미지 사진 시작 -->
                         <img
                                 class="classimg"
-                                src="${eventSelect.ev_img}"/>
+                                src="/admin/event/display/${eventSelect.ev_img}"/>
                         <!-- 이미지 사진 끝 -->
                         <div class="picking">
                             <span class="receiving">접수중</span>
-                            <span class="receivingpeople">${eventSelect.ev_people-eventSelect.ev_nowpeople}</span>
+                            <span class="receivingpeople">
+                                ${eventSelect.ev_people-eventSelect.ev_nowpeople}
+                            </span>
                         </div>
                     </div>
                     <!-- 왼쪽 그림 끝 -->
@@ -205,7 +212,9 @@
                         <div class="bodycontent">
                             <div class="playpeople">
                                 <div>대상&nbsp;:&nbsp;</div>
-                                <div style="color: #7c7c7c">${eventSelect.ev_target}</div>
+                                <div style="color: #7c7c7c">
+                                    ${eventSelect.ev_target}
+                                </div>
                             </div>
                             <br />
                             <div class="playplace">
@@ -229,13 +238,16 @@
                             </div>
                             <br />
                             <div class="phone">
-                                <div>문의번호&nbsp;:&nbsp;</div>
+                                <div>문의전화&nbsp;:&nbsp;</div>
                                 <div style="color: #7c7c7c">${eventSelect.ev_phone}</div>
                             </div>
                             <br />
                             <div class="recruitment">
                                 <div>모집정원&nbsp;:&nbsp;</div>
-                                <div style="color: #7c7c7c">${eventSelect.ev_people}</div>
+                                <div style="color: #7c7c7c">
+                                    ${eventSelect.ev_people}
+                                        <span style="color: red">(신청:${eventSelect.ev_nowpeople})</span>
+                                </div>
                             </div>
                             <br />
                             <div class="recruitment">
@@ -247,26 +259,26 @@
                                         <c:when test="${fn:contains(file, '.hwp')}">
                                             <img src="/images/hwp.png" width="25px"/>
                                             <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
-                                                <c:out value="${eventSelect.ev_filename}"/>
+                                                &nbsp;<c:out value="${eventSelect.ev_filename}"/>
                                             </a>
                                         </c:when>
                                         <%-- 엑셀일 경우 파일일 경우 --%>
                                         <c:when test="${fn:contains(file, '.xlsx')}">
                                             <img src="/images/xlsx.png" width="20px"/>
                                             <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
-                                                <c:out value="${eventSelect.ev_filename}"/>
+                                                &nbsp;<c:out value="${eventSelect.ev_filename}"/>
                                             </a>
                                         </c:when>
                                         <%-- pdf일 경우 파일일 경우 --%>
                                         <c:when test="${fn:contains(file, '.pdf')}">
                                             <img src="/images/pdf.png" width="23px"/>
                                             <a href="/admin/event/download?fileName=${eventSelect.ev_file}">
-                                                <c:out value="${eventSelect.ev_filename}"/>
+                                                &nbsp;<c:out value="${eventSelect.ev_filename}"/>
                                             </a>
                                         </c:when>
                                         <c:otherwise>
                                             <a  href="/admin/event/download?fileName=${eventSelect.ev_file}">
-                                                <c:out value="${eventSelect.ev_filename}"/>
+                                                &nbsp;<c:out value="${eventSelect.ev_filename}"/>
                                             </a>
                                         </c:otherwise>
                                     </c:choose>

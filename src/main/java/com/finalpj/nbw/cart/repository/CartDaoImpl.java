@@ -3,6 +3,7 @@ package com.finalpj.nbw.cart.repository;
 import java.util.List;
 import java.util.Map;
 
+import com.finalpj.nbw.payment.domain.Payment;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -74,7 +75,12 @@ public class CartDaoImpl implements CartDao {
 		log.info("Dao에서 deleteCart호출");
 		sqlSession.delete(namespace+"deleteCart",pMap);
 	}
-	
+
+	@Override
+	public int deleteAfterPayCart(Payment paymentDto) throws Exception {
+		return sqlSession.delete(namespace + "deleteAfterPayCart", paymentDto);
+	}
+
 	@Override
 	public int insertCart(Product productVO) throws Exception {
 		// TODO Auto-generated method stub

@@ -85,8 +85,8 @@
             float: left;
         }
         .classimg {
-            width: 146px;
-            height: 225px;
+            width: 180px;
+            height: 260px;
         }
         .receiving {
             width: 62px;
@@ -108,7 +108,7 @@
         .bookname {
             margin-left: 10px;
             margin-bottom: 8px;
-            font-size: 20px;
+            font-size: 25px;
             font-weight: bold;
             color: #ff0000;
         }
@@ -151,18 +151,21 @@
             margin-bottom: 3px;
         }
         .buttonpick {
-            margin-top: 5px;
-            margin-bottom: 5px;
+            /*margin-top: 5px;*/
+            /*margin-bottom: 5px;*/
             width: 100%;
             display: flex;
             justify-content: center;
         }
         #listBtn {
             margin: 0 5px;
-            padding: 0 19px;
+            width: 100px;
+            height: 50px;
         }
         #addBtn {
             margin: 0 5px;
+            width: 100px;
+            height: 50px;
         }
         /************************* [[댓글]] **************************/
 
@@ -198,7 +201,7 @@
                     src="${eventSelect.ev_img}"/>
             <!-- 이미지 사진 끝 -->
             <div class="picking">
-                <span class="receiving">접수중</span>
+                <span class="receiving">${eventSelect.ev_status}</span>
                 <span class="receivingpeople">
                     ${eventSelect.ev_people-eventSelect.ev_nowpeople}
                 </span>
@@ -228,14 +231,14 @@
                 <div class="studyday">
                     <span>행사기간&nbsp;:&nbsp;</span>
                     <span style="color: #7c7c7c">
-                        ${event.ev_today}
+                        ${eventSelect.ev_today}
                     </span>
                 </div>
                 <br />
                 <div class="studytime">
                     <div>시간&nbsp;:&nbsp;</div>
                     <span style="color: #7c7c7c">
-                        ${event.ev_time}
+                        ${eventSelect.ev_time}
                     </span>
                 </div>
                 <br />
@@ -249,7 +252,7 @@
                 </div>
                 <br />
                 <div class="phone">
-                    <span>문의번호&nbsp;:&nbsp;</span>
+                    <span>문의전화&nbsp;:&nbsp;</span>
                     <span style="color: #7c7c7c">
                         ${eventSelect.ev_phone}
                     </span>
@@ -258,7 +261,7 @@
                 <div class="recruitment">
                     <span>모집정원&nbsp;:&nbsp;</span>
                     <span style="color: #7c7c7c">
-                        ${eventSelect.ev_people}
+                        ${eventSelect.ev_people}명&nbsp;<span style="color: red">(신청:${eventSelect.ev_nowpeople})</span>
                     </span>
                 </div>
                 <br />
@@ -309,12 +312,12 @@
     </ul>
     <hr />
     <div class="buttonpick">
-        <button type="button" class="btn btn-secondary btn-lg" id="listBtn">
+        <button id="listBtn" type="button"  class="btn btn-outline-secondary">
             목록
         </button>
         <form action="/event/add" method="post">
             <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
-        <button type="submit" id="addBtn"  class="btn btn-primary btn-lg">
+        <button type="submit" id="addBtn"  class="btn btn-outline-success">
             신청하기
         </button>
         </form>
@@ -361,6 +364,7 @@
             location.href = "<c:url value='/event/list'/>";
          })
         $('#addbtn').on("click", function (){
+            if(!confirm("신청 하시겠습니까?")) return;
             alert("이벤트 신청 완료");
             <%--location.href = "<c:url value='/event/add'/>";--%>
             <%--attr("action", "<c:url value="/event/add"/>");--%>

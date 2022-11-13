@@ -115,7 +115,7 @@ public class PaymentController {
 
         return "redirect:/payment/pay/" + order_no;
     }
-    /************************* 주문 결제후 주문상세 페이지***************************/
+    /************************* 주문 결제후 주문상세 페이지 ***************************/
     @GetMapping("pay/{order_no}")
     public String resultPay(@PathVariable String order_no, HttpSession session, Model m){
         Member member = (Member)session.getAttribute("member");

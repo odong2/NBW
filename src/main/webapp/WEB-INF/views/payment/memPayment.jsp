@@ -153,7 +153,7 @@
     }
     .paymentInfo-area {
         border: solid 1px #d8d8d8;
-        height: 270px;
+        height: 350px;
         padding: 15px;
         border-radius: 5px;
         margin-bottom: 5px;
@@ -245,6 +245,9 @@
         height: 60px;
         display: none;
         font-weight: bold;
+    }
+    #gradeDiscount{
+        color: #f77b00;
     }
 </style>
 </head>
@@ -348,6 +351,7 @@
                     <input name="mem_email" value="${member.mem_email}" type="hidden"/>
                     <input name="mem_name" value="${member.mem_name}" type="hidden"/>
                     <input name="mem_point" value="${member.mem_point}" type="hidden"/>
+<%--                    <input name="pointReserve" value="${productPrice * (member.g_discount * 0.01)}"  type="hidden"/>--%>
                     <input name="used_point"  value="0" type="hidden"/>
                     <input name="total_price" value="${productPrice + deliveryPrice - gradeDiscount}" type="hidden"/>
                     <input name="cp_no" value="0" type="hidden"/>
@@ -521,7 +525,7 @@
                                         <span>상품금액</span>
                                     </div>
                                     <div class="col-4 text-end px-2">
-                                        <span id="prd-price"><fmt:formatNumber type="number" value="${productPrice}"/></span>
+                                        <span id="prd-price"><fmt:formatNumber type="number" value="${productPrice}"/> 원</span>
                                     </div>
                                 </div>
                             </li>
@@ -535,11 +539,11 @@
                                             <%-- 주문 상품이 20000원을 넘을 경우 배송비 무료 --%>
                                             <c:when test="${productPrice ge 20000}">
                                                 <c:set  var= "deliveryPrice" value="0"/>
-                                                <span id="delivery-price"><c:out value="0"/>원</span>
+                                                <span id="delivery-price"><c:out value="0"/> 원</span>
                                             </c:when>
                                             <c:when test="${productPrice lt 20000}">
                                                 <c:set  var= "deliveryPrice" value="2500"/>
-                                                <span id="delivery-price"><c:out value="2500"/>원</span>
+                                                <span id="delivery-price"><fmt:formatNumber type="number" value="2500"/> 원</span>
                                             </c:when>
                                         </c:choose>
                                     </div>
@@ -548,33 +552,49 @@
                             <li class="mb-3">
                                 <div class="d-flex pay">
                                     <div class="col-8 payLabel">
-                                        <span>등급할인</span>
+                                        <span>회원가 할인</span>
                                     </div>
                                     <div class="col-4 text-end px-2">
-                                        <c:set var="gradeDiscount" value="2000"/>
-                                        <span id="gradeDiscount">-2,000원</span>
+                                        <c:set var="gradeDiscount" value="${productPrice * 0.1}"/>
+                                        <span id="gradeDiscount">-<fmt:formatNumber type="number" value="${gradeDiscount}"/></span>
+                                        <span> 원</span>
                                     </div>
                                 </div>
                             </li>
                             <li class="mb-3">
                                 <div class="d-flex pay">
                                     <div class="col-8 payLabel">
-                                        <span>쿠폰할인</span>
+                                        <span>쿠폰 할인</span>
                                     </div>
                                     <div class="col-4 text-end px-2">
-                                        <span id="couponDiscount">0원</span>
+                                        <span id="couponDiscount">0</span>
+                                        <span> 원</span>
                                     </div>
                                 </div>
                             </li>
                             <li class="mb-3">
                                 <div class="d-flex pay">
                                     <div class="col-8 payLabel">
-                                        <span>포인트사용</span>
+                                        <span>포인트 사용</span>
                                     </div>
                                     <div class="col-4 text-end px-2">
                                         <span id="pointDiscount">
-                                            <fmt:formatNumber value="0" type="number" />원
+                                            <fmt:formatNumber value="0" type="number" />
                                         </span>
+                                        <span> 원</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex pay">
+                                    <div class="col-8 payLabel">
+                                        <span>예상 적립금</span>
+                                    </div>
+                                    <div class="col-4 text-end px-2">
+                                        <span id="pointReserve">
+                                            <fmt:formatNumber value="${productPrice * (member.g_discount * 0.01)}" type="number" />
+                                        </span>
+                                        <span> 원</span>
                                     </div>
                                 </div>
                             </li>
@@ -586,7 +606,7 @@
                                     </div>
                                     <div class="col-4 text-end px-2">
                                         <span id="paymentPrice">
-                                            <fmt:formatNumber value="${productPrice + deliveryPrice - gradeDiscount}" type="number" />원
+                                            <fmt:formatNumber value="${productPrice + deliveryPrice - gradeDiscount}" type="number" /><span>원</span>
                                         </span>
                                     </div>
                                 </div>
@@ -694,7 +714,8 @@
         if(btnChek != 'cancle') {
             $('#usePoint').val(memPoint);
             pointDiscount = parseInt('${member.mem_point}');
-            pointDiscountNum  = memPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원"
+            pointDiscountNum  = memPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            $('#pointDiscount').css('color', '#f77b00');
             $('#pointDiscount').text('-' + pointDiscountNum);
             $('#memPoint').text(0);
             $('#pointBtn').text('사용 취소');
@@ -711,7 +732,8 @@
         else{
             $('#usePoint').val(0);
             $('#memPoint').text(memPoint);
-            $('#pointDiscount').text('0원');
+            $('#pointDiscount').text('0');
+            $('#pointDiscount').css('color', '');
             $('#pointBtn').text('모두 사용');
             $('#pointBtn').css('background-color', '#5055b1');
             $('#pointBtn').removeAttr('btn');
@@ -750,11 +772,13 @@
         let useInputVal =  $('#usePoint').val();
         if(useInputVal == null || useInputVal == 0){
             $("#usePoint").val(0);
-            $('#pointDiscount').text(pointDiscount + '원');
+            $('#pointDiscount').text(pointDiscount);
+            $('#pointDiscount').css('color', '');
         }
         else{
+        $('#pointDiscount').css('color', '#f77b00');
         pointDiscount = parseInt(useInputVal);
-        $('#pointDiscount').text('-' + pointDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+        $('#pointDiscount').text('-' + pointDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
         }
         paymentPrice = paymentPrice - pointDiscount + beforePoint;
         paymentPriceText = paymentPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
@@ -772,9 +796,12 @@
         couponDiscount = 0;
         if(value == "0"){
             couponDiscount = 0;
-            $('#couponDiscount').text(couponDiscount + '원');
+            $('#couponDiscount').text(couponDiscount);
+            $('#couponDiscount').css('color', '');
         }
         else{
+            /* 글씨색 변경 */
+            $('#couponDiscount').css('color', '#f77b00');
             /* (1) 선택된 쿠폰 */
             let couponText = $("#couponSelect option:checked").text();
             /* (2) 쿠폰의 가격을 들고 오기위해 index 값을 얻어 substring. ex) 브론즈회원 쿠폰(-1000원) */
@@ -782,7 +809,7 @@
             let endPoint = couponText.indexOf(')');
             /* (3) 선택한 쿠폰가격을 couponDiscount(전역변수)에 초기화 */
             couponDiscount = parseInt(couponText.substring(startPoint+2, endPoint-1)); // 쿠폰 가격
-            couponDiscountText = couponDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
+            couponDiscountText = couponDiscount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             /* (4) 쿠폰 할인에 선택한 쿠폰의 할인 금액 쓰기 */
             $('#couponDiscount').text('-'+ couponDiscountText);
         }

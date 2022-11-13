@@ -12,6 +12,7 @@
             <typeAlias alias="searchCondition" type="com.finalpj.nbw.notice.domain.SearchCondition"/>
             <typeAlias alias="member" type="com.finalpj.nbw.member.domain.Member"/>
             <typeAlias alias="eventDto" type="com.finalpj.nbw.event.domain.Event"/>
+            <typeAlias alias="eventMemberDto" type="com.finalpj.nbw.event.domain.EventMember"/>
             <typeAlias alias="eventCommentDto" type="com.finalpj.nbw.event.domain.EventComment"/>
             <typeAlias alias="product" type="com.finalpj.nbw.product.domain.Product"/>
             <typeAlias alias="categoryFilter" type="com.finalpj.nbw.product.domain.CategoryFilter"/>
