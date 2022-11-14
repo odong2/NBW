@@ -46,7 +46,13 @@
             margin-right: 40px;
             margin-left: 40px;
         }
+
+        #searchMyCouponBtn{
+            height: 40px;
+        }
+
         #cpWrtBtn{
+            height: 40px;
             background-color: rgba(0,0,0,0.5);
             border: none;
         }
@@ -57,21 +63,9 @@
         #productHeader h5{
             font-size: 1.1rem;
         }
-        .modal-section{
-            border-radius: 5px;
-        }
-        .product-img{
-            width: 70px;
-            margin-left:20px;
-        }
-        .product-header{
+        .div-line{
             margin-right: 40px;
-            border-top: solid 2px rgba(0,0,0,1);
-
-        }
-        .order-list{
-            margin-right: 40px;
-            border-top: solid 1px rgba(153,153,153,0.5);
+            border-bottom: solid 1px rgba(153,153,153,0.5);
         }
         .order-list span{
             font-size: 0.9rem;
@@ -112,15 +106,6 @@
             text-decoration: none;
             font-size: 0.9rem;
         }
-        .product-price{
-            font-weight: bold;
-        }
-        #payBackBtn:hover,
-        #detailBtn:hover,
-        #returnBtn:hover{
-            background-color: #5055b120;
-        }
-
         .modal-body span{
             font-size: 1rem;
         }
@@ -154,12 +139,7 @@
             width:50%;
         }
         #couponZipSection{
-            border-top: 1px solid rgba(153,153,153,0.5);
             padding-top: 30px;
-
-        }
-        #downTitle{
-
         }
         .toast-container{
             z-index: 100;
@@ -182,6 +162,20 @@
             <h5>Coupon</h5>
         </div>
         <section>
+            <div class="mb-3">
+                <h5>쿠폰 조회</h5>
+            </div>
+            <div class="d-flex mb-5">
+                <div class="col-3 btn-box">
+                    <input type="button" id="searchMyCouponBtn" class="btn btn-sm btn-outline-primary"
+                           data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="보유 쿠폰 조회"/>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="mb-3">
+                <h5>쿠폰 등록</h5>
+            </div>
             <div class="d-flex mb-5">
                 <div class="col-4">
                     <input class=" form-control" id="cpNoInput" type="text" placeholder="쿠폰번호를 입력하세요" val=""/>
@@ -192,8 +186,8 @@
             </div>
         </section>
 
-         <div>
-            <h5 id="downTitle">쿠폰 다운로드</h5>
+         <div class="div-line">
+            <h5 id="downTitle" class="mb-3">쿠폰 다운로드</h5>
         </div>
         <section class="d-flex flex-wrap" id="couponZipSection">
             <%-- 다운로드 쿠폰 리스트가 들어가는 section --%>
@@ -210,6 +204,36 @@
                 <div class="toast-body" id="msgContent"></div>
             </div>
         </section>
+            <!-- Modal -->
+            <section class="modal fade rounded-3" id="staticBackdrop" data-bs-backdrop="static"
+                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <section class="modal-data">
+                                <h6 class="title mb-2">보유중인 쿠폰</h6>
+                                <hr/>
+                                <div class="d-flex mb-2 px-2">
+                                    <div class="col-3  align-self-center">상품</div>
+                                    <div class="col-5  ms-5 align-self-center">제목</div>
+                                    <div class="col-2  align-self-center">금액</div>
+                                </div>
+                                <div class="d-flex mb-4">
+                                    <div class="col-3  align-self-center"><img src="" id="pImg"></div>
+                                    <div class="col-6  align-self-center"><p id="pTitle" class="me-2 mt-3"></p></div>
+                                    <div class="col-2  align-self-center"><span id="pPrice"></span></div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-mBtn" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Launch demo modal
+            </button>
     </main>
     <%-- ==================== 메인 끝 ==================--%>
 </section>
@@ -252,6 +276,7 @@
                 'font-weight': 'bord',
                 'color' : ' #5055b1'
             })
+
         }else if(cp_no < 17){
             $('#cpWrtBtn').attr('disabled', 'disabled');
             $('#cpWrtBtn').css({
@@ -274,7 +299,6 @@
         }
     }
 
-
     /* 쿠폰 등록 이벤트 */
     $('#cpWrtBtn').click(()=>{
         let cp_no = $('#cpNoInput').val();
@@ -285,7 +309,6 @@
             requestDownCp(cp_no);
         }
     })
-
 
 
     /* 쿠폰 리스트 조회 Ajax */
@@ -316,7 +339,7 @@
                 </div>
                 <div class="col-10 d-flex justify-content-center mt-2">
                     <button type="button"
-                    class="btn btn-secondary col-7" disabled data-cpNo="<c:out value="${'${couponNo}'}"/>">이미받은 쿠폰</button>
+                    class="btn btn-secondary col-7" disabled data-cpNo="<c:out value="${'${couponNo}'}"/>">지급된 쿠폰</button>
                 </div>
             </div>
             `
@@ -345,6 +368,9 @@
 
         }
 
+    /* 보유중인 쿠폰 조회 */
+    $('#searchMyCouponBtn').click(()=>{
+    })
 
     /* 이미 등록한 쿠폰인지 체크하는 Ajax */
     let checkCpNo = (cp_no)=>{
@@ -379,7 +405,7 @@
                     $(button).attr('disabled', true);
                     $(button).removeClass('btn-primary');
                     $(button).addClass('btn-secondary');
-                    $(button).text('이미받은 쿠폰');
+                    $(button).text('지급된 쿠폰');
                 }
                 /* input창에 쿠폰을 등록 했을 경우 */
                 else{
@@ -394,6 +420,7 @@
             },
         });
     }
+
 </script>
 </body>
 </html>

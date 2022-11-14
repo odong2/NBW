@@ -11,6 +11,7 @@
 <script src="/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
 <%--fontawesome--%>
 <script src="/fontawesome-free-5.15.4/js/all.min.js"></script>
+<script src="/commonjs/header.js"></script>
 <%-- jstl formating tags--%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%-- jstl core tags--%>
