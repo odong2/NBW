@@ -481,7 +481,7 @@ main {
 		    	$('#rv_body').empty();
 		    	$('#rv_body').append(reviewBackup);
 		    	rv_imgs = [];
-	    		$('#contentUpdate').text(rv_content.trim());
+	    		$('#contentUpdate').text(rv_content.replaceAll('<br>','\r\n'));
 	    		$('#scoreUpdate').text(getStar(rv_score));
 	    		
 	    		$('#imgUpdate-box').empty();
@@ -528,7 +528,7 @@ main {
 		/* 리뷰 수정 요청 */
 		let modify_submmit = () => {			
 			let rv_score = $('#modify_reviewPoint').text();
-			let rv_content = $('#modify_content').val();
+			let rv_content = $('#modify_content').val().replace(/\n/g,'<br>');
 			let p_no = '${product.getP_no()}';
 			
 			let formData = new FormData();
@@ -697,7 +697,7 @@ main {
 			}else{
 				array.forEach((review, i) => {
 					let mem_nickname = review.MEM_NICKNAME;
-					let rv_content = review.RV_CONTENT;
+					let rv_content = review.RV_CONTENT.replaceAll('<br>','\r\n');
 					let rv_date = review.RV_DATE;
 					let rv_img = review.RV_IMG;
 					let rv_img2 = review.RV_IMG2;
