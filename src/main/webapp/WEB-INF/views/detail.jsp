@@ -485,8 +485,9 @@ main {
 	    		$('#scoreUpdate').text(getStar(rv_score));
 	    		
 	    		$('#imgUpdate-box').empty();
-	    		if(fileNames )
-	    		$('#imgUpdate-box').append('<button type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>')
+	    		
+	    		if(fileNames != null)
+	    			$('#imgUpdate-box').append('<button type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>')
 	 			
 	    		fileNames.forEach((item,i)=>{
 	    			$('#imgUpdate-box').append('<img id="imgUpdate'+i+'" class="me-2 border border-dark" id="reviewImg" alt="" src="/product/images/'+item+'" style="width: 60px; height: 60px;">');
@@ -611,6 +612,9 @@ main {
 		$(document).ready(function(){			
 			reviewPage(now_page);
 			imgAppend();
+			
+			let value = $('#contentUpdate').text();
+			$('#contentUpdate').text(value.replaceAll('<br>','\r\n'));
 		})
 		
 		let imgAppend = () => {
@@ -845,7 +849,7 @@ main {
 			const formData = new FormData();
 			
 			const rv_score = $('#reviewPoint').text();
-			const rv_content = $('#reviewContent').val();
+			const rv_content = $('#reviewContent').val().replace(/\n/g,'<br>');
 			const p_no = '${ product.getP_no() }';
 			
 			formData.append('p_no',p_no);

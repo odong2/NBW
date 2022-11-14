@@ -380,7 +380,8 @@
                     privacyCheck = true;
                 }
                 <c:if test="${ !empty member }">
-                mailCodeCheck = true;
+                	mailCodeCheck = true;
+                	idCheck = true;
                 </c:if>
 
                 /* 최종 유효성 검사 체크 > 모든 것이 참이어야 가입 가능 */
@@ -473,7 +474,7 @@
                         </c:when>
                         <c:otherwise>
                             <input name="mem_id" id="mem_id" required="required" pattern="[A-Za-z0-9]{4,20}" class="form-control"
-                                   autocomplete="off" value="${ member.getMem_id()}" readonly>
+                                   autocomplete="off" value="${ member.getMem_id() }" readonly>
                         </c:otherwise>
                     </c:choose>
                 </div>
