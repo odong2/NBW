@@ -81,30 +81,4 @@ public class CartDaoImpl implements CartDao {
 		return sqlSession.delete(namespace + "deleteAfterPayCart", paymentDto);
 	}
 
-	@Override
-	public int insertCart(Product productVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateCart(Product productVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteCart(Product productVO) throws Exception {
-//		sqlSession.delete("deleteCart",);
-		return 0;
-	}
-
-	@Override
-	public boolean selectProductList(String mem_id, Product productVO) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-
-
 }

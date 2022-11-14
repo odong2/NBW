@@ -17,7 +17,7 @@
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>관리자-문의사항조회</title>
     <style type="text/css">
-    @font-face {
+    	@font-face {
             font-family: 'InfinitySans-RegularA1';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
             font-weight: normal;
@@ -162,6 +162,14 @@
       .menu-active{
       	background-color: #a6c1ee;
       }
+      .total{
+      	width: 90%;
+      	margin: auto;
+      }
+      .explain{
+      	font-size: 14px;
+      	padding: 3px;
+      }
     </style>
   </head>
 <script type="text/javascript">
@@ -197,13 +205,13 @@ $(document).ready(function(){
 	let nowKeyword = params.get("keyword");
 	console.log(nowKeyword);
 	$(function(){
-		if(nowKeyword==null){
+		if(nowKeyword==null || nowKeyword==""){
 			$(".qna-title").text("전체 문의내역");
 			document.querySelector('#allask').style.color = 'black';
 		} else if(nowKeyword=="N"){
 			$(".qna-title").text("처리중인 문의내역");
 			document.querySelector('#Processing').style.color = 'black';
-		} else{
+		} else if(nowKeyword=="Y"){
 			$(".qna-title").text("답변완료한 문의내역");
 			document.querySelector('#finish').style.color = 'black';
 		}
@@ -227,8 +235,15 @@ $(document).ready(function(){
 	   </jsp:include>
         <!-- End of Topbar -->
             <main class="container-fluid mb-3 p-3">
+              <div class="total">
             	<div class="title mb-3">
                   <h5 class="qna-title">전체 문의내역</h5>
+                  <div class="explain">
+                  <span>문의 내역을 관리하는 페이지 입니다. 답변은 해당 문의내용을 확인하고 등록해주세요. 상단 알림을 통해 답변하지 않은 문의내역을 확인할 수 있습니다.
+                  <br><i class="fas fa-sync-alt"></i>는 교환, <i class="fas fa-times"></i>는 반품
+                  , <i class="fas fa-book"></i>는 제품, <i class="fas fa-question"></i>은 기타 문의입니다.
+                  </span>
+                  </div>
                 </div>
                 <br />
                 <!-- 카테고리 목록 -->
@@ -336,6 +351,7 @@ $(document).ready(function(){
 		                </ul>
 		             </nav>
 	            <%-- 전체 문의 --%>
+	          </div>
             </main>
         <!-- Footer -->
 		<%@include file="../../../includes/admin/footer.jsp" %>
