@@ -108,6 +108,7 @@
             <input type="button" value="수정"
                    id="product-up-btn" class="mt-3" style="background-color: #2a3b72; border-radius: 10px; width: 120px; height: 50px; color: white; font-size: large; border: none;"
                    onclick="updateStart(this)"/>
+            <input type="button" value="취소" id="cancel-btn" class="mt-3" style="background-color: #595f76; border-radius: 10px; width: 120px; height: 50px; color: white; font-size: large; border: none;" hidden/>
             <input type="button" value="삭제" id="product-del-exe-btn" class="mt-3" style="background-color: #595f76; border-radius: 10px; width: 120px; height: 50px; color: white; font-size: large; border: none;"/>
             <input type="button" value="완료" id="product-up-exe-btn" onclick="upExe(this)" class="mt-3" style="background-color: #2a3b72; border-radius: 10px; width: 120px; height: 50px; color: white; font-size: large; border: none;" hidden/>
           </div>
@@ -145,6 +146,7 @@
       $('#product-up-btn').attr("hidden", true);
       $('.p_label').attr("hidden", true);
       $('#product-up-exe-btn').attr("hidden", false);
+      $('#cancel-btn').attr("hidden", false);
 
       $('#p_title').attr("hidden", false);
       $('#p_author').attr("hidden", false);
@@ -196,6 +198,11 @@
   } // 수정 upExe 함수 끝
 
   $(function(){
+    $('#cancel-btn').click(function(){
+      if(confirm("수정을 취소하시겠습니까?")){
+        location.reload();
+      }
+    })
     <%-- ================================= DatePicker =================================== --%>
     //datepicker 클래스 이벤트
     var now = new Date();

@@ -42,7 +42,14 @@
     <section class="sidebar">
         <div id="userInfo" class="container-fulid wrapper mb-3">
             <div class="mb-3">
+                <c:choose>
+                    <c:when test = "${empty sessionScope.member.getMem_img()}">
+                        <img src="/images/undefine_img.png" alt="" width="80px" height="80px" style="border-radius: 50%;" />
+                    </c:when>
+                    <c:otherwise>
                         <img src="${sessionScope.member.getMem_img()}" alt="" width="80px" height="80px" style="border-radius: 50%;" />
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="wrapper">
                 <span id="user-name">${sessionScope.member.getMem_name()}님</span>

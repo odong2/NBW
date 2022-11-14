@@ -192,7 +192,7 @@ public class ProductController {
 		jsonObject.put("autocProduct", keywordList);
 
 		String jsonInfo = jsonObject.toString();
-		log.info(jsonInfo);
+//		log.info(jsonInfo);
 		return jsonInfo;
 	}
 
@@ -208,7 +208,7 @@ public class ProductController {
 			int totalCount = productService.getTotalCount(criteria);
 			Pagination pagination = new Pagination(criteria, totalCount);
 			// log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
-			log.info("CRITERIA : " + criteria);
+//			log.info("CRITERIA : " + criteria);
 			model.addAttribute("criteria", criteria);
 
 			model.addAttribute("pagination", pagination);
@@ -217,7 +217,7 @@ public class ProductController {
 
 			model.addAttribute("list", list);
 
-			log.info(productService.getCategoryFilter(criteria).toString());
+//			log.info(productService.getCategoryFilter(criteria).toString());
 			model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
 		} catch (Exception e) {
 			e.printStackTrace();
