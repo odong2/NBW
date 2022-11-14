@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Review {
+	private Integer rv_no;
 	private String mem_id;
 	private String mem_nickname;
 	private String p_no;
