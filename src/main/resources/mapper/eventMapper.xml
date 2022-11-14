@@ -27,18 +27,22 @@
         SET mem_status = 'Y'
         WHERE ev_no = #{ev_no} AND mem_id = #{mem_id}
     </update>
-    <!-- 신청 수 +1 -->
+    <!--========================================== [[ 신청한 회원 +1 ]] ===============================-->
     <!-- no번호가 같을때 nowpeople을 +1 한다. -->
     <update id="updatePersonY" parameterType="eventMemberDto" >
         UPDATE TB_EVENT
         SET EV_NOWPEOPLE = EV_NOWPEOPLE+1
         WHERE ev_no = #{ev_no} AND  ev_people - ev_nowpeople > 0
     </update>
+
     <!--============================================ [[ 관리자 이벤트 삭제 ]] ==========================================-->
     <delete id="adminEventDelete" parameterType="int">
         DELETE FROM tb_event WHERE ev_no = #{ev_no}
     </delete>
-
+    <!--이벤트 신청 정보 삭제-->
+    <delete id="memberEventDelete" parameterType="int">
+        DELETE FROM TB_MEMBEREVENT WHERE ev_no = #{ev_no}
+    </delete>
     <!--============================================ [[ 관리자 이벤트 등록 ]] ==========================================-->
     <insert id="eventInsert" parameterType="eventDto">
         INSERT INTO TB_EVENT (
@@ -55,7 +59,7 @@
         UPDATE TB_EVENT
         SET  ev_title = #{ev_title}, ev_content = #{ev_content}, ev_file = #{ev_file, jdbcType=VARCHAR}, ev_start = #{ev_start},
              ev_end = #{ev_end}, ev_people = #{ev_people}, ev_target = #{ev_target},
-             ev_place = #{ev_place}, ev_time = #{ev_time}, ev_today = #{ev_today}, ev_phone = #{ev_phone}
+             ev_place = #{ev_place}, ev_time = #{ev_time}, ev_today = #{ev_today}, ev_phone = #{ev_phone}, ev_img = #{ev_img, jdbcType=VARCHAR})
         WHERE ev_no = #{ev_no}
     </update>
 
@@ -114,5 +118,11 @@
         SET EV_STATUS = 'N'
         where ev_no = #{ev_no} and ev_people - ev_nowpeople > 0
     </update>
+    <!--============================================ [[ 이벤트 신청 확인 ]] ==========================================-->
+
+    <select id="memberEventCnt" parameterType="eventMemberDto">>
+        select count(*) from TB_MEMBEREVENT
+        where ev_no = #{ev_no} and mem_id = #{mem_id}
+    </select>
 
 </mapper>
