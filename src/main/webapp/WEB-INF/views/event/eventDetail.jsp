@@ -87,7 +87,7 @@
         .img {
             float: left;
         }
-        .classimg {
+        #classImg {
             width: 180px;
             height: 260px;
         }
@@ -208,8 +208,7 @@
         <div class="picturepeople">
             <!-- 이미지 사진 시작 -->
             <img
-                    class="classimg"
-                    src="${eventSelect.ev_img}"/>
+                    id="classImg"/>
             <!-- 이미지 사진 끝 -->
             <div class="picking">
                 <span class="receiving">${eventSelect.ev_status}</span>
@@ -371,6 +370,10 @@
 <script>
 /****************************************************************************************************/
     $(document).ready(function (){
+
+        let fileImg = encodeURI('${eventSelect.ev_img}');
+        $('#classImg').attr('src','/admin/event/display/' + fileImg);
+
          $('#listBtn').on("click", function (){
             location.href = "<c:url value='/event/list'/>";
          })
