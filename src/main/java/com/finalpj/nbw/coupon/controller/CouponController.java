@@ -23,10 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Log4j
 @Controller
@@ -38,6 +35,22 @@ public class CouponController {
         this.couponService = couponService;
 
     }
+
+    /********************************** 회원의 쿠폰 조회 *************************/
+    @GetMapping("/list/member")
+    @ResponseBody
+    public ResponseEntity<List<Coupon>> getMemCouponList(HttpSession session){
+        Member member = (Member)session.getAttribute("member");
+        String mem_id = member.getMem_id();
+        List<Coupon> couponList = new ArrayList<>();
+        try{
+        couponList = couponService.getCouponList(mem_id);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<List<Coupon>>(couponList, HttpStatus.OK);
+    }
+
     /*********************************** 쿠폰 등록 ******************************/
     @PostMapping("/write")
     @ResponseBody

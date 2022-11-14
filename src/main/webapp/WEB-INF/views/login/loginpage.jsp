@@ -2,7 +2,14 @@
 <html>
 <head>
 <%@include file="/WEB-INF/includes/common.jsp" %>
-    <title>Login</title>
+  <title>Login</title>
+  <style>
+    #searchErrorMsg{
+      border-radius: 10px;
+      height: 60px;
+      display: none;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -68,7 +75,7 @@
 	                href="/login/find">아이디/비밀번호 찾기</a>
             </div>
             </form>
-            
+
             <div class="d-flex justify-content-center mb-3" style="height: 45px">
               <a class="" href="${	NaverUrl }">
                 <img
@@ -106,12 +113,11 @@
           <div class="tab-pane fade" id="list-order">
             <form
               class="d-flex flex-column mb-3"
-              action="/"
-              method="post"
+              id="searchOrderForm"
             >
               <label>주문자명</label>
               <input
-              	id="orderName"
+              	id="orderNameInput"
                 type="text"
                 class="form-control mb-1"
                 name="order_name"
@@ -119,29 +125,31 @@
               />
               <label>주문 비밀번호</label>
               <input
-                type="text"
+                type="password"
                 class="form-control mb-1"
-                id="orderPassword"
+                id="orderPwInput"
                 name="order_pw"
                 placeholder="비밀번호를 입력해 주세요."
               />
               <label>주문번호</label>
               <input
-              	id="orderNo"
+              	id="orderNoInput"
                 type="text"
                 class="form-control mb-1"
-                name=""
+                name="order_no"
                 placeholder="주문번호를 입력해 주세요."
               />
 			  <label id="warningLabel2" class="mb-3 text-danger" style="font-size:0.7rem;"></label>
               <button
-                class="w-100 btn btn-lg btn-secondary mb-1"
-                type="submit"
+                id="orderSearchBtn"
+                class="w-100 btn btn-lg btn-outline-secondary mb-1"
+                type="button"
                 style="height: 50px"
               >
                 검색
               </button>
             </form>
+            <div id="searchErrorMsg" class="col-12 mt-2 py-3 text-center alert-danger"></div>
           </div>
         </div>
       </section>
@@ -249,6 +257,37 @@
 		$("#LoginFailMsg").show();
 		$("#LoginFailMsg").delay(500).fadeOut(500);
 	}
+  /* 비회원 주문내역 조회 */
+  $('#orderSearchBtn').click(()=>{
+     let orderName = $('#orderNameInput').val();
+     let orderPw = $('#orderPwInput').val();
+     let orderNo = $('#orderNoInput').val();
+      $.ajax({
+        type: 'GET',
+        url: '/payment/unmem/order',
+        data:{order_name: orderName, order_pw: orderPw, order_no: orderNo},
+        success:(result)=>{
+          console.log(result);
+          /* (1) 주문 내역이 존재*/
+          if(result == 'Y'){
+            location.replace('/payment/pay/' + orderNo);
+            return;
+          }
+          $('#searchOrderForm')[0].reset();
+          /* (2) 주문내역이 존재하지 않음*/
+          let msg = "주문 내역이 없습니다. 확인후 다시 입력하세요."
+          errorMsgPrint(msg);
+        }
+      })
+  });
+
+    // 에러 메시지 출력 함수
+    let errorMsgPrint = function(msg){
+      $('#searchErrorMsg').text(msg);
+      $('#searchErrorMsg').fadeIn(300);
+      $("#searchErrorMsg").delay(1800).fadeOut(500);
+    }
+
 </script>
 </body>
 </html>

@@ -200,6 +200,10 @@ public class PaymentService {
         }
         return payDetailList;
     }
+    /************************************************ 비회원 주문 조회 ***********************************************/
+    public String searchUnMemOrder(Map pMap) throws Exception{
+        return paymentDao.selectUnMemOrder(pMap);
+    }
 
     /********************************** 관리자 페이지에서 조건에 맞는 주문리스트 조회 ***********************************/
     public List<AdminPayment> getAdminPaymentList(String status) throws Exception{
@@ -232,6 +236,7 @@ public class PaymentService {
     public List<Map<String,Object>> getRefundList() throws Exception{
     	return refundDao.selectRefundList();
     }
+
     /********************************** 반품 상태 업데이트 해주기 ***********************************/
     /** 반품 상태 정리하기
      * (1) 반품 승인: TB_MEMREFUND의 refund_status는 '반품 신청'->'환불'로 변경, TB_MEMPAYMENTDETAIL의 order_status는 '반품'->'환불'로 변경
@@ -251,6 +256,7 @@ public class PaymentService {
     	}
     	paymentDao.updateOrderStatus(pMap); // TB_MEMPAYMENTDETAIL에서의 상태 변경
     }
+
     
 }
 

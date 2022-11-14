@@ -112,7 +112,7 @@
         font-weight: bold;
     }
     .order-status-red{
-        color: #f77b00;
+        color: #a52834;
         font-weight: bold;
     }
     .order-status-blue{
@@ -126,10 +126,15 @@
     .product-price{
         font-weight: bold;
     }
-    #payBackBtn:hover,
-    #detailBtn:hover,
-    .returnBtn:hover{
-        background-color: #5055b120;
+
+    .returnBtn:hover,
+    #payBackBtn:hover {
+        color: white;
+        background-color: #a52834;
+    }
+    #detailBtn:hover{
+        color: white;
+        background-color: #5055b1;
     }
     .modal-body span{
         font-size: 1rem;
@@ -185,7 +190,7 @@
                     <span>쿠폰함</span>
                 </div>
                 <div class="text-center mt-1">
-                    <span class="badge bg-primary rounded-pill">1장</span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${member.coupon_count}"/>&nbsp장</span>
                 </div>
             </li>
             <li class="header-list">
@@ -196,7 +201,7 @@
                     <span>배송완료</span>
                 </div>
                 <div class="text-center mt-1">
-                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.COMPLETE_COUNT}"/></span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.COMPLETE_COUNT}"/>&nbsp건</span>
                 </div>
             </li>
             <li class="header-list">
@@ -207,18 +212,18 @@
                     <span>상품준비중</span>
                 </div>
                 <div class="text-center mt-1">
-                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.READY_COUNT}"/></span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.READY_COUNT}"/>&nbsp건</span>
                 </div>
             </li>
             <li class="header-list">
                 <div class="d-flex justify-content-center mt-1">
-                    <img src="/images/exchange.png" alt="교환 이미지" width="40px" />
+                    <img src="/images/exchange.png" alt="반품 이미지" width="40px" />
                 </div>
                 <div class="text-center mt-1">
                     <span>반품</span>
                 </div>
                 <div class="text-center">
-                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.RETURN_COUNT}"/></span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.RETURN_COUNT}"/>&nbsp건</span>
                 </div>
             </li>
             <li class="header-list">
@@ -229,7 +234,7 @@
                     <span>취소</span>
                 </div>
                 <div class="text-center">
-                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.CANCLE_COUNT}"/> </span>
+                    <span class="badge bg-primary rounded-pill"><c:out value="${orderStatus.CANCLE_COUNT}"/>&nbsp건</span>
                 </div>
             </li>
         </ul>
@@ -259,13 +264,13 @@
                             <c:when test="${order.order_status eq '반품'}">
                                         <span class="order-status-blue">반품 신청</span>
                             </c:when>
-                            <c:when test="${order.order_status eq '환불' || order.order_status eq '반품 거절' || order.order_status eq '취소'}">
+                            <c:when test="${order.order_status eq '환불' || order.order_status eq '취소'}">
                                 <span class="order-status-red"><c:out value="${order.order_status}"/></span>
                             </c:when>
                             <c:when test="${order.order_status eq '상품 준비중'}">
                                 <span class="order-status-green"><c:out value="${order.order_status}"/></span>
                             </c:when>
-                            <c:when test="${order.order_status eq '배송완료'}">
+                            <c:when test="${order.order_status eq '배송완료' || order.order_status eq '반품 거절'}">
                                 <span class="order-status-blue"><c:out value="${order.order_status}"/></span>
                             </c:when>
 
@@ -285,7 +290,7 @@
                         </c:when>
                     </c:choose>
                         <div><button type="button" id="detailBtn" class="btn btn-primary col-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                     data-pImg="${order.p_img}" data-pCount="${order.p_count}" data-pTitle="${order.p_title}" data-pPrice="${order.p_price}"
+                                     data-pImg="${order.p_img}" data-pCount="${order.p_count}" data-pTitle="${order.p_title}" data-pPrice="${order.p_price}" data-orderStatus="${order.order_status}"
                                      data-orderNo="${order.order_no}" data-orderDate="${order.order_date}" data-receiverPhone="${order.receiver_phone}"
                                      data-totalPrice="${order.total_price}" data-usedPoint="${order.used_point}" data-receiverName="${order.receiver_name}" data-receiverAddress1="${order.receiver_address1}"
                                      data-receiverAddress2="${order.receiver_address2}" data-deliveryMemo="${order.delivery_memo}" data-cpName="${order.cp_name}" data-cpPrice="${order.cp_price}">상세내역</button></div>
@@ -360,6 +365,10 @@
                                 <div class="col-3"><span>총 결제금액</span></div>
                                 <div class="col-9 text-end"><span id="totalPrice"></span></div>
                             </div>
+                            <div class="d-flex mb-2 px-2">
+                                <div class="col-3"><span>상품 상태</span></div>
+                                <div class="col-9 text-end"><span id="productStatus"></span></div>
+                            </div>
                         </section>
                     </div>
                     <div class="modal-footer">
@@ -370,7 +379,7 @@
         </section>
         <section>
             <!-- 결제 취소 Modal -->
-            <section class="modal fade rounded-3" id="payBackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <section class="modal fade rounded-3" id="payBackModal" tabindex="-1" >
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <section class="modal-header">
@@ -454,7 +463,7 @@
         }
     })
 
-    <%-- 모달 이벤트 --%>
+    <%-- 모달 이벤트(상세 내역) --%>
     $('#staticBackdrop').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget) // Button that triggered the modal
 
@@ -470,6 +479,7 @@
         let phone = button.attr('data-receiverPhone');
         let memo = button.attr('data-deliveryMemo');
         let cpName = button.attr('data-cpName');
+        let productStatus = button.attr('data-orderStatus');
         let cpPrice = button.attr('data-cpPrice').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
         let usedPoint = button.attr('data-usedPoint').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
         let totalPrice = button.attr('data-totalPrice').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
@@ -485,6 +495,7 @@
         modal.find('#pImg').attr('src',pImg);
         modal.find('#pTitle').text(pTitle);
         modal.find('#pPrice').text(productPrice);
+        modal.find('#productStatus').text(productStatus);
     })
 
     /* 결제취소 모달 / 반품 모달 */

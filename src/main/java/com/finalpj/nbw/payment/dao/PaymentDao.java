@@ -19,8 +19,12 @@ public interface PaymentDao {
     Map<String,Object> selectUnMemReceiver(String order_no) throws Exception;          // 비회원 : 결제후 주문 수령자 정보 및 결제정보 조회
     List<OrderList> selectMemOrderList(String mem_id) throws Exception;                // 회원 :  주문리스트 조회
     int updateOrderStatus(Map<String,Object> pMap) throws Exception;                   // 회원 : 주문상품 상태 변경(취소, 반품, 교환, 구매확정, 배송중)
-    Map<String,Integer> selectMemStatusCnt(String mem_id) throws Exception;                            // 회원 : 주문 조회 페이지 상품상태 개수 조회 쿼리문
+    Map<String,Integer> selectMemStatusCnt(String mem_id) throws Exception;            // 회원 : 주문 조회 페이지 상품상태 개수 조회 쿼리문
+    
+    String selectUnMemOrder(Map pMap) throws Exception;                                // 비회원 : 주문 조회(주문자명, 주문 비밀번호, 주문번호)
     
     /* [[ 관리자페이지에서 처리할 부분 추가 ]] */
     List<AdminPayment> selectAdminPayment(Map<String,Object> pMap) throws Exception; // 테이블명과 상태정보 넘겨서 주문 리스트 가져오기
+    
+    
 }

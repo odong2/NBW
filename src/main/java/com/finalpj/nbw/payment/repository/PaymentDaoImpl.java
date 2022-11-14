@@ -79,6 +79,11 @@ public class PaymentDaoImpl implements PaymentDao {
         return sqlSession.selectOne(namespace + "selectStatusCnt", mem_id);
     }
 
+    @Override
+    public String selectUnMemOrder(Map pMap) throws Exception {
+        return sqlSession.selectOne(namespace + "selectUnMemOrder", pMap);
+    }
+
     /******************************** 관리자페이지에서 주문한 상품 조건에 맞게 조회 *********************************/
 	@Override
 	public List<AdminPayment> selectAdminPayment(Map<String, Object> pMap) throws Exception {

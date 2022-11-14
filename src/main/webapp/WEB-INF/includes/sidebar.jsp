@@ -22,7 +22,7 @@
                         <span>쿠폰</span>
                     </div>
                     <div class="info-detail">
-                        <span>5개</span>
+                        <span>${member.coupon_count}</span>
                     </div>
                 </div>
                 <div>
@@ -44,7 +44,7 @@
                             <span>쇼핑내역</span>
                         </li>
                         <li class="side-link">
-                            <a href="#"> 주문조회 </a>
+                            <a href="/mypage/payment/list"> 주문조회 </a>
                         </li>
                     </ul>
                 </li>
@@ -77,7 +77,7 @@
                             <span>혜택</span>
                         </li>
                         <li class="side-link">
-                            <a href="#"> 쿠폰등록 </a>
+                            <a href="/mypage/coupon"> 쿠폰등록 </a>
                         </li>
                     </ul>
                 </li>

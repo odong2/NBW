@@ -128,6 +128,10 @@
             color: #5055b1;
             font-weight: bold;
         }
+        #wrtCpBtn:hover{
+            color: white;
+            background-color: #5055b1;
+        }
         #msgBox{
             /*margin-top: 20px;*/
             border-radius: 10px;

@@ -14,6 +14,15 @@
     <script src="/ckeditor5-35.2.0/build/ckeditor.js"></script>
     <title>관리자 공지사항</title>
       <style>
+          @font-face {
+              font-family: 'InfinitySans-RegularA1';
+              src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+              font-weight: normal;
+              font-style: normal;
+          }
+          *{
+              font-family: 'InfinitySans-RegularA1';
+          }
           .main{
               width:90%;
               height: 130vh;
@@ -65,6 +74,40 @@
               color: #4e73df;
               font-weight: bold;
           }
+          #wrtBtn,#ntModBtn{
+              background-color: white;
+              color: #5055b1;
+              font-size: 0.9rem;
+              font-weight: bold;
+              border-color: #5055b1;
+              width: 80px;
+          }
+          #ntModBtn {
+              width: 130px;
+              height: 42px;
+          }
+          #modOutBtn, #ntDelBtn{
+              background-color: white;
+              color: #be2617;
+              font-size: 0.9rem;
+              font-weight: bold;
+              border-color: #a52834;
+              width: 80px;
+          }
+          #ntDelBtn{
+              width: 130px;
+              height: 42px;
+          }
+          #wrtBtn:hover,
+          #ntModBtn:hover{
+              background: #5055b1;
+              color:white;
+          }
+          #modOutBtn:hover,
+          #ntDelBtn:hover{
+              background:  #be2617;
+              color:white;
+          }
       </style>
   </head>
   <body id="page-top">
@@ -92,9 +135,13 @@
                     <h5 class="mt-3 mb-2">내용</h5>
                     <textarea type="text" class="text-dark" name="nt_content" id="editor">${noticeDto.nt_content}</textarea>
                     <input type="hidden" name="nt_no" value="${noticeDto.nt_no}">
-                    <input type="file" name="file" id="fileInput"  value="${noticeDto.nt_filename}"/>
-                    <button id="wrtBtn" type="submit"  class="btn  mt-3">수정</button>
-                    <button id="modOutBtn" type="button" class="mt-3 btn btn-danger">취소</button>
+                        <div class="mt-3">
+                            <input type="file" name="file" id="fileInput"  value="${noticeDto.nt_filename}"/>
+                        </div>
+                    <div class="mt-4">
+                        <button id="wrtBtn" type="submit"  class="btn  mt-1">수정</button>
+                        <button id="modOutBtn" type="button" class="mt-1 btn">취소</button>
+                    </div>
                 </form>
             </section>
             <%-- ================ 공지글 수정하기 폼 끝================--%>
@@ -177,9 +224,13 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="card-header py-3 d-flex justify-content-center">
-                        <button id="ntModBtn" type="button" class="btn">공지글 수정하기</button>
-                        <button id="ntDelBtn" type="button" class="btn">공지글 삭제하기</button>
+                    <div class="card-footer py-3 d-flex justify-content-center col-12">
+                        <div class="col-6 d-flex justify-content-end">
+                            <button id="ntModBtn" type="button" class="btn">공지글 수정하기</button>
+                        </div>
+                        <div class="col-6">
+                            <button id="ntDelBtn" type="button" class="btn">공지글 삭제하기</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -206,12 +257,15 @@
             <%--location.href=`/admin/notice/modify?nt_title=${noticeDto.nt_title}&nt_content=${noticeDto.nt_content}`;--%>
             $("#readSection").css('display','none');
             $("#modSection").css('display','block');
-
-
         });
         $("#ntDelBtn").click(function(){
             location.href=`/admin/notice/delete/${noticeDto.nt_no}`;
         })
+        $('#modOutBtn').click(()=>{
+            $("#readSection").css('display','block');
+            $("#modSection").css('display','none');
+        })
+
     </script>
     <script>
         ClassicEditor
