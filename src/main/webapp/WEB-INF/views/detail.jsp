@@ -534,7 +534,7 @@ main {
 			
 			formData.append('p_no',p_no);
 			formData.append('rv_score',rv_score);
-			formData.append('rv_content',rv_content);
+			formData.append('rv_content',rv_content.trim());
 			
 			rv_imgs.forEach((item)=>{
 				formData.append('files',item);
@@ -578,7 +578,7 @@ main {
 				let rv_score = '${memberReview.rv_score}';
 				
 				let obj = {}
-				obj.rv_content = rv_content;
+				obj.rv_content = rv_content.trim();
 				obj.p_no = p_no;
 				obj.rv_score = rv_score;
 				obj.rv_no = '${memberReview.rv_no}';
