@@ -368,10 +368,11 @@ main {
 											<span id="contentUpdate" style="font-size: 1.2rem;"><c:out
 													value="${memberReview.rv_content}" /></span>
 											<div id="imgUpdate-box">
-												<button type="button"
+												<c:if test="${!empty memberReview.rv_img }">
+													<button type="button"
 													class="me-2 btn btn-outline-dark btn-sm"
 													onclick="imgToggle(this)">펼치기</button>
-
+												</c:if>
 											</div>
 										</div>
 
@@ -553,6 +554,7 @@ main {
 						console.log(result);
 						if(result.success){
 							msg(result.msg);
+							reviewPage(1);
 							modify_cancel(result.review);
 						}else {
 							msg(result.msg);
@@ -604,7 +606,7 @@ main {
 		let rv_imgs = [];
 		
 		$(document).ready(function(){			
-			reviewPage(1);
+			reviewPage(now_page);
 			imgAppend();
 		})
 		

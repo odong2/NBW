@@ -38,6 +38,12 @@ public class Review {
 	
 	public String getStar() {
 		String star = "★";
-		return star.repeat(this.rv_score)+"("+this.rv_score+")";
+		
+		if(this.rv_score == null) {
+			star = "(0)";
+		}else {
+			star = star.repeat(this.rv_score)+"("+this.rv_score+")";
+		}
+		return star;
 	}
 }
