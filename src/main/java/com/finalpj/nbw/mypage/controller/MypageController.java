@@ -172,9 +172,8 @@ public class MypageController {
 
         Member member = (Member) session.getAttribute("member"); // 세션의 member 가져옴
 
-        Member myInfo = mypageService.getMyInfo(member.getMem_id());
-        log.info(" [[MypageController]] 회원 사진 등록 요청!!! ===> 등록할 회원 정보 : "+ myInfo);
-        model.addAttribute("myInfo", myInfo);
+//        Member myInfo = mypageService.getMyInfo(member.getMem_id());
+        log.info(" [[MypageController]] 회원 사진 등록 요청!!! ===> 등록할 회원 정보 : "+ member);
 
         String path = "/myphoto";
         String original = uploadFile.getOriginalFilename();
@@ -189,19 +188,19 @@ public class MypageController {
             log.info("디비에 저장할 파일 이름 : "+ "/mypage/profile/"+saveFileName);
 
             /* member 객체에 이미지 설정해준다. */
-            myInfo.setMem_img("/mypage/"+saveFileName);
+            member.setMem_img("/mypage/"+saveFileName);
 
             /* DB 에 저장한다. */
             try {
                 /* 확인용  mem_id, mem_img */
-                log.info(" 수정할 MEM_ID ==> " + myInfo.getMem_id());
-                log.info(" 수정할 MEM_IMG ==> " + myInfo.getMem_img());
+                log.info(" 수정할 MEM_ID ==> " + member.getMem_id());
+                log.info(" 수정할 MEM_IMG ==> " + member.getMem_img());
 
-                int intI = mypageService.insMyImg(myInfo);
+                int intI = mypageService.insMyImg(member);
                 log.info("이미지 등록 여부 ===> " + intI);
 
                 /* 정보가 변경 되었으니 세션에도 변경된 정보 추가 */
-                session.setAttribute("member", myInfo);
+                session.setAttribute("member", member);
 
                 model.addAttribute("success", "사진이 등록되었습니다. ");
 
