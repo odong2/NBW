@@ -622,7 +622,11 @@ ul {
         });
 
         $(".paymentForm").append(input_form);
-        $(".paymentForm").submit();
+        if($(".totalCount_span").text()=='0'){
+        	alert('상품을 선택해주세요');
+        } else {
+	        $(".paymentForm").submit();
+        }
     });
 </script>
 </body>
