@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finalpj.common.FileUploader;
-import com.finalpj.common.PageHandler;
 import com.finalpj.nbw.member.dao.MemberDao;
 import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.product.dao.ProductDao;
@@ -23,6 +22,10 @@ import com.finalpj.nbw.product.domain.Review;
 import com.finalpj.nbw.product.domain.Criteria;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 @Service
@@ -122,7 +125,17 @@ public class ProductService {
 	}
 	
 	public List<Map<String, Object>> getReviewListMap(Map<String, Object> pageMap) {
-		return productDao.getReviewListMap(pageMap);
+		List<Map<String, Object>> reviewList = productDao.getReviewListMap(pageMap);
+		
+		for(Map<String,Object> map : reviewList) {
+			Timestamp rv_date = (Timestamp) map.get("RV_DATE");
+			String strStamp = String.valueOf(rv_date.getTime());
+			Date date = new Date(Long.parseLong(strStamp));
+			SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd");
+			map.put("RV_DATE",String.valueOf(sdf.format(date)));
+		}
+
+		return reviewList;
 	}
 
     /* 상품 등록 */

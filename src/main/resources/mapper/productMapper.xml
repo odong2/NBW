@@ -8,10 +8,10 @@
 	</select>
 	
  	<select id="SelectReviewList" parameterType="map" resultType="review">
-        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME, RV_NO
                 FROM(
                     SELECT ROWNUM as rnum, a.*  FROM (
-                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME, RV_NO
                         FROM TB_REVIEW WHERE P_NO = #{p_no}
                     ) a
                 )
@@ -19,10 +19,10 @@
 	</select>
 	
 	 <select id="getReviewListMap" parameterType="map" resultType="map">
-        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+        SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME, RV_NO
                 FROM(
                     SELECT ROWNUM as rnum, a.*  FROM (
-                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME, RV_NO
                         FROM TB_REVIEW WHERE P_NO = #{p_no}
                     ) a
                 )
@@ -30,10 +30,10 @@
 	</select>
 	
 	<select id="getMemberReview" parameterType="map" resultType="review">
-		SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME
+		SELECT rnum, MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME, RV_NO
                 FROM(
                     SELECT ROWNUM as rnum, a.*  FROM (
-                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME 
+                        SELECT MEM_ID, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, MEM_NICKNAME, RV_NO
                         FROM TB_REVIEW WHERE P_NO = #{p_no} AND MEM_ID = #{mem_id}
                     ) a
                 )
@@ -91,15 +91,12 @@
 	
 	<delete id="reviewDelete" parameterType="review">
 		DELETE FROM TB_REVIEW
-		WHERE P_NO = #{p_no}
-		AND MEM_ID = #{mem_id}
-		AND RV_CONTENT = #{rv_content}
-		AND RV_SCORE = #{rv_score}
+		WHERE RV_NO = #{rv_no}
 	</delete>
 	
 	<select id="getBestProducts" parameterType="map" resultType="product">
-		SELECT ROWNUM, P_NO, P_TITLE, P_PUBLISHER, P_PRICE, P_IMG FROM (
-		    SELECT P_NO, P_TITLE, P_PUBLISHER, P_PRICE, P_IMG FROM TB_PRODUCT
+		SELECT ROWNUM, P_NO, P_TITLE, p_author, P_PRICE, P_IMG FROM (
+		    SELECT P_NO, P_TITLE, p_author, P_PRICE, P_IMG FROM TB_PRODUCT
 		    WHERE P_CATEGORY = ( SELECT P_CATEGORY FROM TB_PRODUCT WHERE P_NO = #{p_no} )
 		    AND NOT P_NO = #{p_no}
 		    ORDER BY P_REVIEW DESC
@@ -177,23 +174,23 @@
   		<choose>
 		    <when test="fileSize == 1">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG)
-				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image} )
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_NO)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image}, SEQ_RV_NO.NEXTVAL)
 		    </when>
 		    <when test="fileSize == 2">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2)
-				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image}, #{rv_image2} )
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_NO)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image}, #{rv_image2}, SEQ_RV_NO.NEXTVAL)
 		    </when>
 		    <when test="fileSize == 3">
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3)
-				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image}, #{rv_image2}, #{rv_image3} )
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_IMG, RV_IMG2, RV_IMG3, RV_NO)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, #{rv_image}, #{rv_image2}, #{rv_image3}, SEQ_RV_NO.NEXTVAL)
 		    </when>
 		    <otherwise>
 		    	INSERT INTO TB_REVIEW
-				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO)
-				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no})
+				(MEM_ID, MEM_NICKNAME, RV_CONTENT, RV_SCORE, RV_DATE, P_NO, RV_NO)
+				VALUES (#{mem_id}, #{mem_nickname}, #{rv_content}, #{rv_score}, SYSDATE, #{p_no}, SEQ_RV_NO.NEXTVAL)
 		    </otherwise>
 		</choose>
 	</insert>

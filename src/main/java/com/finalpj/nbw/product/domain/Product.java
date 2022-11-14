@@ -31,6 +31,13 @@ public class Product {
 	
 	public String getStar() {
 		String star = "★"; 
-		return star.repeat(this.p_avgscore)+"("+p_avgscore+")";
+		
+		if(p_avgscore == null) {
+			star = "(0)";
+		}else {
+			star = star.repeat(this.p_avgscore)+"("+p_avgscore+")";
+		}
+		
+		return star;
 	}
 }
