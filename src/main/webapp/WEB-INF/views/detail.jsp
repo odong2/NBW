@@ -400,7 +400,7 @@ main {
 						<ul id="pageNavigation"
 							class="pagination d-flex justify-content-center"></ul>
 					</nav>
-					<form id="pageForm" action="/product/page" method="post">
+					<form id="pageForm" action="/product/review/list" method="post">
 						<input name="p_no" value="${product.p_no}" type="hidden">
 						<input id="selectPage" name="page" value="" type="hidden">
 					</form>
@@ -640,7 +640,7 @@ main {
 			let formValues = $('#pageForm').serialize();
 	        $.ajax({
 	            type : 'post',
-	            url : '/product/page',
+	            url : '/product/review/list',
 	            data : formValues,
 	            dataType : 'json',
 	            success : function(json){
@@ -858,7 +858,7 @@ main {
 			
 			$.ajax({
 				type : "POST",
-				url : "/product/review",
+				url : "/product/review/register",
 				data : formData,
 				processData: false,
 				contentType: false,				
@@ -954,7 +954,7 @@ main {
 	 			
 				$.ajax({
 					type : "POST",
-					url : "/product/recentRemove",
+					url : "/product/recent/remove",
 					contentType: "application/text; charset=UTF-8",
 					data : JSON.stringify(obj),
 					success : function() {
@@ -983,7 +983,7 @@ main {
 		let removeAllRecentProduct = () => {
 			$.ajax({
 				type : "POST",
-				url : "/product/recentRemoveAll",
+				url : "/product/recent/removeall",
 				success : function() {
 					$('#RecentProduct').empty();
 					$('#RecentProduct').append('<span class="mt-5 text-center">최근 본 상품이 없습니다.</span>');
