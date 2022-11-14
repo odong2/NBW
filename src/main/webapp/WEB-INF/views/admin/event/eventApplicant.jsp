@@ -120,6 +120,8 @@
                             <td>
                                 <c:out value="${eventMember.mem_phone}"/>
                             </td>
+                            <c:choose>
+                            <c:when test="${eventMember.mem_status eq '대기'}">
                             <td style="float: right">
                                 <span style="float: left">
                                 <form action="/admin/event/personn" method="post">
@@ -128,9 +130,9 @@
                                 <button id="delbtn" type="submit" class="btn btn-outline-danger">
                                     거절
                                 </button>
+                                </form>
                                 </span>
                                 <span style="float: right">
-                                </form>
                                 <form action="/admin/event/persony" method="post">
                                         <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
                                         <input type="hidden" value="${eventMember.mem_id}" name="mem_id">
@@ -140,6 +142,18 @@
                                 </form>
                                 </span>
                             </td>
+                            </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${eventMember.mem_status eq '거절'}">
+                                    거절됨
+                                </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${eventMember.mem_status eq '승인'}">
+                                    승인됨
+                                </c:when>
+                            </c:choose>
                         </tr>
                     </tbody>
                     </c:forEach>

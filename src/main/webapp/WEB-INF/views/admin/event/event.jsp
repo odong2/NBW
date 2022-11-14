@@ -37,22 +37,25 @@
             margin-bottom: 15px;
         }
         /* 등록버튼 */
-        .registerbtn {
-            background-color: #e0e0e0;
-            color: black;
-            border: 0;
-            outline: 0;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 2.5px;
-            padding-bottom: 2.5px;
-        }
+        /*.registerbtn {*/
+        /*    background-color: #e0e0e0;*/
+        /*    color: black;*/
+        /*    border: 0;*/
+        /*    outline: 0;*/
+        /*    padding-left: 15px;*/
+        /*    padding-right: 15px;*/
+        /*    padding-top: 2.5px;*/
+        /*    padding-bottom: 2.5px;*/
+        /*}*/
         .check > input {
             width: 22px;
             height: 22px;
         }
         tr {
             text-align: center;
+        }
+        #applicationbtn > a {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -76,9 +79,12 @@
             </div>
             <hr />
             <!-- 버튼[등록, 마감] 시작 -->
+
             <div class="twobtn">
-                <button class="registerbtn" type="button" id="writeBtn"
-                        onclick="location.href='<c:url value="/admin/event/write"/>'">등록</button>
+                <button type="button" id="writeBtn" class="btn btn-outline-secondary"
+                        onclick="location.href='<c:url value="/admin/event/write"/>'">
+                    등록
+                </button>
             </div>
             <!-- 버튼[등록, 마감] 끝 -->
             <!-- 표 시작 -->
@@ -119,9 +125,9 @@
                             <c:out value="${event.ev_end}"/>
                         </td>
                         <td>
-                            <c:out value="${event.ev_people}"/>
-                            /
                             <c:out value="${event.ev_nowpeople}"/>
+                            /
+                            <c:out value="${event.ev_people}"/>
                         </td>
                         <td>
                             <c:out value="${event.ev_status}"/>

@@ -33,6 +33,7 @@
         main {
             width: 100%;
             padding-left: 30px;
+            margin-right: 190px;
         }
 
         main .header-list {
@@ -64,8 +65,8 @@
         .classimg {
             float: left;
             /*flex: 1;*/
-            width: 170px;
-            height: 220px;
+            width: 140px;
+            height: 190px;
             margin-right: 20px;
         }
         .classimg > img {
@@ -109,7 +110,7 @@
         .playdetail {
             /*flex: 1;*/
             float: right;
-            margin-left: 100px;
+            /*margin-right: 100px;*/
             /*margin-top: 45px;*/
             width: 130px;
             text-align: center;
@@ -117,6 +118,9 @@
         .playdetail >button {
             border: 0;
             outline: 0;
+        }
+        .playdetail > button > a {
+            text-decoration: none;
         }
         .pick-btn {
             height: 38px;
@@ -196,9 +200,9 @@
                             </div>
                         </div>
                             <br/>
-                        <div class="status">
+                        <div class="status"">
                             <div>상태&nbsp;:&nbsp;</div>
-                            <div>
+                            <div style="color: red;">
                                 <c:out value="${event.mem_status}"/>
                             </div>
                         </div>

@@ -24,6 +24,9 @@
     body {
       font-family: GangwonEdu_OTFBoldA;}
     /*********************** 글꼴 **************************/
+    main {
+      color: black;
+    }
     .title {
       margin-top: 15px;
     }
@@ -37,6 +40,12 @@
       display: flex;
       flex-wrap: wrap;
       margin-top: 20px;
+      margin-left: 30px;
+    }
+    #j_infod_table {
+      margin-left: 30px;
+      font-weight: bold;
+      font-size: 17px;
     }
     #writeBtn {
       background-color: #d119fe;
@@ -50,9 +59,6 @@
       text-align: center;
       margin-top: 30px;
     }
-    #previewImg {
-      margin-bottom: 10px;
-    }
     .j_infod_input {
       width: 170px;
     }
@@ -60,14 +66,15 @@
       margin-top: 20px;
     }
     #ev_content {
-      width: 80%;
+      width: 50%;
       height: 150px;
     }
     .ck-editor__editable {
       height: 400px;
     }
     .ck-content {
-      font-size: 11px;
+      font-size: 30px;
+      color: black;
     }
 
   </style>
@@ -89,125 +96,119 @@
     <main class="container-fluid">
       <section id="container">
       <div class="title">
-        <h4>프로그램 등록</h4>
+        <h4>프로그램 수정</h4>
       </div>
         <form action="/admin/event/modify" method="post" id="form" class="frm" enctype="multipart/form-data">
-          <div class="allEventContent">
-      <div class="eventcontents">
-        <div class="eventimg">
-<%--          <img id="previewImg" width="300px" height="300px" />--%>
-<%--          <input type="file" id="fileUpload" accept="image/*" name="ev_img" />--%>
-        </div>
-        <table id="j_infod_table">
-          <tbody id="j_infod_tbody">
-          <tr>
-            <td class="j_infod_title">이벤트 제목<a class="j_infod_sym">*</a>
-            </td>
-            <td class="j_infod_title" colspan="2">
-              <input type="text" id="ev_title" name="ev_title" class="j_infod_input" value="${event.ev_title}">
-            </td>
-          </tr>
-          <tr>
-            <td class="j_infod_target">대상<a class="j_infod_sym">*</a>
-            </td>
-            <td class="j_infod_target" colspan="2">
-              <input type="text" id="ev_target" name="ev_target" class="j_infod_input" value="${event.ev_target}">
-            </td>
-          </tr>
-          <tr>
-            <td class="j_infod_place">장소<a class="j_infod_sym">*</a>
-            </td>
-            <td class="j_infod_place" colspan="2">
-              <input type="text" id="ev_place" name="ev_place" class="j_infod_input" value="${event.ev_place}">
-            </td>
-          </tr>
-          <tr>
-            <td class="j_infod_today">행사기간<a class="j_infod_sym">*</a>
-            </td>
-            <td class="j_infod_today" colspan="2">
-              <input type="text" id="ev_today" name="ev_today" class="j_infod_input" value="${event.ev_today}" >
-            </td>
-          </tr>
-          <tr>
-            <td class="j_infod_time">시간<a class="j_infod_sym">*</a>
-            </td>
-            <td class="j_infod_time" colspan="2">
-              <input type="text" id="ev_time" name="ev_time" class="j_infod_input" value="${event.ev_time}">
-            </td>
-          </tr>
-          <tr>
-            <td class="j_infod_titl">접수기간<a class="j_infod_sym">*</a>
-            </td>
-            <td class="j_infod_start" colspan="2">
-              <input type="text" id="ev_start" name="ev_start" class="j_infod_input" value="${event.ev_start}">
-              ~
-              <input type="text" id="ev_end" name="ev_end" class="j_infod_input">
-            </td>
-          </tr>
-          <tr>
-            <td class="j_infod_phone">문의번호<a class="j_infod_sym">*</a>
-            </td>
-            <td class="j_infod_phone" colspan="2">
-              <input type="text" id="ev_phone" name="ev_phone" class="j_infod_input" value="${event.ev_phone}">
-            </td>
-          </tr>
-          <%--============================== [[모집정원 시작]] ================================--%>
-          <tr>
-            <td class="j_infod_people">
-              모집정원
-              <a class="j_infod_sym">
-                *
-              </a>
-            </td>
-            <td class="j_infod_people" colspan="2">
-              <input type="text" id="ev_people" name="ev_people" class="j_infod_input" value="${event.ev_people}">
-            </td>
-          </tr>
-          <%--============================== [[모집정원 끝]] ================================--%>
-          <tr>
-            <td class="j_infod_file">
-                <span>첨부파일</span>
-            </td>
-            <td>
-                <input type="file" name="file" id="fileInput"  value="파일"/>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-        <h6 class="contentpart">이벤트 글</h6>
-            <textarea type="text" class="text-dark" name="ev_content" id="editor" value="${event.ev_content}"></textarea>
-          </div>
-      <div class="sendbtn">
-        <div style="display:inline-block">
-          <input type="hidden" value="${event.ev_no}" name="ev_no">
-          <button type="button" class="btn btn-secondary btn-lg" id="writeBtn">
-            수정하기
-          </button>
-        </div>
-      </div>
-        </form>
+            <div class="allEventContent">
+              <div class="eventcontents">
+                <div class="eventimg">
+                  <%----%>
+                  <div>
+                    <div style="height: 370px; width: 300px">
+                      <img id="eventImg" width="300px"/>
+                    </div>
+                    <input type="file" name="img"
+                           id="file" accept="image/gif, image/jpeg, image/png" onchange="setCouponImg(this)"/>
+                  </div>
+                  <div id="img-box" class="d-flex align-items-center"></div>
+                </div>
+                <table id="j_infod_table">
+                  <tbody id="j_infod_tbody">
+                  <tr>
+                    <td class="j_infod_title">이벤트 제목<a class="j_infod_sym">*</a>
+                    </td>
+                    <td class="j_infod_title" colspan="2">
+                      <input type="text" id="ev_title" name="ev_title" class="j_infod_input" value="${eventSelect.ev_title}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="j_infod_target">대상<a class="j_infod_sym">*</a>
+                    </td>
+                    <td class="j_infod_target" colspan="2">
+                      <input type="text" id="ev_target" name="ev_target" class="j_infod_input" value="${eventSelect.ev_target}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="j_infod_place">장소<a class="j_infod_sym">*</a>
+                    </td>
+                    <td class="j_infod_place" colspan="2">
+                      <input type="text" id="ev_place" name="ev_place" class="j_infod_input" value="${eventSelect.ev_place}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="j_infod_today">행사날짜<a class="j_infod_sym">*</a>
+                    </td>
+                    <td class="j_infod_today" colspan="2">
+                      <input id="ev_today" name="ev_today" class="j_infod_input" autocomplete="off"
+                             value="${eventSelect.ev_today}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="j_infod_time">시간<a class="j_infod_sym">*</a>
+                    </td>
+                    <td class="j_infod_time" colspan="2">
+                      <input type="text" id="ev_time" name="ev_time" class="j_infod_input" value="${eventSelect.ev_time}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="j_infod_titl">접수기간<a class="j_infod_sym">*</a>
+                    </td>
+                    <td class="j_infod_start" colspan="2">
+                      <input id="ev_start" name="ev_start" class="j_infod_input" autocomplete="off"
+                             value="${eventSelect.ev_start}">
+                      ~
+                      <input id="ev_end" name="ev_end" class="j_infod_input" autocomplete="off"
+                             value="${eventSelect.ev_end}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="j_infod_phone">문의번호<a class="j_infod_sym">*</a>
+                    </td>
+                    <td class="j_infod_phone" colspan="2">
+                      <input type="text" id="ev_phone" name="ev_phone" class="j_infod_input"
+                             value="${eventSelect.ev_phone}">
+                    </td>
+                  </tr>
+                  <%--============================== [[모집정원 시작]] ================================--%>
+                  <tr>
+                    <td class="j_infod_people">
+                      모집정원
+                      <a class="j_infod_sym">
+                        *
+                      </a>
+                    </td>
+                    <td class="j_infod_people" colspan="2">
+                      <input type="text" id="ev_people" name="ev_people" class="j_infod_input"
+                             value="${eventSelect.ev_people}">
+                    </td>
+                  </tr>
+                  <%--============================== [[모집정원 끝]] ================================--%>
+                  <tr>
+                    <td class="j_infod_file">
+                      <span>첨부파일</span>
+                    </td>
+                    <td>
+                      <input type="file" name="file" id="fileInput"  value="파일"/>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <h6 class="contentpart"></h6>
+              <textarea type="text" class="text-dark" name="ev_content" id="editor">
+                ${eventSelect.ev_content}
+              </textarea>
+            </div>
+            <div class="sendbtn">
+              <div style="display:inline-block">
+                <button type="button" type="submit" class="btn btn-secondary btn-lg" id="writeBtn">
+                  등록하기
+                </button>
+              </div>
+            </div>
+          </form>
       </section>
-        <%--여기에 메인 넣으면 됨--%>
-      <script>
-
-        /****************************** [[이미지 첨부 시작]] *************************/
-        // const fileInput = document.getElementById("fileUpload");
-        //
-        // const handleFiles = (e) => {
-        //   const selectedFile = [...fileInput.files];
-        //   const fileReader = new FileReader();
-        //
-        //   fileReader.readAsDataURL(selectedFile[0]);
-        //
-        //   fileReader.onload = function () {
-        //     document.getElementById("previewImg").src = fileReader.result;
-        //   };
-        // };
-        // fileInput.addEventListener("change", handleFiles);
-        /****************************** [[이미지 첨부 끝]] *************************/
-
-      </script>
+      <%--여기에 메인 넣으면 됨--%>
   <script>
 /******************************** [[클래식 에디터]] *******************************/
         ClassicEditor
@@ -223,7 +224,7 @@
                 });
       </script>
         <script>
-        /****************************** [[이벤트 등록하기]] ************************/
+        /****************************** [[이벤트 수정하기]] ************************/
         $(document).ready(function (){
           $('#writeBtn').on("click",function (){
             let form = $('#form');
@@ -233,6 +234,119 @@
           })
         })
         /****************************** [[이벤트 등록하기]] ************************/
+      </script>
+      <script>
+        let fileAdd = ()=>{
+          $('#eventImg').css({
+            'border-radius': '5px',
+            'padding': '10px',
+          });
+          $('#fileClear').css('display','block');
+          imgBoxHeight = imgBoxHeight + 165;
+          $('#imgBox').height(imgBoxHeight);
+        }
+        /* 이벤트 이미지 및 이미지 박스 초기화하는 함수*/
+        let fileClear = ()=>{
+          $('#eventImg').prop('src','');
+          $('#eventImg').css('box-shadow', '')
+          $('#file').val('');
+          $('#fileClear').css('display','none');
+          imgBoxHeight = imgBoxHeight - 165;
+          $('#imgBox').height(imgBoxHeight);
+        }
+      </script>
+      <script>
+        let title = '';
+        let content = '';
+        let imgBoxHeight = $('#imgBox').height(); // 업로드 이미지 박스 크기
+        /* 이벤트 이미지 등록 */
+        let setCouponImg = (input)=>{
+          if (input.files && input.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+              $('#eventImg').prop('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+            // 이미지 박스 및 이미지 크기 조절
+            fileAdd();
+          }
+          // 파일 올리기 취소
+          else {
+            /* 기존에 이미지가 없을 경우 */
+            $('#eventImg').prop('src', "");
+            $('#eventImg').css('box-shadow', '')
+            $('#file').val('');
+            $('#fileClear').css('display','none');
+            /* 기존에 이미지가 있을 경우 */
+            if(imgBoxHeight == 265){
+              imgBoxHeight = imgBoxHeight - 165;
+              $('#imgBox').height(imgBoxHeight);
+            }
+          }
+        }
+      </script>
+      <script>
+        <%-- ================================= DatePicker =================================== --%>
+        // datepicker 클래스 이벤트 - 적정한 옵션을 넣어서 초기화 시켜 준다. 기본 datepicker()로 사용 가능
+        $("#ev_today").datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+          monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+          minDate: 0
+        });
+
+        // datepicker 클래스 이벤트
+        var now = new Date();
+        var startYear = now.getFullYear();
+        var yearRange = (startYear - 120) +":" + startYear ;
+        // datepicker - 초기값으로 셋팅하는 방법을 사용하면 2번째는 무시 당한다.
+        //원래 있던 datepicker에 option을 추가하는 방법이다.
+        $( ".datepicker" ).datepicker("option", {
+          "maxDate" : new Date(),
+          yearRange: yearRange
+        });
+
+        $("#ev_start").datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+          monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ]
+        });
+
+        // datepicker 클래스 이벤트
+        var now = new Date();
+        var startYear = now.getFullYear();
+        var yearRange = (startYear - 120) +":" + startYear ;
+        // datepicker - 초기값으로 셋팅하는 방법을 사용하면 2번째는 무시 당한다.
+        //원래 있던 datepicker에 option을 추가하는 방법이다.
+        $( ".datepicker" ).datepicker("option", {
+          "maxDate" : new Date(),
+          yearRange: yearRange
+        });
+
+        $("#ev_end").datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+          monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+          minDate: 0
+        });
+
+        // datepicker 클래스 이벤트
+        var now = new Date();
+        var startYear = now.getFullYear();
+        var yearRange = (startYear - 120) +":" + startYear ;
+        // datepicker - 초기값으로 셋팅하는 방법을 사용하면 2번째는 무시 당한다.
+        //원래 있던 datepicker에 option을 추가하는 방법이다.
+        $( ".datepicker" ).datepicker("option", {
+          "maxDate" : new Date(),
+          yearRange: yearRange
+        });
+
       </script>
     </main>
     <!-- Footer -->
