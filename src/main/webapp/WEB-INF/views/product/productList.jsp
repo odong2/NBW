@@ -57,8 +57,8 @@
             width: 40px;
             height: 40px;
             text-align: center;
-            padding-top: 8px;
-            padding-right: 13px;
+            padding-top: 8px;s
+        padding-right: 13px;
             border-radius: 20px;
             border: 1px #6b6969 solid;
             background-color: white;
@@ -125,15 +125,16 @@
                 <div class="row" style="padding: 10px 10px;">
                     <div class="row" id="product_list" >
                         <div class="col-3">
-                            <a href="/product/<c:out value="${list.getP_no()}"/>"> <img alt=""  width="150px" src="${list.getP_img()}" style="border-radius: 5px;"/></a>
+                                <%--                            <c:set var="URL" value="${pageContext.request.requestURL}" />--%>
+                            <a href="/product/<c:out value="${list.getP_no()}"/>"> <img alt="" width="150px" src='${list.getP_img()}' style="border-radius: 5px;"/></a>
                         </div>
                         <div class="col">
                             <div class="row"><p style="font-weight: bolder"><a href="/product/<c:out value="${list.getP_no()}"/>">${list.getP_title()}</a></p></div>
                             <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_author()} 저자</p></div>
                             <div class="row"><p style="font-size: smaller; color: #343a40;">${list.getP_publisher()} |
-                                                                            <fmt:parseDate value="${list.getP_pubdate()}" var="date1" pattern="yyyy-MM-dd"/>
-                                                                            <fmt:formatDate value="${date1}" pattern="yyyy-MM-dd"/>
-                                                                            출간</p>
+                                <fmt:parseDate value="${list.getP_pubdate()}" var="date1" pattern="yyyy-MM-dd"/>
+                                <fmt:formatDate value="${date1}" pattern="yyyy-MM-dd"/>
+                                출간</p>
                             </div>
                             <div class="row"><p style="font-size: 15px; font-weight: bolder;"><fmt:formatNumber value="${list.getP_price()}" type="number"/>  원</p></div>
                             <div class="row"><p style="font-size: small;">♥️ ${list.getP_like()} </p></div>
@@ -157,23 +158,23 @@
             <c:if test="${pagination.totalCount != null || pagination.totalCount != 0}">
                 <div class="row text-center">
                     <div class="row pagination_info justify-content-sm-center">
-                        <%--  ----------------------------- 이전 페이지 존재 여부 --------------------------  --%>
+                            <%--  ----------------------------- 이전 페이지 존재 여부 --------------------------  --%>
                         <c:if test="${pagination.prev}">
                             <li class="paging_btn prev">
                                 <a href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${pagination.startPage-1}">&laquo;</a>
                             </li>
                         </c:if>
-                        <%--  ----------------------------- 총 갯수만큼 페이징 --------------------------  --%>
-                            <c:forEach var="num" begin="${pagination.startPage}" end="${pagination.endPage}">
-                                <li class="paging_btn">
-                                    <a class="page-num" href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${num}">${num}</a>
-                                </li>
-                         </c:forEach>
-                        <%--  ----------------------------- 다음 페이지 존재 여부 --------------------------  --%>
+                            <%--  ----------------------------- 총 갯수만큼 페이징 --------------------------  --%>
+                        <c:forEach var="num" begin="${pagination.startPage}" end="${pagination.endPage}">
+                            <li class="paging_btn">
+                                <a class="page-num" href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${num}">${num}</a>
+                            </li>
+                        </c:forEach>
+                            <%--  ----------------------------- 다음 페이지 존재 여부 --------------------------  --%>
                         <c:if test="${pagination.next}">
-                        <li class="paging_btn next">
+                            <li class="paging_btn next">
                                 <a href="/product/search?p_category=${criteria.p_category}&keyword=${criteria.keyword}&type=${criteria.type}&sort=${criteria.sort}&pageNum=${pagination.endPage+1}">&raquo;</a>
-                        </li>
+                            </li>
                         </c:if>
                     </div>
                 </div>

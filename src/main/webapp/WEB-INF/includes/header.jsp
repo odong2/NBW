@@ -81,7 +81,7 @@
                 </div>
             </div>
         </form>
-        <%@include file="/WEB-INF/views/product/autocomplete.jsp" %>
+        <%@include file="/WEB-INF/views/search/autocomplete.jsp" %>
     </nav>
     <div class="col-2"></div>
 </div>

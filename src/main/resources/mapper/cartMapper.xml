@@ -71,5 +71,10 @@
 			#{item}
 		</foreach>
 	</delete>
+
+<!--	&lt;!&ndash;  [[ 회원탈퇴 시 장바구니 삭제 ]]	&ndash;&gt;-->
+<!--	<delete id="deleteCartByMem" parameterType="string">-->
+<!--		DELETE FROM TB_CART WHERE MEM_ID = #{mem_id}-->
+<!--	</delete>-->
 	
 </mapper>
