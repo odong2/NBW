@@ -177,9 +177,9 @@ public class ProductController {
 		return "/search/detailSearch";
 	}
 
-	@PostMapping(value = "autocomplete", produces = "application/text; charset=UTF-8")
-	public @ResponseBody String keywordSearch(Criteria criteria, String keyword, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	/* =================================== 자동완성 검색창 ==================================*/
+	@PostMapping(value="autocomplete",  produces = "application/text; charset=UTF-8")
+	public @ResponseBody String keywordSearch(Criteria criteria, String keyword, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 
@@ -192,22 +192,22 @@ public class ProductController {
 
 		String jsonInfo = jsonObject.toString();
 		log.info(jsonInfo);
+
+		/* 이미 DB 에 저장된 이미지 출력과 구분할 용도로 view 에 전송해준다 */
+		request.setAttribute("reqImg", true);
 		return jsonInfo;
 	}
 
-	/*
-	 * =============================== 상품 목록 검색 > 페이징
-	 * ==================================
-	 */
+	/* =============================== 상품 목록 검색 > 페이징 ================================== */
 	@GetMapping("search")
 	public String getProductList(Model model, Criteria criteria) throws Exception {
 
-		try {
+		try{
 			log.info("list CONTROLLER 진입");
 			int totalCount = productService.getTotalCount(criteria);
 			Pagination pagination = new Pagination(criteria, totalCount);
-			// log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
-			log.info("CRITERIA : " + criteria);
+			//log.info("DB 에서 불러온 상품 총 개수는 => "+totalCount);
+			log.info("CRITERIA : "+ criteria);
 			model.addAttribute("criteria", criteria);
 
 			model.addAttribute("pagination", pagination);
@@ -218,11 +218,14 @@ public class ProductController {
 
 			log.info(productService.getCategoryFilter(criteria).toString());
 			model.addAttribute("categoryFilterList", productService.getCategoryFilter(criteria));
-		} catch (Exception e) {
+
+			/* 이미 DB 에 저장된 이미지 출력과 구분할 용도로 view 에 전송해준다 */
+			model.addAttribute("reqImg", true);
+		} catch (Exception e){
 			e.printStackTrace();
 		}
 
-		return "/product/productList";
+		return "product/productList";
 	}
 
 	@GetMapping("/images/{fileName:.+}")

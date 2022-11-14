@@ -1,9 +1,15 @@
 package com.finalpj.nbw.member.domain;
 
+import com.finalpj.nbw.cart.domain.Cart;
+import com.finalpj.nbw.coupon.domain.Coupon;
+import com.finalpj.nbw.event.domain.EventMember;
+import com.finalpj.nbw.payment.domain.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,4 +36,7 @@ public class Member {
 
     private Integer coupon_count;
     private Integer g_discount;
+
+    private String mem_img;
+
 }

@@ -150,6 +150,22 @@ public class ProductService {
         return categoryFilterList;
     }
 
+	/* 관리자 페이지 상품 상세 조회 */
+	public Product getAdProduct(String p_no) {
+		Product product = productDao.getProduct(p_no);
+		return product;
+	}
+
+	/* 상품 수정 */
+	public int modifyProduct(Product product) throws Exception {
+		return productDao.updateProduct(product);
+	}
+
+	/* 상품 삭제 */
+	public int delProduct(Integer p_no) throws Exception{
+		return productDao.deleteProduct(p_no);
+	}
+
 	public Review memberReview(Map<String, Object> memberMap) {
 		return productDao.getMemberReview(memberMap);
 	}

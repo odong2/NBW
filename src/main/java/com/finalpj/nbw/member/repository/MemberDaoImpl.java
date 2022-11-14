@@ -32,7 +32,7 @@ public class MemberDaoImpl implements MemberDao{
     /* ======================================= 회원탈퇴 ============================================= */
     @Override
     public int deleteMember(Member member) throws Exception {
-        log.info("dao ===> 삭제할 아이디 "+ member.getMem_id());
+        log.info("dao ===> 삭제할 멤버"+ member);
         int result = sqlSession.delete(namespace+"deleteMember", member);
         log.info("dao ===> 삭제 여부 "+ result);
         return result;
@@ -81,6 +81,12 @@ public class MemberDaoImpl implements MemberDao{
     @Override
     public int updateMemPoint(Map pMap) throws Exception {
         return sqlSession.update(namespace + "updateMemPoint", pMap);
+    }
+
+    /* ====================================== 내 사진 추가 ============================================ */
+    @Override
+    public int updateMyImg(Member member) throws Exception {
+        return sqlSession.update(namespace + "updateMyImg", member);
     }
 
 }

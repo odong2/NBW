@@ -81,7 +81,7 @@
                 </div>
             </div>
         </form>
-        <%@include file="/WEB-INF/views/product/autocomplete.jsp" %>
+        <%@include file="/WEB-INF/views/search/autocomplete.jsp" %>
     </nav>
     <div class="col-2"></div>
 </div>
@@ -137,6 +137,31 @@
     </form>
 </nav>
 <hr style="border: 1px #1d1d6a;">
+<style>
+    @font-face {
+        font-family: 'Cafe24Simplehae';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'NeoDunggeunmo';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .navbar {
+        font-family: 'Cafe24Simplehae';
+    }
+    .px-5>a {
+        text-decoration: none;
+        font-family: 'NeoDunggeunmo';
+    }
+    a>h6:hover {
+        background-color: #dfeafa;
+        border-radius: 50px;
+    }
+</style>
 <!-- 스크립트 -->
 <script type="text/javascript">
 	let url =  document.location.href.substring(16);

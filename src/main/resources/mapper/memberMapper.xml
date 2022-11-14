@@ -50,16 +50,16 @@
         SELECT mem_nickname from tb_member WHERE mem_nickname = #{mem_nickname}
     </select>
 
-    <!--  ================== *회원 정보 수정* ==================  -->
+    <!--  ================== * 회원 정보 수정* ==================  -->
     <update id="updateMyInfo" parameterType="member" >
         UPDATE tb_member
         SET
             mem_zipcode = #{mem_zipcode}
-            ,mem_address1 = #{mem_address1}
-            ,mem_address2 = #{mem_address2}
-            ,mem_email = #{mem_email}
-            ,mem_update = sysdate
-            ,mem_nickname = #{mem_nickname}
+          ,mem_address1 = #{mem_address1}
+          ,mem_address2 = #{mem_address2}
+          ,mem_email = #{mem_email}
+          ,mem_update = sysdate
+          ,mem_nickname = #{mem_nickname}
         WHERE mem_id = #{mem_id}
     </update>
 
@@ -83,8 +83,18 @@
 
     <!--  ================== *회원 탈퇴* ==================  -->
     <delete id="deleteMember" parameterType="member">
-        DELETE  FROM tb_member
-        WHERE mem_id = #{mem_id}
+        {
+            BEGIN
+            DELETE FROM TB_MEMCART WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+            DELETE FROM TB_PRODUCTLIKE WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+            DELETE FROM TB_REVIEW WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+            DELETE FROM  TB_MEMPAYMENT WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+            DELETE FROM  TB_MEMBEREVENT WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+            DELETE FROM  TB_COUPONZIP WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+            DELETE FROM  TB_MEMBER WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+
+            END;
+        }
     </delete>
 
     <!-- ================= 결제 시 point 사용하면 point 감소 (writer: 민준)   -->
@@ -92,4 +102,9 @@
         UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
     </update>
 
+    <!--  ================== * 마이페이지 회원 사진 추가 * ==================  -->
+    <update id="updateMyImg" parameterType="member">
+        UPDATE TB_MEMBER SET mem_img = #{mem_img}
+        WHERE mem_id = #{mem_id}
+    </update>
 </mapper>
