@@ -3,7 +3,7 @@
 <mapper namespace="com.finalpj.nbw.product.dao.ProductMapper">
 
 	<select id="getProduct" parameterType="String" resultType="com.finalpj.nbw.product.domain.Product">
-		SELECT P_NO, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE, P_IMG,P_DESCRIPTION, P_CATEGORY, P_LIKE, P_REVIEW, P_AVGSCORE 
+		SELECT P_NO, P_TITLE, P_AUTHOR, P_PUBLISHER, P_PUBDATE, P_PRICE, P_IMG,P_DESCRIPTION, P_CATEGORY, P_LIKE, P_REVIEW, P_AVGSCORE , P_COUNT
 		FROM TB_PRODUCT WHERE p_no = #{value}
 	</select>
 	
@@ -120,17 +120,18 @@
 		)
 		VALUES (
 				   SEQ_P_NO.nextval
-				   , #{p_title}
-				   , #{p_author}
-				   , #{p_img}
-				   , #{p_publisher}
-				   , sysdate
-				   , #{p_price}
-				   , #{p_description}
-				   , #{p_category}
-				   , #{p_count}
-				   )
+			   , #{p_title}
+			   , #{p_author}
+			   , #{p_img}
+			   , #{p_publisher}
+			   , #{p_pubdate}
+			   , #{p_price}
+			   , #{p_description}
+			   , #{p_category}
+			   , #{p_count}
+			   )
 	</insert>
+
 
 	<sql id="criteria">
 		<if test="keyword != null">
@@ -299,6 +300,25 @@
 				</choose>
 				)
 	</select>
+
+	<!--  ========================== 상품 수정 ==============================	-->
+	<update id="updateProduct" parameterType="product">
+		UPDATE tb_product
+		SET p_title = #{p_title}
+		  ,  p_author = #{p_author}
+		  ,  p_publisher = #{p_publisher}
+		  ,  p_pubdate = #{p_pubdate}
+		  ,  p_price = #{p_price}
+		  ,  p_count = #{p_count}
+		  ,  p_description= #{p_description}
+		  ,  p_img = #{p_img}
+		WHERE p_no = #{p_no}
+	</update>
+
+	<!--  ========================== 상품 삭제==============================	-->
+	<delete id="deleteProduct" parameterType="int">
+		DELETE from tb_product WHERE p_no= #{p_no}
+	</delete>
 
 	<!-- 결제 후 상품 수량 감소 -->
 	<update id="updateProductCount" parameterType="java.util.List" >
