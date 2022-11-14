@@ -194,7 +194,7 @@
                         <!-- 이미지 사진 시작 -->
                         <img
                                 class="classimg"
-                                src="/admin/event/display/${eventSelect.ev_img}"/>
+                                src="/admin/event/img/display/${eventSelect.ev_img}"/>
                         <!-- 이미지 사진 끝 -->
                         <div class="picking">
                             <span class="receiving">접수중</span>

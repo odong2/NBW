@@ -112,12 +112,24 @@ public class EventDaoImpl implements EventDao {
         return sqlSession.delete(namespace+"adminEventDelete", ev_no);
     }
 
+    @Override
+    public int  memberEventDelete (Integer ev_no) throws Exception {
+        log.info("다오인폴 이벤트 신청 정보 삭제");
+        return sqlSession.delete(namespace+"memberEventDelete", ev_no);
+    }
+
+
     /******************************* [[ 이벤트 신청 ]] *******************************/
     @Override
     public int eventAdd(EventMember eventMember) throws Exception {
         log.info("event 다오인플 신청 호출 성공");
         return sqlSession.insert(namespace+"eventAdd", eventMember);
     }
+    @Override
+    public int memberEventCnt(EventMember eventMember) throws Exception {
+        return sqlSession.selectOne(namespace+"memberEventCnt");
+    }
+
     /****************************** [[이벤트 등록]] ***************************/
     @Override
     public int adminEventWrite(Event event) throws Exception {

@@ -32,6 +32,7 @@
         main {
             width: 100%;
             padding-left: 30px;
+            margin-right: 180px;
         }
 
         main .header-list {
@@ -43,10 +44,6 @@
             padding: 5px;
         }
         /******************** 공통코드 ************************/
-        /*main {*/
-        /*    width: 100%;*/
-        /*    padding-left: 30px;*/
-        /*}*/
         .topAsk {
             margin-bottom: 50px;
             margin-top: 10px;

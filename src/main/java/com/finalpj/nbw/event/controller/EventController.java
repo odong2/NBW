@@ -33,7 +33,8 @@ public class EventController {
     }
     /***************************** [[이벤트 디테일 페이지]] *******************************/
     @GetMapping("/detail")
-    public String eventRead(Integer ev_no, Model m){
+    public String eventRead(Integer ev_no, Model m) throws Exception {
+        int result = 0;
         try {
             Event event = eventService.eventRead(ev_no);
             if(event.getEv_file() != null) {
@@ -64,7 +65,8 @@ public class EventController {
         log.info("mem_id 가져오기 성공"+mem_id);
         try{
             eventService.eventAdd(eventMember, ev_no);
-
+            eventService.updatePersonY(eventMember); // 신청자수 +1
+            eventService.updateStatusY(ev_no);
             return "redirect:/event/list";
         }catch (Exception e) {
             e.printStackTrace();
