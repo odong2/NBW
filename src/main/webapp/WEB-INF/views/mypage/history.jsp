@@ -41,9 +41,9 @@
 			  <!-- 메뉴 버튼 -->
 			  <div class="col-11">
 			    <div class="list-group d-flex flex-row">
-			      <a class="me-1 font_1 btn btn-outline-primary active" data-bs-toggle="list" href="#list-home">좋아요 상품</a>
+			      <a class="me-1 font_1 btn btn-outline-primary" data-bs-toggle="list" href="#list-home">좋아요 상품</a>
 			      <a class="me-1 font_1 btn btn-outline-primary" data-bs-toggle="list" href="#list-profile">작성한 리뷰</a>
-			      <a class="me-1 font_1 btn btn-outline-primary" data-bs-toggle="list" href="#recent_product">최근 본 상품</a>
+			      <a class="me-1 font_1 btn btn-outline-primary active" data-bs-toggle="list" href="#recent_product">최근 본 상품</a>
 			    </div>
 			    <hr/>
 			  </div>
@@ -51,11 +51,11 @@
 			  
 			  <div class="col-12 m-auto">
 			    <div class="tab-content" id="nav-tabContent">
-			      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1</div>
+			      <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1</div>
 			      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">2</div>
 			      
 			      <!-- 최근 본 상품 -->
-			      <div class="d-flex flex-column tab-pane fade" id="recent_product">
+			      <div class="d-flex flex-column tab-pane fade show active" id="recent_product">
 					<div class="col-11 mb-2 d-flex justify-content-between">
 						<div>
 							<span id="recnetCnt" class="ms-1 text-success">0</span>
@@ -94,7 +94,8 @@
 		});
    		
    		/* 최근 본 상품 그리기 */
-   		let addRecentProduct = (array) => {			
+   		let addRecentProduct = (array) => {
+   			$('#recentBody').empty();
 			array.forEach((product,i)=>{
 				/* 최근 본 상품 부모 태그 생성 */
 				$('#recentBody').append('<div id="RecentProductBoody'+i+'" class="col-11 mb-3 d-flex p-2 border border-opacity-50 rounded"><div>');
@@ -155,6 +156,24 @@
 				});
 			}
 		}
+ 		
+ 		$('#recnetRemoveAll').click(function(){
+ 			if(confirm('모두 삭제하시겠습니까?')){
+ 				$.ajax({
+ 					type : "POST",
+ 					url : "/product/recentRemoveAll",
+ 					success : function() {
+ 						$('#recentBody').empty();
+ 						$('#recentBody').append('<span class="mt-5 text-center">최근 본 상품이 없습니다.</span>');
+ 						$('#recnetCnt').text(0); // 총 개수 변경
+ 					},
+ 					error : function(data, textStatus) {
+ 						msg("에러가 발생했습니다."+data);
+ 						console.log(data);
+ 					}
+ 				})
+ 			}
+ 		})
    	</script>
     </body>
     </html>

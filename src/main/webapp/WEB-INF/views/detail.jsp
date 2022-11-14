@@ -207,7 +207,7 @@ main {
 			<div class="m-auto">총 상품 금액</div>
 			<div class="fs-3 fw-bold d-flex ms-5">
 				<div id="price">
-					<fmt:formatNumber value="${product.getP_price() }" />
+					<fmt:formatNumber value="${product.p_price }" />
 				</div>
 				<div>원</div>
 			</div>
@@ -317,9 +317,10 @@ main {
 										class="card-img-top" src="${product.p_img}" alt="..."
 										style="height: 300px;" /></a>
 									<div class="card-body">
-										<div class="text-center">
-											<h5 class="fw-bolder">${product.p_title}</h5>
-											<span>${product.p_price}</span>
+										<div class="text-center d-flex flex-column">
+											<span class="fw-bolder fs-5"><c:out value="${product.p_title}"/></span>
+											<span><c:out value="${product.p_author}"/> 지음</span>
+											<span><fmt:formatNumber value="${product.p_price }" /> 원3</span>
 										</div>
 									</div>
 								</div>
@@ -331,18 +332,18 @@ main {
 				<div class="mb-3 bg-light px-5 py-3 border rounded">
 					<c:choose>
 						<c:when test="${empty member}">
-							<h5 class="btnFold">내가 작성한 리뷰보기</h5>
+							<h5 class="btnFold">내가 최근에 작성한 리뷰</h5>
 							<hr />
 							<span class="text-danger">로그인이 필요합니다.</span>
 						</c:when>
 						<c:when test="${empty memberReview}">
-							<h5 class="btnFold text-danger">내가 작성한 리뷰보기</h5>
+							<h5 class="btnFold text-danger">내가 최근에 작성한 리뷰</h5>
 							<hr />
 							<span>작성한 리뷰가 없습니다.</span>
 						</c:when>
 						<c:otherwise>
 							<h5 class="btnFold" style="cursor: pointer;">
-								내가 작성한 리뷰보기 <i class="fas fa-caret-down"></i>
+								내가 최근에 작성한 리뷰 <i class="fas fa-caret-down"></i>
 							</h5>
 							<hr />
 							<div class="fold">
@@ -480,10 +481,11 @@ main {
 		    	$('#rv_body').empty();
 		    	$('#rv_body').append(reviewBackup);
 		    	rv_imgs = [];
-	    		$('#contentUpdate').text(rv_content);
+	    		$('#contentUpdate').text(rv_content.trim());
 	    		$('#scoreUpdate').text(getStar(rv_score));
 	    		
 	    		$('#imgUpdate-box').empty();
+	    		if(fileNames )
 	    		$('#imgUpdate-box').append('<button type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>')
 	 			
 	    		fileNames.forEach((item,i)=>{
@@ -579,6 +581,7 @@ main {
 				obj.rv_content = rv_content;
 				obj.p_no = p_no;
 				obj.rv_score = rv_score;
+				obj.rv_no = '${memberReview.rv_no}';
 				
 				console.log(obj)
 				
@@ -691,7 +694,7 @@ main {
 				array.forEach((review, i) => {
 					let mem_nickname = review.MEM_NICKNAME;
 					let rv_content = review.RV_CONTENT;
-					let rv_date = review.RV_DATE.time;
+					let rv_date = review.RV_DATE;
 					let rv_img = review.RV_IMG;
 					let rv_img2 = review.RV_IMG2;
 					let rv_img3 = review.RV_IMG3;
@@ -704,10 +707,9 @@ main {
 					
 					$('#top'+i).append('<div id="top_content'+i+'"></div>');
 					$('#top_content'+i).append('<span class="pe-1 border-end" style="font-size:0.8rem;">'+mem_nickname+'</span>');
-					$('#top_content'+i).append('<span class="px-1 border-end" style="font-size:0.8rem;">'+getCdate(rv_date)+'</span>');
+					$('#top_content'+i).append('<span class="px-1 border-end" style="font-size:0.8rem;">'+rv_date+'</span>');
 					$('#top_content'+i).append('<span class="ps-1" style="font-size:0.8rem;">신고</span>');
 					$('#top'+i).append('<span class="ps-2 text-warning" style="font-size:1rem;">'+getStar(rv_score)+'</span>');
-					
 					
 					$('#bottom'+i).append('<span style="font-size: 1.2rem;">'+rv_content+'</span>');
 					$('#bottom'+i).append('<div id="bottom_content'+i+'"></div>');
@@ -848,7 +850,7 @@ main {
 			
 			formData.append('p_no',p_no);
 			formData.append('rv_score',rv_score);
-			formData.append('rv_content',rv_content);
+			formData.append('rv_content',rv_content.trim());
 			
 			rv_imgs.forEach((item)=>{
 				formData.append('files',item);
@@ -875,13 +877,6 @@ main {
 			});
 		}
 		
-	    let getCdate = function(ntc_cdate) {
-	        let date = new Date(ntc_cdate);
-	        let year = date.getFullYear();
-	        let month = String(date.getMonth()).padStart(2, "0");
-	        let day = String(date.getDay()).padStart(2,"0");
-	        return year + "-" + month + "-" + day;
-	    }
 	    
 		let getStar = (score) => {
 			let star = "★"; 
