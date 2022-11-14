@@ -6,7 +6,8 @@
         <ul
                 class="col-12 nav nav-pills d-flex justify-content-end p-2"
                 style="font-size: 13px;"
-        >
+        >	
+        	<c:set var="path" value="${requestScope['javax.servlet.forward.servlet_path']}" /> 
             <c:choose>
                 <c:when test="${ !empty sessionScope.member}">
                     <li class="nav-item">
@@ -18,7 +19,7 @@
                         >
                     </li>
                     <li class="nav-item">
-                        <a id="logout" href="#" class="text-decoration-none px-3 border-end rounded-0"
+                        <a id="logout" href="/logout?url=${path}" class="text-decoration-none px-3 border-end rounded-0"
                         >로그아웃</a
                         >
                     </li>

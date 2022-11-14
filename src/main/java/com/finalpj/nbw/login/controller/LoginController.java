@@ -92,7 +92,7 @@ public class LoginController {
 	}
 
 	@GetMapping("/logout")
-	public void logout(HttpSession session, HttpServletResponse response,@RequestParam String url) throws Exception {
+	public void logout(HttpSession session, HttpServletResponse response,@RequestParam(required = false) String url) throws Exception {
 		if (session.getAttribute("member") == null) {
 			response.sendError(403, "로그인 상태가 아닙니다.");
 		} else {
