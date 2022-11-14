@@ -43,12 +43,13 @@
                     <div class="card-title" style="text-align: right; padding-right: 40px;"><h3>📚 새로 나온 책</h3></div>
                     <hr>
                     <div class="card-body" style="text-align: center; padding-top:20px; padding-left: 40px;">
-                        <div><img src="/images/testbook1.png" width="200"/></div>
-                        <div><img src="/images/testbook2.png" width="200"/></div>
-                        <div><img src="/images/testbook3.png" width="200"/></div>
-                        <div><img src="/images/testbook4.png" width="200"/></div>
-                        <div><img src="/images/testbook5.png" width="200"/></div>
-                        <div><img src="/images/testbook6.png" width="200"/></div>
+                        <c:forEach items = "${homeList}" var="homeList">
+                            <div>
+                                <a href="<c:out value="/product/${homeList.getP_no()}"/>">
+                                    <img src="${homeList.getP_img()}" alt="" width="200" height="270"/>
+                                </a>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </section>

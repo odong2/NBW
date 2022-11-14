@@ -145,7 +145,7 @@ public class ProductService {
 
     /* 상품 목록 조회 > 페이징*/
     public List<Product> searchProduct(Criteria criteria) throws Exception {
-        log.info("SERVICE 에서 매개로 전달될 criteria ====> "+ criteria);
+//        log.info("SERVICE 에서 매개로 전달될 criteria ====> "+ criteria);
         return productDao.selectProduct(criteria);
     }
 

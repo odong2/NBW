@@ -50,7 +50,6 @@ li {
     font-size: 0.9rem;
 }
 #userInfo {
-    display: flex;
     text-align: center;
     width: 150px;
     height: 230px;

@@ -66,7 +66,7 @@ public class ProductDaoImpl implements ProductDao {
 	/* 상품 목록 조회 > 페이징 포함 */
 	@Override
 	public List<Product> selectProduct(Criteria criteria) {
-		log.info("DAO 에서 매개로 전달될 criteria ====> " + criteria);
+//		log.info("DAO 에서 매개로 전달될 criteria ====> " + criteria);
 		return sqlSession.selectList(namespace+"selectProduct", criteria);
 	}
 
