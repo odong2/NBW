@@ -14,6 +14,12 @@ public interface ProductDao {
 	/* 상품 등록 */
 	int insertProduct(Product product) throws Exception;
 
+	/* 상품 수정 */
+	int updateProduct(Product product) throws Exception;
+
+	/* 상품 삭제 */
+	int deleteProduct(Integer p_no) throws Exception;
+
 	/* 뷰에서 얻은 키워드를 넘겨서 키워드가 포함된 책 제목을 반환한다. */
 	List<Product> selectProductByWord(String keyword) throws Exception;
 
