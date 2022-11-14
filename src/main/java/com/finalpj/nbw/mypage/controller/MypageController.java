@@ -52,18 +52,18 @@ public class MypageController {
 
     /* ========= 회원 정보 수정 페이지 GET ========= */
     @GetMapping("info")
-    public String getMypageInfo(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        Member member = (Member) request.getSession().getAttribute("member");
+    public String getMypageInfo(HttpSession session, HttpServletResponse response, Model model) throws Exception {
+        Member member = (Member) session.getAttribute("member");
         String myId = member.getMem_id();
         Member myInfo = new Member();
         myInfo = mypageService.getMyInfo(myId);
 
-        model.addAttribute("myInfo", myInfo);
+
         log.info("[[ 정보 수정 페이지 ]] member ====> "+ myInfo);
 
         String url = "";
         /* 로그인 된 사용자가 없으면 마이페이지로 이동 불가 =============> 후에 인터셉터 처리 */
-        if (request.getSession().getAttribute("member") == null) {
+        if (session.getAttribute("member") == null) {
             response.sendError(403, "로그인 후에 이용해 주세요. ");
         } else {
             url = "/mypage/info/mypageInfo";
@@ -112,7 +112,7 @@ public class MypageController {
      * 사용자가 입력한 비밀번호, 기존 비밀번호 일치 여부 확인 > 변수에 담기
      * 일치할 경우에만 삭제 진행 */
     @PostMapping("remove")
-    public String postRemove(Member vo, HttpServletRequest request, HttpServletResponse response, RedirectAttributes rttr) throws Exception {
+    public String postRemove(Member vo, HttpServletRequest request ,HttpServletResponse response, RedirectAttributes rttr) throws Exception {
         log.info("회원탈퇴 POST 요청 .......................... ");
         String userId = ((Member)(request.getSession().getAttribute("member"))).getMem_id();
 
@@ -176,7 +176,7 @@ public class MypageController {
         log.info(" [[MypageController]] 회원 사진 등록 요청!!! ===> 등록할 회원 정보 : "+ myInfo);
         model.addAttribute("myInfo", myInfo);
 
-        String path = "/myPhoto";
+        String path = "/myphoto";
         String original = uploadFile.getOriginalFilename();
         String saveFileName = "";
         log.info("Upload File Name : "+ original);
@@ -186,10 +186,10 @@ public class MypageController {
         saveFileName= fileUploader.fileUpload(uploadFile, path);
 
         if(saveFileName != null){
-            log.info("디비에 저장할 파일 이름 : "+ saveFileName);
+            log.info("디비에 저장할 파일 이름 : "+ "/mypage/profile/"+saveFileName);
 
             /* member 객체에 이미지 설정해준다. */
-            myInfo.setMem_img(saveFileName);
+            myInfo.setMem_img("/mypage/"+saveFileName);
 
             /* DB 에 저장한다. */
             try {
@@ -201,7 +201,7 @@ public class MypageController {
                 log.info("이미지 등록 여부 ===> " + intI);
 
                 /* 정보가 변경 되었으니 세션에도 변경된 정보 추가 */
-                session.setAttribute("myInfo", myInfo);
+                session.setAttribute("member", myInfo);
 
                 model.addAttribute("success", "사진이 등록되었습니다. ");
 
@@ -217,12 +217,14 @@ public class MypageController {
         return "/mypage/info/mypageInfo";
     }
 
-    /* ********************************  사진 ******************************** */
-    @GetMapping(value = "profile/{mem_img:.+}")
+    /* ********************************  사진 출력 ******************************** */
+    @GetMapping(value = "{mem_img:.+}")
     @ResponseBody
     public ResponseEntity<byte[]> getMemImg(@PathVariable String mem_img, HttpServletRequest request) throws Exception {
+
         log.info("/mypage/profile/"+ mem_img + "===> Get 요청!! ");
-        Member member = (Member) request.getSession().getAttribute("member");
+        Member member = (Member) request.getSession().getAttribute("member"); // 현재 로그인한 사용자
+        log.info("현재 띄워줄 프로필 사진 ====> "+ member.getMem_img());
 
         log.info("mem_img ===> "+ mem_img);
         final String uploadRoot = System.getProperty("user.home");
