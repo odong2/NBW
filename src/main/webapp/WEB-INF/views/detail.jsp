@@ -850,7 +850,7 @@ main {
 			
 			formData.append('p_no',p_no);
 			formData.append('rv_score',rv_score);
-			formData.append('rv_content',rv_content);
+			formData.append('rv_content',rv_content.trim());
 			
 			rv_imgs.forEach((item)=>{
 				formData.append('files',item);
