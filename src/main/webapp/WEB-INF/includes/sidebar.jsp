@@ -104,7 +104,7 @@
                             <span>문의내역</span>
                         </li>
                         <li class="side-link">
-                            <a href="/mypage/qna/list"> 문의내역 </a>
+                            <a href="/mypage/question/list"> 문의내역 </a>
                         </li>
                     </ul>
                 </li>
