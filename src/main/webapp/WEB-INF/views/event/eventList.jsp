@@ -199,8 +199,7 @@
                     <!-- 이미지 사진 시작 -->
                     <img
                             class="classimg"
-                            src="${event.ev_img}"
-                    />
+                            src="/admin/event/img/display/${eventSelect.ev_img}"/>
                     <!-- 이미지 사진 끝 -->
                     <div class="picking">
                         <span class="receiving">${event.ev_status}</span>
