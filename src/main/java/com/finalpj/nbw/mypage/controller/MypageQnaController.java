@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Log4j
-@RequestMapping("/mypage/qna/")
+@RequestMapping("/mypage/question/")
 @Controller
 public class MypageQnaController {
     QnaService qnaService;
@@ -43,7 +43,8 @@ public class MypageQnaController {
         model.addAttribute("qnaSelectIngAll", qnaSelectIngAll);
         model.addAttribute("qnaSelectFinishAll", qnaSelectFinishAll);
         log.info("컨트롤러 타고 있습니다... 제발22222");
-        return "/mypage/qna/qnaList";
+
+        return "mypage/question/qnaList";
     }
     /***************************** [[QNA 디테일 페이지]] *******************************/
     @GetMapping("detail")
@@ -57,7 +58,7 @@ public class MypageQnaController {
             log.info(qna);
         } catch (Exception e) {
         }
-        return "mypage/qna/qnaDetail";
+        return "mypage/question/qnaDetail";
     }
 
     /************************************ [[QNA 삭제 페이지]] *********************************/
@@ -73,13 +74,13 @@ public class MypageQnaController {
             e.printStackTrace();
             rattr.addFlashAttribute("msg", "DEL_ERR");
         }
-        return "redirect:/mypage/qna/list";
+        return "redirect:/mypage/question/list";
     }
 
     /*********************************** [[Qna 작성]] ***************************************/
     @GetMapping("write")
     public String qnaWrite(Model m) {
-    return "mypage/qna/qna";
+    return "mypage/question/list";
     }
     /*********************************** [[Qna 작성]] ***************************************/
     @PostMapping("/write")
@@ -96,13 +97,13 @@ public class MypageQnaController {
                 throw new Exception("Write failed.");
 
             rattr.addFlashAttribute("msg", "WRT_OK");
-            return "redirect:/mypage/qna/list";
+            return "redirect:/mypage/question/list";
         } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute(qna);
             m.addAttribute("mode", "new");
             m.addAttribute("msg", "WRT_ERR");
-            return "/mypage/qna/write";
+            return "/mypage/question/write";
         }
     }
 }

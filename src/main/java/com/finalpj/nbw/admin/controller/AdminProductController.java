@@ -113,6 +113,7 @@ public class AdminProductController {
     @PostMapping("modify")
     public String modProduct(Product product, MultipartFile uploadFile){
         log.info("[[ADMIN]] 상품 수정 POST 요청.........");
+
         String path = "/product";
         String original = uploadFile.getOriginalFilename();
         String saveFileName = "";

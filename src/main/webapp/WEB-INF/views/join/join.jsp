@@ -69,7 +69,10 @@
                     $('#idCheckDiv').removeClass("alert-success");
                     $('#idCheckDiv').addClass("alert-danger");
                     $('#idCheckDiv').text("아이디는 4자 이상 입력하셔야 합니다.");
-                    idCheck = false; // 가입 불가
+                    idCheck = false;
+                    <c:if test="${ !empty member }">
+            	    idCheck = true;
+                	</c:if>
                     return;
                 }
                 /* id > 20 */
@@ -78,6 +81,10 @@
                     $('#idCheckDiv').addClass("alert-danger");
                     $('#idCheckDiv').text("아이디는 20이내로 입력하셔야 합니다.");
                     idCheck = false; // 가입 불가
+                    <c:if test="${ !empty member }">
+            	    idCheck = true;
+                	</c:if>
+                    
                     return;
                 }
                 /* 아이디 중복 체크 */
@@ -117,12 +124,12 @@
                     nicknameCheck = false; // 가입 불가
                 }
                 /* nickname > 20 */
-                if(nickname.length > 20){
+/*                 if(nickname.length > 20){
                     $('#nicknameCheckDiv').removeClass("alert-success");
                     $('#nicknameCheckDiv').addClass("alert-danger");
                     $('#nicknameCheckDiv').text("닉네임은 20이내로 입력하셔야 합니다.");
                     nicknameCheck = false; // 가입 불가
-                }
+                } */
 
                 $("#nicknameCheckDiv").load("/member/nicknameCheck?nickname="+nickname, function(result){
                     if(result.indexOf("가능한")){
@@ -379,9 +386,6 @@
                     $('.final_privacy_ck').attr("hidden", true);
                     privacyCheck = true;
                 }
-                <c:if test="${ !empty member }">
-                mailCodeCheck = true;
-                </c:if>
 
                 /* 최종 유효성 검사 체크 > 모든 것이 참이어야 가입 가능 */
                 if(idCheck&&idEqual&&pwCheck&&pwGrade&&pwEqual
@@ -399,6 +403,14 @@
 
             });
         });
+        
+        <c:if test="${ !empty member }">
+    	$(document).ready(function(){
+	    	mailCodeCheck = true;
+	    	idCheck = true;
+	    	idEqual = true;
+    	});
+    	</c:if>
     </script>
 
     <style>
@@ -473,7 +485,7 @@
                         </c:when>
                         <c:otherwise>
                             <input name="mem_id" id="mem_id" required="required" pattern="[A-Za-z0-9]{4,20}" class="form-control"
-                                   autocomplete="off" value="${ member.getMem_id()}" readonly>
+                                   autocomplete="off" value="${ member.getMem_id() }" readonly>
                         </c:otherwise>
                     </c:choose>
                 </div>

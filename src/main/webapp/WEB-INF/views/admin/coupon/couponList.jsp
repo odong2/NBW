@@ -74,9 +74,6 @@
             height: 600px;
             overflow: auto;
         }
-        table{
-            height: 600px;
-        }
         tbody td{
             padding-top: 10px;
         }

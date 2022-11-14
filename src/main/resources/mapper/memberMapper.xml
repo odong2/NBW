@@ -103,4 +103,10 @@
         UPDATE tb_member SET  mem_point = #{mem_point} where mem_id = #{mem_id}
     </update>
 
+    <!--  ================== * 마이페이지 회원 사진 추가 * ==================  -->
+    <update id="updateMyImg" parameterType="member">
+        UPDATE TB_MEMBER SET mem_img = #{mem_img}
+        WHERE mem_id = #{mem_id}
+    </update>
+
 </mapper>

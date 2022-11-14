@@ -481,12 +481,13 @@ main {
 		    	$('#rv_body').empty();
 		    	$('#rv_body').append(reviewBackup);
 		    	rv_imgs = [];
-	    		$('#contentUpdate').text(rv_content.trim());
+	    		$('#contentUpdate').text(rv_content.replaceAll('<br>','\r\n'));
 	    		$('#scoreUpdate').text(getStar(rv_score));
 	    		
 	    		$('#imgUpdate-box').empty();
-	    		if(fileNames )
-	    		$('#imgUpdate-box').append('<button type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>')
+	    		
+	    		if(fileNames != null)
+	    			$('#imgUpdate-box').append('<button type="button" class="me-2 btn btn-outline-dark btn-sm" onclick="imgToggle(this)">펼치기</button>')
 	 			
 	    		fileNames.forEach((item,i)=>{
 	    			$('#imgUpdate-box').append('<img id="imgUpdate'+i+'" class="me-2 border border-dark" id="reviewImg" alt="" src="/product/images/'+item+'" style="width: 60px; height: 60px;">');
@@ -527,7 +528,7 @@ main {
 		/* 리뷰 수정 요청 */
 		let modify_submmit = () => {			
 			let rv_score = $('#modify_reviewPoint').text();
-			let rv_content = $('#modify_content').val();
+			let rv_content = $('#modify_content').val().replace(/\n/g,'<br>');
 			let p_no = '${product.getP_no()}';
 			
 			let formData = new FormData();
@@ -611,6 +612,9 @@ main {
 		$(document).ready(function(){			
 			reviewPage(now_page);
 			imgAppend();
+			
+			let value = $('#contentUpdate').text();
+			$('#contentUpdate').text(value.replaceAll('<br>','\r\n'));
 		})
 		
 		let imgAppend = () => {
@@ -693,7 +697,7 @@ main {
 			}else{
 				array.forEach((review, i) => {
 					let mem_nickname = review.MEM_NICKNAME;
-					let rv_content = review.RV_CONTENT;
+					let rv_content = review.RV_CONTENT.replaceAll('<br>','\r\n');
 					let rv_date = review.RV_DATE;
 					let rv_img = review.RV_IMG;
 					let rv_img2 = review.RV_IMG2;
@@ -845,7 +849,7 @@ main {
 			const formData = new FormData();
 			
 			const rv_score = $('#reviewPoint').text();
-			const rv_content = $('#reviewContent').val();
+			const rv_content = $('#reviewContent').val().replace(/\n/g,'<br>');
 			const p_no = '${ product.getP_no() }';
 			
 			formData.append('p_no',p_no);
