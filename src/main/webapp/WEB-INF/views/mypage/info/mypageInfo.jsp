@@ -289,7 +289,7 @@
             <div class="row">
                 <div class="col-3"><h6> 기본 정보 </h6></div>
                 <div class="col-3"></div>
-                <c:if test ="${not empty myInfo.getMem_update()}">
+                <c:if test ="${not empty sessionScope.member.getMem_update()}">
                     <div class="col-6" style="text-align: right;"> <p style="font-size: small">마지막 수정일은
                         <strong>
                             <fmt:parseDate value="${myInfo.getMem_update()}" var="dateType" pattern="yyyy-MM-dd"/>
@@ -304,11 +304,11 @@
             <div class="row m-4">
                 <div class="col-3">
                     <h6><strong>아이디</strong></h6>
-                    <input type="text" name="mem_id" value="${myInfo.getMem_id()}" hidden/>
+                    <input type="text" name="mem_id" value="${sessionScope.member.getMem_id()}" hidden/>
                 </div>
                 <div class="col-8 mb-3">
                     <div class="input-group mb-3 w-100">
-                        <label><span style="font-weight: bolder; color: #23236a; font-size: medium;">${myInfo.getMem_id()}</span></label>
+                        <label><span style="font-weight: bolder; color: #23236a; font-size: medium;">${sessionScope.member.getMem_id()}</span></label>
                     </div>
                 </div>
             </div>
@@ -319,7 +319,7 @@
                 </div>
                 <div class="col-8 mb-3">
                     <div class="input-group mb-3 w-100">
-                        <label>${myInfo.getMem_name()}</label>
+                        <label>${sessionScope.member.getMem_name()}</label>
                     </div>
                 </div>
             </div>
@@ -331,10 +331,10 @@
                 </div>
                 <div class="col-8 mb-3">
                     <div class="input-group mb-3 w-100">
-                        <label id="lb-nickname">${myInfo.getMem_nickname()}</label>
+                        <label id="lb-nickname">${sessionScope.member.getMem_nickname()}</label>
                         <input name="mem_nickname" type="text" id="mem_nickname" hidden
                                autocomplete="off" class="form-control" aria-describedby="button-addon2"
-                               value="${myInfo.getMem_nickname()}"
+                               value="${sessionScope.member.getMem_nickname()}"
                                placeholder="닉네임을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px"
                         >
                         <button class="btn-circle" id="upBtn-nickname" type="button" style="float: right; border-radius: 10px; border: 0; margin-left: 10px;">변경</button>
@@ -351,7 +351,7 @@
                 </div>
                 <div class="col-8 mb-3">
                     <div class="input-group mb-3 w-100">
-                        <label> ${myInfo.getMem_birthday()} / ${myInfo.getMem_gender()} </label>
+                        <label> ${sessionScope.member.getMem_birthday()} / ${sessionScope.member.getMem_gender()} </label>
                     </div>
                 </div>
             </div>
@@ -362,7 +362,7 @@
                 </div>
                 <div class="col-8 mb-3">
                     <div class="input-group mb-3 w-100">
-                        <label> ${myInfo.getMem_phone()} </label>
+                        <label> ${sessionScope.member.getMem_phone()} </label>
                     </div>
                 </div>
             </div>
@@ -374,10 +374,10 @@
                 </div>
                 <div class="col-8 mb-3">
                     <div class="input-group mb-3 w-100">
-                        <label id="lb-mail"> ${myInfo.getMem_email()}</label>
+                        <label id="lb-mail"> ${sessionScope.member.getMem_email()}</label>
                         <input name="mem_email" type="text" id="mem_email" hidden
                                autocomplete="off" class="form-control" aria-describedby="button-addon2"
-                               value="${myInfo.getMem_email()}"
+                               value="${sessionScope.member.getMem_email()}"
                                placeholder="이메일을 입력해 주세요." style="background-color: #fffbc5; border-radius: 5px">
                         <button name="btn-email-send" id="btn-email-send" hidden
                                 class="btn btn-outline-secondary" type="button" style="border-radius: 2px" >인증번호 전송</button>
@@ -409,7 +409,7 @@
                 <div class="col-8">
                     <div class="input-group mb-3 w-100">
                         <input name="mem_zipcode" type="text" id="address1" readonly
-                               class="form-control" value="${myInfo.getMem_zipcode()}" aria-describedby="button-addon2">
+                               class="form-control" value="${sessionScope.member.getMem_zipcode()}" aria-describedby="button-addon2">
                         <button class="btn btn-outline-secondary" id="upBtn-addr" type="button" onclick="exePostCode()" >변경</button>
                     </div>
                 </div>
@@ -420,7 +420,7 @@
                 <div class="col-8">
                     <div class="input-group mb-3 w-100">
                         <input name="mem_address1" type="text" id="address2" readonly
-                               autocomplete="off" class="form-control" value="${myInfo.getMem_address1()}">
+                               autocomplete="off" class="form-control" value="${sessionScope.member.getMem_address1()}">
                     </div>
                 </div>
             </div>
@@ -430,7 +430,7 @@
                 <div class="col-8">
                     <div class="input-group mb-3 w-100">
                         <input name="mem_address2" type="text" id="address3" readonly
-                               autocomplete="off" class="form-control" value="${myInfo.getMem_address2()}">
+                               autocomplete="off" class="form-control" value="${sessionScope.member.getMem_address2()}">
                     </div>
                 </div>
                 <br>
@@ -440,7 +440,7 @@
             <hr style="border: solid 1px black;">
             <div style="text-align: left;"> <p style="font-size: small">가입일은
                 <strong>
-                    <fmt:parseDate value="${myInfo.getMem_cdate()}" var="dateType" pattern="yyyy-MM-dd"/>
+                    <fmt:parseDate value="${sessionScope.member.getMem_cdate()}" var="dateType" pattern="yyyy-MM-dd"/>
                     <fmt:formatDate value="${dateType}"  pattern="yyyy-MM-dd"/>
                 </strong>
                 입니다.

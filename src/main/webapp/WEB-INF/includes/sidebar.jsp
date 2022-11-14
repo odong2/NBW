@@ -6,14 +6,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 1rem;">
                 <div class="modal-header">
-                    <c:choose>
-                        <c:when test = "${empty myInfo.getMem_img()}">
-                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">프로필 사진 등록</h1>
-                        </c:when>
-                        <c:otherwise>
                             <h1 class="modal-title fs-5" id="exampleModalToggleLabel">프로필 사진 수정</h1>
-                        </c:otherwise>
-                    </c:choose>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
@@ -21,15 +14,7 @@
                     <div class="mb-3 d-flex flex-column text-sm-center" id="myImg-box" style="text-align: center;">
                         <label for="fileInput" style="width: 40px; height: 40px; float: right; margin-bottom: 30px;"><img src="/images/edit.png" alt="" width="40" height="40"></label>
                         <div id="img-box">
-                            <!-- 기존 이미지와 변경할 이미지를 보여줄 div  -->
-                            <c:choose>
-                                <c:when test = "${empty myInfo.getMem_img()}">
-                                    <img src="/images/undefine_img.png" width="450" height="450" alt=""/>
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="<c:url value='/mypage/profile/${myInfo.getMem_img()}'/>" alt="" width="450" height="450" style="border-radius: 50%;" />
-                                </c:otherwise>
-                            </c:choose>
+                                    <img src="${sessionScope.member.getMem_img()}" width="450" height="450" alt="" style="border-radius: 50%;"/>
                         </div>
                         <div class="row">
                             <!-- 파일 전송 Form 태그 -->
@@ -57,17 +42,10 @@
     <section class="sidebar">
         <div id="userInfo" class="container-fulid wrapper mb-3">
             <div class="mb-3">
-                <c:choose>
-                    <c:when test = "${empty myInfo.getMem_img()}">
-                        <img src="/images/mypageuser.png" alt="" width="80px" height="80px" style="border-radius: 50%;" />
-                    </c:when>
-                    <c:otherwise>
-                        <img src="<c:url value='/mypage/profile/${myInfo.getMem_img()}'/>" alt="" width="80px" height="80px" style="border-radius: 50%;"/>
-                    </c:otherwise>
-                </c:choose>
+                        <img src="${sessionScope.member.getMem_img()}" alt="" width="80px" height="80px" style="border-radius: 50%;" />
             </div>
             <div class="wrapper">
-                <span id="user-name">${myInfo.getMem_name()}님</span>
+                <span id="user-name">${sessionScope.member.getMem_name()}님</span>
                 <%--                모달 여는 버튼              --%>
                 <button id="img-change-modal" data-bs-target="#imgModalToggle" data-bs-toggle="modal" style="border-radius: 50px; width: 30px; height: 27px; border: 1px solid white;" >
                     <i class="fas fa-image"></i>
@@ -87,7 +65,7 @@
                         <span>쿠폰</span>
                     </div>
                     <div class="info-detail">
-                        <span>${member.coupon_count}</span>
+                        <span>${sessionScope.member.coupon_count}</span>
                     </div>
                 </div>
                 <div>
