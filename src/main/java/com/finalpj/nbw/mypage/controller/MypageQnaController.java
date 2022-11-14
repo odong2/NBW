@@ -24,7 +24,7 @@ public class MypageQnaController {
     }
 
     /********************************* [[QNA 전체 조회]] **************************************/
-    @GetMapping("list")
+    @GetMapping("/list")
     public String qnaList(Model model, HttpSession session) throws Exception {
         Member member = (Member) session.getAttribute("member");
         List<Qna> qnaSelectAll = null;
@@ -43,7 +43,7 @@ public class MypageQnaController {
         model.addAttribute("qnaSelectIngAll", qnaSelectIngAll);
         model.addAttribute("qnaSelectFinishAll", qnaSelectFinishAll);
         log.info("컨트롤러 타고 있습니다... 제발22222");
-        return "mypage/qna/qnaList";
+        return "/mypage/qna/qnaList";
     }
     /***************************** [[QNA 디테일 페이지]] *******************************/
     @GetMapping("detail")
