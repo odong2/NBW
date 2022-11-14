@@ -146,4 +146,12 @@
 		   ON A.order_no = B.order_no
 		ORDER BY order_date desc
     </select>
+
+    <!-- 비회원 주문 조회 -->
+    <select id="selectUnMemOrder" parameterType="java.util.Map" resultType="String">
+        SELECT NVL2(MAX(ORDER_NO),'Y','N') AS "주문내역" FROM TB_UNMEMPAYMENT
+        WHERE ORDER_NAME = #{order_name}
+          AND ORDER_PW = #{order_pw}
+          AND ORDER_NO = #{order_no}
+    </select>
 </mapper>

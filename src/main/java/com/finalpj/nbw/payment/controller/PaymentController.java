@@ -10,6 +10,8 @@ import com.finalpj.nbw.payment.domain.Payment;
 import com.finalpj.nbw.payment.domain.UnMemPayment;
 import com.finalpj.nbw.payment.service.PaymentService;
 import lombok.extern.log4j.Log4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -93,6 +95,21 @@ public class PaymentController {
         }
 
         return "redirect:/payment/pay/" + order_no;
+    }
+
+    /********************************* 비회원 주문 조회 *******************************/
+    @GetMapping("unmem/order")
+    @ResponseBody
+    public ResponseEntity<String> getUnMemOrder(@RequestParam Map<String, String> pMap){
+        log.info(pMap);
+        String result;
+        try{
+            result =  paymentService.searchUnMemOrder(pMap);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<String>("ERR", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     /************************* 결제페이지에서 결제하기 (회원) ****************************/
