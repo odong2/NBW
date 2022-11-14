@@ -69,7 +69,7 @@
                             aria-label="Recipient's username"
                             aria-describedby="button-addon2"
                             autocomplete="off"
-                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px; background-image: url('/images/search_background.png')"
+                            style="border-radius: 15px; border: solid 2px; border-color: #3b5998; height: 50px;)"
                     />
                     <button
                             class="btn btn-outline-secondary"
