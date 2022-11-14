@@ -20,7 +20,7 @@ public class FileUploader {
 
 	public String fileUpload(MultipartFile file, String path) {
 
-		String originalFileName = convertFileNameForOs(file.getOriginalFilename());
+		String originalFileName = file.getOriginalFilename();
 		String saveFileName = "";
 		
 		// 첨부파일이 있을 경우
@@ -55,7 +55,7 @@ public class FileUploader {
 
 		for (MultipartFile file : files) {
 
-			String originalFileName = convertFileNameForOs(file.getOriginalFilename());
+			String originalFileName = file.getOriginalFilename();
 			
 			System.out.println("디코딩 전 : "+originalFileName);
 			
@@ -105,7 +105,7 @@ public class FileUploader {
      *
      * @param fileName
      * @param isMacOS
-     * @param convertToMacFileName
+     * @param convertToMacFileNames
      * @return
      */
     public String convertFileNameForOs(String fileName) {

@@ -26,9 +26,6 @@ public class HomeController {
     ProductService productService;
 
     @GetMapping("home")
-<<<<<<< HEAD
-    public String HomePage(){
-=======
     public String HomePage(Criteria criteria, Model model) throws Exception {
         /* 최신 상품 여섯개를 불러온다. */
         criteria.setSort("recent");
@@ -36,8 +33,6 @@ public class HomeController {
         List<Product> list = productService.searchProduct(criteria);
         model.addAttribute("homeList", list);
         log.info(" 최신 상품 ====> "+ list);
-
->>>>>>> 41b7bd40b4f54fb3689e7f3d4fee25b2af258831
         return "/home";
     }
 }
