@@ -26,21 +26,24 @@
         .headerTit {
             font-weight: bolder;
             font-size: 24px;
+            margin-top: 3px;
+            margin-bottom: 7px;
         }
         .lectureHeader {
             background-color: #f2f2f2;
             /* text-align: left; */
             margin: 10px;
-            padding-left: 30px;
+            /*padding-left: 30px;*/
             padding-right: 30px;
             padding-top: 10px;
             padding-bottom: 10px;
+            display: flex;
         }
         a {
             color: black;
         }
         .programnote {
-            font-size: small;
+            font-size: 14px;
             color: #969696;
         }
         .eventcare {
@@ -167,6 +170,9 @@
             width: 100px;
             height: 50px;
         }
+        .programImg {
+            margin-right: 30px;
+        }
         /************************* [[댓글]] **************************/
 
 </style>
@@ -182,11 +188,16 @@
     </session>
     <hr />
     <div class="lectureHeader">
-        <p class="headerTit">프로그램신청 시 유의사항</p>
-        <div class="programnote">
-            <div>1. 프로그램명을 클릭하시면 신청할 수 있으며, 프로그램신청은 로그인 후 이용가능합니다.</div>
-            <div>2. 신청자의 인적사항(성명,휴대폰번호,주소)은 정확하게 확인 바랍니다.</div>
-            <div class="eventcare">3. 수강 취소 없이 불참 시 다음 프로그램 참여가 제한될 수 있습니다. "마이페이지"에서 신청내역을 확인 가능합니다.</div>
+        <div class="programImg">
+            <img alt="" src="/images/programpick.png" style="width: 300px; height: 110px">
+        </div>
+        <div class="programcontent">
+            <div class="headerTit">프로그램신청 시 유의사항</div>
+            <div class="programnote">
+                <div>1. 프로그램명을 클릭하시면 신청할 수 있으며, 프로그램신청은 로그인 후 이용가능합니다.</div>
+                <div>2. 신청자의 인적사항(성명,휴대폰번호,주소)은 정확하게 확인 바랍니다.</div>
+                <div class="eventcare">3. 수강 취소 없이 불참 시 다음 프로그램 참여가 제한될 수 있습니다. "마이페이지"에서 신청내역을 확인 가능합니다.</div>
+            </div>
         </div>
     </div>
 
