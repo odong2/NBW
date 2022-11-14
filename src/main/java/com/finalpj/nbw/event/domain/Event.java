@@ -44,7 +44,9 @@ public class Event {
 
     public Event (Integer ev_no, String ev_title, String ev_content,
                   String ev_start, String ev_end, Integer ev_people, String ev_target,
-                  String ev_place, String ev_img, String ev_today, String ev_phone, String ev_time) {
+                  String ev_place, String ev_img, String ev_today, String ev_phone, String ev_time,
+                  String mem_status, String mem_id
+    ) {
         this.ev_no = ev_no;
         this.ev_title = ev_title;
         this.ev_content = ev_content;
@@ -57,6 +59,8 @@ public class Event {
         this.ev_today = ev_today;
         this.ev_phone = ev_phone;
         this.ev_time = ev_time;
+        this.mem_status = mem_status;
+        this.mem_id = mem_id;
     }
 
 

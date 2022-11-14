@@ -214,14 +214,11 @@
                                 <h6 class="title mb-2">보유중인 쿠폰</h6>
                                 <hr/>
                                 <div class="d-flex mb-2 px-2">
-                                    <div class="col-3  align-self-center">상품</div>
-                                    <div class="col-5  ms-5 align-self-center">제목</div>
-                                    <div class="col-2  align-self-center">금액</div>
+                                    <div class="col-6  align-self-center">쿠폰 이름</div>
+                                    <div class="col-6  align-self-center">쿠폰 할인가</div>
                                 </div>
-                                <div class="d-flex mb-4">
-                                    <div class="col-3  align-self-center"><img src="" id="pImg"></div>
-                                    <div class="col-6  align-self-center"><p id="pTitle" class="me-2 mt-3"></p></div>
-                                    <div class="col-2  align-self-center"><span id="pPrice"></span></div>
+                                <div id="couponInfo">
+
                                 </div>
                             </section>
                         </div>
@@ -231,9 +228,6 @@
                     </div>
                 </div>
             </section>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button>
     </main>
     <%-- ==================== 메인 끝 ==================--%>
 </section>
@@ -249,6 +243,7 @@
     $(function(){
         getCpList();
     })
+
     /* 결과 메시지 보여주는 함수 */
     let showMsg = function (title, content, result){
         if(result == 'OK'){
@@ -370,7 +365,30 @@
 
     /* 보유중인 쿠폰 조회 */
     $('#searchMyCouponBtn').click(()=>{
+        $.ajax({
+            type:'GET',
+            url: '/coupon/list/member',
+            success:(couponList)=>{
+                console.log(couponList);
+                $('#couponInfo').empty();
+                $('#couponInfo').append(couponApppend(couponList));
+            },
+        })
     })
+    /* 보유 쿠폰 html로 변경해 주는 함수*/
+    let couponApppend = (coupons)=>{
+        let couponList = '';
+        coupons.forEach((coupon)=> {
+            let cpName= coupon.cp_name;
+            let cpPrice = coupon.cp_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + " 원";
+            couponList += `<div class="d-flex mb-4 px-2" >`;
+            couponList += `<div class="col-6  align-self-center"><span id="cpName" class="me-2 mt-3"><c:out value="${'${cpName}'}"/></span></div>`;
+            couponList += `<div class="col-6  align-self-center px-3"><span id="cpPrice"><c:out value="${'${cpPrice}'}"/></span></div>`;
+            couponList += `</div>`;
+        })
+        return couponList;
+    }
+
 
     /* 이미 등록한 쿠폰인지 체크하는 Ajax */
     let checkCpNo = (cp_no)=>{
@@ -420,7 +438,6 @@
             },
         });
     }
-
 </script>
 </body>
 </html>

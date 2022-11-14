@@ -102,9 +102,6 @@ public class AdminEventController {
         log.info("adminEventPersonY 컨트롤러 호출");
         try {
             eventService.adminEventPersonY(eventMember); // mem_status Y로 변경
-            int result2 = eventService.updatePersonY(eventMember); // 신청자수 +1
-            eventService.updateStatusY(ev_no);
-            log.info(result2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,9 +116,10 @@ public class AdminEventController {
     public String adminEventDelete (@PathVariable Integer ev_no, RedirectAttributes rattr, HttpSession session) {
         log.info("adminEventDelete 컨트롤러 호출");
         try {
-            log.info("eventRemove 컨트롤러 호출");
-            int result = eventService.adminEventDelete(ev_no);
-            log.info(result);
+            int result1 = eventService.memberEventDelete(ev_no);
+            int result2 = eventService.adminEventDelete(ev_no);
+            log.info(result1);
+            log.info(result2);
             rattr.addFlashAttribute("msg", "DEL_OK");
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,8 +129,21 @@ public class AdminEventController {
     }
     /******************************************** [[관리자 이벤트 수정]] **************************************/
     @GetMapping("/modify")
-    public String getAdminModify(@ModelAttribute Event event, RedirectAttributes rattr) {
+    public String getAdminModify(Integer ev_no, Model m, RedirectAttributes rattr) {
         log.info("admin event Modify 호출");
+        try {
+            Event event = eventService.adminEventRead(ev_no);
+
+            if(event.getEv_file() != null) {
+                String saveFileName = event.getEv_file();
+                int idx = saveFileName.indexOf("_");
+                String originalFileName = saveFileName.substring(idx+1);
+                event.setEv_filename(originalFileName);
+            }
+            m.addAttribute("eventSelect",event);
+            log.info(event);
+        } catch (Exception e) {
+        }
         return "/admin/event/eventRead";
     }
 

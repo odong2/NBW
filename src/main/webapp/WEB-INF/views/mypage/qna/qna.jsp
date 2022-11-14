@@ -32,7 +32,8 @@
 
         main {
             width: 100%;
-                padding-left: 30px;
+            padding-left: 30px;
+            margin-right: 120px;
         }
 
         main .header-list {
@@ -84,7 +85,10 @@
         }
         .twobutton {
             margin-top: 10px;
-            margin-left: 150px;
+            /*margin-left: 150px;*/
+        }
+        th {
+            text-align: center;
         }
     </style>
 </head>
@@ -131,8 +135,8 @@
                     <%--[[문의 유형]]--%>
                     <%--[[내용]]--%>
                     <tr>
-                        <th scope="row" class="has_ip">
-                            <label for="InquiryTitle">내용</label>
+                        <th scope="row" style="padding-top: 25px">
+                            <label for="InquiryTitle">제목</label>
                         </th>
                         <td>
                             <div class="form_col_group w_full">
@@ -152,9 +156,15 @@
                                             maxlength="30"
                                     />
                                 </div>
-                                <%--[[제목입력란]]--%>
-                                <%--[[문의내용]]--%>
-                                <div class="col_box">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="thtitlet">
+                            <label for="InquiryTitle">내용</label>
+                        </th>
+                        <td>
+                                <div class="col_box" style="word-wrap:break-word;">
                                     <textarea
                                         data-kbbfn-field=""
                                         id="InquiryContent"
@@ -164,12 +174,10 @@
                                         title="문의 내용 입력"
                                         placeholder="빠른 답변을 위해 10자 이상의 문의 내용을 입력해 주세요."
                                         maxlength="500"
-                                        style="height: 246px; width: 600px"
+                                        style="height: 246px; width: 600px; resize: none; font-size: 25px"
                                         required=""
                                     ></textarea>
                                 </div>
-                                <%--[[문의내용]]--%>
-                            </div>
                         </td>
                     </tr>
                     <%--[[취소&접수 버튼]]--%>

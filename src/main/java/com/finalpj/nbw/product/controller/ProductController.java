@@ -58,17 +58,18 @@ public class ProductController {
 		this.productService = productService;
 	}
 
+	/* 상품 디테일 페이지 : GET 요청 */
 	@GetMapping("{id}")
 	public String detail(@PathVariable("id") String p_no, Model model, HttpSession session) {
-		Product product = productService.getProduct(p_no);
-		model.addAttribute("product", product);
+		Product product = productService.getProduct(p_no); // 입력받은 PathVariable (P_NO) 값으로 상품 정보를 얻어 옴
+		model.addAttribute("product", product); // 얻어온 상품 정보를 담아 줌
 
-		List<Product> BestProduct = productService.getBestProducts(p_no);
-		model.addAttribute("BestProduct", BestProduct);
+		List<Product> BestProduct = productService.getBestProducts(p_no); // 사용자가 클릭한 상품과 연관된 상품들의 정보를 얻어옴
+		model.addAttribute("BestProduct", BestProduct); // 연관된 상품 리스트를 담아 줌
 
-		Member member = (Member) session.getAttribute("member");
+		Member member = (Member) session.getAttribute("member"); // 세션에서 로그인 정보를 가져옴
 
-		if (member != null) {
+		if (member != null) { // 세션에서 로그인 상태일 경우 사용자 값을 담아줌
 			Map<String, Object> memberMap = new HashMap<>();
 			memberMap.put("p_no", p_no);
 			memberMap.put("mem_id", member.getMem_id());
@@ -80,7 +81,7 @@ public class ProductController {
 		return "/detail";
 	}
 
-	@PostMapping("review")
+	@PostMapping("review/register")
 	@ResponseBody
 	public Map<String, Object> review(Review review, HttpSession session) {
 		Map<String, Object> map = null;
@@ -145,7 +146,7 @@ public class ProductController {
 		return map;
 	}
 
-	@PostMapping("page")
+	@PostMapping("review/list")
 	@ResponseBody
 	public void page(int page, String p_no, HttpServletResponse response) {
 		int totalCnt = productService.getReviewTotalCnt(p_no);
@@ -319,7 +320,7 @@ public class ProductController {
 		}
 	}
 	
-	@PostMapping("/recentRemoveAll")
+	@PostMapping("recent/removeall")
 	public void recentRemoveAll(@CookieValue(value = "recent_product", required = false) Cookie cookie, HttpServletResponse response) {
 		log.info("쿠키 전부 삭제 요청");
 		
@@ -331,7 +332,7 @@ public class ProductController {
 		}
 	}
 	
-	@PostMapping("/recentRemove")
+	@PostMapping("/recent/remove")
 	public void recentRemove(@CookieValue(value = "recent_product", required = false) Cookie cookie, @RequestBody String product, HttpServletResponse response) throws UnsupportedEncodingException {
 		if(cookie != null) {// 쿠기가 존재할 경우에만 삭제
 			StringBuilder st = new StringBuilder();

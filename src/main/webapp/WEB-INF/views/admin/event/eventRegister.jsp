@@ -66,9 +66,6 @@
       text-align: center;
       margin-top: 30px;
     }
-    #previewImg {
-      margin-bottom: 10px;
-    }
     .j_infod_input {
       width: 170px;
     }
@@ -250,7 +247,7 @@
           imgBoxHeight = imgBoxHeight + 165;
           $('#imgBox').height(imgBoxHeight);
         }
-        /* 쿠폰 이미지 및 이미지 박스 초기화하는 함수*/
+        /* 이벤트 이미지 및 이미지 박스 초기화하는 함수*/
         let fileClear = ()=>{
           $('#eventImg').prop('src','');
           $('#eventImg').css('box-shadow', '')
@@ -264,7 +261,7 @@
         let title = '';
         let content = '';
         let imgBoxHeight = $('#imgBox').height(); // 업로드 이미지 박스 크기
-        /* 쿠폰 이미지 등록 */
+        /* 이벤트 이미지 등록 */
         let setCouponImg = (input)=>{
           if (input.files && input.files[0]) {
             let reader = new FileReader();
