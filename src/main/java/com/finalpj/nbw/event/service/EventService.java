@@ -133,6 +133,12 @@ public class EventService {
         return eventDao.adminEventDelete(ev_no);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public int memberEventDelete  (Integer ev_no) throws Exception{
+        log.info("서비스 Event 한건 삭제 호출");
+        return eventDao.memberEventDelete (ev_no);
+    }
+
     /********************************* [[이벤트 전체 조회]] **************************************/
     @Transactional(readOnly = true)
     public List<Event> eventList() throws Exception {
@@ -149,6 +155,10 @@ public class EventService {
         int result = 0; // 이벤트 신청
         result = eventDao.eventAdd(eventMember);
         return result;
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public int memberEventCnt(EventMember eventMember) throws Exception {
+        return eventDao.memberEventCnt(eventMember);
     }
 
 

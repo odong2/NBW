@@ -50,18 +50,19 @@
         SELECT mem_nickname from tb_member WHERE mem_nickname = #{mem_nickname}
     </select>
 
-    <!--  ================== *회원 정보 수정* ==================  -->
+    <!--  ================== * 회원 정보 수정* ==================  -->
     <update id="updateMyInfo" parameterType="member" >
         UPDATE tb_member
         SET
             mem_zipcode = #{mem_zipcode}
-            ,mem_address1 = #{mem_address1}
-            ,mem_address2 = #{mem_address2}
-            ,mem_email = #{mem_email}
-            ,mem_update = sysdate
-            ,mem_nickname = #{mem_nickname}
+          ,mem_address1 = #{mem_address1}
+          ,mem_address2 = #{mem_address2}
+          ,mem_email = #{mem_email}
+          ,mem_update = sysdate
+          ,mem_nickname = #{mem_nickname}
         WHERE mem_id = #{mem_id}
     </update>
+
 
 	<select id="existLike" parameterType="map" resultType="boolean">
 		SELECT COUNT(MEM_ID) 
@@ -83,8 +84,18 @@
 
     <!--  ================== *회원 탈퇴* ==================  -->
     <delete id="deleteMember" parameterType="member">
-        DELETE  FROM tb_member
-        WHERE mem_id = #{mem_id}
+        {
+        BEGIN
+        DELETE FROM  TB_MEMCART WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        DELETE FROM  TB_PRODUCTLIKE WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        DELETE FROM  TB_COUPONDOWNLOAD WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        DELETE FROM  TB_REVIEW WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        DELETE FROM  TB_COUPONZIP WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        DELETE FROM  TB_MEMPAYMENT WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        DELETE FROM  TB_MEMBEREVENT WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        DELETE FROM  TB_MEMBER WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
+        END;
+        }
     </delete>
 
     <!-- ================= 결제 시 point 사용하면 point 감소 (writer: 민준)   -->

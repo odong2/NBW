@@ -33,5 +33,8 @@ public interface MemberDao {
     /* ==================== 회원 포인트 업데이트(결제 시) ===================*/
     int updateMemPoint(Map pMap) throws Exception;
 
+    /* ========================= 회원 사진 등록 ======================== */
+    int updateMyImg(Member member) throws Exception;
+
 }
 

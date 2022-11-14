@@ -39,6 +39,18 @@ public class ProductDaoImpl implements ProductDao {
 		return sqlSession.insert(namespace+"insertProduct", product);
 	}
 
+	/* 상품 수정 */
+	@Override
+	public int updateProduct(Product product) throws Exception {
+		return sqlSession.update(namespace+"updateProduct", product);
+	}
+
+	/* 상품 삭제 */
+	@Override
+	public int deleteProduct(Integer p_no) throws Exception {
+		return sqlSession.update(namespace+"deleteProduct", p_no);
+	}
+
 	@Override
 	public List<Product> selectProductByWord(String keyword) throws Exception {
 		return null;

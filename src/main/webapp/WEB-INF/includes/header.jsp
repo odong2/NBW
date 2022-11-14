@@ -82,7 +82,7 @@
                 </div>
             </div>
         </form>
-        <%@include file="/WEB-INF/views/product/autocomplete.jsp" %>
+        <%@include file="/WEB-INF/views/search/autocomplete.jsp" %>
     </nav>
     <div class="col-2"></div>
 </div>
@@ -138,6 +138,7 @@
     </form>
 </nav>
 <hr style="border: 1px #1d1d6a;">
+<<<<<<< HEAD
 <!-- 스크립트 -->
 <script type="text/javascript">
 
@@ -189,3 +190,5 @@
         border-radius: 50px;
     }
 </style>
+=======
+>>>>>>> 41b7bd40b4f54fb3689e7f3d4fee25b2af258831

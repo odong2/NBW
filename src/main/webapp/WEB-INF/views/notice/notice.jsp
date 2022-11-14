@@ -153,8 +153,6 @@
                         <span class="notice-cdate">
                              <fmt:formatDate value="${notice.nt_cdate}" pattern="yyyy-MM-dd"/>
                         </span>
-                <%-- ============== 게시글 번호(테스트용) =============--%>
-                        <span>번호 : <c:out value="${notice.nt_no}"/></span>
                     </div>
                     <h5 class="notice-title">
                 <%-- ================ 게시글 제목 링크 ===============--%>

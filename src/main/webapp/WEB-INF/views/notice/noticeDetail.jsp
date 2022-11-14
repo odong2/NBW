@@ -390,13 +390,14 @@
     })
     <%-- 답글 달기 textarea 높이 자동 변경--%>
     $('#replyInput').on('keydown', function(){
-        $(this).parent().height(1).height($(this).prop('scrollHeight')+12);
+        $(this).parent().height(100).height($(this).prop('scrollHeight')+60);
         $(this).height(1).height($(this).prop('scrollHeight')+12);
     })
     <%-- 댓글 수정 textarea 높이 자동 변경--%>
     $('#modifyInput').on('keydown', function(){
-        $(this).parent().height(1).height($(this).prop('scrollHeight')+12);
+        $(this).parent().height(100).height($(this).prop('scrollHeight')+60);
         $(this).height(1).height($(this).prop('scrollHeight')+12);
+        $('#modifyForm').height(this.height() + this.next().height());
     })
     <%-- ============================ 댓글 작성일 날짜 변환함수  ============================== --%>
     <%-- (fmt 자바스크립트에서 안되어 함수로 처리) --%>

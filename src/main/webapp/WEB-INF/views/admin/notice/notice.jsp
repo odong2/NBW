@@ -13,6 +13,15 @@
 	<%@include file="../../../includes/admin/common.jsp" %>
     <title>공지사항 관리 페이지</title>
       <style>
+        @font-face {
+          font-family: 'InfinitySans-RegularA1';
+          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+        }
+        *{
+            font-family: 'InfinitySans-RegularA1';
+        }
         #noticeData,
         #noticeTitle{
             text-align: center;
@@ -26,6 +35,7 @@
         }
         table td{
             color: black;
+            font-size:0.9rem;
         }
         tbody tr{
             cursor: pointer;
@@ -34,9 +44,9 @@
             width: 90%;
             margin: auto;
         }
-        /*.card-body{*/
-        /*    border: solid 1px black;*/
-        /*}*/
+        .page-item{
+            margin-left: 10px;
+        }
       </style>
   </head>
   <body id="page-top">
@@ -132,8 +142,8 @@
                         </c:if>
                         <%-- =================== 총 게시물 개수만큼 페이징 처리 ================--%>
                         <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                            <li class="page-item">
-                                <a class="page-link" href="<c:url value="/admin/notice/list${ph.sc.getQueryString(i)}"/>">${i}</a>
+                            <li class="page-item page-list">
+                                <a class="page-link page-num" href="<c:url value="/admin/notice/list${ph.sc.getQueryString(i)}"/>">${i}</a>
                             </li>
                         </c:forEach>
                         <%-- =================== 다음 페이지 링크 보여줄 지 여부 ================--%>
@@ -168,9 +178,26 @@
         $("#ntWrtBtn").click(function(){
             location.href="/admin/notice/write";
         })
+
         let link = function(detailLink){
             location.href= detailLink;
         }
+
+
+        $(function(){
+        /* 페이징 엑티브 코드*/
+        let params = new URLSearchParams(document.location.search);
+        /* 현재 페이지 */
+        let nowPage = params.get("page");
+        console.log(nowPage);
+            $('.page-list').each(function(index, item){
+                let page =$(item).children('.page-num').text();
+                console.log(page);
+                if(nowPage == page){
+                    $(item).addClass('active');
+                }
+            })
+        })
     </script>
   </body>
 </html>

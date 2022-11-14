@@ -2,3 +2,12 @@
   a {
         color: black;
     }
+
+    ul > a {
+        text-decoration: none;
+
+    }
+    nav a>h6:hover {
+        background-color: #dfeafa;
+        border-radius: 50px;
+    }

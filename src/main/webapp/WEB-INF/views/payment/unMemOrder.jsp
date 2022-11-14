@@ -119,7 +119,7 @@
             <tr class="prdList">
               <td class="d-flex align-items-center col-8 ms-2">
                 <div class="productImg-box mb-4">
-                  <img id="prdImg" src=<c:out value="${product.p_img}"/> class="product-img"/>
+                  <img id="prdImg" src="<c:out value="${product.p_img}"/>" class="product-img"/>
                 </div>
                 <div class="prdTitle-box ms-3 col-12">
                     <span class="prdTitle">
@@ -218,11 +218,6 @@
             <div class="me-3">
                 <a href="/home">
                     <button type="button" id="mainBtn" class="btn btn-primary btn-sm">계속 쇼핑하기</button>
-                </a>
-            </div>
-            <div>
-                <a href="#">
-                    <button type="button" id="orderBtn" class="btn btn-secondary btn-sm">비회원 주문조회 바로가기</button>
                 </a>
             </div>
         </div>
