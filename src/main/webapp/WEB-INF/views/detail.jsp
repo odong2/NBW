@@ -320,7 +320,7 @@ main {
 										<div class="text-center d-flex flex-column">
 											<span class="fw-bolder fs-5"><c:out value="${product.p_title}"/></span>
 											<span><c:out value="${product.p_author}"/> 지음</span>
-											<span><fmt:formatNumber value="${product.p_price }" /> 원3</span>
+											<span><fmt:formatNumber value="${product.p_price }" /> 원</span>
 										</div>
 									</div>
 								</div>
