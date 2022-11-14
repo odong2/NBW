@@ -204,12 +204,12 @@
     $(document).ready(function(){
         // 목록으로 가기
         $("#dbtn").on("click", function (){
-            location.href = "<c:url value="/mypage/qna/list"/>";
+            location.href = '<c:url  value="/mypage/question/list"/>';
         })
         // 문의 접수하기
         $("#sendbtn").on("click", function (){
             let form = $("#form");
-            form.attr("action", "<c:url value="/mypage/qna/write"/> ");
+            form.attr("action", "<c:url value="/mypage/question/write"/> ");
             form.attr("method", "post");
             form.submit();
         })
