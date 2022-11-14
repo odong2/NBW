@@ -134,7 +134,7 @@
 	 			
 				$.ajax({
 					type : "POST",
-					url : "/product/recentRemove",
+					url : "/product/recent/remove",
 					contentType: "application/text; charset=UTF-8",
 					data : JSON.stringify(obj),
 					success : function() {
@@ -161,7 +161,7 @@
  			if(confirm('모두 삭제하시겠습니까?')){
  				$.ajax({
  					type : "POST",
- 					url : "/product/recentRemoveAll",
+ 					url : "/product/recent/removeall",
  					success : function() {
  						$('#recentBody').empty();
  						$('#recentBody').append('<span class="mt-5 text-center">최근 본 상품이 없습니다.</span>');
