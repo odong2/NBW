@@ -45,7 +45,7 @@
             margin-left: 50px;
             margin-right: 40px;
         }
-        .classimg {
+        #classImg {
             width: 210px;
             height: 290px;
         }
@@ -193,8 +193,7 @@
                     <div class="picturepeople">
                         <!-- 이미지 사진 시작 -->
                         <img
-                                class="classimg"
-                                src="/admin/event/img/display/${eventSelect.ev_img}"/>
+                                id="classImg"
                         <!-- 이미지 사진 끝 -->
                         <div class="picking">
                             <span class="receiving">접수중</span>
@@ -316,7 +315,15 @@
     <i class="fas fa-angle-up"></i>
 </a>
 <script>
+
+
     $(document).ready(function (){
+
+        let fileImg = encodeURI('${eventSelect.ev_img}');
+        $('#classImg').attr('src','/admin/event/display/' + fileImg);
+
+
+
         $('#listBtn').on("click", function (){
             location.href = "<c:url value='/admin/event/list'/>";
         })

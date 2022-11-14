@@ -232,7 +232,7 @@ public class AdminEventController {
     public ResponseEntity<byte[]> getFile (@PathVariable String fileName){
         log.info("fileName : " + fileName);
         final String uploadRoot = System.getProperty("user.home");
-        final String fileFolder = uploadRoot+"/Desktop/upload/event/img";
+        final String fileFolder = uploadRoot+"/Desktop/upload/event/img/";
         File file = new File(fileFolder + fileName);
 
         log.info("file: " + file);
