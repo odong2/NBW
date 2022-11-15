@@ -210,7 +210,7 @@
                                 <div class="inquiry_title">
                                     <div class="d-flex align-items-center">
                                         <div class="title">
-                                            <a href="/mypage/qna/detail?qn_no=${qna.qn_no}">
+                                            <a href="/mypage/question/detail?qn_no=${qna.qn_no}">
                                                 <c:out value="${qna.qn_title}"/>
                                             </a>
                                         </div>
@@ -246,7 +246,7 @@
                                 <div class="inquiry_title">
                                     <div class="d-flex align-items-center">
                                         <div class="title">
-                                            <a href="/mypage/qna/detail?qn_no=${qna.qn_no}">
+                                            <a href="/mypage/question/detail?qn_no=${qna.qn_no}">
                                                 <c:out value="${qna.qn_title}"/>
                                             </a>
                                         </div>
@@ -282,7 +282,7 @@
                                 <div class="inquiry_title">
                                     <div class="d-flex align-items-center">
                                         <div class="title">
-                                            <a href="/mypage/qna/detail?qn_no=${qna.qn_no}">
+                                            <a href="/mypage/question/detail?qn_no=${qna.qn_no}">
                                                 <c:out value="${qna.qn_title}"/>
                                             </a>
                                         </div>
