@@ -211,7 +211,7 @@
 </section>
 <script>
         $("#listBtn").on("click", function (){
-            location.href = "<c:url value='/mypage/qna/list'/>";
+            location.href = "<c:url value='/mypage/question/list'/>";
         })
 
         $("#deleteBtn").on("click", function (){

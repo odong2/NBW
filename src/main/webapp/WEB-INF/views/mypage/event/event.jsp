@@ -152,79 +152,156 @@
         </header>
         <%-- ==================== 주문조회 페이지 헤더 끝 ==================--%>
             <%-- 신청한 이벤트 시작--%>
-            <ul>
-                <li>
                     <div class="divTitle">이벤트 신청 내역</div>
                     <hr />
-                    <c:forEach var="event" items="${myEventSelectAll}">
+            <ul id="eventListUl">
+<%--                <li>--%>
+<%--                <div class="alltext">--%>
+<%--                    <div class="imgline">--%>
+<%--                        <img--%>
+<%--                            class="classimg"--%>
+<%--                            src="${event.ev_img}"--%>
+<%--                        />--%>
+<%--                    </div>--%>
+<%--                    <div class="playcontent">--%>
+<%--                        <div class="titlename">--%>
+<%--                            <c:out value="${event.ev_title}"/>--%>
+<%--                        </div>--%>
+<%--                        <div class="playday">--%>
+<%--                            <div>행사기간&nbsp;:&nbsp;</div>--%>
+<%--                            <div>--%>
+<%--                                <c:out value="${event.ev_today}"/>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <br />--%>
+<%--                        <div class="playspace">--%>
+<%--                            <div>장소&nbsp;:&nbsp;</div>--%>
+<%--                            <div>--%>
+<%--                                <c:out value="${event.ev_place}"/>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <br />--%>
+<%--                        <div class="playtime">--%>
+<%--                            <div>시간&nbsp;:&nbsp;</div>--%>
+<%--                            <div>--%>
+<%--                                <c:out value="${event.ev_time}"/>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <br/>--%>
+<%--                        <div class="playtime">--%>
+<%--                            <div>전화번호&nbsp;:&nbsp;</div>--%>
+<%--                            <div>--%>
+<%--                            <c:out value="${event.ev_time}"/>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                            <br/>--%>
+<%--                        <div class="status"">--%>
+<%--                            <div>상태&nbsp;:&nbsp;</div>--%>
+<%--                            <div style="color: red;">--%>
+<%--                                <c:out value="${event.mem_status}"/>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                         <div class="playdetail">--%>
+<%--                            <button class="pick-btn">--%>
+<%--                                <a href="/event/detail?ev_no=${event.ev_no}">--%>
+<%--                                상세보기--%>
+<%--                                </a>--%>
+<%--                            </button>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                <!-- 상세보기 버튼 끝 -->--%>
+<%--                </div>--%>
+<%--            </li>--%>
+    </ul>
+</main>
+
+    <%-- ==================== 메인 끝 ==================--%>
+</section>
+<script>
+    let toHtml =(events)=>{
+        let eventList = '';
+        events.forEach((event)=>{
+        let eventImg = encodeURI(event.ev_img);
+        console.log(eventImg);
+        eventList +=
+    /******************************* li 태그 *******************/
+            `<li>
                 <div class="alltext">
                     <div class="imgline">
-                    <!-- 행사 포스터 시작 -->
+                        <!-- 행사 포스터 시작 -->
                         <img
                             class="classimg"
-                            src="${event.ev_img}"
+                            src="/admin/event/display/${'${eventImg}'}"
                         />
                     </div>
-                    <!-- 행사 포스터 끝 -->
-                    <!-- 행사 설명 시작-->
                     <div class="playcontent">
-                        <%-- 이벤트 이름 --%>
                         <div class="titlename">
-                            <c:out value="${event.ev_title}"/>
+                            ${'${event.ev_title}'}
                         </div>
                         <div class="playday">
                             <div>행사기간&nbsp;:&nbsp;</div>
                             <div>
-                                <c:out value="${event.ev_today}"/>
+                                ${'${event.ev_today}'}
                             </div>
                         </div>
                         <br />
                         <div class="playspace">
                             <div>장소&nbsp;:&nbsp;</div>
                             <div>
-                                <c:out value="${event.ev_place}"/>
+                                ${'${event.ev_place}'}
                             </div>
                         </div>
                         <br />
                         <div class="playtime">
                             <div>시간&nbsp;:&nbsp;</div>
                             <div>
-                                <c:out value="${event.ev_time}"/>
+                                ${'${event.ev_time}'}
                             </div>
                         </div>
                         <br/>
                         <div class="playtime">
                             <div>전화번호&nbsp;:&nbsp;</div>
                             <div>
-                            <c:out value="${event.ev_time}"/>
+                                ${'${event.ev_time}'}
                             </div>
                         </div>
-                            <br/>
+                        <br/>
                         <div class="status"">
                             <div>상태&nbsp;:&nbsp;</div>
                             <div style="color: red;">
-                                <c:out value="${event.mem_status}"/>
-                            </div>
-                        </div>
-                    <!-- 행사 설명 끝-->
-                    <!-- 상세보기 버튼 시작 -->
-                         <div class="playdetail">
-                            <button class="pick-btn">
-                                <a href="/event/detail?ev_no=${event.ev_no}">
-                                상세보기
-                                </a>
-                            </button>
-                        </div>
+                            ${'${event.mem_status}'}
                     </div>
-                <!-- 상세보기 버튼 끝 -->
                 </div>
-            </li>
-        </c:forEach>
-    </ul>
-</main>
+                <div class="playdetail">
+                    <button class="pick-btn">
+                        <a href="/event/detail?ev_no=${'${event.ev_no}'}">
+                            상세보기
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </li>`;
 
-    <%-- ==================== 메인 끝 ==================--%>
-</section>
+
+    /******************************* li 태그 *******************/
+        })
+        return eventList;
+    }
+
+    $(document).ready(function (){
+        $.ajax({
+            type: 'GET',
+            url: '/mypage/event/list/all',
+            success:((eventList)=>{
+                console.log(eventList);
+                $('#eventListUl').empty();
+                $('#eventListUl').append(toHtml(eventList));
+            })
+        });
+    })
+
+</script>
 <!-- 마이 페이지 끝 -->
 <!-- 풋터 시작 -->
 <%@include file="../../../includes/footer.jsp" %>

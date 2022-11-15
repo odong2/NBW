@@ -55,7 +55,7 @@
                , #{ev_place}, #{ev_time}, #{ev_today}, #{ev_phone}, #{ev_img, jdbcType=VARCHAR})
     </insert>
     <!--============================================ [[ 관리자 이벤트 수정 ]] ==========================================-->
-    <update id="adminModify" parameterType="eventDto">
+    <update id="adminModify" parameterType="int">
         UPDATE TB_EVENT
         SET  ev_title = #{ev_title}, ev_content = #{ev_content}, ev_file = #{ev_file, jdbcType=VARCHAR}, ev_start = #{ev_start},
              ev_end = #{ev_end}, ev_people = #{ev_people}, ev_target = #{ev_target},
@@ -71,7 +71,7 @@
         FROM tb_event
         ORDER BY ev_cdate DESC, ev_no DESC
     </select>
-    <!--======================================= [[ 이벤트리스트 한건 조회 ]] ======================================-->
+    <!--======================================= [[관리자 이벤트리스트 한건 조회 ]] ======================================-->
     <select id="eventSelect" parameterType="int" resultType="eventDto">
         SELECT ev_no, ev_title, ev_content, ev_cdate, ev_file, ev_start, ev_end, ev_people
                 , ev_nowpeople, ev_target, ev_place, ev_img, ev_time, ev_today, ev_phone, ev_cocnt,
@@ -79,6 +79,27 @@
         FROM tb_event
         WHERE ev_no = #{ev_no}
     </select>
+    <select id="selectCheckMem" parameterType="int" resultType="eventDto">
+    SELECT
+    DECODE(M.mem_status, 'N', '거절', 'Y', '승인', '대기') as mem_status
+    FROM tb_member e, TB_MEMBEREVENT m
+    WHERE e.mem_id in (
+    SELECT m.mem_id FROM TB_MEMBEREVENT
+    WHERE m.ev_no = #{ev_no})
+    </select>
+
+    <select id="selectEvent" parameterType="int" resultType="eventDto">
+        SELECT e.ev_no, e.ev_title, e.ev_content, e.ev_cdate, e.ev_file, e.ev_start, e.ev_end,
+                e.ev_people, e.ev_nowpeople, e.ev_target, e.ev_place, e.ev_img, e.ev_time,
+                e.ev_today, e.ev_phone, e.ev_cocnt,
+        DECODE(e.ev_status, 'N', '모집중', 'Y', '마감') as ev_status,
+        DECODE(m.mem_status, 'N', '거절', 'Y', '승인', '대기') as mem_status
+        FROM tb_event e, tb_memberevent m
+        WHERE e.ev_no in (
+        SELECT m.ev_no from tb_memberevent
+        WHERE m.ev_no = #{ev_no})
+    </select>
+
     <!--========================================== [[ 마이페이지 신청한 전체 이벤트 조회 ]] ===============================-->
     <select id="myEventSelectAll" parameterType="String" resultType="eventDto">
         SELECT DISTINCT e.*, m.mem_id,
@@ -120,9 +141,17 @@
     </update>
     <!--============================================ [[ 이벤트 신청 확인 ]] ==========================================-->
 
-    <select id="memberEventCnt" parameterType="eventMemberDto">>
-        select count(*) from TB_MEMBEREVENT
-        where ev_no = #{ev_no} and mem_id = #{mem_id}
+<!--    <select id="memberEventCnt" parameterType="eventMemberDto">>-->
+<!--        select count(*) from TB_MEMBEREVENT-->
+<!--        where ev_no = #{ev_no} and mem_id = #{mem_id}-->
+<!--    </select>-->
+    <select id="memberEventStatus" parameterType="eventMemberDto" resultType="eventMemberDto">
+        SELECT DISTINCT e.*, m.mem_id, m.ev_no,
+        DECODE(M.mem_status, 'N', '거절', 'Y', '승인', '대기') as mem_status
+        FROM tb_member e, TB_MEMBEREVENT m
+        WHERE e.mem_id in (
+        SELECT m.mem_id FROM TB_MEMBEREVENT
+        WHERE m.ev_no = #{ev_no})
     </select>
 
 </mapper>

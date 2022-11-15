@@ -24,25 +24,26 @@ public class MypageQnaController {
     }
 
     /********************************* [[QNA 전체 조회]] **************************************/
-    @GetMapping("list")
+    @GetMapping("/list")
     public String qnaList(Model model, HttpSession session) throws Exception {
         Member member = (Member) session.getAttribute("member");
-        List<Qna> qnaSelectAll = null;
-        List<Qna> qnaSelectIngAll = null;
-        List<Qna> qnaSelectFinishAll = null;
+        List<Qna> qnaSelectAll = null; //전체
+        List<Qna> myqnaSelectIng = null; //처리중
+        List<Qna> qnaSelectFinishAll = null; //답변완료
         if(member != null) { // 회원일 경우
             String id = member.getMem_id();
             qnaSelectAll = qnaService.qnaList(id);
-            qnaSelectIngAll = qnaService.qnaIngList(session);
+            myqnaSelectIng = qnaService.myqnaSelectIng(id);
             qnaSelectFinishAll = qnaService.qnaFinishList(id);
         }
         log.info("컨트롤러 타고 있습니다... qnaSelectAll"+ qnaSelectAll);
-        log.info("컨트롤러 타고 있습니다... qnaSelectIngAll" + qnaSelectIngAll);
+        log.info("컨트롤러 타고 있습니다... qnaSelectIngAll" + myqnaSelectIng);
         log.info("컨트롤러 타고 있습니다... qnaSelectFinishAll" + qnaSelectFinishAll);
         model.addAttribute("qnaSelectAll",qnaSelectAll);
-        model.addAttribute("qnaSelectIngAll", qnaSelectIngAll);
+        model.addAttribute("qnaSelectIngAll", myqnaSelectIng);
         model.addAttribute("qnaSelectFinishAll", qnaSelectFinishAll);
         log.info("컨트롤러 타고 있습니다... 제발22222");
+
         return "mypage/question/qnaList";
     }
     /***************************** [[QNA 디테일 페이지]] *******************************/

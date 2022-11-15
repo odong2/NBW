@@ -81,7 +81,7 @@
         .picturepeople {
             margin-left: 10px;
         }
-        .classimg {
+        .class-img {
 /*            width: 146px;
             height: 225px;*/
             width: 180px;
@@ -191,82 +191,159 @@
     <hr />
     <%-- ************************************** [[EVENT CONTENT 시작]] ************************************ --%>
     <%--    <section id="event-main" class="container">--%>
-    <ul>
-        <c:forEach var="event" items="${eventSelectAll}">
-            <li class="list" >
-                <!-- 왼쪽 그림 시작 -->
-                <div class="picturepeople">
-                    <!-- 이미지 사진 시작 -->
-                    <img
-                            class="classimg"
-                            src="${event.ev_img}"
-                    />
-                    <!-- 이미지 사진 끝 -->
-                    <div class="picking">
-                        <span class="receiving">${event.ev_status}</span>
-                        <span class="receivingpeople"><c:out value="${event.ev_people-event.ev_nowpeople}"/></span>
-                    </div>
-                </div>
-                <!-- 왼쪽 그림 끝 -->
-                <!-- 오른쪽 설명 시작 -->
-                <div class="detail">
-                    <div class="bookname">
-                        <a href="/event/detail?ev_no=${event.ev_no}" style="color: #ff0000"/>
-                            <c:out value="${event.ev_title}"/>
-                        </a>
-                    </div>
+    <ul id="eventListUl">
+<%--        <c:forEach var="event" items="${eventSelectAll}">--%>
+<%--            <li class="list" >--%>
+<%--                <!-- 왼쪽 그림 시작 -->--%>
+<%--                <div class="picturepeople">--%>
+<%--                    <!-- 이미지 사진 시작 -->--%>
+<%--                    <img class="class-img" src="/admin/event/display/cb930cd1-f386-4e28-9261-a67a56bc298c_%5BCopy%20of%20%EC%97%94%EB%B9%84%EB%8D%94%5D%20(%EC%9D%B4%EB%B2%A4%ED%8A%B8%EB%B3%B4%EA%B8%B0)%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.png"/>--%>
+<%--                    <!-- 이미지 사진 끝 -->--%>
+<%--                    <div class="picking">--%>
+<%--                        <span class="receiving">${event.ev_status}</span>--%>
+<%--                        <span class="receivingpeople"><c:out value="${event.ev_people-event.ev_nowpeople}"/></span>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <!-- 왼쪽 그림 끝 -->--%>
+<%--                <!-- 오른쪽 설명 시작 -->--%>
+<%--                <div class="detail">--%>
+<%--                    <div class="bookname">--%>
+<%--                        <a href="/event/detail?ev_no=${event.ev_no}" style="color: #ff0000"/>--%>
+<%--                            <c:out value="${event.ev_title}"/>--%>
+<%--                        </a>--%>
+<%--                    </div>--%>
 
-                    <div class="bodycontent">
-                        <div class="playpeople">
-                            <div>대상&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c"><c:out value="${event.ev_target}"/></div>
-                        </div>
-                        <br />
-                        <div class="playplace">
-                            <div>장소&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c"><c:out value="${event.ev_place}"/></div>
-                        </div>
-                        <br />
-                        <div class="studyday">
-                            <div>행사기간&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c"><c:out value="${event.ev_today}"/></div>
-                        </div>
-                        <br />
-                        <div class="studytime">
-                            <div>시간&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c"><c:out value="${event.ev_time}"/></div>
-                        </div>
-                        <br />
-                        <div class="applicationday">
-                            <div>접수기간&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c">
-                                <c:out value="${event.ev_start}"/>
-                                ~
-                                <c:out value="${event.ev_end}"/>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="recruitment">
-                            <div>모집정원&nbsp;:&nbsp;</div>
-                            <div style="color: #7c7c7c">
-                                <c:out value="${event.ev_people}"/> 명&nbsp;
-                                <span style="color: red">(신청:<c:out value="${event.ev_nowpeople}"/>)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr />
-                <!-- 오른쪽 설명 끝 -->
-            </li>
-        </c:forEach>
+<%--                    <div class="bodycontent">--%>
+<%--                        <div class="playpeople">--%>
+<%--                            <div>대상&nbsp;:&nbsp;</div>--%>
+<%--                            <div style="color: #7c7c7c"><c:out value="${event.ev_target}"/></div>--%>
+<%--                        </div>--%>
+<%--                        <br />--%>
+<%--                        <div class="playplace">--%>
+<%--                            <div>장소&nbsp;:&nbsp;</div>--%>
+<%--                            <div style="color: #7c7c7c"><c:out value="${event.ev_place}"/></div>--%>
+<%--                        </div>--%>
+<%--                        <br />--%>
+<%--                        <div class="studyday">--%>
+<%--                            <div>행사기간&nbsp;:&nbsp;</div>--%>
+<%--                            <div style="color: #7c7c7c"><c:out value="${event.ev_today}"/></div>--%>
+<%--                        </div>--%>
+<%--                        <br />--%>
+<%--                        <div class="studytime">--%>
+<%--                            <div>시간&nbsp;:&nbsp;</div>--%>
+<%--                            <div style="color: #7c7c7c"><c:out value="${event.ev_time}"/></div>--%>
+<%--                        </div>--%>
+<%--                        <br />--%>
+<%--                        <div class="applicationday">--%>
+<%--                            <div>접수기간&nbsp;:&nbsp;</div>--%>
+<%--                            <div style="color: #7c7c7c">--%>
+<%--                                <c:out value="${event.ev_start}"/>--%>
+<%--                                ~--%>
+<%--                                <c:out value="${event.ev_end}"/>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <br />--%>
+<%--                        <div class="recruitment">--%>
+<%--                            <div>모집정원&nbsp;:&nbsp;</div>--%>
+<%--                            <div style="color: #7c7c7c">--%>
+<%--                                <c:out value="${event.ev_people}"/> 명&nbsp;--%>
+<%--                                <span style="color: red">(신청:<c:out value="${event.ev_nowpeople}"/>)</span>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <hr />--%>
+<%--                <!-- 오른쪽 설명 끝 -->--%>
+<%--            </li>--%>
+<%--        </c:forEach>--%>
     </ul>
     <%--    </section>--%>
     <%-- ************************************** [[EVENT CONTENT 끝]] ************************************ --%>
-<%--    <script>--%>
-<%--        $(document).ready(function (){--%>
-<%--            $--%>
-<%--        })--%>
-<%--    </script>--%>
+    <script>
+    let toHtml =(events)=>{
+        let eventList = '';
+        events.forEach((event)=>{
+        let eventImg = encodeURI(event.ev_img);
+        console.log(eventImg);
+        eventList +=  `<li class="list" >
+            <!-- 왼쪽 그림 시작 -->
+            <div class="picturepeople">
+                <!-- 이미지 사진 시작 -->
+                <img class="class-img" src="/admin/event/display/${'${eventImg}'}"/>
+                <!-- 이미지 사진 끝 -->
+                <div class="picking">
+                <span class="receiving">${'${event.ev_status}'}</span>
+                    <span class="receivingpeople">${'${event.ev_people-event.ev_nowpeople}'}</span>
+                </div>
+            </div>
+            <!-- 왼쪽 그림 끝 -->
+            <!-- 오른쪽 설명 시작 -->
+            <div class="detail">
+                <div class="bookname">
+                    <a href="/event/detail?ev_no=${'${event.ev_no}'}" style="color: #ff0000"/>
+                ${'${event.ev_title}'}
+                </a>
+            </div>
+            <div class="bodycontent">
+                <div class="playpeople">
+                    <div>대상&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">${'${event.ev_target}'}</div>
+                </div>
+                <br />
+                <div class="playplace">
+                    <div>장소&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">${'${event.ev_place}'}</div>
+                </div>
+                <br />
+                <div class="studyday">
+                    <div>행사기간&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">${'${event.ev_today}'}</div>
+                </div>
+                <br />
+                <div class="studytime">
+                    <div>시간&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">${'${event.ev_time}'}</div>
+                </div>
+                <br />
+                <div class="applicationday">
+                    <div>접수기간&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">
+                    ${'${event.ev_start}'}
+                        ~
+                    ${'${event.ev_end}'}
+                    </div>
+                </div>
+                <br />
+                <div class="recruitment">
+                    <div>모집정원&nbsp;:&nbsp;</div>
+                    <div style="color: #7c7c7c">
+                        ${'${event.ev_people}'}&nbsp;<span style="color: red">(신청:${'${event.ev_nowpeople}'})</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <!-- 오른쪽 설명 끝 -->
+        </li>`;
+        })
+        return eventList;
+    }
+
+
+
+
+        $(document).ready(function (){
+            $.ajax({
+                type: 'GET',
+                url: '/event/list/all',
+                success:((eventList)=>{
+                    console.log(eventList);
+                    $('#eventListUl').empty();
+                    $('#eventListUl').append(toHtml(eventList));
+                })
+            });
+        })
+    </script>
 </main>
 <!-- 풋터 시작 -->
 <%@include file="../../includes/footer.jsp" %>

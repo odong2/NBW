@@ -44,6 +44,14 @@ public class QnaDaoImpl implements QnaDao {
         return qnaIngList;
     }
 
+    @Override
+    public List<Qna> myqnaSelectIng(String id) throws Exception {
+        List<Qna> myqnaSelectIng = null;
+        myqnaSelectIng = sqlSession.selectList(q_namespace+"myqnaSelectIng", id);
+        log.info("QnaDao : eventList 호출 성공" + myqnaSelectIng);
+        return myqnaSelectIng;
+    }
+
     /****************************** [[Qna 답변완료 조회]] **********************************/
     @Override
     public List<Qna> qnaFinishList(String id) throws Exception {

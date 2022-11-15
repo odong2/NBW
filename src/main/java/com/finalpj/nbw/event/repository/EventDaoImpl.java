@@ -54,6 +54,16 @@ public class EventDaoImpl implements EventDao {
     public Event eventRead(Integer ev_no) throws Exception {
         return sqlSession.selectOne(namespace+"eventSelect", ev_no);
     }
+
+    @Override
+    public Event selectCheckMem(Integer ev_no) throws Exception {
+        return sqlSession.selectOne(namespace+"selectCheckMem", ev_no);
+    }
+
+    @Override
+    public Event selectEvent(Integer ev_no) throws Exception {
+        return sqlSession.selectOne(namespace+"selectEvent", ev_no);
+    }
     /****************************** [[ 관리자 이벤트 조회]] ****************************/
     @Override
     public List<Event> adminEventList() throws Exception {
@@ -74,6 +84,15 @@ public class EventDaoImpl implements EventDao {
         log.info("이벤트 신청자 다오 인플 호출 성공"+ev_no);
         return sqlSession.selectList(namespace+"adminPerson", ev_no);
     }
+
+    /* 테스트 */
+    @Override
+    public List<EventMember> memberEventStatus(EventMember eventMember) throws Exception {
+        log.info("다오인폴 event 승인"+eventMember);
+        return sqlSession.selectList(namespace+"memberEventStatus", eventMember);
+    }
+
+
     /****************************** [[ 관리자 이벤트 수정]] ***************************/
     @Override
     public int adminModify(Event event) throws Exception {
@@ -98,12 +117,6 @@ public class EventDaoImpl implements EventDao {
         log.info("다오인플 신청수 +1");
         return sqlSession.update(namespace+"updatePersonY", eventMember.getEv_no());
     }
-
-//    @Override
-//    public int updateEvPeople(EventMember eventMember) throws Exception {
-//        return sqlSession.update(namespace+"updatePeople", eventMember.getEv_no());
-//    }
-
 
     /****************************** [[ 관리자 이벤트 삭제]] ***************************/
     @Override

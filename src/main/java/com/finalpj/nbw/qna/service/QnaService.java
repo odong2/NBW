@@ -48,6 +48,16 @@ public class QnaService {
         return qnaIngList;
     }
 
+    /********************************* [[마이페이지 Qna 처리중 조회]] **************************************/
+    public List<Qna> myqnaSelectIng(String id) throws Exception {
+        log.info("QnaService : qnaList 호출성공");
+        List<Qna> myqnaSelectIng = null;
+        myqnaSelectIng = qnaDao.myqnaSelectIng(id);
+        log.info("QnaService : qnaList 호출성공");
+        return myqnaSelectIng;
+    }
+
+
     /********************************* [[Qna 처리중 조회]] **************************************/
     @Transactional(readOnly = true)
     public List<Qna> qnaFinishList(String id) throws Exception {
