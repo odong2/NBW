@@ -506,13 +506,15 @@
         comments.forEach(function (comment) {
             let ntc_cdate = getCdate(comment.ntc_cdate);
             let ntc_update = getCdate(comment.ntc_update);
+            console.log(comment.ntc_img);
+            let ntc_img = encodeURI(comment.ntc_img);
             <%-- ===== ntc_no == nt_pcno 일 경우 댓글이다. ===== --%>
             if(comment.ntc_no == comment.ntc_pcno){
             commentList +=`
                   <li class="commentList top-comment mt-3" value="${'${comment.ntc_no}'}">
                     <div class="notice-commenter me-2 d-flex align-items-center">
                         <div class="user-icon">
-                            <img src="/images/blueuser.png" alt="유저기본이미지" style="width: 40px"/>
+                            <img src="/img/display?imgName=${'${ntc_img}'}" alt="유저기본이미지" style="width: 40px"/>
                         </div>
                         <div class="flex-column ms-3">
                             <div class="notice-commenter">
@@ -625,6 +627,7 @@
     let nt_no = ${noticeDto.nt_no};
     let title = "";     /* msg 알림창에 사용 */
     let content = "";   /* msg 알림창에 사용 */
+    let ntc_img = '${member.mem_img}';
     <%-- ============================== 댓글 리스트 Ajax 요청 ============================== --%>
     let showComments = function(nt_no){
         $.ajax({
@@ -655,12 +658,15 @@
                 $("textarea[name=comment]").focus();
                 return;
             }
+            if(ntc_img==''){
+                ntc_img = null;
+            }
             <%-- ================================ 댓글 등록 Ajax =============================== --%>
             $.ajax({
                 type:'POST',
                 url:'/notice/comments?nt_no=' + nt_no, <%--요청 URI : noitce/comments?nt_no=1 --%>
                 headers : {"content-type": "application/json"},
-                data: JSON.stringify({nt_no:nt_no, ntc_comment: comment}),
+                data: JSON.stringify({nt_no:nt_no, ntc_comment: comment, ntc_img: ntc_img}),
                 success : function(result){
                     $('#comment-input').css('height', '40px');
                     title = "댓글 등록 완료";
@@ -679,12 +685,15 @@
         let ntc_pcno = $(this).attr("data-pcno");
         let comment= $("#replyInput").val();
         comment = comment.replace(/(?:\r\n|\r|\n)/g, '<br/>');   <%-- 줄바꿈 처리 --%>
-        let ntc_commenter = '${member.mem_nickname}';                 <%-- !!!!! 이후 세션에서 꺼내서 작성자 삽입되도록 변경 필요 !!!!! --%>
+        let ntc_commenter = '${member.mem_nickname}';
+        if(ntc_img==''){
+            ntc_img = null;
+        }
         $.ajax({
             type: "POST",
             url:'/notice/comments?nt_no=' + nt_no,
             headers : {"content-type": "application/json"},
-            data: JSON.stringify({nt_no:nt_no, ntc_pcno:ntc_pcno, ntc_comment:comment, ntc_commenter: ntc_commenter}),
+            data: JSON.stringify({nt_no:nt_no, ntc_pcno:ntc_pcno, ntc_comment:comment, ntc_commenter: ntc_commenter,ntc_img:ntc_img}),
             success:function(){
                 audio.play();
                 title = "답글 등록 완료";
@@ -706,11 +715,14 @@
         let comment= $("#modifyInput").val();
         comment = comment.replace(/(?:\r\n|\r|\n)/g, '<br/>');   <%-- 줄바꿈 처리 --%>
         let ntc_commenter = "admin";                             <%-- !!!!! 이후 세션에서 꺼내서 작성자 삽입되도록 변경 필요 !!!!! --%>
+        if(ntc_img==''){
+            ntc_img = null;
+        }
         $.ajax({
             type: "PATCH",
             url: '/notice/comments/' + ntc_no,
             headers : {"content-type": "application/json"},
-            data: JSON.stringify({nt_no:nt_no, ntc_comment: comment,ntc_commenter: ntc_commenter}),
+            data: JSON.stringify({nt_no:nt_no, ntc_comment: comment,ntc_commenter: ntc_commenter, ntc_img:ntc_img}),
             success:function(){
                 audio.play();
                 title = "댓글 수정 완료";

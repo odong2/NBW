@@ -26,27 +26,28 @@
     <!-- ============================= 댓글 등록 =================================-->
     <insert id="insertComment" parameterType="ntCommentDto">
         INSERT INTO tb_noticecomment
-            (ntc_no, nt_no, ntc_pcno, ntc_comment, ntc_commenter)
+            (ntc_no, nt_no, ntc_pcno, ntc_comment, ntc_commenter, ntc_img)
         VALUES
-            (SEQ_NTC_NO.NEXTVAL,#{nt_no}, #{ntc_pcno, jdbcType=INTEGER}, #{ntc_comment}, #{ntc_commenter})
+            (SEQ_NTC_NO.NEXTVAL,#{nt_no}, #{ntc_pcno, jdbcType=INTEGER}, #{ntc_comment}, #{ntc_commenter}, #{ntc_img, jdbcType=VARCHAR})
     </insert>
     <!-- ============================= 대댓글 리스트 조회 =================================-->
     <select id="selectCommentList" parameterType="int" resultType="ntCommentDto">
-        SELECT ntc_no, nt_no, NVL(ntc_pcno,ntc_no) as ntc_pcno, ntc_comment, ntc_commenter, ntc_cdate, ntc_update
+        SELECT ntc_no, nt_no, NVL(ntc_pcno,ntc_no) as ntc_pcno, ntc_comment, ntc_commenter, ntc_cdate, ntc_update, ntc_img
         FROM tb_noticecomment
         WHERE nt_no = #{nt_no}
         ORDER BY  ntc_pcno asc, ntc_no asc
     </select>
     <!-- =========================== 댓글 한 건 조회 ==============================-->
     <select id="selectComment" parameterType="int" resultType="ntCommentDto">
-        SELECT ntc_no, nt_no, ntc_pcno, ntc_comment, ntc_commenter, ntc_cdate, ntc_update
+        SELECT ntc_no, nt_no, ntc_pcno, ntc_comment, ntc_commenter, ntc_cdate, ntc_update, ntc_img
         FROM tb_noticecomment
         WHERE ntc_no = #{ntc_no}
     </select>
     <!-- ====================== 댓글 수정(일치하는 작성자만) =========================-->
     <update id="updateComment" parameterType="ntCommentDto">
         UPDATE tb_noticecomment
-        SET ntc_comment = #{ntc_comment}
+        SET ntc_comment = #{ntc_comment},
+            ntc_img = #{ntc_img}
         , ntc_update = sysdate
         WHERE ntc_no = #{ntc_no} and ntc_commenter = #{ntc_commenter}
     </update>

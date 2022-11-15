@@ -18,12 +18,14 @@ public class NtComment {
     private String ntc_commenter;   // 댓글 작성자
     private Date ntc_cdate;         // 댓글 작성일
     private Date ntc_update;        // 댓글 수정일
+    private String ntc_img;         // 댓글 이미지
 
-    public NtComment(Integer ntc_no,Integer nt_no, Integer ntc_pcno, String ntc_comment, String ntc_commenter){
+    public NtComment(Integer ntc_no,Integer nt_no, Integer ntc_pcno, String ntc_comment, String ntc_commenter, String ntc_img){
         this.ntc_no = ntc_no;
         this. nt_no = nt_no;
         this.ntc_pcno = ntc_pcno;
         this.ntc_comment = ntc_comment;
         this.ntc_commenter = ntc_commenter;
+        this.ntc_img = ntc_img;
     }
 }

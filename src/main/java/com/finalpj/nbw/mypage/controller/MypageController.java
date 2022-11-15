@@ -188,7 +188,7 @@ public class MypageController {
             log.info("디비에 저장할 파일 이름 : "+ "/mypage/profile/"+saveFileName);
 
             /* member 객체에 이미지 설정해준다. */
-            member.setMem_img("/mypage/"+saveFileName);
+            member.setMem_img(saveFileName);
 
             /* DB 에 저장한다. */
             try {
@@ -216,7 +216,7 @@ public class MypageController {
         return "/mypage/info/mypageInfo";
     }
 
-    /* ********************************  사진 출력 ******************************** */
+    /* ********************************  사진 출력 (마이페이지) ******************************** */
     @GetMapping(value = "{mem_img:.+}")
     @ResponseBody
     public ResponseEntity<byte[]> getMemImg(@PathVariable String mem_img, HttpServletRequest request) throws Exception {
@@ -247,4 +247,5 @@ public class MypageController {
         }
         return result;
     }
+
 }
