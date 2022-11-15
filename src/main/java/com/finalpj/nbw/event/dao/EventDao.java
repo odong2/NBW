@@ -14,12 +14,18 @@ public interface EventDao {
     List<Event> eventList() throws Exception;
     /****************************** 이벤트 한건 조회 ***************************/
     Event eventRead(Integer ev_no) throws Exception;
+
+    Event selectEvent(Integer ev_no) throws Exception;
+
+    Event selectCheckMem(Integer ev_no) throws Exception;
     /****************************** 관리자 이벤트 조회 *************************/
     List<Event> adminEventList() throws Exception;
     /****************************** 관리자 이벤트 한건 조회 *********************/
     Event adminEventRead(Integer ev_no) throws Exception;
     /****************************** 관리자 이벤트 신청자 조회 *********************/
     List<EventMember> adminEventApplicant(Integer ev_no) throws Exception;
+    List<EventMember> memberEventStatus(EventMember eventMember) throws Exception;
+
     /****************************** 관리자 이벤트 신청자 거절 *********************/
     void adminEventPersonN(EventMember eventMember) throws Exception;
     /****************************** 관리자 이벤트 신청자 승인 *********************/

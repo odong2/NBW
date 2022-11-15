@@ -72,13 +72,18 @@ public class AdminEventController {
     }
     /***************** [[관리자 이벤트 신청자 조회페이지]] ***************/
     @GetMapping("/applicant")
-    public String adminEventApplicant(Integer ev_no, Model m) {
+    public String adminEventApplicant(EventMember eventMember, Integer ev_no, Model m) {
         log.info(ev_no);
+        List<EventMember> eventMember1 =null;
         try {
             Event event = (Event) eventService.adminEventRead(ev_no);
-            List<EventMember> eventMember = eventService.adminEventApplicant(ev_no);
+            Event status = eventService.selectCheckMem(ev_no);
+//            eventMember1 = eventService.memberEventStatus(eventMember);
+            List<EventMember> eventMembers = eventService.adminEventApplicant(ev_no);
+//            m.addAttribute("memberEventStatus", eventMember1);
+            m.addAttribute("status", status);
             m.addAttribute("eventSelect", event);
-            m.addAttribute("adminEventPerson", eventMember);
+            m.addAttribute("adminEventPerson", eventMembers);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,15 +171,6 @@ public class AdminEventController {
                 file.transferTo(folder);
                 rattr.addFlashAttribute("msg","WRT_OK");
             }catch(Exception e) {
-                e.printStackTrace();
-                rattr.addFlashAttribute("msg", "WRT_ERR");
-            }
-        }
-        else {
-            try {
-                eventService.adminModify(event);
-                rattr.addFlashAttribute("msg", "WRT_OK");
-            } catch (Exception e) {
                 e.printStackTrace();
                 rattr.addFlashAttribute("msg", "WRT_ERR");
             }

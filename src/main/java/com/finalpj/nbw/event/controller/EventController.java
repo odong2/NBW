@@ -60,7 +60,9 @@ public class EventController {
                 String originalFileName = saveFileName.substring(idx+1);
                 event.setEv_filename(originalFileName);
             }
+            Event status = eventService.selectCheckMem(ev_no);
             m.addAttribute("eventSelect",event);
+            m.addAttribute("status", status);
             log.info(event);
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,7 +85,8 @@ public class EventController {
         try{
             eventService.eventAdd(eventMember, ev_no);
             eventService.updatePersonY(eventMember); // 신청자수 +1
-            eventService.updateStatusY(ev_no);
+            eventService.updateStatusY(ev_no); //모집 - 참가 = 0 일때 마감으로 변경
+            eventService.updateStatusN(ev_no); //모집 - 참가 > 0 일때 모집중으로 변경
             return "redirect:/event/list";
         }catch (Exception e) {
             e.printStackTrace();
@@ -100,14 +103,6 @@ public class EventController {
         try {
             eventList = eventService.eventList();
             log.info(eventList);
-
-            for(Event event : eventList){
-                String saveImgName = event.getEv_img();
-                int idx = saveImgName.indexOf("_");
-                String originalImgName = saveImgName.substring(idx+1);
-                event.setEv_img(originalImgName);
-
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

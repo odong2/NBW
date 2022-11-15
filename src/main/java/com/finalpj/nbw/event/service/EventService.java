@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Log4j
 @Service
@@ -74,6 +73,17 @@ public class EventService {
         log.info("이벤트 서비스 호출");
         return eventDao.eventRead(ev_no);
     }
+    @Transactional(readOnly = true)
+    public Event selectEvent(Integer ev_no) throws Exception {
+        log.info("이벤트 서비스 호출");
+        return eventDao.selectEvent(ev_no);
+    }
+
+    @Transactional(readOnly = true)
+    public Event selectCheckMem(Integer ev_no) throws Exception {
+        log.info("이벤트 서비스 호출");
+        return eventDao.selectCheckMem(ev_no);
+    }
 
 
     /********************************* [[관리자 이벤트 작성]] **************************************/
@@ -94,6 +104,15 @@ public class EventService {
         log.info("admin 이벤트 신청자 서비스 호출 ");
         return eventDao.adminEventApplicant(ev_no);
     }
+    /*테스트*/
+    @Transactional(rollbackFor = Exception.class)
+    public List<EventMember> memberEventStatus (EventMember eventMember) throws Exception{
+        log.info("서비스 Event 신청자 승인 호출");
+       eventDao.memberEventStatus(eventMember);
+        return null;
+    }
+
+
     /******************************* [[ 관리자 이벤트 신청자 거절 ]] *******************************/
     @Transactional(rollbackFor = Exception.class)
     public void adminEventPersonN (EventMember eventMember) throws Exception{
