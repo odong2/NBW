@@ -90,7 +90,7 @@
                 <table class="table table-striped" class="table">
                     <thead>
                     <tr>
-                        <th>no</th>
+<%--                        <th>no</th>--%>
                         <th>이름</th>
                         <th>이메일</th>
                         <th>생년월일</th>
@@ -102,9 +102,7 @@
                     <c:forEach var="eventMember" items="${adminEventPerson}">
                     <tbody>
                         <tr>
-                            <td>
-                                1
-                            </td>
+<%--                            <td></td>--%>
                             <td>
                                 <c:out value="${eventMember.mem_name}"/>
                             </td>
@@ -120,40 +118,36 @@
                             <td>
                                 <c:out value="${eventMember.mem_phone}"/>
                             </td>
-                            <c:choose>
-                            <c:when test="${eventMember.mem_status eq '대기'}">
-                            <td style="float: right">
-                                <span style="float: left">
-                                <form action="/admin/event/personn" method="post">
-                                    <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
-                                    <input type="hidden" value="${eventMember.mem_id}" name="mem_id">
-                                <button id="delbtn" type="submit" class="btn btn-outline-danger">
-                                    거절
-                                </button>
-                                </form>
-                                </span>
-                                <span style="float: right">
-                                <form action="/admin/event/persony" method="post">
+                                <c:choose>
+                                    <c:when test="${status.mem_status eq '대기'}">
+                                    <td style="float: right">
+                                    <span style="float: left">
+                                    <form action="/admin/event/personn" method="post">
                                         <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
                                         <input type="hidden" value="${eventMember.mem_id}" name="mem_id">
-                                <button id="okbtn" type="submit"  class="btn btn-outline-primary">
-                                    승인
-                                </button>
-                                </form>
-                                </span>
-                            </td>
-                            </c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${eventMember.mem_status eq '거절'}">
-                                    거절됨
-                                </c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${eventMember.mem_status eq '승인'}">
-                                    승인됨
-                                </c:when>
-                            </c:choose>
+                                    <button id="delbtn" type="submit" class="btn btn-outline-danger">
+                                        거절
+                                    </button>
+                                    </form>
+                                    </span>
+                                    <span style="float: right">
+                                    <form action="/admin/event/persony" method="post">
+                                            <input type="hidden" value="${eventSelect.ev_no}" name="ev_no">
+                                            <input type="hidden" value="${eventMember.mem_id}" name="mem_id">
+                                    <button id="okbtn" type="submit"  class="btn btn-outline-primary">
+                                        승인
+                                    </button>
+                                    </form>
+                                    </span>
+                                    </td>
+                                    </c:when>
+                                    <c:when test="${status.mem_status eq '거절'}">
+                                        <td>거절</td>
+                                    </c:when>
+                                    <c:when test="${status.mem_status eq '승인'}">
+                                        <td>승인</td>
+                                    </c:when>
+                                </c:choose>
                         </tr>
                     </tbody>
                     </c:forEach>

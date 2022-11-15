@@ -107,7 +107,7 @@
                     <div style="height: 370px; width: 300px">
                       <img id="eventImg" width="300px"/>
                     </div>
-                    <input type="file" name="img"
+                    <input type="file" name="img" value="${eventSelect.ev_img}"
                            id="file" accept="image/gif, image/jpeg, image/png" onchange="setCouponImg(this)"/>
                   </div>
                   <div id="img-box" class="d-flex align-items-center"></div>
@@ -184,11 +184,12 @@
                   </tr>
                   <%--============================== [[모집정원 끝]] ================================--%>
                   <tr>
+                    <input type="hidden" name="ev_no" value="${eventSelect.ev_no}">
                     <td class="j_infod_file">
                       <span>첨부파일</span>
                     </td>
                     <td>
-                      <input type="file" name="file" id="fileInput"  value="파일"/>
+                      <input type="file" name="file" id="fileInput"  value="${eventSelect.ev_file}"/>
                     </td>
                   </tr>
                   </tbody>

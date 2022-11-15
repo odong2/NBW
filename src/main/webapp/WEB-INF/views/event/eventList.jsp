@@ -272,49 +272,52 @@
                 <img class="class-img" src="/admin/event/display/${'${eventImg}'}"/>
                 <!-- 이미지 사진 끝 -->
                 <div class="picking">
-                <span class="receiving">$""</span>
-                    <span class="receivingpeople"></span>
+                <span class="receiving">${'${event.ev_status}'}</span>
+                    <span class="receivingpeople">${'${event.ev_people-event.ev_nowpeople}'}</span>
                 </div>
             </div>
             <!-- 왼쪽 그림 끝 -->
             <!-- 오른쪽 설명 시작 -->
             <div class="detail">
                 <div class="bookname">
-                    <a href="/event/detail?ev_no=" style="color: #ff0000"/>
+                    <a href="/event/detail?ev_no=${'${event.ev_no}'}" style="color: #ff0000"/>
+                ${'${event.ev_title}'}
                 </a>
             </div>
             <div class="bodycontent">
                 <div class="playpeople">
                     <div>대상&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"></div>
+                    <div style="color: #7c7c7c">${'${event.ev_target}'}</div>
                 </div>
                 <br />
                 <div class="playplace">
                     <div>장소&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"></div>
+                    <div style="color: #7c7c7c">${'${event.ev_place}'}</div>
                 </div>
                 <br />
                 <div class="studyday">
                     <div>행사기간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"></div>
+                    <div style="color: #7c7c7c">${'${event.ev_today}'}</div>
                 </div>
                 <br />
                 <div class="studytime">
                     <div>시간&nbsp;:&nbsp;</div>
-                    <div style="color: #7c7c7c"></div>
+                    <div style="color: #7c7c7c">${'${event.ev_time}'}</div>
                 </div>
                 <br />
                 <div class="applicationday">
                     <div>접수기간&nbsp;:&nbsp;</div>
                     <div style="color: #7c7c7c">
+                    ${'${event.ev_start}'}
                         ~
+                    ${'${event.ev_end}'}
                     </div>
                 </div>
                 <br />
                 <div class="recruitment">
                     <div>모집정원&nbsp;:&nbsp;</div>
                     <div style="color: #7c7c7c">
-                        <span style="color: red">(신청:)</span>
+                        ${'${event.ev_people}'}&nbsp;<span style="color: red">(신청:${'${event.ev_nowpeople}'})</span>
                     </div>
                 </div>
             </div>

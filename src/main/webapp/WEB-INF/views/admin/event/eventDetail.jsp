@@ -180,9 +180,9 @@
         <main class="container-fluid">
             <div class="title">
                 <h4 style="color: red; margin-top: 5px;">${eventSelect.ev_title}</h4>
-                <button id="updBtn" type="button"  class="btn btn-outline-primary">
-                        수정하기
-                </button>
+<%--                <button id="updBtn" type="button"  class="btn btn-outline-primary">--%>
+<%--                        수정하기--%>
+<%--                </button>--%>
             </div>
             <hr />
             <!-- 버튼[등록, 마감] 시작 -->
