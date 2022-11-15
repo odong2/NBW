@@ -20,6 +20,14 @@
     where  qn_state = 'N'
     ORDER BY qn_cdate DESC, qn_no DESC
     </select>
+    <!--======================================= [[ 마이페이지 Qna 처리중 조회 ]] ======================================-->
+    <select id="myqnaSelectIng" parameterType="String" resultType="qnaDto">
+        SELECT qn_no, qn_from, qn_category, qn_cdate, qn_content,qn_title,
+               DECODE(qn_state, 'N', '처리중', 'Y', '답변완료') as qn_state
+        FROM tb_question
+        where  qn_from = #{mem_id} AND qn_state = 'N'
+        ORDER BY qn_cdate DESC, qn_no DESC
+    </select>
 
     <select id="qnaSelectIng" parameterType="String" resultType="qnaDto">
         SELECT qn_no, qn_from, qn_category, qn_cdate, qn_content,qn_title,
