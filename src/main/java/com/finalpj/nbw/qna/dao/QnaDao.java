@@ -15,6 +15,7 @@ public interface QnaDao {
     Qna qnaRead(Integer qn_no) throws Exception;
     /****************************** Qna 처리중 조회 *****************************/
     List<Qna> qnaIngList(String id) throws Exception;
+    List<Qna> myqnaSelectIng(String id) throws Exception;
     /****************************** Qna 답변완료 조회 *****************************/
     List<Qna> qnaFinishList(String id) throws Exception;
     /****************************** Qna 한건 삭제 ************************************/
