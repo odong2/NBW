@@ -139,7 +139,7 @@
     <%-- ==================== 메인 시작==================--%>
     <main>
         <div class="topAsk">
-            <div class="divTitle">문의내역</div><div class="askBtn"><a href="/mypage/qna/write">문의하기</a></div>
+            <div class="divTitle">문의내역</div><div class="askBtn"><a href="/mypage/question/write">문의하기</a></div>
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
