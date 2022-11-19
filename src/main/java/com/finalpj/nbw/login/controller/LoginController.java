@@ -100,10 +100,14 @@ public class LoginController {
 			session.invalidate();
 		}
 		
-		if(url != null) 
+		if(url != null) {
+			if(url.contains("payment")) {
+				url = "/home";
+			}
 			response.sendRedirect(url);
-		else 
+		}else {
 			response.sendRedirect("/login");
+		}
 	}
 
 	@GetMapping("login/oauth2/code/{platform}")

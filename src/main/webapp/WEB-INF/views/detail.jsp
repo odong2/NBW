@@ -262,10 +262,14 @@ main {
 				style="width: 120px; height: 40px;" onclick="add_cart()">
 				<i class="fas fa-shopping-cart"></i>장바구니
 			</button>
-			<button class="btn btn-outline-primary" type="button"
+			
+			
+			<button id="buyBtn" class="btn btn-outline-primary" type="button"
 				style="width: 120px; height: 40px;">
 				<i class="fas fa-dollar-sign"></i> 구매하기
 			</button>
+			
+			<form class="paymentForm" action="/payment/list" method="POST"></form>
 		</div>
 	</div>
 
@@ -1321,6 +1325,30 @@ main {
 	}
 	
 	const audio = new Audio('/sound.mp3');
+	
+	/* 구매하기 이벤트 */
+	$('#buyBtn').click(function(){
+		
+		const p_no = <c:out value="${product.p_no}" />,
+			p_title = '<c:out value="${product.p_title}" />',
+			p_price = <c:out value="${product.p_price}" />,
+			p_img = '<c:out value="${product.p_img}" />',
+			p_category = '<c:out value="${product.p_category}" />',
+			p_count = $('#inputQuantity').val();
+			
+			
+		if(confirm('구매 페이지로 이동 하시겠습니까?')){
+			$(".paymentForm").append(`
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_no" value="${'${p_no}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_title" value="${'${p_title}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_price" value="${'${p_price}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_img" value="${'${p_img}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_category" value="${'${p_category}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_count" value="${'${p_count}'}">
+            `);
+			$(".paymentForm").submit();
+		}
+	})
 </script>
 </body>
 </html>
