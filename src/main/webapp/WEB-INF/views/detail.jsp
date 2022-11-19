@@ -484,7 +484,7 @@ main {
 		
 		$('#copyBtn').click(function(){
 			copyUrl();
-			msg('공유하기','상품 주소가 클립보드에 복사되었습니다.');
+			ShowMsg('공유하기','상품 주소가 클립보드에 복사되었습니다.');
 		});
 	</script>
 
@@ -630,11 +630,11 @@ main {
 					success : function(result) {
 						console.log(result);
 						if(result.success){
-							msg('리뷰',result.msg);
+							ShowShowMsg('리뷰',result.msg);
 							reviewPage(1);
 							modify_cancel(result.review);
 						}else {
-							msg('리뷰',result.msg);
+							ShowShowMsg('리뷰',result.msg);
 							modify_cancel();
 						}
 				 	},
@@ -670,7 +670,7 @@ main {
 						location.reload();
 					},
 					error : function(data, textStatus) {
-						msg('ERROR',"에러가 발생했습니다."+data);
+						ShowMsg('ERROR',"에러가 발생했습니다."+data);
 						console.log(data);
 					}
 				}) 
@@ -836,7 +836,7 @@ main {
 					}
 				},
 				error : function(data, textStatus) {
-					msg('ERROR',"에러가 발생했습니다."+data);
+					ShowMsg('ERROR',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})
@@ -946,7 +946,7 @@ main {
 						location.reload();
 					}else {
 						review_clear();
-						msg('리뷰',result.msg);
+						ShowMsg('리뷰',result.msg);
 					}
 			 	},
 			 	error : function(request, status, error) {
@@ -994,7 +994,7 @@ main {
 					addRecentProduct(array);
 				},
 				error : function(data, textStatus) {
-					msg('최근 본 상품',"에러가 발생했습니다."+data);
+					ShowMsg('최근 본 상품',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})			
@@ -1050,7 +1050,7 @@ main {
 						}
 					},
 					error : function(data, textStatus) {
-						msg('최근 본 상품',"에러가 발생했습니다."+data);
+						ShowMsg('최근 본 상품',"에러가 발생했습니다."+data);
 						console.log(data);
 					}
 				});
@@ -1069,7 +1069,7 @@ main {
 					$('#RecentProductSize2').text(0);
 				},
 				error : function(data, textStatus) {
-					msg('ERROR',"에러가 발생했습니다."+data);
+					ShowMsg('ERROR',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})
@@ -1164,11 +1164,11 @@ main {
 							headers : {"content-type": "text/application"},
 							success : function(msg) {
 								if(msg == "success"){
-									alert('비회원장바구니에 상품이 추가되었습니다.');
+									ShowMsg('장바구니','비회원장바구니에 상품이 추가되었습니다.');
 								}
 							},
 							error : function(data, textStatus) {
-								alert("에러가 발생했습니다."+data);
+								ShowMsg('ERROR',"에러가 발생했습니다."+data);
 								console.log(data);
 							},
 							complete : function(data, textStatus) {
@@ -1195,7 +1195,7 @@ main {
 
 
 						if(text == "is_exist"){ // 이미 담아둔 상품일 경우
-							alert('이미 장바구니에 담아둔 상품입니다.');
+							ShowMsg('장바구니','이미 장바구니에 담아둔 상품입니다.');
 						} else { // 장바구니에 담겨있지 않은 상품일 경우
 							cookie.push({
 										pno : "${product.getP_no()}",
@@ -1213,7 +1213,7 @@ main {
 								headers : {"content-type": "text/application"},
 								success : function(msg) {
 									if(msg == "success"){
-										alert('비회원장바구니에 상품이 추가되었습니다.');
+										ShowMsg('장바구니','비회원장바구니에 상품이 추가되었습니다.');
 									}
 								},
 								error : function(data, textStatus) {
@@ -1233,11 +1233,11 @@ main {
 	}// end of add_cart()
 	function cartAlert(msg){
 			if(msg == 'fail'){
-				alert("장바구니에 추가에 실패하였습니다.");
+				ShowMsg('장바구니',"장바구니에 추가에 실패하였습니다.");
 			} else if(msg == 'addCart'){
-				alert("장바구니에 새 상품이 추가되었습니다.");
+				ShowMsg('장바구니',"장바구니에 새 상품이 추가되었습니다.");
 			} else if(msg == 'modifyCart'){
-				alert("장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");
+				ShowMsg('장바구니',"장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");
 			} 
 	}
 
@@ -1270,10 +1270,10 @@ main {
 				if(response.isLogin){
 					if(response.success){
 						isLike(true);
-						msg('좋아요',response.msg);
+						ShowMsg('좋아요',response.msg);
 					}else{
 						isLike(false);
-						msg('좋아요',response.msg);
+						ShowMsg('좋아요',response.msg);
 					}
 				}else{
 					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
@@ -1282,7 +1282,7 @@ main {
 				}
 			},
 			error : function(data, textStatus) {
-				msg('ERROR',"에러가 발생했습니다."+data);
+				ShowMsg('ERROR',"에러가 발생했습니다."+data);
 				console.log(data);
 			}
 		})
@@ -1298,7 +1298,7 @@ main {
 		}
 	}
 	
-	let msg = function(title, content){
+	let ShowMsg = function(title, content){
         audio.play();
 		if(!$('#liveToast').length){
 			$('body').append(`
