@@ -433,6 +433,7 @@ main {
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<!-- 풋터 끝 -->
 
+	<!-- 공유하기 -->
 	<script type="text/javascript">
 		Kakao.init('7afc20a975d8c431e93f631cc412efa4'); // 사용하려는 앱의 JavaScript 키 입력
 		const shareMessage = () => {
@@ -479,7 +480,7 @@ main {
 		
 		$('#copyBtn').click(function(){
 			copyUrl();
-			msg('상품 주소가 클립보드에 복사되었습니다.');
+			msg('공유하기','상품 주소가 클립보드에 복사되었습니다.');
 		});
 	</script>
 
@@ -625,11 +626,11 @@ main {
 					success : function(result) {
 						console.log(result);
 						if(result.success){
-							msg(result.msg);
+							msg('리뷰',result.msg);
 							reviewPage(1);
 							modify_cancel(result.review);
 						}else {
-							msg(result.msg);
+							msg('리뷰',result.msg);
 							modify_cancel();
 						}
 				 	},
@@ -665,7 +666,7 @@ main {
 						location.reload();
 					},
 					error : function(data, textStatus) {
-						msg("에러가 발생했습니다."+data);
+						msg('ERROR',"에러가 발생했습니다."+data);
 						console.log(data);
 					}
 				}) 
@@ -831,7 +832,7 @@ main {
 					}
 				},
 				error : function(data, textStatus) {
-					msg("에러가 발생했습니다."+data);
+					msg('ERROR',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})
@@ -941,7 +942,7 @@ main {
 						location.reload();
 					}else {
 						review_clear();
-						msg(result.msg);
+						msg('리뷰',result.msg);
 					}
 			 	},
 			 	error : function(request, status, error) {
@@ -989,7 +990,7 @@ main {
 					addRecentProduct(array);
 				},
 				error : function(data, textStatus) {
-					msg("에러가 발생했습니다."+data);
+					msg('최근 본 상품',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})			
@@ -1045,7 +1046,7 @@ main {
 						}
 					},
 					error : function(data, textStatus) {
-						msg("에러가 발생했습니다."+data);
+						msg('최근 본 상품',"에러가 발생했습니다."+data);
 						console.log(data);
 					}
 				});
@@ -1064,7 +1065,7 @@ main {
 					$('#RecentProductSize2').text(0);
 				},
 				error : function(data, textStatus) {
-					msg("에러가 발생했습니다."+data);
+					msg('ERROR',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})
@@ -1265,10 +1266,10 @@ main {
 				if(response.isLogin){
 					if(response.success){
 						isLike(true);
-						msg(response.msg);
+						msg('좋아요',response.msg);
 					}else{
 						isLike(false);
-						msg(response.msg);
+						msg('좋아요',response.msg);
 					}
 				}else{
 					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
@@ -1277,7 +1278,7 @@ main {
 				}
 			},
 			error : function(data, textStatus) {
-				msg("에러가 발생했습니다."+data);
+				msg('ERROR',"에러가 발생했습니다."+data);
 				console.log(data);
 			}
 		})
@@ -1293,16 +1294,33 @@ main {
 		}
 	}
 	
-	let msg = function(text){
-		if(!$('#msg-box').length){
-			$('body').append('<div id="msg-box" class="position-fixed top-50 start-50 translate-middle"></div>');
-			$('#msg-box').append('<div id="LoginFailMsg" class="text-center list-group-item list-group-item-danger">'+text+'</div>');
-			$("#LoginFailMsg").delay(500).fadeOut(1200);
+	let msg = function(title, content){
+        audio.play();
+		if(!$('#liveToast').length){
+			$('body').append(`
+				<section class="toast-container position-fixed top-0 end-0 p-3">
+			       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			           <div class="toast-header">
+			               <div id="colorBox"style="width: 25px; height: 25px; border-radius: 7px"></div>
+			               <strong class="me-auto ms-2" id="msgTitle"></strong>
+			               <small>방금</small>
+			               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			           </div>
+			           <div class="toast-body" id="msgContent"></div>
+			       </div>
+			    </section>
+			`)
 		}
-		$("#LoginFailMsg").text(text);
-		$("#LoginFailMsg").show();
-		$("#LoginFailMsg").delay(500).fadeOut(500);
+		
+        $('#colorBox').css('background-color', '#0f6848');
+        $('#msgTitle').text(title);
+        $('#msgContent').text(content);
+        const toastLive = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastLive);
+        toast.show();
 	}
+	
+	const audio = new Audio('/sound.mp3');
 </script>
 </body>
 </html>
