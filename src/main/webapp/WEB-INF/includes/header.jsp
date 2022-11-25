@@ -11,10 +11,10 @@
             <c:choose>
                 <c:when test="${ !empty sessionScope.member}">
                     <li class="nav-item">
-                        <a href="/mypage/info" class="text-decoration-none px-3 border-end rounded-0"
-                        ><strong><span style="color: #0055ec; ">${sessionScope.member.getMem_name()}</span></strong>님 환영합니다!
+                        <a href="/mypage/payment/list" class="text-decoration-none px-3 border-end rounded-0"
+                        ><strong><span style="color: #0055ec; ">${sessionScope.member.mem_name}</span></strong>님 환영합니다!
                             <div id="state_ing" class="badge bg-warning rounded-pill">
-                                    ${sessionScope.member.getG_grade()}
+                                    ${sessionScope.member.g_grade}
                             </div></a
                         >
                     </li>
