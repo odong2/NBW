@@ -22,7 +22,7 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 ## 2. ERD
 
-저희 프로젝트의 총 테이블은 23개, 컬럼은 151컬럼으로 구성되어 있습니다.</br>
+저희 프로젝트의 총 테이블은 **23**개, 컬럼은 **151**컬럼으로 구성되어 있습니다.</br>
 
 <p align="center"><img width="1000" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134393-585b0725-38d1-488c-adcf-1fd08e58f583.png"></p>
 
