@@ -14,5 +14,5 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 ## 2. ERD
 
-<p align="center"><img width="100" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134393-585b0725-38d1-488c-adcf-1fd08e58f583.png"></p>
+<p align="center"><img width="1000" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134393-585b0725-38d1-488c-adcf-1fd08e58f583.png"></p>
 
