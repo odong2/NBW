@@ -10,7 +10,7 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 
 ## 시연영상
-<a href="https://www.youtube.com/watch?v=Z4p-AV51g2k">시연영상 바로가기</a>
+<img src="![youtube](https://user-images.githubusercontent.com/95892601/204138840-37ebd015-4dc6-4f14-ac82-ddea9d1d1ec3.png)"><a href="https://www.youtube.com/watch?v=Z4p-AV51g2k">시연영상 바로가기</a>
 
 ## 팀원소개
 <ul>
