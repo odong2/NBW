@@ -10,7 +10,7 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 
 ## 1. 팀원소개
-<a href="https://github.com/dongcarry96">김동현</a>&nbsp &nbsp Donghyeon kim</br>
+<a href="https://github.com/dongcarry96">김동현</a>&nbsp;&nbsp;Donghyeon kim</br>
 <a href="https://github.com/odong2">김민준</a >Minjun Kim</br>
 <a href="https://github.com/jonggukback">백종국</a> Jonggook Back</br>
 <a href="https://github.com/yuri818">이유리</a> Yuri Lee</br>
