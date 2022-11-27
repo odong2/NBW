@@ -47,7 +47,7 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
 
 ### 개발 환경 Development Environment
 <ul>
- <li>Eclips IDE / Intellij IDE </li>
+ <li>Eclipse IDE / Intellij IDE </li>
  <li>Visual Studio Code</li>
  <li>Spring Legacy</li>
  <li>Apache Tomcat 9</li>
