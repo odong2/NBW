@@ -9,6 +9,9 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 </br>
 
 
+## 시연영상
+<a href="https://www.youtube.com/watch?v=Z4p-AV51g2k">시연영상 바로가기</a>
+
 ## 팀원소개
 <ul>
   <li><a href="https://github.com/dongcarry96">김동현</a>&nbsp;&nbsp;Donghyeon kim</br></li>
