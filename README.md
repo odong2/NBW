@@ -49,3 +49,7 @@ NBW는 도서이커머스 웹사이트입니다.</br>
  <li>Oracle 11g</li>
 </ul>
 <p align="center"><img width="1100" height="600" alt="image" src="https://user-images.githubusercontent.com/95892601/204137130-e14d81cb-2b1e-465f-80d2-b470e0ed5296.png"></p>
+
+
+## 클래스 다이어그램 UML
+<p align="center"><img width="1100" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134525-15d78c47-3bba-4010-8183-9f122355d956.png"></p>
