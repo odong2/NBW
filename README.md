@@ -22,4 +22,4 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 ## 3. 사용기술 및 개발환경
 
 
-<p align="center"><img width="1100" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204137130-e14d81cb-2b1e-465f-80d2-b470e0ed5296.png"></p>
+<p align="center"><img width="1100" height="600" alt="image" src="https://user-images.githubusercontent.com/95892601/204137130-e14d81cb-2b1e-465f-80d2-b470e0ed5296.png"></p>
