@@ -31,9 +31,17 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 ## 사용기술 및 개발환경 
 
-### 개발환경 
+### 개발 언어 Development Language
 <ul>
- <li>Java 8</li>
+ <li>Java8</li>
+ <li>Javascript ES6</li>
+ <li>Html5</li>
+ <li>CSS3</li>
+ <li>Oracle 11g</li>
+</ul>
+
+### 개발 환경 Development Environment
+<ul>
  <li>Eclips IDE / Intellij IDE </li>
  <li>Visual Studio Code</li>
  <li>Spring Legacy</li>
