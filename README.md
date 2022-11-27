@@ -2,7 +2,6 @@
 <p align="center"><img width="800" height="500" alt="image" src="https://user-images.githubusercontent.com/95892601/204135649-647c8453-bbb4-401c-bcf4-f22c00b5cac3.png"></p>
 
 </br>
-</br>
 
 
 ## 1. 팀원소개
