@@ -38,7 +38,7 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
 
 ### 개발 언어 Development Language
 <ul>
- <li>Java8</li>
+ <li>Java11</li>
  <li>Javascript ES6</li>
  <li>H5</li>
  <li>CSS3</li>
