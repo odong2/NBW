@@ -11,3 +11,8 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 ## 1. 팀원소개
 <p align="center"><img width="800" height="500" alt="image" src="https://user-images.githubusercontent.com/95892601/204135830-49452feb-523f-4de5-82c3-4d9c969137cd.png"></p>
+
+## 2. ERD
+
+<p align="center"><img width="800" height="500" alt="image" src="https://user-images.githubusercontent.com/95892601/204134393-585b0725-38d1-488c-adcf-1fd08e58f583.png"></p>
+
