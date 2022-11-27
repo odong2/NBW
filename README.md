@@ -10,13 +10,14 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 
 ## 1. 팀원소개
+<a href="https://github.com/dongcarry96">김동현</a></br>
+<a href="https://github.com/odong2">김민준</a></br>
+<a href="https://github.com/jonggukback">백종국</a></br>
+<a href="https://github.com/yuri818">이유리</a></br>
+<a href="https://github.com/congs00n">정채은</a></br>
 <p align="center"><img width="800" height="500" alt="image" src="https://user-images.githubusercontent.com/95892601/204135830-49452feb-523f-4de5-82c3-4d9c969137cd.png"></p>
 
-<a href="">김동현</a>
-<a href="">김민준</a>
-<a href="">백종국</a>
-<a href="">이유리</a>
-<a href="https://github.com/congs00n">정채은</a>
+
 ## 2. ERD
 
 <p align="center"><img width="1000" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134393-585b0725-38d1-488c-adcf-1fd08e58f583.png"></p>
