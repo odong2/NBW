@@ -9,8 +9,9 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 </br>
 
 
-## 시연영상  <img width="30" height="30" src="https://user-images.githubusercontent.com/95892601/204138950-40ec2ebd-fb00-4e3b-b3db-75ba7fe8f156.png">
+## 시연영상  
 <div>
+ <img width="30" height="30" src="https://user-images.githubusercontent.com/95892601/204138950-40ec2ebd-fb00-4e3b-b3db-75ba7fe8f156.png">
  <a href="https://www.youtube.com/watch?v=Z4p-AV51g2k">시연영상 바로가기</a>
 </div> 
  
