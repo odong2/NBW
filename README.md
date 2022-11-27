@@ -10,8 +10,8 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 
 ## 시연영상
-<a href="https://www.youtube.com/watch?v=Z4p-AV51g2k">시연영상 바로가기</a><img width="20" height="30" src="https://user-images.githubusercontent.com/95892601/204138950-40ec2ebd-fb00-4e3b-b3db-75ba7fe8f156.png">
-
+<img width="40" height="60" src="https://user-images.githubusercontent.com/95892601/204138950-40ec2ebd-fb00-4e3b-b3db-75ba7fe8f156.png">
+<a href="https://www.youtube.com/watch?v=Z4p-AV51g2k">시연영상 바로가기</a>
 ## 팀원소개
 <ul>
   <li><a href="https://github.com/dongcarry96">김동현</a>&nbsp;&nbsp;Donghyeon kim</br></li>
