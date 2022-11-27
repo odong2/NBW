@@ -9,7 +9,7 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 </br>
 
 
-## 1. 팀원소개
+## 팀원소개
 <ul>
   <li><a href="https://github.com/dongcarry96">김동현</a>&nbsp;&nbsp;Donghyeon kim</br></li>
   <li><a href="https://github.com/odong2">김민준</a>&nbsp;&nbsp;Minjun Kim</br></li>
@@ -20,7 +20,7 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 <p align="center"><img width="800" height="500" alt="image" src="https://user-images.githubusercontent.com/95892601/204135830-49452feb-523f-4de5-82c3-4d9c969137cd.png"></p>
 
 
-## 2. ERD
+## ERD
 
 저희 프로젝트의 총 테이블은 **23**개, 컬럼은 **151**컬럼으로 구성되어 있습니다.</br>
 
@@ -29,7 +29,15 @@ NBW는 도서이커머스 웹사이트입니다.</br>
 
 
 
-## 3. 사용기술 및 개발환경
+## 사용기술 및 개발환경 
 
-
+### 개발환경 
+<ul>
+ <li>Java 8</li>
+ <li>Eclips IDE / Intellij IDE </li>
+ <li>Visual Studio Code</li>
+ <li>Spring Legacy</li>
+ <li>Apache Tomcat 9</li>
+ <li>Oracle 11g</li>
+</ul>
 <p align="center"><img width="1100" height="600" alt="image" src="https://user-images.githubusercontent.com/95892601/204137130-e14d81cb-2b1e-465f-80d2-b470e0ed5296.png"></p>
