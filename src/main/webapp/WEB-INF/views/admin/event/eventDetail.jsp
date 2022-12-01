@@ -193,7 +193,7 @@
                     <div class="picturepeople">
                         <!-- 이미지 사진 시작 -->
                         <img
-                                id="classImg"
+                                id="classImg"/>
                         <!-- 이미지 사진 끝 -->
                         <div class="picking">
                             <span class="receiving">접수중</span>
