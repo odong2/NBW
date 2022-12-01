@@ -29,7 +29,6 @@ public class CouponService {
     private final CouponDao couponDao;
     private final FileUploader fileUploader;
     public CouponService(CouponDao couponDao, FileUploader fileUploader){
-
         this.couponDao = couponDao;
         this.fileUploader = fileUploader;
     }
