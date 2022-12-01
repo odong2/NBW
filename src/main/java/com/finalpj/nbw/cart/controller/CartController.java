@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -94,48 +95,28 @@ public class CartController {
 	/***************** [[ 비회원 장바구니에 상품 추가 ]] *****************/
 	@PostMapping("unmemAdd")
 	@ResponseBody
-	public String unmemAdd(@RequestBody String cookie, HttpServletRequest req, HttpServletResponse res) {
+	public String unmemAdd(@CookieValue(value = "cart", required = false) Cookie ck , @RequestBody String cookie, HttpServletRequest req, HttpServletResponse res)
+			throws UnsupportedEncodingException{
 		log.info(req.getCookies());
 		log.info(cookie);
 		String msg = "";
-		// 쿠키 가져오기
-		Cookie[] cookies = req.getCookies();
-		log.info(cookies);
-		for(Cookie ck : cookies) {
-			// 쿠키에 "cart" 키 소유 여부
-			if(ck.getName().equals("cart")) { // 장바구니 쿠키가 있을 때 (비회원 장바구니에 값이 하나라도 있을 경우)
-				String enc_cookie = "";
-				try {
-					enc_cookie = URLEncoder.encode(cookie, "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				Cookie cart = new Cookie("cart", enc_cookie);
-				cart.setMaxAge(60*60*24); // 24시간
-				cart.setPath("/"); // 전체 브라우저에 쿠키 설정
-				res.addCookie(cart);
-				msg = "success";
-		    } else if(!ck.getName().equals("cart")){ // 쿠키가 없을 때 (비회원 장바구니에 값이 하나도 없을 경우)
-		    	// 가져오는 cookie의 값이 {"cart":[{"pno":"818","title":"여신강림","img":"이미지주소","price":"13000","count":"1"}]}이므로
-		    	// 앞 {"cart": 와 맨뒤 }를 제거해서 cart의 값으로 쿠키 생성한다
-		    	String cartValue = cookie.substring(8, cookie.length() -1);
-		    	log.info("인코딩하기 전 받아온 쿠키값: "+cartValue);
-		    	// 쿠키의 value에는 특수문자(공백, 괄호, 등호, 콤마, 콜론, 세미콜론)을 포함할 수 없으며 이들 값을 포함하려면 인코딩이 필요
-		    	try {
-		    		cartValue = URLEncoder.encode(cartValue, "UTF-8");
-		    		log.info("인코딩한 쿠키값: "+cartValue);
-		    	} catch (UnsupportedEncodingException e) {
-		    		e.printStackTrace();
-		    	}
-		    	// 쿠키 생성
-		    	Cookie cart = new Cookie("cart", cartValue);
-		    	cart.setMaxAge(60*60*24); // 24시간
-		    	cart.setPath("/"); // 전체 브라우저에 쿠키 설정
-		    	res.addCookie(cart); 
-		    	msg = "success";
-		    } // end of 쿠키값 확인하는 if-else
-		} // end of for
-		
+		if(ck == null) { // cart 쿠키가 없을 경우
+			String cartValue = cookie.substring(8, cookie.length() -1);
+			String enc_cart = URLEncoder.encode(cartValue, "UTF-8");
+			// 쿠키 생성
+			Cookie cart = new Cookie("cart", enc_cart);
+			cart.setMaxAge(60*60*24); // 24시간
+	    	cart.setPath("/"); // 전체 브라우저에 쿠키 설정
+	    	res.addCookie(cart); 
+	    	msg = "success";
+		} else { // cart 쿠키가 있을 경우
+			String enc_cart = URLEncoder.encode(cookie, "UTF-8");
+			Cookie cart = new Cookie("cart", enc_cart);
+			cart.setMaxAge(60*60*24); // 24시간
+			cart.setPath("/"); // 전체 브라우저에 쿠키 설정
+			res.addCookie(cart); 
+			msg = "success";
+		}
 		return msg;
 	}
 	
