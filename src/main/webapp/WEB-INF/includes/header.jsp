@@ -19,7 +19,7 @@
                         >
                     </li>
                     <li class="nav-item">
-                        <a id="logout" href="/logout?url=${path}" class="text-decoration-none px-3 border-end rounded-0"
+                        <a id="" href="javascript:logout('${path}','${param}')" class="text-decoration-none px-3 border-end rounded-0"
                         >로그아웃</a
                         >
                     </li>
@@ -138,3 +138,19 @@
     </form>
 </nav>
 <hr style="border: 1px #1d1d6a;">
+<<script type="text/javascript">
+	const logout = (location,queryString) => {
+		let qs = "";
+		
+		if (queryString.length > 2){
+			qs = queryString.replace('{','');
+			qs = qs.replace('}','');
+			qs = qs.replace(/,\s/gi,"&");
+			console.log(qs);
+		}
+		
+		const url = encodeURIComponent(location+'?'+qs);
+		console.log(url);
+		window.location.href = '/logout?url='+url;
+	}
+</script>
