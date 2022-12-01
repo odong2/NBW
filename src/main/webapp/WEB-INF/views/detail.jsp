@@ -630,11 +630,11 @@ main {
 					success : function(result) {
 						console.log(result);
 						if(result.success){
-							ShowShowMsg('리뷰',result.msg);
+							ShowMsg('리뷰',result.msg);
 							reviewPage(1);
 							modify_cancel(result.review);
 						}else {
-							ShowShowMsg('리뷰',result.msg);
+							ShowMsg('리뷰',result.msg);
 							modify_cancel();
 						}
 				 	},
