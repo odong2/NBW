@@ -97,7 +97,10 @@ public class PaymentController {
         return "redirect:/payment/pay/" + order_no;
     }
 
-    /********************************* 비회원 주문 조회 *******************************/
+    /********************************* 비회원 주문 조회 *******************************
+     * @param pMap : orderName-주문자 이름, order_pw-주문 비밀번호, order_no-주문번호 3개를 넘겨 받는다.
+     * @return 주문정보가 있을 경우 주문정보 return, 주문정보가 없을 경우 'ERR' 메시지 return
+     *******************************************************************************/
     @GetMapping("unmem/order")
     @ResponseBody
     public ResponseEntity<String> getUnMemOrder(@RequestParam Map<String, String> pMap){
@@ -112,11 +115,17 @@ public class PaymentController {
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
-    /************************* 결제페이지에서 결제하기 (회원) ****************************/
+    /************************* 결제페이지에서 결제하기 (회원) ****************************
+     * @param paymentDto
+     * @param session
+     * @param rattr
+     * @return
+     */
     @PostMapping("pay")
     public String orderPay(@ModelAttribute Payment paymentDto, HttpSession session, RedirectAttributes rattr){
-        /** (1)주문번호 생성 **/
+        // (1)주문번호 생성
         String order_no = makeOrderNo();
+        // (2)생성한 주문번호 Dto에 setting
         paymentDto.setOrder_no(order_no);
 
         log.info(paymentDto);
@@ -132,7 +141,13 @@ public class PaymentController {
 
         return "redirect:/payment/pay/" + order_no;
     }
-    /************************* 주문 결제후 주문상세 페이지 ***************************/
+
+    /************************* 주문 결제후 주문상세 페이지 ***************************
+     * @param order_no : 주문번호에 해당하는 상풍 및 결제정보 조회
+     * @param session :  session의 Member 객체를 통해 회원 비회원 구분
+     * @param m
+     * @return 회원 및 비회원 분기처리하여 결제 후 주문 상세페이지 return
+     */
     @GetMapping("pay/{order_no}")
     public String resultPay(@PathVariable String order_no, HttpSession session, Model m){
         Member member = (Member)session.getAttribute("member");
@@ -146,6 +161,7 @@ public class PaymentController {
             try{
                 pMap = new HashMap<>();
                 pMap.put("order_no", order_no);
+                // 회원 테이블 동적 바인딩
                 pMap.put("table", "tb_mempaymentdetail");
                 /* 결제된 상품 정보 조회 */
                 productList = paymentService.afterPaySearchOrder(pMap);
@@ -161,6 +177,7 @@ public class PaymentController {
         try{
         pMap = new HashMap<>();
         pMap.put("order_no", order_no);
+        // 비회원 테이블 동적 바인딩
         pMap.put("table", "tb_unmempaymentdetail");
         /* 결제된 상품 정보 조회 */
         productList = paymentService.afterPaySearchOrder(pMap);
@@ -175,7 +192,11 @@ public class PaymentController {
     }
 
 
-    /************************ 주문상태 변경(memPaymentDetail 테이블) **********************/
+    /************************ 주문상태 변경(memPaymentDetail 테이블) **********************
+     * @param pMap
+     * @param rattr : service단의 결과 메시지 사용자에게 일회성으로 보여주는 역할
+     * @return 마이페이지의 주문조회 페이지 return
+     */
     @PostMapping("status")
     public String modifyOrderStatus(@RequestParam Map pMap, RedirectAttributes rattr){
         log.info(pMap);

@@ -441,7 +441,9 @@
         // 기존 댓글 내용
         let oldComment = $(modifyBtn).prev().html();
         oldComment = oldComment.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
-        $("#modifyInput").val(oldComment);
+        let safeComment = unescapeHtml(oldComment);
+        let convertComment = strChangeHtml(safeComment);
+        $("#modifyInput").val(convertComment);
 
     }
     <%-- ============================ 댓글 수정모드 나가기 ============================== --%>
@@ -498,6 +500,23 @@
         });
         $("#replyInput").css("height",  "30px")
     }
+    // (1) HTML로 보여질 댓글 치환하는 함수(XSS공격 대비)
+    let escapeHtml  = (unsafeWord)=> {
+        return unsafeWord
+            .replace(/</g,"&lt;")
+            .replace(/>/g, "&gt;");
+    }
+    // (2) 댓글 스크립트 (줄바꿈) 허용
+    let unescapeHtml = (safeWord) =>{
+        return safeWord
+            .replace(/&lt;br\/&gt;/gi, "<br/>");
+    }
+    // (3) Textarea에 보여질 댓글 치환하는 함수
+    let strChangeHtml = (safeWord) =>{
+        return safeWord
+            .replace(/&lt;/gi, "<")
+            .replace(/&gt;/gi, ">");
+    }
 
     <%-- =================  Ajax 결과 json값(댓글)을 태그로 변경하는 함수 ================== --%>
     let toHtml = function (comments) {
@@ -506,6 +525,11 @@
         comments.forEach(function (comment) {
             let ntc_cdate = getCdate(comment.ntc_cdate);
             let ntc_update = getCdate(comment.ntc_update);
+            let convertComment = escapeHtml(comment.ntc_comment);
+            // (1) html로 보여질 댓글
+            let safeComment = unescapeHtml(convertComment);
+            // (2) textarea에 보여질 댓글
+            let ntc_comment = strChangeHtml(safeComment);
             <%-- ===== ntc_no == nt_pcno 일 경우 댓글이다. ===== --%>
             if(comment.ntc_no == comment.ntc_pcno){
             commentList +=`
@@ -539,11 +563,11 @@
                     <div class="comment-content mt-3">
                         <p class="col-12">
                         <%-- ============ 댓글 내용 =============== --%>
-                           <c:out value="${'${comment.ntc_comment}'}"/>
+                           ${'${safeComment}'}
                         </p>
                         <%-- ================ 댓글 수정,삭제 ================= --%>
                         <div class="commentMod d-flex justify-content-start mb-1" data-ntc-no="${'${comment.ntc_no}'}" >
-                            <p style="display:none">${'${comment.ntc_comment}'}</p>`
+                            <p style="display:none">${'${safeComment}'}</p>`
                 if(mem_nickname == comment.ntc_commenter){
                     commentList+=`
                             <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>
@@ -597,11 +621,11 @@
                     <div class="comment-content mt-3 ms-5">
                         <p class="col-12 ms-4">
                         <%-- ============ 댓글 내용 =============== --%>
-                           <c:out value="${'${comment.ntc_comment}'}"/>
+                           ${'${safeComment}'}
                         </p>
                         <%-- ================ 댓글 수정,삭제 ================= --%>
                         <div class="commentMod d-flex justify-content-start mb-1 ms-4" data-ntc-no="${'${comment.ntc_no}'}" >
-                            <p style="display:none">${'${comment.ntc_comment}'}</p>`
+                            <p style="display:none">${'${safeComment}'}</p>`
                 if(mem_nickname == comment.ntc_commenter){
                     commentList +=`
                             <button type="button"  class="commentBtn comment-modifyBtn text-muted" onclick="modifyMode(this)">수정</button>
@@ -679,12 +703,11 @@
         let ntc_pcno = $(this).attr("data-pcno");
         let comment= $("#replyInput").val();
         comment = comment.replace(/(?:\r\n|\r|\n)/g, '<br/>');   <%-- 줄바꿈 처리 --%>
-        let ntc_commenter = '${member.mem_nickname}';                 <%-- !!!!! 이후 세션에서 꺼내서 작성자 삽입되도록 변경 필요 !!!!! --%>
         $.ajax({
             type: "POST",
             url:'/notice/comments?nt_no=' + nt_no,
             headers : {"content-type": "application/json"},
-            data: JSON.stringify({nt_no:nt_no, ntc_pcno:ntc_pcno, ntc_comment:comment, ntc_commenter: ntc_commenter}),
+            data: JSON.stringify({nt_no:nt_no, ntc_pcno:ntc_pcno, ntc_comment:comment}),
             success:function(){
                 audio.play();
                 title = "답글 등록 완료";
@@ -705,12 +728,11 @@
         let ntc_no = $(this).parent().prev().attr('data-ntc-no');
         let comment= $("#modifyInput").val();
         comment = comment.replace(/(?:\r\n|\r|\n)/g, '<br/>');   <%-- 줄바꿈 처리 --%>
-        let ntc_commenter = "admin";                             <%-- !!!!! 이후 세션에서 꺼내서 작성자 삽입되도록 변경 필요 !!!!! --%>
         $.ajax({
             type: "PATCH",
             url: '/notice/comments/' + ntc_no,
             headers : {"content-type": "application/json"},
-            data: JSON.stringify({nt_no:nt_no, ntc_comment: comment,ntc_commenter: ntc_commenter}),
+            data: JSON.stringify({nt_no:nt_no, ntc_comment: comment}),
             success:function(){
                 audio.play();
                 title = "댓글 수정 완료";
