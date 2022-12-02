@@ -29,6 +29,7 @@ import com.finalpj.nbw.member.domain.Member;
 import lombok.extern.log4j.Log4j;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,7 +93,8 @@ public class LoginController {
 	}
 
 	@GetMapping("/logout")
-	public void logout(HttpSession session, HttpServletResponse response,@RequestParam(required = false) String url) throws Exception {
+	public void logout(HttpSession session, HttpServletResponse response,
+			@RequestParam(required = false) String url) throws Exception {
 		if (session.getAttribute("member") == null) {
 			response.sendError(403, "로그인 상태가 아닙니다.");
 		} else {
@@ -100,10 +102,18 @@ public class LoginController {
 			session.invalidate();
 		}
 		
-		if(url != null) 
+		System.out.println(url);
+		
+		if(url != null) {
+			if(url.contains("payment")) {
+				url = "/home";
+			}else {
+				url = URLDecoder.decode(url, "UTF-8");
+			}
 			response.sendRedirect(url);
-		else 
+		}else {
 			response.sendRedirect("/login");
+		}
 	}
 
 	@GetMapping("login/oauth2/code/{platform}")

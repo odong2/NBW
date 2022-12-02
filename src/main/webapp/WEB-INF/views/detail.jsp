@@ -2,6 +2,9 @@
 <html>
 <head>
 <%@include file="/WEB-INF/includes/common.jsp"%>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.1/kakao.min.js"
+	integrity="sha384-eKjgHJ9+vwU/FCSUG3nV1RKFolUXLsc6nLQ2R1tD0t4YFPCvRmkcF8saIfOZNWf/"
+	crossorigin="anonymous"></script>
 <title>ProductDetail</title>
 <style>
 a {
@@ -185,15 +188,15 @@ main {
 
 				<div class="mb-2 d-flex justify-content-between align-items-center">
 					<div>
-						<span id="RecentProductSize2" class="ms-1 text-success">0</span>
-						<span> 건</span>
+						<span id="RecentProductSize2" class="ms-1 text-success">0</span> <span>
+							건</span>
 					</div>
 					<div id="removeAllRecentProduct"
 						class="me-1 btn btn-outline-danger" style="font-size: 0.7rem">
 						<i class="far fa-trash-alt"></i> <span class="ms-1">모두 삭제</span>
 					</div>
 				</div>
-				<hr/>
+				<hr />
 			</div>
 
 			<div id="RecentProduct" class="d-flex flex-column overflow-auto"></div>
@@ -229,11 +232,25 @@ main {
 				class="fs-5 btn btn-outline-light border border-drak rounded fs-5 d-flex align-items-center me-2"
 				style="height: 40px;"></div>
 
-			<button
-				class="btn btn-outline-light border border-drak rounded text-muted d-flex align-items-center me-2"
-				style="height: 40px;">
-				<i class="fas fa-share-alt" style="color: skyblue;"></i>
-			</button>
+			<div class="dropdown">
+				<button
+					class="btn btn-outline-light border border-drak rounded text-muted d-flex align-items-center me-2"
+					data-bs-toggle="dropdown" aria-expanded="false"
+					style="height: 40px;">
+					<i class="fas fa-share-alt" style="color: skyblue;"></i>
+				</button>
+				<div class="dropdown-menu border rounded">
+					<div class="d-flex align-items-center">
+						<span class="text-muted mx-2">공유하기</span>
+						<img id="shareKakao" class="me-1 border border-dark rounded-circle"
+							src="/images/kakao_icon.png" alt=""
+							style="width: auto%; height: 35px; cursor: pointer;" />
+						<button id="copyBtn" class="btn btn-outline-dark p-2 rounded-circle fs-5">
+							<i class="fas fa-paperclip"></i>
+						</button>
+					</div>
+				</div>
+			</div>
 
 			<button id="reviewModal" class="btn btn-outline-warning me-2"
 				style="width: 120px; height: 40px;"
@@ -245,12 +262,17 @@ main {
 				style="width: 120px; height: 40px;" onclick="add_cart()">
 				<i class="fas fa-shopping-cart"></i>장바구니
 			</button>
-			<button class="btn btn-outline-primary" type="button"
+			
+			
+			<button id="buyBtn" class="btn btn-outline-primary" type="button"
 				style="width: 120px; height: 40px;">
 				<i class="fas fa-dollar-sign"></i> 구매하기
 			</button>
+			
+			<form class="paymentForm" action="/payment/list" method="POST"></form>
 		</div>
 	</div>
+
 	<!-- 고정바 끝 -->
 
 	<!-- 메인 시작 -->
@@ -318,9 +340,10 @@ main {
 										style="height: 300px;" /></a>
 									<div class="card-body">
 										<div class="text-center d-flex flex-column">
-											<span class="fw-bolder fs-5"><c:out value="${product.p_title}"/></span>
-											<span><c:out value="${product.p_author}"/> 지음</span>
-											<span><fmt:formatNumber value="${product.p_price }" /> 원</span>
+											<span class="fw-bolder fs-5"><c:out
+													value="${product.p_title}" /></span> <span><c:out
+													value="${product.p_author}" /> 지음</span> <span><fmt:formatNumber
+													value="${product.p_price }" /> 원</span>
 										</div>
 									</div>
 								</div>
@@ -371,8 +394,8 @@ main {
 											<div id="imgUpdate-box">
 												<c:if test="${!empty memberReview.rv_img }">
 													<button type="button"
-													class="me-2 btn btn-outline-dark btn-sm"
-													onclick="imgToggle(this)">펼치기</button>
+														class="me-2 btn btn-outline-dark btn-sm"
+														onclick="imgToggle(this)">펼치기</button>
 												</c:if>
 											</div>
 										</div>
@@ -414,15 +437,66 @@ main {
 	<%@include file="/WEB-INF/includes/footer.jsp"%>
 	<!-- 풋터 끝 -->
 
+	<!-- 공유하기 -->
+	<script type="text/javascript">
+		Kakao.init('7afc20a975d8c431e93f631cc412efa4'); // 사용하려는 앱의 JavaScript 키 입력
+		const shareMessage = () => {
+			Kakao.Share.sendDefault({
+			  objectType: 'commerce',
+			  content: {
+			    title: '<c:out value="${ product.p_description }"/>',
+			    imageUrl:
+			    	'<c:out value="${ product.p_img }"/>',
+			    link: {
+			      // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+			      mobileWebUrl: 'http://localhost/product/<c:out value="${ product.p_no }"/>',
+			      webUrl: 'http://localhost/product/<c:out value="${ product.p_no }"/>',
+			    },
+			  },
+			  commerce: {
+			    productName: '<c:out value="${ product.p_title }"/>',
+			    regularPrice: <c:out value="${ product.p_price }"/>,
+			    discountRate: 10,
+			    discountPrice: <c:out value="${ product.p_price }"/> * 0.9,
+			  },
+			  buttons: [
+			    {
+			      title: '상세보기',
+			      link: {
+			        mobileWebUrl: 'http://localhost/product/<c:out value="${ product.p_no }"/>',
+			        webUrl: 'http://localhost/product/<c:out value="${ product.p_no }"/>',
+			      },
+			    },
+			  ],
+			});
+		}
+		
+		const copyUrl = () => {
+			$('body').append('<input type="text" value="localhost/product/<c:out value='${product.p_no}'/>" id="copyValue">');
+			document.getElementById('copyValue').select();
+			document.execCommand("copy");
+			$('#copyValue').remove();
+		}
+		
+		$('#shareKakao').click(function(){
+			shareMessage();
+		});
+		
+		$('#copyBtn').click(function(){
+			copyUrl();
+			ShowMsg('공유하기','상품 주소가 클립보드에 복사되었습니다.');
+		});
+	</script>
+
 	<!-- 리뷰 수정 JS -->
 	<script type="text/javascript">
 		let reviewBackup;
 		
 	    /* 리뷰 수정 시도 */
 	    const review_modify = () => {
-	    	reviewBackup = $('#rv_body').children();
+	    	reviewBackup = $('#rv_body').children(); // 취소를 누를시 이전으로 돌아가야 하기 때문에 전역변수에 저장
 	    	
-	    	$('#rv_body').empty();
+	    	$('#rv_body').empty(); // 리뷰 바디 내용을 삭제함
 	    	
 	    	$('#rv_body').append(`
 					<div id="review-box" class="d-flex align-items-center mb-3">
@@ -466,7 +540,7 @@ main {
 	    };
 	    
 	    /* 리뷰 수정 취소 */ 
-	    let modify_cancel = (obj) => {
+	   const modify_cancel = (obj) => {
 	    	console.log(obj);
 	    	
 	    	if (!obj){
@@ -556,11 +630,11 @@ main {
 					success : function(result) {
 						console.log(result);
 						if(result.success){
-							msg(result.msg);
+							ShowMsg('리뷰',result.msg);
 							reviewPage(1);
 							modify_cancel(result.review);
 						}else {
-							msg(result.msg);
+							ShowMsg('리뷰',result.msg);
 							modify_cancel();
 						}
 				 	},
@@ -596,7 +670,7 @@ main {
 						location.reload();
 					},
 					error : function(data, textStatus) {
-						msg("에러가 발생했습니다."+data);
+						ShowMsg('ERROR',"에러가 발생했습니다."+data);
 						console.log(data);
 					}
 				}) 
@@ -762,7 +836,7 @@ main {
 					}
 				},
 				error : function(data, textStatus) {
-					msg("에러가 발생했습니다."+data);
+					ShowMsg('ERROR',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})
@@ -872,7 +946,7 @@ main {
 						location.reload();
 					}else {
 						review_clear();
-						msg(result.msg);
+						ShowMsg('리뷰',result.msg);
 					}
 			 	},
 			 	error : function(request, status, error) {
@@ -920,7 +994,7 @@ main {
 					addRecentProduct(array);
 				},
 				error : function(data, textStatus) {
-					msg("에러가 발생했습니다."+data);
+					ShowMsg('최근 본 상품',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})			
@@ -976,7 +1050,7 @@ main {
 						}
 					},
 					error : function(data, textStatus) {
-						msg("에러가 발생했습니다."+data);
+						ShowMsg('최근 본 상품',"에러가 발생했습니다."+data);
 						console.log(data);
 					}
 				});
@@ -995,7 +1069,7 @@ main {
 					$('#RecentProductSize2').text(0);
 				},
 				error : function(data, textStatus) {
-					msg("에러가 발생했습니다."+data);
+					ShowMsg('ERROR',"에러가 발생했습니다."+data);
 					console.log(data);
 				}
 			})
@@ -1090,11 +1164,11 @@ main {
 							headers : {"content-type": "text/application"},
 							success : function(msg) {
 								if(msg == "success"){
-									alert('비회원장바구니에 상품이 추가되었습니다.');
+									ShowMsg('장바구니','비회원장바구니에 상품이 추가되었습니다.');
 								}
 							},
 							error : function(data, textStatus) {
-								alert("에러가 발생했습니다."+data);
+								ShowMsg('ERROR',"에러가 발생했습니다."+data);
 								console.log(data);
 							},
 							complete : function(data, textStatus) {
@@ -1121,7 +1195,7 @@ main {
 
 
 						if(text == "is_exist"){ // 이미 담아둔 상품일 경우
-							alert('이미 장바구니에 담아둔 상품입니다.');
+							ShowMsg('장바구니','이미 장바구니에 담아둔 상품입니다.');
 						} else { // 장바구니에 담겨있지 않은 상품일 경우
 							cookie.push({
 										pno : "${product.getP_no()}",
@@ -1139,7 +1213,7 @@ main {
 								headers : {"content-type": "text/application"},
 								success : function(msg) {
 									if(msg == "success"){
-										alert('비회원장바구니에 상품이 추가되었습니다.');
+										ShowMsg('장바구니','비회원장바구니에 상품이 추가되었습니다.');
 									}
 								},
 								error : function(data, textStatus) {
@@ -1159,11 +1233,11 @@ main {
 	}// end of add_cart()
 	function cartAlert(msg){
 			if(msg == 'fail'){
-				alert("장바구니에 추가에 실패하였습니다.");
+				ShowMsg('장바구니',"장바구니에 추가에 실패하였습니다.");
 			} else if(msg == 'addCart'){
-				alert("장바구니에 새 상품이 추가되었습니다.");
+				ShowMsg('장바구니',"장바구니에 새 상품이 추가되었습니다.");
 			} else if(msg == 'modifyCart'){
-				alert("장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");
+				ShowMsg('장바구니',"장바구니에 이미 담은 상품이 있어 수량이 추가되었습니다.");
 			} 
 	}
 
@@ -1196,10 +1270,10 @@ main {
 				if(response.isLogin){
 					if(response.success){
 						isLike(true);
-						msg(response.msg);
+						ShowMsg('좋아요',response.msg);
 					}else{
 						isLike(false);
-						msg(response.msg);
+						ShowMsg('좋아요',response.msg);
 					}
 				}else{
 					if(confirm('로그인이 필요합니다. 로그인 페이지로 이동히시겠습니까?')){
@@ -1208,7 +1282,7 @@ main {
 				}
 			},
 			error : function(data, textStatus) {
-				msg("에러가 발생했습니다."+data);
+				ShowMsg('ERROR',"에러가 발생했습니다."+data);
 				console.log(data);
 			}
 		})
@@ -1224,16 +1298,57 @@ main {
 		}
 	}
 	
-	let msg = function(text){
-		if(!$('#msg-box').length){
-			$('body').append('<div id="msg-box" class="position-fixed top-50 start-50 translate-middle"></div>');
-			$('#msg-box').append('<div id="LoginFailMsg" class="text-center list-group-item list-group-item-danger">'+text+'</div>');
-			$("#LoginFailMsg").delay(500).fadeOut(1200);
+	let ShowMsg = function(title, content){
+        audio.play();
+		if(!$('#liveToast').length){
+			$('body').append(`
+				<section class="toast-container position-fixed top-0 end-0 p-3">
+			       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			           <div class="toast-header">
+			               <div id="colorBox"style="width: 25px; height: 25px; border-radius: 7px"></div>
+			               <strong class="me-auto ms-2" id="msgTitle"></strong>
+			               <small>방금</small>
+			               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			           </div>
+			           <div class="toast-body" id="msgContent"></div>
+			       </div>
+			    </section>
+			`)
 		}
-		$("#LoginFailMsg").text(text);
-		$("#LoginFailMsg").show();
-		$("#LoginFailMsg").delay(500).fadeOut(500);
+		
+        $('#colorBox').css('background-color', '#0f6848');
+        $('#msgTitle').text(title);
+        $('#msgContent').text(content);
+        const toastLive = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastLive);
+        toast.show();
 	}
+	
+	const audio = new Audio('/sound.mp3');
+	
+	/* 구매하기 이벤트 */
+	$('#buyBtn').click(function(){
+		
+		const p_no = <c:out value="${product.p_no}" />,
+			p_title = '<c:out value="${product.p_title}" />',
+			p_price = <c:out value="${product.p_price}" />,
+			p_img = '<c:out value="${product.p_img}" />',
+			p_category = '<c:out value="${product.p_category}" />',
+			p_count = $('#inputQuantity').val();
+			
+			
+		if(confirm('구매 페이지로 이동 하시겠습니까?')){
+			$(".paymentForm").append(`
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_no" value="${'${p_no}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_title" value="${'${p_title}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_price" value="${'${p_price}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_img" value="${'${p_img}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_category" value="${'${p_category}'}">
+	            <input type="hidden" class="payInfo" name="cartProducts[0].p_count" value="${'${p_count}'}">
+            `);
+			$(".paymentForm").submit();
+		}
+	})
 </script>
 </body>
 </html>

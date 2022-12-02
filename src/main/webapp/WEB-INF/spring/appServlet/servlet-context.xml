@@ -28,6 +28,8 @@
 		<beans:property name="defaultEncoding" value="utf-8"/>
 	</beans:bean>
 
+	<beans:bean id="xssPreventer" class="com.nhncorp.lucy.security.xss.XssPreventer"></beans:bean>
+
 	<aop:aspectj-autoproxy/>
 
 	<context:component-scan base-package="com.finalpj.nbw" use-default-filters="false">

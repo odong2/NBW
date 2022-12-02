@@ -21,7 +21,9 @@ import static org.junit.Assert.*;
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration(locations= {"file:src/main/webapp/WEB-INF/spring/root-context.xml"
+                                , "file:src/main/webapp/WEB-INF/spring/oauth2api-context.xml"
+                                , "file:src/main/webapp/WEB-INF/spring/mail-context.xml"})
 public class NoticeDaoTest {
 
     @Autowired

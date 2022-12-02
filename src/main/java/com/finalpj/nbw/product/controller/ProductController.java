@@ -288,10 +288,28 @@ public class ProductController {
 			}
 			
 			st.append("[");
-			if(exist) // 기존 쿠키값에 존재하지 않을 경우에만 추가
+			if(exist) { // 기존 쿠키값에 존재하지 않을 경우에만 추가
 				st.append(product + "'"); // 클릭해서 들어온 상품을 맨 앞으로 넣어줌 -> [ {클릭한상품 객체} ' 
-			
-			if(cookieArray.length < 5) { // 쿠키에 5개 이상 담지 않음
+				if(cookieArray.length < 5) { // 쿠키에 5개 이상 담지 않음
+					for(int i=0; i<cookieArray.length; i++) {
+						if (i == cookieArray.length-1) {
+							st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
+							st.append("]");
+						}else {
+							st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
+						}
+					}
+				}else { // 쿠키에 5개 이상인 경우 기존 쿠키값에서 맨 마지막 값 삭제;
+					for(int i=0; i<cookieArray.length-1; i++) {
+						if (i == cookieArray.length-2) {
+							st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
+							st.append("]");
+						}else {
+							st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
+						}
+					}
+				}
+			}else { // 기존 쿠키값에 존재할 경우 그대로 다시 담음
 				for(int i=0; i<cookieArray.length; i++) {
 					if (i == cookieArray.length-1) {
 						st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
@@ -300,17 +318,9 @@ public class ProductController {
 						st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
 					}
 				}
-			}else { // 쿠키에 5개 이상인 경우 기존 쿠키값에서 맨 마지막 값 삭제;
-				for(int i=0; i<cookieArray.length-1; i++) {
-					if (i == cookieArray.length-2) {
-						st.append(cookieArray[i]); // 마지막 쿠키값 인 경우 닫아줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} ' {기존 쿠키객체} ]
-						st.append("]");
-					}else {
-						st.append(cookieArray[i]+"'"); // 기존 쿠키값을 넣어줌 -> [ {클릭한상품 객체} ' {기존 쿠키객체} '
-					}
-				}
 			}
-			
+				
+
 			// 클릭한 상품과 기존 쿠키값을 합친 뒤 인코딩해서 쿠키에 저장해준뒤 내려주기
 			cookieValue = URLEncoder.encode(st.toString(), "UTF-8");
 			Cookie cookie = new Cookie("recent_product", cookieValue);
