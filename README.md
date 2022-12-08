@@ -12,6 +12,7 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
 <ul>
 <li>🎥<a href="https://www.youtube.com/watch?v=Z4p-AV51g2k">시연영상 바로가기</a></li>
 <li>📄<a href="https://odon2.tistory.com/34">회고록 바로가기</a></li>
+<li>🔥<a href="http://13.125.246.191/home">배포주소</a><li>
 </ul>
 
 ## 팀원소개
