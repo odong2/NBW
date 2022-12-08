@@ -63,7 +63,8 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
 
 
 ## 본인 작성 코드
-아래는 제가 맡은 업무 및 작성한 코드의 디렉토리 및 파일입니다. 
+아래는 제가 맡은 업무 및 작성한 코드의 디렉토리 및 파일의 일부입니다.
+링크를 클릭하시면 소스코드를 확인하실 수 있습니다.
 <ul>
  <li><a href="https://github.com/odong2/NBW/blob/main/src/main/java/com/finalpj/nbw/mail/service/MailService.java">메일 관련</a></li>
  <li><a href="https://github.com/odong2/NBW/blob/main/src/main/java/com/finalpj/common/FileUploader.java">파일 업로드 관련</a></li>
@@ -81,5 +82,4 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
  <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/noticeMapper.xml">공지글 Mapper</a></li>
  <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/ntCommentMapper.xml">공지글 댓글 및 대댓글 Mapper</a></li>
  <li><a href="https://github.com/odong2/NBW/tree/main/src/main/webapp/WEB-INF/views/admin/notice">공지글 관리자 페이지</a></li>
- <li><a href=""></a></li>
 </ul>
