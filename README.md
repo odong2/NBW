@@ -88,4 +88,5 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
  <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/noticeMapper.xml">공지글 Mapper</a></li>
  <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/ntCommentMapper.xml">공지글 댓글 및 대댓글 Mapper</a></li>
  <li><a href="https://github.com/odong2/NBW/tree/main/src/main/webapp/WEB-INF/views/admin/notice">공지글 관리자 페이지</a></li>
+ <li><a href=" https://github.com/odong2/NBW/tree/main/src/main/webapp/WEB-INF/views/notice">공지글 클라이언트 페이지</a></li>
 </ul>
