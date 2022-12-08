@@ -61,3 +61,25 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
 <p align="center"><img width="1100" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134525-15d78c47-3bba-4010-8183-9f122355d956.png"></p>
 <p align="center"><img width="1100" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134579-cd8ec75c-af95-4c8c-9914-3f32b60f3922.png"></p>
 
+
+## 본인 작성 코드
+아래는 제가 맡은 업무 및 작성한 코드의 디렉토리 및 파일입니다. 
+<ul>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/java/com/finalpj/nbw/mail/service/MailService.java">메일 관련</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/java/com/finalpj/common/FileUploader.java">파일 업로드 관련</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/java/com/finalpj/common/PageHandler.java">PageHandler</a></li>
+ <li><a href="https://github.com/odong2/NBW/tree/main/src/main/java/com/finalpj/nbw/coupon">쿠폰 디렉토리</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/couponMapper.xml">쿠폰 Mapper</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/webapp/WEB-INF/views/admin/coupon/couponList.jsp">쿠폰 관리자 페이지</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/webapp/WEB-INF/views/mypage/coupon.jsp">마이페이지 쿠폰 페이지</a></li>
+ <li><a href="https://github.com/odong2/NBW/tree/main/src/main/java/com/finalpj/nbw/payment/controller">결제 디렉토리</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/paymentMapper.xml">결제 Mapper1</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/refundMapper.xml">결제 Mapper2</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/webapp/WEB-INF/views/mypage/payment.jsp">마이페이지 주문조회 페이지</a></li>
+ <li><a href="https://github.com/odong2/NBW/tree/main/src/main/java/com/finalpj/nbw/notice">공지글 디렉토리</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/java/com/finalpj/nbw/admin/controller/AdminNoticeController.java">공지글 관리자 Controller</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/noticeMapper.xml">공지글 Mapper</a></li>
+ <li><a href="https://github.com/odong2/NBW/blob/main/src/main/resources/mapper/ntCommentMapper.xml">공지글 댓글 및 대댓글 Mapper</a></li>
+ <li><a href="https://github.com/odong2/NBW/tree/main/src/main/webapp/WEB-INF/views/admin/notice">공지글 관리자 페이지</a></li>
+ <li><a href=""></a></li>
+</ul>
