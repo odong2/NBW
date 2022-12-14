@@ -57,11 +57,6 @@ NBW는 도서이커머스 웹사이트로 개발 기간은 2022-10-03 ~ 2022-11-
 <p align="center"><img width="1100" height="600" alt="image" src="https://user-images.githubusercontent.com/95892601/204137130-e14d81cb-2b1e-465f-80d2-b470e0ed5296.png"></p>
 
 
-## 클래스 다이어그램 UML
-<p align="center"><img width="1100" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134525-15d78c47-3bba-4010-8183-9f122355d956.png"></p>
-<p align="center"><img width="1100" height="800" alt="image" src="https://user-images.githubusercontent.com/95892601/204134579-cd8ec75c-af95-4c8c-9914-3f32b60f3922.png"></p>
-
-
 ## 본인 작성 코드
 아래는 제가 맡은 업무 및 작성한 코드의 디렉토리 및 파일의 일부입니다.<br/>
 링크를 클릭하시면 소스코드를 확인하실 수 있습니다.
