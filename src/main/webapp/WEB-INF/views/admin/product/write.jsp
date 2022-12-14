@@ -23,7 +23,6 @@
                 dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
                 monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
             });
-
             // datepicker 클래스 이벤트
             var now = new Date();
             var startYear = now.getFullYear();
@@ -37,7 +36,6 @@
         })
     </script>
     <style>
-
         /**{*/
         /*    border: 1px solid red;*/
         /*}*/
@@ -47,24 +45,19 @@
             font-weight: normal;
             font-style: normal;
         }
-
         *{
             font-family: 'InfinitySans-RegularA1';
         }
-
         #main{
             width: 100%;
         }
-
         table{
             border-collapse: separate;
             border-spacing: 0 15px;
         }
-
         .form-control:focus  {
             background-color: #ffffc3;
         }
-
         td {
             color: white;
             font-size: small;
@@ -162,10 +155,8 @@
 </body>
 </html>
 <script type="text/javascript">
-
     let src; /* 이미지 유효성 검사 변수 */
     let title = $("input[name=p_title]").val();
-
     /* 리뷰 이미지 업로드 */
     function productImgUrl(input) {
         let reader = new FileReader();
@@ -176,7 +167,6 @@
         };
         reader.readAsDataURL(input.files[0]);
     }
-
     $(function(){
         $('#product-ins-btn').click(function(e){
             let img = $("#fileInput").val();
@@ -188,7 +178,6 @@
             let count = $("input[name=p_count]").val();
             let category = $("select[name=p_category]").val();
             let description = $("textarea[name=p_description]").val();
-
             if(confirm("입력한 정보로 상품을 등록하시겠습니까?")){
                 if(!src || title.length == 0 || author.length == 0
                     || publisher.length == 0 || pubdate.length == 0

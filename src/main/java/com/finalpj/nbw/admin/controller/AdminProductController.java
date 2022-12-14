@@ -1,33 +1,26 @@
 package com.finalpj.nbw.admin.controller;
 
 import com.finalpj.common.FileUploader;
-import com.finalpj.nbw.member.domain.Member;
 import com.finalpj.nbw.product.domain.Criteria;
 import com.finalpj.nbw.product.domain.Pagination;
 import com.finalpj.nbw.product.domain.Product;
 import com.finalpj.nbw.product.service.ProductService;
 import lombok.extern.log4j.Log4j;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @RequestMapping("/admin/product/")
 @Log4j
@@ -65,14 +58,29 @@ public class AdminProductController {
 
     /* *************************** 상품등록 페이지 요청 ****************************** */
     @GetMapping("write")
-    public String getPostPage() throws Exception{
+    public String getPostPage(@ModelAttribute Product product) throws Exception{
         return "/admin/product/write";
     }
 
     /* ******************************* 상품등록 ********************************** */
     @PostMapping("write")
-    public String postProduct(Product product, MultipartFile uploadFile, Model model) throws Exception {
+    public String postProduct(@Valid Product product, BindingResult result, MultipartFile uploadFile, Model model) throws Exception {
         log.info(" [[AdminController]] 상품 등록 요청");
+
+        // 에러가 있는지 검사
+        if(result.hasErrors()){
+
+            // 에러를 List로 저장
+            List<ObjectError> list = result.getAllErrors();
+            for( ObjectError error : list ) {
+                System.out.println("error ===> "+error.getDefaultMessage());
+                System.out.println("error ===> "+error.getCodes());
+                System.out.println("error ===> "+error.getObjectName());
+            }
+            return "redirect:/admin/product/write";
+
+        }
+
         String path = "/product";
         String original = uploadFile.getOriginalFilename();
         String saveFileName = "";
@@ -93,10 +101,11 @@ public class AdminProductController {
 
         } else {
             model.addAttribute("fail", "등록에 실패하였습니다. ");
-            return "redirect:mypage/info";
+            return "redirect:/admin/product/write";
         }
         return "redirect:/admin/product/list";
     }
+
 
     /* ******************************* 상품상세조회********************************** */
     @GetMapping("{id}")
