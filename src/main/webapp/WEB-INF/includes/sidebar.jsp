@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%-- 모달 시작 --%>
+<%-- ------------------------------------------------ 모달 시작 ------------------------------------------------ --%>
 <section class="img-modal-section">
     <div class="modal fade" id="imgModalToggle" aria-hidden="true"
          aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3 d-flex flex-column text-sm-center" id="myImg-box" style="text-align: center;">
-                        <label for="fileInput" style="width: 40px; height: 40px; float: right; margin-bottom: 30px;"><img src="/images/edit.png" alt="" width="40" height="40"></label>
+                        <label for="fileInput" style="width: 40px; height: 40px; float: right; margin-bottom: 30px;"><img class="btn-edit" src="/images/edit.png" alt="" width="40" height="40"></label>
                         <div id="img-box">
                                     <img src="${sessionScope.member.getMem_img()}" width="450" height="450" alt="" style="border-radius: 50%;"/>
                         </div>
@@ -175,4 +175,10 @@
         reader.readAsDataURL(input.files[0]);
     }
 </script>
+<style>
+    .btn-edit:hover {
+        background-color: #9b9a9a;
+        border-radius: 10px;
+    }
+</style>
 
