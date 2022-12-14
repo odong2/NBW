@@ -66,7 +66,7 @@
             <form id="deleteForm">
                 <div class="row"><h4> <strong>회원탈퇴</strong> </h4></div><br><br>
                 <div class="row">
-                    <div class="col-12"><h6><strong>${sessionScope.member.getMem_name()}</strong> 님의 보유 이용 정보 </h6></div>
+                    <div class="col-12"><h6><span style="color: #ec700a"><strong>${sessionScope.member.getMem_name()}</strong> </span>고객님의 보유 이용 정보 </h6></div>
                     <input type="text" name="mem_id" value="${sessionScope.member.getMem_id()}" hidden/>
                 </div>
                 <hr style="border: solid 1px black;">
@@ -75,7 +75,7 @@
                     <div class="card">
                         <div class="card-body d-inline-flex">
                             <div class="col"><h5 class="card-title">진행 중 주문</h5></div>
-                            <div class="col"><a href="#"><p class="card-text">${sessionScope.member.getMem_point()} 건</p></a></div>
+                            <div class="col"><p class="card-text">${sessionScope.member.getMem_point()} 건</p></div>
                         </div>
                     </div>
 
@@ -89,7 +89,7 @@
                     <div class="card">
                         <div class="card-body d-inline-flex">
                             <div class="col"><h5 class="card-title">통합 포인트</h5></div>
-                            <div class="col"><a href="#"><p class="card-text">${sessionScope.member.getMem_point()} P</p></a></div>
+                            <div class="col"><p class="card-text">${sessionScope.member.getMem_point()} P</p></div>
                         </div>
                     </div>
                 </div>

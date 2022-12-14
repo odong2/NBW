@@ -100,4 +100,15 @@
         DELETE FROM tb_coupon
                 WHERE cp_no = #{cp_no}
     </delete>
+
+    <!--  [[ 회원탈퇴 시 다운로드한 쿠폰 삭제 ]]	-->
+    <delete id="deleteCouponByMem" parameterType="member">
+        DELETE FROM  TB_COUPONDOWNLOAD WHERE MEM_ID = #{mem_id}
+    </delete>
+
+    <!--  [[ 회원탈퇴 시 다운로드한 쿠폰집 삭제 ]]	-->
+    <delete id="deleteCzByMem" parameterType="member">
+        DELETE FROM  TB_COUPONZIP WHERE MEM_ID = #{mem_id}
+    </delete>
+
 </mapper>

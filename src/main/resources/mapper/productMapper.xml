@@ -328,4 +328,14 @@
 
 		</foreach>
 	</update>
+
+	<!--  [[ 회원탈퇴 시 좋아요한 상품 삭제 ]]	-->
+	<delete id="deleteLikeByMem" parameterType="member">
+		DELETE FROM TB_PRODUCTLIKE WHERE MEM_ID = #{mem_id}
+	</delete>
+
+	<!--  [[ 회원탈퇴 시 리뷰 삭제 ]]	-->
+	<delete id="deleteReviewByMem" parameterType="member">
+		DELETE FROM  TB_REVIEW WHERE MEM_ID = #{mem_id}
+	</delete>
 </mapper>

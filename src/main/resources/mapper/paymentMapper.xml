@@ -154,4 +154,10 @@
           AND ORDER_PW = #{order_pw}
           AND ORDER_NO = #{order_no}
     </select>
+
+    <!--  [[ 회원탈퇴 시 결제내역 삭제 ]]	-->
+    <delete id="deletePaymentByMem" parameterType="member">
+        DELETE FROM  TB_MEMPAYMENT WHERE MEM_ID = #{mem_id}
+    </delete>
+
 </mapper>

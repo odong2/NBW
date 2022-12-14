@@ -154,4 +154,8 @@
         WHERE m.ev_no = #{ev_no})
     </select>
 
+    <!--  [[ 회원탈퇴 시 이벤트 삭제 ]]	-->
+    <delete id="deleteEventByMem" parameterType="member">
+        DELETE FROM  TB_MEMBEREVENT WHERE MEM_ID = #{mem_id}
+    </delete>
 </mapper>

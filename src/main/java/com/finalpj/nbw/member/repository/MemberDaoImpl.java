@@ -32,7 +32,14 @@ public class MemberDaoImpl implements MemberDao{
     /* ======================================= 회원탈퇴 ============================================= */
     @Override
     public int deleteMember(Member member) throws Exception {
-        log.info("dao ===> 삭제할 멤버"+ member);
+        log.info("dao ===> 삭제할 멤버의 아이디"+ member.getMem_id());
+        sqlSession.delete("deleteCartByMem", member);
+        sqlSession.delete("deleteLikeByMem", member);
+        sqlSession.delete("deleteReviewByMem", member);
+        sqlSession.delete("deleteCouponByMem", member);
+        sqlSession.delete("deleteCzByMem", member);
+        sqlSession.delete("deletePaymentByMem", member);
+        sqlSession.delete("deleteEventByMem", member);
         int result = sqlSession.delete(namespace+"deleteMember", member);
         log.info("dao ===> 삭제 여부 "+ result);
         return result;

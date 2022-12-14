@@ -84,18 +84,7 @@
 
     <!--  ================== *회원 탈퇴* ==================  -->
     <delete id="deleteMember" parameterType="member">
-        {
-        BEGIN
-        DELETE FROM  TB_MEMCART WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        DELETE FROM  TB_PRODUCTLIKE WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        DELETE FROM  TB_COUPONDOWNLOAD WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        DELETE FROM  TB_REVIEW WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        DELETE FROM  TB_COUPONZIP WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        DELETE FROM  TB_MEMPAYMENT WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        DELETE FROM  TB_MEMBEREVENT WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        DELETE FROM  TB_MEMBER WHERE MEM_ID = #{mem_id, jdbcType=VARCHAR};
-        END;
-        }
+        DELETE FROM  TB_MEMBER WHERE MEM_ID = #{mem_id}
     </delete>
 
     <!-- ================= 결제 시 point 사용하면 point 감소 (writer: 민준)   -->
