@@ -1,6 +1,4 @@
-##
-
-NBW 엔비더
+##NBW 엔비더
 <img width="300" height="100" src="https://user-images.githubusercontent.com/95892601/199779347-40e4e48f-90a0-481c-b6e2-3a00c86d974a.png">
 
 ## 프로젝트 소개 Introduction
